@@ -1,0 +1,15 @@
+{
+  "name": "handyman",
+  "displayName": "handyman",
+  "expo": {
+    "name": "handyman",
+    "slug": "handyman",
+    "version": "1.0.0d",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    
+    "facebookAppId": "489615325448707"
+  }
+  
+}
