@@ -13,13 +13,6 @@ export default class Home extends Component {
         return (
             <View >
                 <Text>Hello</Text>
-                <Button title="Sign out" onPress={ () =>
-                        firebase.auth().signOut().then(()=>{
-
-                        }).catch((error) =>{
-
-                        })
-                    }/>
             </View>
 
             
