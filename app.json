@@ -5,11 +5,10 @@
     "name": "handyman",
     "slug": "handyman",
     "version": "1.0.0d",
+    "facebookScheme": "fb489615325448707",
     "assetBundlePatterns": [
       "**/*"
-    ],
-    
-    "facebookAppId": "489615325448707"
+    ]
   }
   
 }
