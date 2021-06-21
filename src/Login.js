@@ -7,6 +7,8 @@ import { firebaseConfig } from './config/config';
 import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
 
+import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
+
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -20,30 +22,28 @@ export default class Login extends Component {
     fbLogIn = async() => {
       try {
         await Facebook.initializeAsync({
-          App_id: "489615325448707",
+          appId: '489615325448707',
         });
         const {
           type,
-          token,
-          expirationDate,
-          permissions,
-          declinedPermissions,
+          token
+          // expirationDate,
+          // permissions,
+          // declinedPermissions,
         } = await Facebook.logInWithReadPermissionsAsync({
           permissions: ['public_profile'],
         });
         if (type === 'success') {
           // Get the user's name using Facebook's Graph API
           const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+          // #console.log((await response.json()).appId)
           Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
         
-          // this.checkLoginState();
-
           const credential = firebase.auth.FacebookAuthProvider.credential(token)
-        
-          firebase.auth().signInWithCredential(credential).catch((error) => {
-            console.log(error)
-          })
-
+          
+          // firebase.auth().signInWithCredential(credential).catch((error) => {
+          //   console.log(error)
+          // })
 
         } else {
           // type === 'cancel'
@@ -53,7 +53,6 @@ export default class Login extends Component {
       }
     }
 
-  
     checkLoginState = (response) => {
       
       if (response.authResponse) {
@@ -190,7 +189,22 @@ export default class Login extends Component {
                 
                 <Image 
                     source={require('../assets/hugefort-ico.png')}
-                    style={{ width: 300, height: 300, alignSelf:'center', marginTop:'20%' }} />
+                    style={{ width: 300, height: 300, alignSelf:'center', marginTop:'10%' }} />
+
+                <Text
+                  style={
+                    {
+                      alignSelf:'center',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      position: 'absolute',
+                      top: 230, left:0, bottom: 0, right: 0,
+                      fontSize: 16
+                    }
+                  }
+                  >
+                    Best Service. Right Time. Right People 
+                </Text>
 
                 <TextInput 
                     style={style.textinput} 
@@ -203,23 +217,103 @@ export default class Login extends Component {
                     autoCapitalize='none' />
                 
                 <TouchableHighlight
-                    style={style.touchbutton}
-                    onPress={()=> this.props.navigation.navigate('Home')} >
+                    // style={style.touchbutton}
+                    style={
+                      {
+                        borderTopLeftRadius: 15,
+                        borderTopRightRadius: 15,
+                        borderBottomLeftRadius: 15,
+                        borderBottomRightRadius: 15,
+                        borderWidth: 1,
+                        borderColor: '#039BE5',
+                        backgroundColor: '#039BE5',
+                        padding:15,
+                        position:'absolute', 
+                        top:420,
+                        alignSelf:'center',
+                        width:'88%'
+                      }
+                    }
+                    // onPress={()=> this.props.navigation.navigate('Home')} 
+                >
                     <Text style={style.touchbuttonlabel}>Login</Text>
                 </TouchableHighlight>
 
-                <TouchableHighlight
+                {/* <TouchableHighlight
                     style={style.touchbutton}
                     onPress={() => this.signInWithGoogleAsync()} >
                     <Text style={style.touchbuttonlabel}>Sign in with Google</Text>
-                </TouchableHighlight>
+                </TouchableHighlight> */}
 
-                <TouchableHighlight
+
+                <Text
+                  style={
+                    {
+                      alignSelf:'center',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      position: 'absolute',
+                      top: 490, left:0, bottom: 0, right: 0,
+                      fontSize: 16
+                    }
+                  }
+                  >
+                    Forgot password
+                </Text>
+                
+                <Text
+                  style={
+                    {
+                      alignSelf:'center',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      position: 'absolute',
+                      top: 560, left:0, bottom: 0, right: 0,
+                      fontSize: 16
+                    }
+                  }
+                  >
+                    ~ or connect with ~
+                </Text>
+
+
+                <FontAwesome 
+                  name="google-plus-official" 
+                  size={77} 
+                  color="#d34836" 
+                  style={{position:'absolute',top:600,left:130,alignSelf:'flex-start'}}
+                  onPress={() => this.signInWithGoogleAsync()}
+                  />
+
+                <FontAwesome5 
+                  name="facebook" 
+                  size={70} 
+                  color="#4267B2" 
+                  style={{position:'absolute',top:600,right:130}}
+                  />
+
+
+                <Text
+                  style={
+                    {
+                      alignSelf:'center',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                      position: 'absolute',
+                      top: 750, left:0, bottom: 0, right: 0,
+                      fontSize: 16
+                    }
+                  }
+                  >
+                    Don't have an account? Sign up here
+                </Text>
+
+                {/* <TouchableHighlight
                     style={style.touchbutton}
                     onPress={()=>this.fbLogIn()}
                     >
                     <Text style={style.touchbuttonlabel}>Login in with Facebook</Text>
-                </TouchableHighlight>
+                </TouchableHighlight> */}
 
                 {/* // <Text>No account yet?</Text>
 
@@ -250,7 +344,10 @@ const style = StyleSheet.create({
         marginBottom: 10,
         padding:10,
         textAlign: 'center',
+        alignContent: 'center',
         backgroundColor: 'white',
+        position: 'relative',
+        top: -40
     },
 
     touchbutton: {
