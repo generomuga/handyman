@@ -10,10 +10,27 @@ export default class App extends Component {
 
     return (
         <NavigationContainer>
+          
             <Stack.Navigator initialRouteName='Login'>
                 <Stack.Screen name='Login' component={Login} options= {{headerShown: false}} />
-                <Stack.Screen name='Home' component={Home} options= {{headerShown: true}} />
+                <Stack.Screen 
+                  name='Home' 
+                  component={Home} 
+                  options= {
+                    {
+                      headerShown: true, 
+                      title: 'Hugefort Handyman', 
+                      headerLeft: ()=> null,
+                      headerStyle: {
+                        backgroundColor: '#039BE5'
+                      },
+                      headerTintColor: '#FAFAFA'
+                    }
+                  } 
+            />
+
             </Stack.Navigator>
+
         </NavigationContainer>
     );
 
