@@ -298,6 +298,7 @@ export default class Login extends Component {
                       fontSize: 16
                     }
                   }
+                  onPress={()=>this.props.navigation.navigate('Signup')}
                   >
                     Don't have an account? Sign up here
                 </Text>
