@@ -1,5 +1,5 @@
 export const blue = {
-    backgroundColor: '#01579B'
+    backgroundColor: '#B3E5FC'
 }
 
 export const fullscreen = {
