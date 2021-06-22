@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, View, TextInput, Text, TouchableHighlight, StyleSheet, Alert } from 'react-native';
+import { Image, View, TextInput, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
 import * as firebase from 'firebase';
 import { firebaseConfig } from './config/config';
@@ -216,7 +216,7 @@ export default class Login extends Component {
                     secureTextEntry={true} 
                     autoCapitalize='none' />
                 
-                <TouchableHighlight
+                <TouchableOpacity
                     // style={style.touchbutton}
                     style={
                       {
@@ -237,7 +237,7 @@ export default class Login extends Component {
                     // onPress={()=> this.props.navigation.navigate('Home')} 
                 >
                     <Text style={style.touchbuttonlabel}>Login</Text>
-                </TouchableHighlight>
+                </TouchableOpacity>
 
                 {/* <TouchableHighlight
                     style={style.touchbutton}
