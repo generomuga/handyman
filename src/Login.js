@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Image, View, TextInput, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
+import { Background } from './styles';
+
 import * as firebase from 'firebase';
 import { firebaseConfig } from './config/config';
 
@@ -194,8 +196,7 @@ export default class Login extends Component {
                       top: 230, left:0, bottom: 0, right: 0,
                       fontSize: 16
                     }
-                  }
-                  >
+                  }>
                     Best Service. Right Time. Right People 
                 </Text>
 
@@ -301,20 +302,6 @@ export default class Login extends Component {
                     Don't have an account? Sign up here
                 </Text>
 
-                {/* <TouchableHighlight
-                    style={style.touchbutton}
-                    onPress={()=>this.fbLogIn()}
-                    >
-                    <Text style={style.touchbuttonlabel}>Login in with Facebook</Text>
-                </TouchableHighlight> */}
-
-                {/* // <Text>No account yet?</Text>
-
-                // <TouchableHighlight
-                //     onPress={()=>this.props.navigation.navigate('Signup')} >
-                //     <Text>Sign up</Text>
-                // </TouchableHighlight>  */}
-
             </View>
         )
     }
@@ -324,8 +311,8 @@ export default class Login extends Component {
 const style = StyleSheet.create({
 
     background:{
-        backgroundColor: '#B3E5FC',
-        flex: 1
+        ...Background.blue,
+        ...Background.fullscreen
     },
 
     textinput:{
