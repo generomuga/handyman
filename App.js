@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './src/Login';
+import Signup from './src/Signup';
 import Home from './src/Home';
 
 import { AntDesign } from '@expo/vector-icons';
@@ -44,6 +45,10 @@ export default class App extends Component {
                           },
                           headerTintColor: '#FAFAFA'
                     }} />
+                <Stack.Screen 
+                    name='Signup' 
+                    component={Signup} 
+                    options= {{headerShown: true}} />
             </Stack.Navigator>
         </NavigationContainer>
 
