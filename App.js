@@ -33,9 +33,9 @@ export default class App extends Component {
                               <View>
                                   <AntDesign 
                                     name="logout" 
-                                    size={24}
+                                    size={26}
                                     color="#FAFAFA" 
-                                    style={{margin:15}} 
+                                    style={{marginRight:15}} 
                                     onPress={()=>firebase.auth().signOut().then(()=>{}).catch((error) =>{})} />
                               </View>
                           ),
