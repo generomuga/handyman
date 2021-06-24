@@ -10,3 +10,8 @@ export const border = {
 export const color = {
     backgroundColor: '#039BE5'
 }
+
+export const label = {
+    textAlign: 'center',
+    color: 'white'
+}
