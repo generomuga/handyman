@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
-import { Image, View, TextInput, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { 
+    Image, 
+    View, 
+    TextInput, 
+    Text, 
+    TouchableOpacity, 
+    StyleSheet, 
+    Alert 
+} from 'react-native';
 
-import { Background, InputText } from './styles';
+import { 
+    Background, 
+    InputText, 
+    Button 
+} from './styles';
 
 import * as firebase from 'firebase';
 import { firebaseConfig } from './config/config';
@@ -9,7 +21,10 @@ import { firebaseConfig } from './config/config';
 import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
 
-import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
+import { 
+    FontAwesome5, 
+    FontAwesome 
+} from '@expo/vector-icons';
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -233,13 +248,6 @@ export default class Login extends Component {
                     <Text style={style.touchbuttonlabel}>Login</Text>
                 </TouchableOpacity>
 
-                {/* <TouchableHighlight
-                    style={style.touchbutton}
-                    onPress={() => this.signInWithGoogleAsync()} >
-                    <Text style={style.touchbuttonlabel}>Sign in with Google</Text>
-                </TouchableHighlight> */}
-
-
                 <Text
                   style={
                     {
@@ -270,7 +278,6 @@ export default class Login extends Component {
                     ~ or connect with ~
                 </Text>
 
-
                 <FontAwesome 
                   name="google-plus-official" 
                   size={77} 
@@ -285,7 +292,6 @@ export default class Login extends Component {
                   color="#4267B2" 
                   style={{position:'absolute',top:600,right:130}}
                   />
-
 
                 <Text
                   style={
@@ -317,26 +323,19 @@ const style = StyleSheet.create({
     },
 
     textinput:{
-        ...TextInput.border,
+        ...InputText.border,
+        ...InputText.padding,
+        ...InputText.color,
+        ...InputText.text_alignment,
         marginLeft: 25,
         marginRight: 25,
         marginBottom: 10,
-        padding:10,
-        textAlign: 'center',
-        alignContent: 'center',
-        backgroundColor: 'white',
-        position: 'relative',
         top: -40
     },
 
     touchbutton: {
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
-        borderWidth: 1,
-        borderColor: '#039BE5',
-        backgroundColor: '#039BE5',
+        ...Button.border,
+        ...Button.color,
         marginLeft: 25,
         marginRight: 25,
         padding:15,
@@ -344,8 +343,7 @@ const style = StyleSheet.create({
     },
 
     touchbuttonlabel:{
-        textAlign: 'center',
-        color: 'white'
+        ...Button.label
     }
 
 });
