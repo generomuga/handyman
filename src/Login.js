@@ -219,32 +219,14 @@ export default class Login extends Component {
                     style={style.textinput} 
                     placeholder='email or mobile' 
                     autoCapitalize='none' />
+
                 <TextInput 
                     style={style.textinput} 
                     placeholder='password' 
                     secureTextEntry={true} 
                     autoCapitalize='none' />
                 
-                <TouchableOpacity
-                    // style={style.touchbutton}
-                    style={
-                      {
-                        borderTopLeftRadius: 15,
-                        borderTopRightRadius: 15,
-                        borderBottomLeftRadius: 15,
-                        borderBottomRightRadius: 15,
-                        borderWidth: 1,
-                        borderColor: '#039BE5',
-                        backgroundColor: '#039BE5',
-                        padding:15,
-                        position:'absolute', 
-                        top:420,
-                        alignSelf:'center',
-                        width:'88%'
-                      }
-                    }
-                    // onPress={()=> this.props.navigation.navigate('Home')} 
-                >
+                <TouchableOpacity style={style.touchbutton}>
                     <Text style={style.touchbuttonlabel}>Login</Text>
                 </TouchableOpacity>
 
@@ -336,10 +318,16 @@ const style = StyleSheet.create({
     touchbutton: {
         ...Button.border,
         ...Button.color,
+        ...Button.padding,
+        ...Button.alignment,
         marginLeft: 25,
         marginRight: 25,
         padding:15,
-        marginTop: 25
+        marginTop: 25,
+        position:'absolute', 
+        top:390,
+        alignSelf:'center',
+        width:'88%'
     },
 
     touchbuttonlabel:{
