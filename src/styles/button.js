@@ -8,10 +8,19 @@ export const border = {
 }
 
 export const color = {
-    backgroundColor: '#039BE5'
+    backgroundColor: '#039BE5',
+    borderColor: '#039BE5'
 }
 
 export const label = {
     textAlign: 'center',
     color: 'white'
+}
+
+export const padding = {
+    padding:15
+}
+
+export const alignment = {
+    alignSelf:'center'
 }
