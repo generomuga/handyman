@@ -8,7 +8,9 @@
     "facebookScheme": "fb489615325448707",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.hugefort.handyman"
+    }
   }
-  
 }
