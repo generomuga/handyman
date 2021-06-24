@@ -48,7 +48,14 @@ export default class App extends Component {
                 <Stack.Screen 
                     name='Signup' 
                     component={Signup} 
-                    options= {{headerShown: true}} />
+                    options= {{
+                          headerShown: true, 
+                          title: 'Sign up', 
+                          headerStyle: {
+                            backgroundColor: '#039BE5'
+                          },
+                          headerTintColor: '#FAFAFA'
+                    }} />
             </Stack.Navigator>
         </NavigationContainer>
 
