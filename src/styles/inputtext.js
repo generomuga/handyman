@@ -11,3 +11,7 @@ export const padding = {
 export const color = {
     backgroundColor: 'white'
 }
+
+export const text_alignment = {
+    textAlign: 'center'
+}
