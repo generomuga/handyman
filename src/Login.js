@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Image, View, TextInput, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
-import { Background } from './styles';
+import { Background, InputText } from './styles';
 
 import * as firebase from 'firebase';
 import { firebaseConfig } from './config/config';
@@ -317,9 +317,7 @@ const style = StyleSheet.create({
     },
 
     textinput:{
-        borderRadius: 20,
-        borderWidth: 3,
-        borderColor: '#FAFAFA',
+        ...TextInput.border,
         marginLeft: 25,
         marginRight: 25,
         marginBottom: 10,
