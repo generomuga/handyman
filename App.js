@@ -29,7 +29,7 @@ export default class App extends Component {
                     options= {{
                           headerShown: true, 
                           title: 'Handyman Plus', 
-                          headerLeft: ()=> null,
+                          // headerLeft: ()=> null,
                           headerRight: ()=> (
                               <View>
                                   <AntDesign 
