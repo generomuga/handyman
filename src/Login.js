@@ -160,7 +160,7 @@ export default class Login extends Component {
     signInWithGoogleAsync = async() => {
         try {
             const result = await Google.logInAsync({
-              // androidClientId: YOUR_CLIENT_ID_HERE,
+              androidClientId: '199145126003-nqcn6ov8h5tfs1curkgg3pe8t1nnfn0d.apps.googleusercontent.com',
               iosClientId: '199145126003-0nnmv1svb19unku0arss5vuq6q0r2kqo.apps.googleusercontent.com',
               scopes: ['profile', 'email']}
             );
@@ -312,7 +312,8 @@ const style = StyleSheet.create({
         marginLeft: 25,
         marginRight: 25,
         marginBottom: 10,
-        top: -40
+        top: '-5%',
+        position: 'relative'
     },
 
     touchbutton: {
