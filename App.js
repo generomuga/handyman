@@ -29,7 +29,7 @@ export default class App extends Component {
                     options= {{
                           headerShown: true, 
                           title: 'Handyman Plus', 
-                          // headerLeft: ()=> null,
+                          headerLeft: ()=> null,
                           headerRight: ()=> (
                               <View>
                                   <AntDesign 
@@ -43,7 +43,10 @@ export default class App extends Component {
                           headerStyle: {
                             backgroundColor: '#039BE5'
                           },
-                          headerTintColor: '#FAFAFA'
+                          headerTintColor: '#FAFAFA',
+                          headerTitleStyle: {
+                            alignSelf: 'center'
+                          }
                     }} />
                 <Stack.Screen 
                     name='Signup' 
