@@ -11,6 +11,9 @@
     ],
     "ios": {
       "bundleIdentifier": "com.hugefort.handyman"
+    },
+    "android": {
+      "package": "com.hugefort.handyman"
     }
   }
 }
