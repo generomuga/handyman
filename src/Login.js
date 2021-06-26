@@ -197,99 +197,74 @@ export default class Login extends Component {
         return (
             <View style={style.background}>
                 
-                <Image 
-                    source={require('../assets/hugefort-ico.png')}
-                    style={{ width: 300, height: 300, alignSelf:'center', marginTop:'10%' }} />
+                <View>
 
-                <Text
-                  style={
-                    {
-                      alignSelf:'center',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      position: 'absolute',
-                      top: 230, left:0, bottom: 0, right: 0,
-                      fontSize: 16
-                    }
-                  }>
-                    Best Service. Right Time. Right People 
-                </Text>
+                    <Image 
+                        source={require('../assets/hugefort-ico.png')}
+                        style={style.logo} />
+                  
+                    <Text
+                      style={style.tagline}>
+                        Best Service. Right Time. Right People 
+                    </Text>
 
-                <TextInput 
-                    style={style.textinput} 
-                    placeholder='email or mobile' 
-                    autoCapitalize='none' />
+                </View>
 
-                <TextInput 
-                    style={style.textinput} 
-                    placeholder='password' 
-                    secureTextEntry={true} 
-                    autoCapitalize='none' />
-                
-                <TouchableOpacity style={style.touchbutton}>
-                    <Text style={style.touchbuttonlabel}>Login</Text>
-                </TouchableOpacity>
+                <View>
 
-                <Text
-                  style={
-                    {
-                      alignSelf:'center',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      position: 'absolute',
-                      top: 490, left:0, bottom: 0, right: 0,
-                      fontSize: 16
-                    }
-                  }
-                  >
-                    Forgot password
-                </Text>
-                
-                <Text
-                  style={
-                    {
-                      alignSelf:'center',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      position: 'absolute',
-                      top: 560, left:0, bottom: 0, right: 0,
-                      fontSize: 16
-                    }
-                  }
-                  >
-                    ~ or connect with ~
-                </Text>
+                    <TextInput 
+                        style={style.textInput} 
+                        placeholder='email or mobile' 
+                        autoCapitalize='none' />
 
-                <FontAwesome 
-                  name="google-plus-official" 
-                  size={77} 
-                  color="#d34836" 
-                  style={{position:'absolute',top:600,left:130,alignSelf:'flex-start'}}
-                  onPress={() => this.signInWithGoogleAsync()}
-                  />
+                    <TextInput 
+                        style={style.textInput} 
+                        placeholder='password' 
+                        secureTextEntry={true} 
+                        autoCapitalize='none' />
 
-                <FontAwesome5 
-                  name="facebook" 
-                  size={70} 
-                  color="#4267B2" 
-                  style={{position:'absolute',top:600,right:130}}
-                  />
+                    <TouchableOpacity style={style.touchButton}>
+                        <Text style={style.touchButtonLabel}>Login</Text>
+                    </TouchableOpacity>
 
-                <Text
-                  style={
-                    {
-                      alignSelf:'center',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      position: 'absolute',
-                      top: 750, left:0, bottom: 0, right: 0,
-                      fontSize: 16
-                    }
-                  }
-                  onPress={()=>this.props.navigation.navigate('Signup')}
-                  >
-                    Don't have an account? Sign up here
-                </Text>
+                </View>
+
+                <View>
+                    <Text style={style.forgotPassword}>
+                        Forgot password
+                    </Text>
+                    
+                    <Text style={style.connect}>
+                        ~ or connect with ~
+                    </Text>
+
+                    <View style={style.viewGoogleFb}>
+
+                        <FontAwesome 
+                          name="google-plus-official" 
+                          size={77} 
+                          color="#d34836" 
+                          style={style.google}
+                          onPress={() => this.signInWithGoogleAsync()}
+                          />
+
+                        <FontAwesome5 
+                          name="facebook" 
+                          size={68} 
+                          color="#4267B2" 
+                          style={style.facebook}
+                          />
+
+                    </View>
+
+                  
+                    <Text
+                      style={style.signUp}
+                      onPress={()=>this.props.navigation.navigate('Signup')}>
+                        Don't have an account? Sign up here
+                    </Text>
+
+                </View>
 
             </View>
         )
@@ -299,40 +274,90 @@ export default class Login extends Component {
 
 const style = StyleSheet.create({
 
+    logo: {
+        width: 300,
+        height: 300, 
+        alignSelf:'center', 
+        marginTop:'10%' ,
+    },
+
+    tagline:{
+        textAlign: 'center',
+        position: 'absolute',
+        alignSelf: 'center',
+        marginTop: '58%',
+        fontSize: 18,
+        fontWeight: '400' 
+    },
+
     background:{
         ...Background.blue,
         ...Background.fullscreen
     },
 
-    textinput:{
+    textInput:{
         ...InputText.border,
         ...InputText.padding,
         ...InputText.color,
         ...InputText.text_alignment,
-        marginLeft: 25,
-        marginRight: 25,
-        marginBottom: 10,
-        top: '-5%',
-        position: 'relative'
+        marginLeft: '10%',
+        marginRight: '10%',
+        marginBottom: '3%',
+        top: '-25%',
     },
 
-    touchbutton: {
+    touchButton: {
         ...Button.border,
         ...Button.color,
         ...Button.padding,
         ...Button.alignment,
-        marginLeft: 25,
-        marginRight: 25,
-        padding:15,
-        marginTop: 25,
-        position:'absolute', 
-        top:390,
-        alignSelf:'center',
-        width:'88%'
+        marginLeft: '10%',
+        marginRight: '10%',
+        padding:'4%',
+        alignSelf: 'stretch',
+        top:'-20%',
     },
 
-    touchbuttonlabel:{
+    touchButtonLabel:{
         ...Button.label
+    },
+
+    forgotPassword: {
+        alignSelf:'center',
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: '300',
+        marginTop: '-1%'
+    },
+
+    connect: {
+        alignSelf:'center',
+        fontSize: 16,
+        fontWeight: '300',
+        marginTop: '8%'
+    },
+
+    viewGoogleFb: {
+        marginTop: '5%',
+        flexDirection: 'row',
+        alignSelf: 'center',
+    },
+
+    google: {
+        alignSelf:'center',
+        margin: '2%'
+    },
+
+    facebook: {
+        alignSelf:'center',
+        margin: '2%'
+    },
+
+    signUp: {
+        alignSelf:'center',
+        fontSize: 16,
+        fontWeight: '300',
+        marginTop: '5%'
     }
 
 });
