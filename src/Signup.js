@@ -18,7 +18,13 @@ import {
     FontAwesome5, 
     FontAwesome 
 } from '@expo/vector-icons';
-import { useState } from 'react/cjs/react.production.min';
+
+import * as firebase from 'firebase';
+import { firebaseConfig } from './config/config';
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 export default class Signup extends Component {
 
@@ -26,26 +32,107 @@ export default class Signup extends Component {
         super(props)
 
         this.state = {
-            isSelected: false,
-            setSelection: false
+            email: '',
+            password: '',
+            error: '',
+            loading: false
         }
     }
 
-    
+    isEmpty(text) {
+        if (text.trim() === '') {
+            return true
+        }
+        else 
+            return false
+    }
+
+    isNotValidEmail(text) {
+        let pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        if (pattern.test(text) === false) {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
+    isNotValidPassword(text) {
+        if (text.length < 8) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+    _onSignUpPress() {
+        // this.state({error:'', loading:false});
+
+        const {email, password} = this.state;
+
+
+        if (this.isEmpty(email)) {
+            console.log('Empty email')
+            return
+        }
+
+        if (this.isNotValidEmail(email)) {
+            console.log('Invalid email')
+            return
+        }
+
+        if (this.isEmpty(password)) {
+            console.log('Empty password')
+            return
+        }
+
+        if (this.isNotValidPassword(password)) {
+            console.log('Not valid password')
+            return
+        }
+
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Signed in 
+                var user = userCredential.user;
+                
+                // ...
+
+                firebase.auth().currentUser.sendEmailVerification()
+                .then(() => {
+                    // Email verification sent!
+                    // ...
+                });
+            })
+            .catch((error) => {
+                //error = error.code;
+                error = error.message;
+                // ..
+            });
+        }
+
     render(){
         return (
             <View style={style.background}>
                 
                 <View style={style.viewHolder}>
+
                     <TextInput 
                         style={style.textinput} 
-                        placeholder='email or mobile' 
-                        autoCapitalize='none' />
+                        placeholder='email' 
+                        autoCapitalize='none' 
+                        value={this.state.email}
+                        onChangeText={email => this.setState({email})}
+                        />
 
                     <TextInput 
                         style={style.textinput} 
                         placeholder='password'
-                        autoCapitalize='none' />
+                        autoCapitalize='none' 
+                        value={this.state.password}
+                        onChangeText={password => this.setState({password})}
+                        />
 
                     <TextInput 
                         style={style.textinput} 
@@ -61,7 +148,10 @@ export default class Signup extends Component {
                         <Text style={style.termsCondition}>Agree to Terms and Condition</Text>
                     </View>
 
-                    <TouchableOpacity style={style.touchbutton}>
+                    <TouchableOpacity 
+                        style={style.touchbutton}
+                        onPress={()=>this._onSignUpPress()}
+                        >
                         <Text style={style.touchbuttonlabel}>Join now</Text>
                     </TouchableOpacity>
                     
