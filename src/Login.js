@@ -15,6 +15,10 @@ import {
     Button 
 } from './styles';
 
+import {
+    GoogleSignIn
+} from './functions';
+
 import * as firebase from 'firebase';
 import { firebaseConfig } from './config/config';
 
@@ -160,8 +164,8 @@ export default class Login extends Component {
     signInWithGoogleAsync = async() => {
         try {
             const result = await Google.logInAsync({
-              androidClientId: '199145126003-nqcn6ov8h5tfs1curkgg3pe8t1nnfn0d.apps.googleusercontent.com',
-              iosClientId: '199145126003-0nnmv1svb19unku0arss5vuq6q0r2kqo.apps.googleusercontent.com',
+              androidClientId: '876177652588-5fiqiq2vna74qg6aklen12vd1hpre723.apps.googleusercontent.com',
+              iosClientId: '876177652588-s599pfq4cm2k0lotu9erv319kbn1ibh9.apps.googleusercontent.com',
               scopes: ['profile', 'email']}
             );
             if (result.type === 'success') {
@@ -180,8 +184,23 @@ export default class Login extends Component {
 
     checkIfLoggedIn = () => {
         firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                this.props.navigation.navigate('Home')
+            
+          if (user) {
+              const user = firebase.auth().currentUser;
+                if (user !== null) {
+                 
+                  const emailVerified = user.emailVerified;
+                
+                  console.log(emailVerified);
+
+                  if (emailVerified === 'true') {
+                    this.props.navigation.navigate('Home')
+                  }
+                  else {
+                    this.props.navigation.navigate('Login')
+                  }
+                }
+
             }
             else {
                 this.props.navigation.navigate('Login')
@@ -214,7 +233,7 @@ export default class Login extends Component {
 
                     <TextInput 
                         style={style.textInput} 
-                        placeholder='email or mobile' 
+                        placeholder='email' 
                         autoCapitalize='none' />
 
                     <TextInput 
