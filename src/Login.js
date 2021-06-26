@@ -257,7 +257,6 @@ export default class Login extends Component {
 
                     </View>
 
-                  
                     <Text
                       style={style.signUp}
                       onPress={()=>this.props.navigation.navigate('Signup')}>
