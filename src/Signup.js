@@ -42,7 +42,7 @@ export default class Signup extends Component {
 
     isEmailEmpty(text) {
         if (text.trim() === '') {
-            this.setState({errorMsg: 'Your email is empty :)'})
+            this.setState({errorMsg: '* Your email is empty.'})
             return true
         }
         else {
@@ -53,7 +53,7 @@ export default class Signup extends Component {
 
     isPasswordEmpty(text) {
         if (text.trim() === '') {
-            this.setState({errorMsg: 'Your password is empty :)'})
+            this.setState({errorMsg: '* Your password is empty.'})
             return true
         }
         else {
@@ -65,7 +65,7 @@ export default class Signup extends Component {
     isNotValidEmail(text) {
         let pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (pattern.test(text) === false) {
-            this.setState({errorMsg: 'Your email is invalid :)'})
+            this.setState({errorMsg: '* Your email is invalid.'})
             return true;
         }
         else {
@@ -76,7 +76,7 @@ export default class Signup extends Component {
 
     isNotValidPassword(text) {
         if (text.length < 8 || text.trim() === '') {
-            this.setState({errorMsg: 'Your password should be atleast 8 characters :)'})
+            this.setState({errorMsg: '* Your password should be atleast 8 characters.'})
             return true
         }
         else {
@@ -87,7 +87,7 @@ export default class Signup extends Component {
 
     isNotSamePassword(password,rePassword) {
         if (password != rePassword) {
-            this.setState({errorMsg: 'Your password and confirm password should be matched :)'})
+            this.setState({errorMsg: '* Your password and confirm password should be matched.'})
             return true
         }
         else {
