@@ -1,10 +1,9 @@
 export const firebaseConfig = {
-    apiKey: "AIzaSyBir7OkT8on9_rHwWS8ioySDa16kQg_b-Q",
-    authDomain: "handyman-c0e95.firebaseapp.com",
-    databaseURL: "https://handyman-c0e95-default-rtdb.firebaseio.com",
-    projectId: "handyman-c0e95",
-    storageBucket: "handyman-c0e95.appspot.com",
-    messagingSenderId: "199145126003",
-    appId: "1:199145126003:web:517b498f64b7051c5a1206",
-    measurementId: "G-DYGLXV65E4"
+    apiKey: "AIzaSyC0ei8o_oog8s-0LjvK5q63oj2ydBFjWk8",
+    authDomain: "handyman-plus.firebaseapp.com",
+    projectId: "handyman-plus",
+    storageBucket: "handyman-plus.appspot.com",
+    messagingSenderId: "876177652588",
+    appId: "1:876177652588:web:97033d6b546bef8d6c5149",
+    measurementId: "G-8FKV7YLBCQ"
 };
