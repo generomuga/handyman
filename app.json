@@ -10,10 +10,10 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.hugefort.handyman"
+      "bundleIdentifier": "com.hugefort.handymanplus"
     },
     "android": {
-      "package": "com.hugefort.handyman"
+      "package": "com.hugefort.handymanplus"
     }
   }
 }
