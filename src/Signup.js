@@ -34,45 +34,73 @@ export default class Signup extends Component {
         this.state = {
             email: '',
             password: '',
-            error: '',
+            confirmPassword: '',
+            errorMsg: '',
             loading: false
         }
     }
 
-    isEmpty(text) {
+    isEmailEmpty(text) {
         if (text.trim() === '') {
+            this.setState({errorMsg: 'Your email is empty :)'})
             return true
         }
-        else 
+        else {
+            this.setState({errorMsg: ''})
             return false
+        }
+    }
+
+    isPasswordEmpty(text) {
+        if (text.trim() === '') {
+            this.setState({errorMsg: 'Your password is empty :)'})
+            return true
+        }
+        else {
+            this.setState({errorMsg: ''})
+            return false
+        }
     }
 
     isNotValidEmail(text) {
         let pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (pattern.test(text) === false) {
+            this.setState({errorMsg: 'Your email is invalid :)'})
             return true;
         }
         else {
+            this.setState({errorMsg: ''})
             return false
         }
     }
 
     isNotValidPassword(text) {
-        if (text.length < 8) {
+        if (text.length < 8 || text.trim() === '') {
+            this.setState({errorMsg: 'Your password should be atleast 8 characters :)'})
             return true
         }
         else {
+            this.setState({errorMsg: ''})
+            return false
+        }
+    }
+
+    isNotSamePassword(password,rePassword) {
+        if (password != rePassword) {
+            this.setState({errorMsg: 'Your password and confirm password should be matched :)'})
+            return true
+        }
+        else {
+            this.setState({errorMsg: ''})
             return false
         }
     }
 
     _onSignUpPress() {
-        // this.state({error:'', loading:false});
+        
+        const {email, password, errorMsg, confirmPassword} = this.state;
 
-        const {email, password} = this.state;
-
-
-        if (this.isEmpty(email)) {
+        if (this.isEmailEmpty(email)) {
             console.log('Empty email')
             return
         }
@@ -82,7 +110,7 @@ export default class Signup extends Component {
             return
         }
 
-        if (this.isEmpty(password)) {
+        if (this.isPasswordEmpty(password)) {
             console.log('Empty password')
             return
         }
@@ -92,11 +120,15 @@ export default class Signup extends Component {
             return
         }
 
+        if (this.isNotSamePassword(password, confirmPassword)) {
+            console.log('Password did not match')
+            return
+        }
+
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 // Signed in 
                 var user = userCredential.user;
-                
                 // ...
 
                 firebase.auth().currentUser.sendEmailVerification()
@@ -107,7 +139,9 @@ export default class Signup extends Component {
             })
             .catch((error) => {
                 //error = error.code;
-                error = error.message;
+            
+                this.setState({errorMsg: error.message})
+                // this.setState({errorMsg: error.message})
                 // ..
             });
         }
@@ -131,13 +165,20 @@ export default class Signup extends Component {
                         placeholder='password'
                         autoCapitalize='none' 
                         value={this.state.password}
+                        secureTextEntry={true}
                         onChangeText={password => this.setState({password})}
                         />
 
                     <TextInput 
                         style={style.textinput} 
                         placeholder='confirm password'
-                        autoCapitalize='none' />
+                        secureTextEntry={true}
+                        autoCapitalize='none' 
+                        value={this.state.confirmPassword}
+                        onChangeText={confirmPassword => this.setState({confirmPassword})}
+                        />
+
+                    <Text style={{ marginTop: '1%', alignSelf:'center',textAlign:'center', color: '#D32F2F', fontSize: 16, fontWeight: '300'}}>{this.state.errorMsg}</Text>
 
                     <View style={style.checkboxContainer}>
                         <CheckBox
