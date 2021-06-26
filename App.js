@@ -57,7 +57,10 @@ export default class App extends Component {
                           headerStyle: {
                             backgroundColor: '#039BE5'
                           },
-                          headerTintColor: '#FAFAFA'
+                          headerTintColor: '#FAFAFA',
+                          headerTitleStyle: {
+                            alignSelf: 'center'
+                          }
                     }} />
             </Stack.Navigator>
         </NavigationContainer>
