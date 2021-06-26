@@ -40,6 +40,8 @@ export default class Login extends Component {
       this.checkIfLoggedIn();
     }
   
+   
+
     fbLogIn = async() => {
         try {
           await Facebook.initializeAsync({
@@ -208,8 +210,32 @@ export default class Login extends Component {
         }
     )}
 
+    _onLoginPress() {
+
+        const {email, password, errorMsg} = this.state;
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Signed in
+                var user = userCredential.user;
+                this.props.navigation.navigate('Home')
+                // ...
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+            });
+    }
+
     constructor(props){
         super(props)
+
+        this.state = {
+            email: '',
+            password: '',
+            errorMsg: ''
+        }
+
     }
 
     render(){
@@ -234,15 +260,26 @@ export default class Login extends Component {
                     <TextInput 
                         style={style.textInput} 
                         placeholder='email' 
-                        autoCapitalize='none' />
+                        autoCapitalize='none' 
+                        value={this.state.email}
+                        onChangeText={email => this.setState({email})}
+                        />
 
                     <TextInput 
                         style={style.textInput} 
                         placeholder='password' 
                         secureTextEntry={true} 
-                        autoCapitalize='none' />
+                        autoCapitalize='none' 
+                        value={this.state.password}
+                        onChangeText={password => this.setState({password})}
+                        />
 
-                    <TouchableOpacity style={style.touchButton}>
+                    <Text style={{ marginTop: '1%', alignSelf:'center',textAlign:'center', color: '#D32F2F', fontSize: 16, fontWeight: '300'}}>{this.state.errorMsg}</Text>
+
+                    <TouchableOpacity 
+                        style={style.touchButton}
+                        onPress={()=>this._onLoginPress()}
+                        >
                         <Text style={style.touchButtonLabel}>Login</Text>
                     </TouchableOpacity>
 
