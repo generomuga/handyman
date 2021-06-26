@@ -40,8 +40,6 @@ export default class Login extends Component {
       this.checkIfLoggedIn();
     }
   
-   
-
     fbLogIn = async() => {
         try {
           await Facebook.initializeAsync({
@@ -242,7 +240,85 @@ export default class Login extends Component {
         return (
             <View style={style.background}>
                 
-                <View>
+                <View style={{ flex: 2.5, backgroundColor: "#B3E5FC" }} >
+
+                    <Image 
+                        source={require('../assets/hugefort-ico.png')}
+                        style={style.logo} />
+
+                    <Text
+                      style={style.tagline}>
+                        Best Service. Right Time. Right People 
+                    </Text>
+
+                </View>
+
+                <View style={{ flex: 2.5, backgroundColor: "#B3E5FC", justifyContent:'center' }} >
+
+                    <TextInput 
+                        style={style.textInput} 
+                        placeholder='email' 
+                        autoCapitalize='none' 
+                        value={this.state.email}
+                        onChangeText={email => this.setState({email})}
+                        />
+
+                    <TextInput 
+                        style={style.textInput} 
+                        placeholder='password' 
+                        secureTextEntry={true} 
+                        autoCapitalize='none' 
+                        value={this.state.password}
+                        onChangeText={password => this.setState({password})}
+                        />
+
+                    <TouchableOpacity 
+                        style={style.touchButton}
+                        onPress={()=>this._onLoginPress()}
+                        >
+                        <Text style={style.touchButtonLabel}>Login</Text>
+                    </TouchableOpacity>
+
+                    <Text style={style.forgotPassword}>
+                        Forgot password
+                    </Text>
+                    
+                </View>
+
+                <View style={{ flex: 3, backgroundColor: "#B3E5FC", justifyContent:'center' }} >
+
+                    <Text style={style.connect}>
+                        ~ or connect with ~
+                    </Text>
+
+                    <View style={style.viewGoogleFb}>
+
+                        <FontAwesome 
+                          name="google-plus-official" 
+                          size={77} 
+                          color="#d34836" 
+                          style={style.google}
+                          onPress={() => this.signInWithGoogleAsync()}
+                          />
+
+                        <FontAwesome5 
+                          name="facebook" 
+                          size={68} 
+                          color="#4267B2" 
+                          style={style.facebook}
+                          />
+
+                    </View>
+                    
+                    <Text
+                        style={style.signUp}
+                        onPress={()=>this.props.navigation.navigate('Signup')}>
+                            Don't have an account? Sign up here
+                    </Text>
+
+                </View>
+
+                {/* <View style>
 
                     <Image 
                         source={require('../assets/hugefort-ico.png')}
@@ -253,9 +329,9 @@ export default class Login extends Component {
                         Best Service. Right Time. Right People 
                     </Text>
 
-                </View>
+                </View> */}
 
-                <View>
+                {/* <View>
 
                     <TextInput 
                         style={style.textInput} 
@@ -319,7 +395,7 @@ export default class Login extends Component {
                         Don't have an account? Sign up here
                     </Text>
 
-                </View>
+                </View> */}
 
             </View>
         )
@@ -333,16 +409,16 @@ const style = StyleSheet.create({
         width: 300,
         height: 300, 
         alignSelf:'center', 
-        marginTop:'10%' ,
+        marginTop:'5%',
     },
 
     tagline:{
         textAlign: 'center',
         position: 'absolute',
         alignSelf: 'center',
-        marginTop: '58%',
         fontSize: 18,
-        fontWeight: '400' 
+        fontWeight: '400',
+        marginTop: '51%'
     },
 
     background:{
@@ -357,8 +433,7 @@ const style = StyleSheet.create({
         ...InputText.text_alignment,
         marginLeft: '10%',
         marginRight: '10%',
-        marginBottom: '3%',
-        top: '-25%',
+        marginBottom: 10
     },
 
     touchButton: {
@@ -370,7 +445,7 @@ const style = StyleSheet.create({
         marginRight: '10%',
         padding:'4%',
         alignSelf: 'stretch',
-        top:'-20%',
+        marginBottom: '5%'
     },
 
     touchButtonLabel:{
@@ -381,15 +456,13 @@ const style = StyleSheet.create({
         alignSelf:'center',
         textAlign: 'center',
         fontSize: 16,
-        fontWeight: '300',
-        marginTop: '-1%'
+        fontWeight: '300'
     },
 
     connect: {
         alignSelf:'center',
         fontSize: 16,
         fontWeight: '300',
-        marginTop: '8%'
     },
 
     viewGoogleFb: {
