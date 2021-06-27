@@ -38,35 +38,67 @@ export default class Login extends Component {
       this.checkIfLoggedIn();
     }
   
-    fbLogIn = async() => {
+    login = async() => {
         try {
           await Facebook.initializeAsync({
-            appId: '489615325448707',
+            appId: '491440875477602',
           });
           const {
             type,
-            token
-            // expirationDate,
-            // permissions,
-            // declinedPermissions,
+            token,
+            expirationDate,
+            permissions,
+            declinedPermissions,
           } = await Facebook.logInWithReadPermissionsAsync({
             permissions: ['public_profile'],
           });
           if (type === 'success') {
             // Get the user's name using Facebook's Graph API
             const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-            // #console.log((await response.json()).appId)
             Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-            const credential = firebase.auth.FacebookAuthProvider.credential(token)
-            // firebase.auth().signInWithCredential(credential).catch((error) => {
-            //   console.log(error)
-            // })
           } else {
             // type === 'cancel'
           }
         } catch ({ message }) {
           alert(`Facebook Login Error: ${message}`);
         }
+    }
+
+    fbLogIn = async() => {
+        
+        let appIds = '491440875477602';
+
+        try {
+            await Facebook.initializeAsync({appId:appIds});
+            const {
+              type,
+              token,
+              expirationDate,
+              permissions,
+              declinedPermissions,
+              appId, 
+            } = await Facebook.logInWithReadPermissionsAsync({
+              permissions: ['public_profile'],
+            });
+            if (type === 'success') {
+                // Get the user's name using Facebook's Graph API
+                const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+                Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+                console.log(appId);
+
+                const credential = firebase.auth.FacebookAuthProvider.credential(token)
+        
+                firebase.auth().signInWithCredential(credential).catch((error) => {
+                    console.log(error)
+                }
+                )
+            } else {
+              // type === 'cancel'
+            }
+          } catch ({ message }) {
+            alert(`Facebook Login Error: ${message}`);
+          }
+       
     }
 
     checkLoginState = (response) => {
@@ -337,6 +369,7 @@ export default class Login extends Component {
                           size={68} 
                           color="#4267B2" 
                           style={style.facebook}
+                          onPress={()=> this.fbLogIn()}
                           />
 
                     </View>
