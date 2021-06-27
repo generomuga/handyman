@@ -244,7 +244,7 @@ export default class Login extends Component {
                     this.props.navigation.navigate('Login')
                     this.setState({errorMsg: '* Please verify your account through your email'})
                 }
-                
+
             })
             .catch((error) => {
                 this.setState({errorMsg:'* Your email or password is incorrect.'})
@@ -307,7 +307,10 @@ export default class Login extends Component {
                         <Text style={style.touchButtonLabel}>Login</Text>
                     </TouchableOpacity>
 
-                    <Text style={style.forgotPassword}>
+                    <Text 
+                        style={style.forgotPassword}
+                        onPress={()=>this.props.navigation.navigate('ForgotPassword')}
+                        >
                         Forgot password
                     </Text>
                     
