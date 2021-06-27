@@ -396,7 +396,7 @@ export default class Login extends Component {
                           size={68} 
                           color="#4267B2" 
                           style={style.facebook}
-                          onPress={()=> this.fbLogIn()}
+                          onPress={()=> alert('Temporarily disabled')}
                           />
 
                     </View>
