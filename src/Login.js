@@ -15,9 +15,7 @@ import {
     Button 
 } from './styles';
 
-import {
-    GoogleSignIn
-} from './functions';
+import formValidator from './functions/formValidator';
 
 import * as firebase from 'firebase';
 import { firebaseConfig } from './config/config';
@@ -212,6 +210,23 @@ export default class Login extends Component {
 
         const {email, password, errorMsg} = this.state;
 
+        this.setState({errorMsg:''});
+
+        if (formValidator.isEmailEmpty(email)) {
+            this.setState({errorMsg: '* Your email is empty.'})
+            return
+        }
+
+        if (formValidator.isNotValidEmail(email)) {
+            this.setState({errorMsg: '* Your email is invalid.'})
+            return
+        }
+
+        if (formValidator.isPasswordEmpty(password)) {
+            this.setState({errorMsg: '* Your password is empty.'})
+            return
+        }
+
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 // Signed in
@@ -220,8 +235,7 @@ export default class Login extends Component {
                 // ...
             })
             .catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
+                this.setState({errorMsg:'* Your email or password is incorrect.'})
             });
     }
 
@@ -272,6 +286,8 @@ export default class Login extends Component {
                         onChangeText={password => this.setState({password})}
                         />
 
+                    <Text style={{alignSelf:'center',textAlign:'center', color: '#D32F2F', fontSize: 16, fontWeight: '300', marginBottom:10}}>{this.state.errorMsg}</Text>
+
                     <TouchableOpacity 
                         style={style.touchButton}
                         onPress={()=>this._onLoginPress()}
@@ -317,85 +333,6 @@ export default class Login extends Component {
                     </Text>
 
                 </View>
-
-                {/* <View style>
-
-                    <Image 
-                        source={require('../assets/hugefort-ico.png')}
-                        style={style.logo} />
-                  
-                    <Text
-                      style={style.tagline}>
-                        Best Service. Right Time. Right People 
-                    </Text>
-
-                </View> */}
-
-                {/* <View>
-
-                    <TextInput 
-                        style={style.textInput} 
-                        placeholder='email' 
-                        autoCapitalize='none' 
-                        value={this.state.email}
-                        onChangeText={email => this.setState({email})}
-                        />
-
-                    <TextInput 
-                        style={style.textInput} 
-                        placeholder='password' 
-                        secureTextEntry={true} 
-                        autoCapitalize='none' 
-                        value={this.state.password}
-                        onChangeText={password => this.setState({password})}
-                        />
-
-                    <Text style={{ marginTop: '1%', alignSelf:'center',textAlign:'center', color: '#D32F2F', fontSize: 16, fontWeight: '300'}}>{this.state.errorMsg}</Text>
-
-                    <TouchableOpacity 
-                        style={style.touchButton}
-                        onPress={()=>this._onLoginPress()}
-                        >
-                        <Text style={style.touchButtonLabel}>Login</Text>
-                    </TouchableOpacity>
-
-                </View>
-
-                <View>
-                    <Text style={style.forgotPassword}>
-                        Forgot password
-                    </Text>
-                    
-                    <Text style={style.connect}>
-                        ~ or connect with ~
-                    </Text>
-
-                    <View style={style.viewGoogleFb}>
-
-                        <FontAwesome 
-                          name="google-plus-official" 
-                          size={77} 
-                          color="#d34836" 
-                          style={style.google}
-                          onPress={() => this.signInWithGoogleAsync()}
-                          />
-
-                        <FontAwesome5 
-                          name="facebook" 
-                          size={68} 
-                          color="#4267B2" 
-                          style={style.facebook}
-                          />
-
-                    </View>
-
-                    <Text
-                      style={style.signUp}
-                      onPress={()=>this.props.navigation.navigate('Signup')}>
-                        Don't have an account? Sign up here
-                    </Text>
-
-                </View> */}
 
             </View>
         )
@@ -483,6 +420,7 @@ const style = StyleSheet.create({
 
     signUp: {
         alignSelf:'center',
+        textAlign:'center',
         fontSize: 16,
         fontWeight: '300',
         marginTop: '5%'
