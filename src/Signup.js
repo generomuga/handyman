@@ -14,6 +14,8 @@ import {
     Button
 } from './styles';
 
+import formValidator from './functions/formValidator';
+
 import { 
     FontAwesome5, 
     FontAwesome 
@@ -40,88 +42,34 @@ export default class Signup extends Component {
         }
     }
 
-    isEmailEmpty(text) {
-        if (text.trim() === '') {
-            this.setState({errorMsg: '* Your email is empty.'})
-            return true
-        }
-        else {
-            this.setState({errorMsg: ''})
-            return false
-        }
-    }
-
-    isPasswordEmpty(text) {
-        if (text.trim() === '') {
-            this.setState({errorMsg: '* Your password is empty.'})
-            return true
-        }
-        else {
-            this.setState({errorMsg: ''})
-            return false
-        }
-    }
-
-    isNotValidEmail(text) {
-        let pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        if (pattern.test(text) === false) {
-            this.setState({errorMsg: '* Your email is invalid.'})
-            return true;
-        }
-        else {
-            this.setState({errorMsg: ''})
-            return false
-        }
-    }
-
-    isNotValidPassword(text) {
-        if (text.length < 8 || text.trim() === '') {
-            this.setState({errorMsg: '* Your password should be atleast 8 characters.'})
-            return true
-        }
-        else {
-            this.setState({errorMsg: ''})
-            return false
-        }
-    }
-
-    isNotSamePassword(password,rePassword) {
-        if (password != rePassword) {
-            this.setState({errorMsg: '* Your password and confirm password should be matched.'})
-            return true
-        }
-        else {
-            this.setState({errorMsg: ''})
-            return false
-        }
-    }
-
     _onSignUpPress() {
         
         const {email, password, errorMsg, confirmPassword} = this.state;
 
-        if (this.isEmailEmpty(email)) {
-            console.log('Empty email')
+        this.setState({errorMsg:''});
+
+        if (formValidator.isEmailEmpty(email)) {
+            this.setState({errorMsg: '* Your email is empty.'})
             return
         }
 
-        if (this.isNotValidEmail(email)) {
-            console.log('Invalid email')
+        if (formValidator.isNotValidEmail(email)) {
+            this.setState({errorMsg: '* Your email is invalid.'})
             return
         }
 
-        if (this.isPasswordEmpty(password)) {
-            console.log('Empty password')
+        if (formValidator.isPasswordEmpty(password)) {
+            this.setState({errorMsg: '* Your password is empty.'})
             return
         }
 
-        if (this.isNotValidPassword(password)) {
-            console.log('Not valid password')
+        if (formValidator.isNotValidPassword(password)) {
+            this.setState({errorMsg: '* Your password should be atleast 8 characters.'})
             return
         }
 
-        if (this.isNotSamePassword(password, confirmPassword)) {
-            console.log('Password did not match')
+        if (formValidator.isNotSamePassword(password, confirmPassword)) {
+            this.setState({errorMsg: '* Your password and confirm password should be matched.'})
             return
         }
 
