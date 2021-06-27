@@ -5,7 +5,9 @@
     "name": "handyman",
     "slug": "handyman",
     "version": "1.0.0d",
-    "facebookScheme": "fb489615325448707",
+    "facebookScheme": "fb491440875477602",
+    "facebookAppId": "491440875477602",
+    "facebookDisplayName": "Hugefort Handyman Plus",
     "assetBundlePatterns": [
       "**/*"
     ],
