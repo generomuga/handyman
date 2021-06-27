@@ -36,6 +36,8 @@ export default class Login extends Component {
 
     componentDidMount() {
       this.checkIfLoggedIn();
+    //   this.checkIfLoggedIn2();
+    //   Facebook.logOutAsync();
     }
   
     login = async() => {
@@ -212,32 +214,58 @@ export default class Login extends Component {
         
     }
 
+    toggleAuthAsync = async() => {
+        const auth = await Facebook.getAuthenticationCredentialAsync();
+      
+        if (!auth) {
+          // Log in
+        } else {
+          // Log out
+        }
+      }
+
     checkIfLoggedIn = () => {
+        const auth = Facebook.getAuthenticationCredentialAsync();
         firebase.auth().onAuthStateChanged(user => {
             
-          if (user) {
-              const user = firebase.auth().currentUser;
-                if (user !== null) {
-                 
-                  const emailVerified = user.emailVerified;
-                
-                  console.log(emailVerified);
+            if (user || auth) {
+                const user = firebase.auth().currentUser;
+                    if (user !== null) {
+                    
+                    const emailVerified = user.emailVerified;
+                    
+                    console.log(emailVerified);
 
-                  if (emailVerified === true) {
-                    this.props.navigation.navigate('Home')
-                  }
-                  else {
-                    this.props.navigation.navigate('Login')
-                    this.setState({errorMsg: '* Please verify your account through your email'})
-                  }
+                    if (emailVerified === true) {
+                        this.props.navigation.navigate('Home')
+                    }
+                    else {
+                        this.props.navigation.navigate('Login')
+                        this.setState({errorMsg: '* Please verify your account through your email'})
+                    }
                 }
 
             }
             else {
                 this.props.navigation.navigate('Login')
             }
+
         }
+
     )}
+
+    // checkIfLoggedIn2 = async() => {
+    //     const auth = Facebook.getAuthenticationCredentialAsync();
+
+    //     if (!auth) {
+    //         this.props.navigation.navigate('Login')
+    //         console.log('Wla na')
+    //     } else {
+    //         this.props.navigation.navigate('Home')
+    //         console.log('Meron pa')
+    //         Facebook.logOutAsync()
+    //     }
+    // }
 
     _onLoginPress() {
 

@@ -11,8 +11,18 @@ import ForgotPassword from './src/ForgotPassword';
 import { AntDesign } from '@expo/vector-icons';
 
 import * as firebase from 'firebase';
+import * as Facebook from 'expo-facebook';
 
 export default class App extends Component {
+
+  constructor(props){
+    super(props)
+    
+    Facebook.initializeAsync({
+      appId: '<APP_ID>',
+    });
+
+  }
 
   render() {
 
@@ -41,7 +51,11 @@ export default class App extends Component {
                                     size={26}
                                     color="#FAFAFA" 
                                     style={{marginRight:15}} 
-                                    onPress={()=>firebase.auth().signOut().then(()=>{}).catch((error) =>{})} />
+                                    onPress={()=>{
+                                      firebase.auth().signOut().then(()=>{}).catch((error) =>{}); 
+                                    }
+                                      
+                                      } />
                               </View>
                           ),
                           headerStyle: {
