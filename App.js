@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './src/Login';
 import Signup from './src/Signup';
 import Home from './src/Home';
+import ForgotPassword from './src/ForgotPassword';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -18,11 +19,14 @@ export default class App extends Component {
     return (
 
         <NavigationContainer>
+
             <Stack.Navigator initialRouteName='Login'>
+
                 <Stack.Screen 
                     name='Login' 
                     component={Login} 
                     options= {{headerShown: false}} />
+
                 <Stack.Screen 
                     name='Home' 
                     component={Home} 
@@ -48,6 +52,7 @@ export default class App extends Component {
                             alignSelf: 'center'
                           }
                     }} />
+
                 <Stack.Screen 
                     name='Signup' 
                     component={Signup} 
@@ -62,7 +67,24 @@ export default class App extends Component {
                             alignSelf: 'center'
                           }
                     }} />
+
+                <Stack.Screen 
+                  name='ForgotPassword' 
+                  component={ForgotPassword} 
+                  options= {{
+                        headerShown: true, 
+                        title: 'Forgot Password', 
+                        headerStyle: {
+                          backgroundColor: '#039BE5'
+                        },
+                        headerTintColor: '#FAFAFA',
+                        headerTitleStyle: {
+                          alignSelf: 'center'
+                        }
+                  }} />
+
             </Stack.Navigator>
+
         </NavigationContainer>
 
     );
