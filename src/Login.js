@@ -225,10 +225,9 @@ export default class Login extends Component {
       }
 
     checkIfLoggedIn = () => {
-        const auth = Facebook.getAuthenticationCredentialAsync();
         firebase.auth().onAuthStateChanged(user => {
             
-            if (user || auth) {
+            if (user) {
                 const user = firebase.auth().currentUser;
                     if (user !== null) {
                     
