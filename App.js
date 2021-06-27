@@ -53,9 +53,7 @@ export default class App extends Component {
                                     style={{marginRight:15}} 
                                     onPress={()=>{
                                       firebase.auth().signOut().then(()=>{}).catch((error) =>{}); 
-                                    }
-                                      
-                                      } />
+                                    }} />
                               </View>
                           ),
                           headerStyle: {
