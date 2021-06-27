@@ -191,11 +191,12 @@ export default class Login extends Component {
                 
                   console.log(emailVerified);
 
-                  if (emailVerified === 'true') {
+                  if (emailVerified === true) {
                     this.props.navigation.navigate('Home')
                   }
                   else {
                     this.props.navigation.navigate('Login')
+                    this.setState({errorMsg: '* Please verify your account through your email'})
                   }
                 }
 
@@ -231,8 +232,19 @@ export default class Login extends Component {
             .then((userCredential) => {
                 // Signed in
                 var user = userCredential.user;
-                this.props.navigation.navigate('Home')
-                // ...
+
+                const emailVerified = user.emailVerified;
+                
+                console.log(emailVerified);
+
+                if (emailVerified === true) {
+                    this.props.navigation.navigate('Home')
+                }
+                else {
+                    this.props.navigation.navigate('Login')
+                    this.setState({errorMsg: '* Please verify your account through your email'})
+                }
+                
             })
             .catch((error) => {
                 this.setState({errorMsg:'* Your email or password is incorrect.'})
