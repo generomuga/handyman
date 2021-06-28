@@ -20,7 +20,7 @@ export default class ForgotPassword extends Component {
     
     _onResetPress() {
 
-        const {email, errorMsg} = this.state;
+        const {email, confirm_email, errorMsg} = this.state;
 
         this.setState({errorMsg:''});
 
@@ -31,6 +31,11 @@ export default class ForgotPassword extends Component {
 
         if (formValidator.isNotValidEmail(email)) {
             this.setState({errorMsg: '* Your email is invalid.'})
+            return
+        }
+
+        if (formValidator.isNotSameText(email, confirm_email)) {
+            this.setState({errorMsg: '* Your email and confirm email should be matched.'})
             return
         }
 
@@ -54,6 +59,7 @@ export default class ForgotPassword extends Component {
 
         this.state = {
             email: '',
+            confirm_email: '',
             errorMsg: ''
         }
 
@@ -69,6 +75,14 @@ export default class ForgotPassword extends Component {
                         autoCapitalize='none' 
                         value={this.state.email}
                         onChangeText={email => this.setState({email})}
+                        />
+
+                    <TextInput 
+                        style={style.textInput} 
+                        placeholder='confirm email' 
+                        autoCapitalize='none' 
+                        value={this.state.confirm_email}
+                        onChangeText={confirm_email => this.setState({confirm_email})}
                         />
 
                     <Text 
