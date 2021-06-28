@@ -325,11 +325,15 @@ export default class Login extends Component {
         return (
             <View style={style.background}>
                 
-                <View style={{ flex: 2.5, backgroundColor: "#B3E5FC" }} >
+                <View style={{ flex: 2, backgroundColor: "#B3E5FC", justifyContent:"flex-start" }} >
 
                     <Image 
                         source={require('../assets/hugefort-ico.png')}
                         style={style.logo} />
+
+                </View >
+
+                <View style={{ flex: 0.5, backgroundColor: "#B3E5FC", justifyContent:'flex-start' }}>
 
                     <Text
                       style={style.tagline}>
@@ -338,7 +342,7 @@ export default class Login extends Component {
 
                 </View>
 
-                <View style={{ flex: 2.5, backgroundColor: "#B3E5FC", justifyContent:'center' }} >
+                <View style={{ flex: 2.5, backgroundColor: "green", justifyContent:'center' }} >
 
                     <TextInput 
                         style={style.textInput} 
@@ -420,8 +424,8 @@ const style = StyleSheet.create({
     logo: {
         width: 300,
         height: 300, 
-        alignSelf:'center', 
-        marginTop:'5%',
+        alignSelf:'center',
+        marginTop: 20
     },
 
     tagline:{
@@ -429,8 +433,7 @@ const style = StyleSheet.create({
         position: 'absolute',
         alignSelf: 'center',
         fontSize: 18,
-        fontWeight: '400',
-        marginTop: '51%'
+        fontWeight: '400'
     },
 
     background:{
@@ -443,8 +446,8 @@ const style = StyleSheet.create({
         ...InputText.padding,
         ...InputText.color,
         ...InputText.text_alignment,
-        marginLeft: '10%',
-        marginRight: '10%',
+        marginLeft: 40,
+        marginRight: 40,
         marginBottom: 10
     },
 
@@ -453,11 +456,11 @@ const style = StyleSheet.create({
         ...Button.color,
         ...Button.padding,
         ...Button.alignment,
-        marginLeft: '10%',
-        marginRight: '10%',
-        padding:'4%',
+        marginLeft: 40,
+        marginRight: 40,
+        padding: 15,
         alignSelf: 'stretch',
-        marginBottom: '5%'
+        marginBottom: 20
     },
 
     touchButtonLabel:{
