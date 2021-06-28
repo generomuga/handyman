@@ -268,6 +268,8 @@ export default class Login extends Component {
 
     _onLoginPress() {
 
+        this.storeHighScore('1','100');
+
         const {email, password, errorMsg} = this.state;
 
         this.setState({errorMsg:''});
@@ -309,6 +311,15 @@ export default class Login extends Component {
                 this.setState({errorMsg:'* Your email or password is incorrect.'})
             });
     }
+
+    storeHighScore(userId, score) {
+        firebase
+          .database()
+          .ref('users/' + userId)
+          .set({
+            highscore: score,
+          });
+      }
 
     constructor(props){
         super(props)
