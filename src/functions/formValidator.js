@@ -41,8 +41,8 @@ class FormValidator {
         }
     }
 
-    isNotSamePassword(password,rePassword) {
-        if (password != rePassword) {
+    isNotSameText(text1,text2) {
+        if (text1 != text2) {
             // console.log('Password didnt match new')
             return true
         }
