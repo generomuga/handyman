@@ -17,11 +17,6 @@ export default class App extends Component {
 
   constructor(props){
     super(props)
-    
-    Facebook.initializeAsync({
-      appId: '<APP_ID>',
-    });
-
   }
 
   render() {
