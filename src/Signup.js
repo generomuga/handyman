@@ -68,7 +68,7 @@ export default class Signup extends Component {
             return
         }
 
-        if (formValidator.isNotSamePassword(password, confirmPassword)) {
+        if (formValidator.isNotSameText(password, confirmPassword)) {
             this.setState({errorMsg: '* Your password and confirm password should be matched.'})
             return
         }
