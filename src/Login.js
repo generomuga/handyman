@@ -325,7 +325,7 @@ export default class Login extends Component {
         return (
             <View style={style.background}>
                 
-                <View style={{ flex: 2, backgroundColor: "#B3E5FC", justifyContent:"flex-start" }} >
+                <View style={{ flex:2.9, backgroundColor: "#B3E5FC", justifyContent:"flex-start" }} >
 
                     <Image 
                         source={require('../assets/hugefort-ico.png')}
@@ -333,7 +333,7 @@ export default class Login extends Component {
 
                 </View >
 
-                <View style={{ flex: 0.5, backgroundColor: "#B3E5FC", justifyContent:'flex-start' }}>
+                <View style={{ flex: 1.1, backgroundColor: "#B3E5FC", justifyContent:'flex-start' }}>
 
                     <Text
                       style={style.tagline}>
@@ -342,7 +342,7 @@ export default class Login extends Component {
 
                 </View>
 
-                <View style={{ flex: 2.5, backgroundColor: "green", justifyContent:'center' }} >
+                <View style={{ flex: 4.5, backgroundColor: "#B3E5FC", justifyContent:'center' }} >
 
                     <TextInput 
                         style={style.textInput} 
@@ -481,19 +481,19 @@ const style = StyleSheet.create({
     },
 
     viewGoogleFb: {
-        marginTop: '5%',
+        marginTop: 10,
         flexDirection: 'row',
         alignSelf: 'center',
     },
 
     google: {
         alignSelf:'center',
-        margin: '2%'
+        margin: 10
     },
 
     facebook: {
         alignSelf:'center',
-        margin: '2%'
+        margin: 10
     },
 
     signUp: {
@@ -501,7 +501,7 @@ const style = StyleSheet.create({
         textAlign:'center',
         fontSize: 16,
         fontWeight: '300',
-        marginTop: '5%'
+        marginTop: 10
     }
 
 });
