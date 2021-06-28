@@ -3,37 +3,10 @@ import { View, Text, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-function HomeTab() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Home!</Text>
-      </View>
-    );
-  }
-  
-function BookTab() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Book!</Text>
-        </View>
-    );
-}
-
-function NotificationTab() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Notification!</Text>
-        </View>
-    );
-}
-
-function MeTab() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Me!</Text>
-        </View>
-    );
-}
+import HomeTab from './HomeTab';
+import BookTab from './BookTab';
+import NotificationTab from './NotifcationTab';
+import MeTab from './MeTab';
 
 const Tab = createBottomTabNavigator();
 
