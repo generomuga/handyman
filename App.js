@@ -10,6 +10,8 @@ import ForgotPassword from './src/ForgotPassword';
 
 import { AntDesign } from '@expo/vector-icons';
 
+import authentication from './src/functions/authentication';
+
 import * as firebase from 'firebase';
 import * as Facebook from 'expo-facebook';
 
