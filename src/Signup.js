@@ -21,12 +21,16 @@ import {
     FontAwesome 
 } from '@expo/vector-icons';
 
-import * as firebase from 'firebase';
-import { firebaseConfig } from './config/config';
+import initFirebase from './functions/initFirebase';
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+initFirebase.init_firebase();
+
+// import * as firebase from 'firebase';
+// import { firebaseConfig } from './config/config';
+
+// if (!firebase.apps.length) {
+//   firebase.initializeApp(firebaseConfig);
+// }
 
 export default class Signup extends Component {
 
@@ -81,8 +85,7 @@ export default class Signup extends Component {
 
                 firebase.auth().currentUser.sendEmailVerification()
                 .then(() => {
-                    // Email verification sent!
-                    // ...
+                    
                 });
             })
             .catch((error) => {
