@@ -15,22 +15,14 @@ import {
 } from './styles';
 
 import formValidator from './functions/formValidator';
+import database from './functions/database';
 
 import { 
     FontAwesome5, 
     FontAwesome 
 } from '@expo/vector-icons';
 
-import initFirebase from './functions/initFirebase';
-
-initFirebase.init_firebase();
-
-// import * as firebase from 'firebase';
-// import { firebaseConfig } from './config/config';
-
-// if (!firebase.apps.length) {
-//   firebase.initializeApp(firebaseConfig);
-// }
+database.init();
 
 export default class Signup extends Component {
 

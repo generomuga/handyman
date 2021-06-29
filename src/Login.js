@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { 
     Image, 
     View, 
@@ -15,242 +16,36 @@ import {
     Button 
 } from './styles';
 
-import formValidator from './functions/formValidator';
-
 import * as firebase from 'firebase';
-// import { firebaseConfig } from './config/config';
-import initFirebase from './functions/initFirebase';
 
-import * as Google from 'expo-google-app-auth';
-import * as Facebook from 'expo-facebook';
+import formValidator from './functions/formValidator';
+import database from './functions/database';
+import authentication from './functions/authentication';
 
 import { 
     FontAwesome5, 
     FontAwesome 
 } from '@expo/vector-icons';
 
-// if (!firebase.apps.length) {
-//   firebase.initializeApp(firebaseConfig);
-// }
-
-initFirebase.init_firebase();
+database.init();
 
 export default class Login extends Component {
 
     componentDidMount() {
-      this.checkIfLoggedIn();
-    //   this.checkIfLoggedIn2();
-    //   Facebook.logOutAsync();
+        this.checkIfLoggedIn();
     }
   
-    login = async() => {
-        try {
-          await Facebook.initializeAsync({
-            appId: '491440875477602',
-          });
-          const {
-            type,
-            token,
-            expirationDate,
-            permissions,
-            declinedPermissions,
-          } = await Facebook.logInWithReadPermissionsAsync({
-            permissions: ['public_profile'],
-          });
-          if (type === 'success') {
-            // Get the user's name using Facebook's Graph API
-            const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-            Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-          } else {
-            // type === 'cancel'
-          }
-        } catch ({ message }) {
-          alert(`Facebook Login Error: ${message}`);
-        }
-    }
+    // registerUser(uid,firstName,email) {
 
-    fbLogIn = async() => {
-        
-        let appIds = '491440875477602';
-
-        try {
-            await Facebook.initializeAsync({appId:appIds});
-            const {
-              type,
-              token,
-              expirationDate,
-              permissions,
-              declinedPermissions,
-              appId, 
-            } = await Facebook.logInWithReadPermissionsAsync({
-              permissions: ['public_profile'],
-            });
-            if (type === 'success') {
-                // Get the user's name using Facebook's Graph API
-                const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-                Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-                console.log(appId);
-
-                const credential = firebase.auth.FacebookAuthProvider.credential(token)
-        
-                firebase.auth().signInWithCredential(credential).catch((error) => {
-                    console.log(error)
-                }
-                )
-            } else {
-              // type === 'cancel'
-            }
-          } catch ({ message }) {
-            alert(`Facebook Login Error: ${message}`);
-          }
-       
-    }
-
-    checkLoginState = (response) => {
-        if (response.authResponse) {
-          // User is signed-in Facebook.
-          var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
-            unsubscribe(); 
-            // Check if we are already signed-in Firebase with the correct user.
-            if (!this.isUserEqualFacebook(response.authResponse, firebaseUser)) {
-                // Build Firebase credential with the Facebook auth token.
-                var credential = firebase.auth.FacebookAuthProvider.credential(response.authResponse.accessToken);
-                // Sign in with the credential from the Facebook user.
-                firebase.auth().signInWithCredential(credential)
-                  .catch((error) => {
-                    // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    // The email of the user's account used.
-                    var email = error.email;
-                    // The firebase.auth.AuthCredential type that was used.
-                    var credential = error.credential;
-                    // ...
-                  });
-            } else {
-              // User is already signed-in Firebase with the correct user.
-            }
-          });
-        } 
-        else {
-          // User is signed-out of Facebook.
-          // firebase.auth().signOut();
-          // console.log('Eyys')
-        }
-    }
-
-    isUserEqualGoogle = (googleUser, firebaseUser) => {
-        if (firebaseUser) {
-            var providerData = firebaseUser.providerData;
-            for (var i = 0; i < providerData.length; i++) {
-                if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-                    providerData[i].uid === googleUser.getBasicProfile().getId()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    isUserEqualFacebook = (facebookAuthResponse, firebaseUser) => {
-        if (firebaseUser) {
-            var providerData = firebaseUser.providerData;
-            for (var i = 0; i < providerData.length; i++) {
-                if (providerData[i].providerId === firebase.auth.FacebookAuthProvider.PROVIDER_ID &&
-                    providerData[i].uid === facebookAuthResponse.userID) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    registerUser(uid,firstName,email) {
-
-        // const db = initFirebase.init_firebase();
-        firebase
-          .database()
-          .ref('users/' + uid)
-          .set({
-            first_name: firstName,
-            email: email
-          });
-    }
-
-    onSignIn = googleUser => {
-        console.log('Google Auth Response', googleUser);
-
-        // We need to register an Observer on Firebase Auth to make sure auth is initialized.
-        var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
-            unsubscribe();
-            // Check if we are already signed-in Firebase with the correct user.
-            if (!this.isUserEqualGoogle(googleUser, firebaseUser)) {
-                // Build Firebase credential with the Google ID token.
-                var credential = firebase.auth.GoogleAuthProvider.credential(
-                    // googleUser.getAuthResponse().id_token);
-                    googleUser.idToken,
-                    googleUser.accessToken
-                );
-                // Sign in with credential from the Google user.
-                firebase.auth().signInWithCredential(credential)
-                    .catch((error) => {
-                    // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    // The email of the user's account used.
-                    var email = error.email;
-                    // The firebase.auth.AuthCredential type that was used.
-                    var credential = error.credential;
-                    // ...
-                    });
-            } 
-            else {
-                console.log('User already signed-in Firebase.');
-            }
-        });
-
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-              // User logged in already or has just logged in.
-              console.log('UID'+user['uid']);
-              this.registerUser(user['uid'], user['displayName'], user['email']);
-            } else {
-              // User not logged in or has just logged out.
-            }
-          });
-
-    }
-
-    signInWithGoogleAsync = async() => {
-        try {
-            const result = await Google.logInAsync({
-              androidClientId: '876177652588-5fiqiq2vna74qg6aklen12vd1hpre723.apps.googleusercontent.com',
-              iosClientId: '876177652588-s599pfq4cm2k0lotu9erv319kbn1ibh9.apps.googleusercontent.com',
-              scopes: ['profile', 'email']}
-            );
-            if (result.type === 'success') {
-                this.onSignIn(result);
-                return result.accessToken;
-            } 
-            else {
-                return { cancelled: true };
-            }
-        } 
-        catch (e) {
-          return { error: true };
-        }
-        
-    }
-
-    toggleAuthAsync = async() => {
-        const auth = await Facebook.getAuthenticationCredentialAsync();
-      
-        if (!auth) {
-          // Log in
-        } else {
-          // Log out
-        }
-      }
+    //     // const db = initFirebase.init_firebase();
+    //     firebase
+    //       .database()
+    //       .ref('users/' + uid)
+    //       .set({
+    //         first_name: firstName,
+    //         email: email
+    //       });
+    // }
 
     checkIfLoggedIn = () => {
         firebase.auth().onAuthStateChanged(user => {
@@ -265,6 +60,7 @@ export default class Login extends Component {
 
                     if (emailVerified === true) {
                         this.props.navigation.navigate('Home')
+                        database.registerUser(user);
                     }
                     else {
                         this.props.navigation.navigate('Login')
@@ -281,22 +77,7 @@ export default class Login extends Component {
 
     )}
 
-    // checkIfLoggedIn2 = async() => {
-    //     const auth = Facebook.getAuthenticationCredentialAsync();
-
-    //     if (!auth) {
-    //         this.props.navigation.navigate('Login')
-    //         console.log('Wla na')
-    //     } else {
-    //         this.props.navigation.navigate('Home')
-    //         console.log('Meron pa')
-    //         Facebook.logOutAsync()
-    //     }
-    // }
-
     _onLoginPress() {
-
-        this.storeHighScore('1','100');
 
         const {email, password, errorMsg} = this.state;
 
@@ -339,15 +120,6 @@ export default class Login extends Component {
                 this.setState({errorMsg:'* Your email or password is incorrect.'})
             });
     }
-
-    storeHighScore(userId, score) {
-        firebase
-          .database()
-          .ref('users/' + userId)
-          .set({
-            highscore: score,
-          });
-      }
 
     constructor(props){
         super(props)
@@ -431,7 +203,8 @@ export default class Login extends Component {
                           size={77} 
                           color="#d34836" 
                           style={style.google}
-                          onPress={() => this.signInWithGoogleAsync()}
+                        //   onPress={() => this.signInWithGoogleAsync()}
+                          onPress={() => authentication.signInWithGoogleAsync()}
                           />
 
                         <FontAwesome5 
