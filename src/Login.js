@@ -18,7 +18,8 @@ import {
 import formValidator from './functions/formValidator';
 
 import * as firebase from 'firebase';
-import { firebaseConfig } from './config/config';
+// import { firebaseConfig } from './config/config';
+import initFirebase from './functions/initFirebase';
 
 import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
@@ -28,9 +29,11 @@ import {
     FontAwesome 
 } from '@expo/vector-icons';
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+// if (!firebase.apps.length) {
+//   firebase.initializeApp(firebaseConfig);
+// }
+
+initFirebase.init_firebase();
 
 export default class Login extends Component {
 
@@ -162,8 +165,21 @@ export default class Login extends Component {
         return false;
     }
 
+    registerUser(uid,firstName,email) {
+
+        // const db = initFirebase.init_firebase();
+        firebase
+          .database()
+          .ref('users/' + uid)
+          .set({
+            first_name: firstName,
+            email: email
+          });
+    }
+
     onSignIn = googleUser => {
         console.log('Google Auth Response', googleUser);
+
         // We need to register an Observer on Firebase Auth to make sure auth is initialized.
         var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
             unsubscribe();
@@ -176,21 +192,33 @@ export default class Login extends Component {
                     googleUser.accessToken
                 );
                 // Sign in with credential from the Google user.
-                firebase.auth().signInWithCredential(credential).catch((error) => {
-                  // Handle Errors here.
-                  var errorCode = error.code;
-                  var errorMessage = error.message;
-                  // The email of the user's account used.
-                  var email = error.email;
-                  // The firebase.auth.AuthCredential type that was used.
-                  var credential = error.credential;
-                  // ...
-                });
+                firebase.auth().signInWithCredential(credential)
+                    .catch((error) => {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // The email of the user's account used.
+                    var email = error.email;
+                    // The firebase.auth.AuthCredential type that was used.
+                    var credential = error.credential;
+                    // ...
+                    });
             } 
             else {
                 console.log('User already signed-in Firebase.');
             }
         });
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              // User logged in already or has just logged in.
+              console.log('UID'+user['uid']);
+              this.registerUser(user['uid'], user['displayName'], user['email']);
+            } else {
+              // User not logged in or has just logged out.
+            }
+          });
+
     }
 
     signInWithGoogleAsync = async() => {
@@ -233,7 +261,7 @@ export default class Login extends Component {
                     
                     const emailVerified = user.emailVerified;
                     
-                    console.log(emailVerified);
+                    console.log('ngang'+emailVerified);
 
                     if (emailVerified === true) {
                         this.props.navigation.navigate('Home')
