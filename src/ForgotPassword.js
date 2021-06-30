@@ -7,7 +7,7 @@ import {
     Button 
 } from './styles';
 
-import formValidator from './functions/formValidator';
+import validation from './functions/validation';
 
 import * as firebase from 'firebase';
 
@@ -24,17 +24,17 @@ export default class ForgotPassword extends Component {
 
         this.setState({errorMsg:''});
 
-        if (formValidator.isEmailEmpty(email)) {
+        if (validation.isEmailEmpty(email)) {
             this.setState({errorMsg: '* Your email is empty.'})
             return
         }
 
-        if (formValidator.isNotValidEmail(email)) {
+        if (validation.isNotValidEmail(email)) {
             this.setState({errorMsg: '* Your email is invalid.'})
             return
         }
 
-        if (formValidator.isNotSameText(email, confirm_email)) {
+        if (validation.isNotSameText(email, confirm_email)) {
             this.setState({errorMsg: '* Your email and confirm email should be matched.'})
             return
         }
