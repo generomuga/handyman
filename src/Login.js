@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import { 
     Image, 
-    View, 
+    SafeAreaView, 
+    View,
     TextInput, 
     Text, 
     TouchableOpacity, 
@@ -18,7 +19,7 @@ import {
 
 import * as firebase from 'firebase';
 
-import formValidator from './functions/formValidator';
+import validation from './functions/validation';
 import database from './functions/database';
 import authentication from './functions/authentication';
 
@@ -35,18 +36,6 @@ export default class Login extends Component {
         this.checkIfLoggedIn();
     }
   
-    // registerUser(uid,firstName,email) {
-
-    //     // const db = initFirebase.init_firebase();
-    //     firebase
-    //       .database()
-    //       .ref('users/' + uid)
-    //       .set({
-    //         first_name: firstName,
-    //         email: email
-    //       });
-    // }
-
     checkIfLoggedIn = () => {
         firebase.auth().onAuthStateChanged(user => {
             
@@ -83,17 +72,17 @@ export default class Login extends Component {
 
         this.setState({errorMsg:''});
 
-        if (formValidator.isEmailEmpty(email)) {
+        if (validation.isEmailEmpty(email)) {
             this.setState({errorMsg: '* Your email is empty.'})
             return
         }
 
-        if (formValidator.isNotValidEmail(email)) {
+        if (validation.isNotValidEmail(email)) {
             this.setState({errorMsg: '* Your email is invalid.'})
             return
         }
 
-        if (formValidator.isPasswordEmpty(password)) {
+        if (validation.isPasswordEmpty(password)) {
             this.setState({errorMsg: '* Your password is empty.'})
             return
         }
@@ -134,7 +123,7 @@ export default class Login extends Component {
 
     render(){
         return (
-            <View style={style.background}>
+            <SafeAreaView style={style.background}>
                 
                 <View style={{ flex:2.9, backgroundColor: "#B3E5FC", justifyContent:"flex-start" }} >
 
@@ -225,7 +214,7 @@ export default class Login extends Component {
 
                 </View>
 
-            </View>
+            </SafeAreaView>
         )
     }
 
