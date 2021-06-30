@@ -14,7 +14,7 @@ import {
     Button
 } from './styles';
 
-import formValidator from './functions/formValidator';
+import validation from './functions/validation';
 import database from './functions/database';
 
 import { 
@@ -44,27 +44,27 @@ export default class Signup extends Component {
 
         this.setState({errorMsg:''});
 
-        if (formValidator.isEmailEmpty(email)) {
+        if (validation.isEmailEmpty(email)) {
             this.setState({errorMsg: '* Your email is empty.'})
             return
         }
 
-        if (formValidator.isNotValidEmail(email)) {
+        if (validation.isNotValidEmail(email)) {
             this.setState({errorMsg: '* Your email is invalid.'})
             return
         }
 
-        if (formValidator.isPasswordEmpty(password)) {
+        if (validation.isPasswordEmpty(password)) {
             this.setState({errorMsg: '* Your password is empty.'})
             return
         }
 
-        if (formValidator.isNotValidPassword(password)) {
+        if (validation.isNotValidPassword(password)) {
             this.setState({errorMsg: '* Your password should be atleast 8 characters.'})
             return
         }
 
-        if (formValidator.isNotSameText(password, confirmPassword)) {
+        if (validation.isNotSameText(password, confirmPassword)) {
             this.setState({errorMsg: '* Your password and confirm password should be matched.'})
             return
         }
