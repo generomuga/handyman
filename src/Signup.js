@@ -22,7 +22,7 @@ import {
     FontAwesome 
 } from '@expo/vector-icons';
 
-database.init();
+// database.init();
 
 export default class Signup extends Component {
 
