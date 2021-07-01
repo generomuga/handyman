@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, SafeAreaView, Button } from 'react-native';
+import { 
+    View, 
+    Text, 
+    TextInput, 
+    SafeAreaView, 
+    Button,
+    TouchableOpacity
+} from 'react-native';
 
 import * as firebase from 'firebase';
 
@@ -29,6 +36,36 @@ export default class MeTab extends Component {
           });
     }
 
+    updateUserDetails() {
+        const dbRef = firebase.database().ref();
+        const user = firebase.auth().currentUser;
+        const userId = user['uid'];
+
+        var updates = {};
+        updates['displayName'] = this.state.displayName;
+
+        dbRef.child("users").child(userId).update(updates);
+
+    }
+
+    _onPressButton() {
+     
+        const {isDisplayNameEditable, buttonLabel } = this.state;
+
+        if (isDisplayNameEditable === 'true') {
+            this.setState({isDisplayNameEditable:'false'});
+            this.setState({buttonLabel:'Login'});
+            this.updateUserDetails();
+            
+        }
+        else {
+            this.setState({isDisplayNameEditable:'true'});
+            this.setState({buttonLabel:'Save'})
+            
+        }
+
+    }
+
     componentDidMount() {
         this.getUserDetails()
     }    
@@ -37,26 +74,34 @@ export default class MeTab extends Component {
         super(props)
 
         this.state = {
-            displayName: ''
+            displayName: '',
+            isDisplayNameEditable: 'false',
+            buttonLabel: 'Login'
         }
 
     }
 
     render(){
         return (
-            <View>
-
-                <Text>Nganga</Text>
+            <SafeAreaView>
 
                 <TextInput 
                     // style={style.textInput} 
                     placeholder='email' 
                     autoCapitalize='none' 
                     value={this.state.displayName}
+                    editable={this.state.isDisplayNameEditable}
                     onChangeText={displayName => this.setState({displayName})}
                     />
 
-            </View>
+                <TouchableOpacity 
+                    // style={style.touchButton}
+                    onPress={()=>this._onPressButton()}
+                    >
+                    <Text>{this.state.buttonLabel}</Text>
+                </TouchableOpacity>
+
+            </SafeAreaView>
         )
     }
 
