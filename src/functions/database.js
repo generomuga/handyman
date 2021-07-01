@@ -21,8 +21,10 @@ class Database {
                 displayName: user['displayName'],
                 email: user['email'],
                 emailVerified: user['emailVerified'],
+                photoURL: user['photoURL'],
                 phoneNumber: user['phoneNumber'],
                 metadata: user['metadata']
+                // photoUrl: user.photoUrl
             });
     }
 
