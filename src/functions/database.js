@@ -14,6 +14,7 @@ class Database {
     }
 
     registerUser(user) {
+
         firebase
             .database()
             .ref('users/' + user['uid'])
@@ -22,8 +23,9 @@ class Database {
                 email: user['email'],
                 emailVerified: user['emailVerified'],
                 photoURL: user['photoURL'],
-                phoneNumber: user['phoneNumber'],
-                metadata: user['metadata']
+                // contactNo: typeof user['contactNo'] !== 'undefined' ? user['contactNo'] : 'not set',
+                // address: typeof user['address'] !== 'undefined' ? user['address'] : 'not set',
+                // metadata: user['metadata']
                 // photoUrl: user.photoUrl
             });
     }
