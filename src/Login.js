@@ -54,6 +54,7 @@ export default class Login extends Component {
                     else {
                         this.props.navigation.navigate('Login')
                         this.setState({errorMsg: '* Please verify your account through your email'})
+                        // database.registerUser(user);
                     }
                 }
 
