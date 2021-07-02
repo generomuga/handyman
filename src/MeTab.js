@@ -60,7 +60,7 @@ export default class MeTab extends Component {
             this.setState({isContactNoEditable:false});
             this.setState({isAddressEditable:false});
 
-            this.setState({buttonLabel:'Login'});
+            this.setState({buttonLabel:'Edit'});
 
             this.updateUserDetails();
             
@@ -92,7 +92,7 @@ export default class MeTab extends Component {
             isEmailEditable: false,
             isContactNoEditable: false,
             isAddressEditable: false,
-            buttonLabel: 'Login'
+            buttonLabel: 'Edit'
         }
 
     }
