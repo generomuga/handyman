@@ -41,27 +41,23 @@ export default class Login extends Component {
             
             if (user) {
                 const user = firebase.auth().currentUser;
-                    if (user !== null) {
+                    
+                if (user !== null) {
                     
                     const emailVerified = user.emailVerified;
                     
-                    console.log('ngang'+emailVerified);
+                    //const dbRef = firebase.database().ref();
 
-
-                    const dbRef = firebase.database().ref();
-
-                    dbRef
-                        .child('users')
-                        .child(user['uid'])
-                        .get()                        
-                        .then(snapshot => {
-                            if (snapshot.exists()) {
-                                console.log('user exists in db');
-                            } else {
-                                console.log('not found');
-                                database.registerUser(user);
-                            }
-                        });
+                    // dbRef.child('users').child(user['uid']).get()                        
+                    //     .then(snapshot => {
+                    //         if (snapshot.exists()) {
+                    //             console.log('user exists in db');
+                    //         } else {
+                    //             console.log('not found');
+                    //             database.registerUser(user);
+                    //         }
+                    //     });
+                    database.isUserExists(user);
 
                     if (emailVerified === true) {
                         this.props.navigation.navigate('Home')
