@@ -47,14 +47,31 @@ export default class Login extends Component {
                     
                     console.log('ngang'+emailVerified);
 
+
+                    const dbRef = firebase.database().ref();
+
+                    dbRef
+                        .child('users')
+                        .child(user['uid'])
+                        .get()                        
+                        .then(snapshot => {
+                            if (snapshot.exists()) {
+                                console.log('user exists in db');
+                            } else {
+                                console.log('not found');
+                                database.registerUser(user);
+                            }
+                        });
+
                     if (emailVerified === true) {
                         this.props.navigation.navigate('Home')
-                        database.registerUser(user);
                     }
+                    
                     else {
                         this.props.navigation.navigate('Login')
                         this.setState({errorMsg: '* Please verify your account through your email'})
                         // database.registerUser(user);
+                        console.log('wala')
                     }
                 }
 
@@ -117,7 +134,8 @@ export default class Login extends Component {
         this.state = {
             email: '',
             password: '',
-            errorMsg: ''
+            errorMsg: '',
+            isRegistered: false
         }
 
     }
