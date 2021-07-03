@@ -34,8 +34,8 @@ export default class MeTab extends Component {
               this.setState({displayName:data['displayName']});
               this.setState({email:data['email']});
               this.setState({photoURL:data['photoURL']});
-            //   this.setState({contactNo:data['contactNo']});
-            //   this.setState({address:data['address']});
+              this.setState({contactNo:data['contactNo']});
+              this.setState({address:data['address']});
             } else {
               console.log("No data available");
             }
@@ -51,8 +51,8 @@ export default class MeTab extends Component {
 
         var updates = {};
         updates['displayName'] = this.state.displayName;
-        // updates['contactNo'] = this.state.contactNo;
-        // updates['address'] = this.state.address;
+        updates['contactNo'] = this.state.contactNo;
+        updates['address'] = this.state.address;
 
         dbRef.child("users").child(userId).update(updates);
 
@@ -64,8 +64,8 @@ export default class MeTab extends Component {
 
         if (isDisplayNameEditable === true) {
             this.setState({isDisplayNameEditable:false});
-            // this.setState({isContactNoEditable:false});
-            // this.setState({isAddressEditable:false});
+            this.setState({isContactNoEditable:false});
+            this.setState({isAddressEditable:false});
 
             this.setState({buttonLabel:'Edit'});
 
@@ -74,8 +74,8 @@ export default class MeTab extends Component {
         }
         else {
             this.setState({isDisplayNameEditable:true});
-            // this.setState({isContactNoEditable:true});
-            // this.setState({isAddressEditable:true});
+            this.setState({isContactNoEditable:true});
+            this.setState({isAddressEditable:true});
 
             this.setState({buttonLabel:'Save'})
             
@@ -94,8 +94,8 @@ export default class MeTab extends Component {
             photoURL: '',
             displayName: '',
             email: '',
-            // contactNo: '',
-            // address: '',
+            contactNo: '',
+            address: '',
             isDisplayNameEditable: false,
             isEmailEditable: false,
             isContactNoEditable: false,
@@ -132,7 +132,7 @@ export default class MeTab extends Component {
                     onChangeText={email => this.setState({email})}
                     />
 
-                {/* <TextInput 
+                <TextInput 
                     // style={style.textInput} 
                     placeholder='contact number' 
                     autoCapitalize='none' 
@@ -148,7 +148,7 @@ export default class MeTab extends Component {
                     value={this.state.address?this.state.address:null}
                     editable={this.state.isAddressEditable}
                     onChangeText={address => this.setState({address})}
-                    /> */}
+                    />
 
                 <TouchableOpacity 
                     // style={style.touchButton}
