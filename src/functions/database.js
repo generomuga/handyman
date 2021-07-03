@@ -19,17 +19,16 @@ class Database {
             .database()
             .ref('users/' + user['uid'])
             .set({
-                displayName: user['displayName'],
+                displayName: user['displayName'] ? user['displayName'] : 'not set',
                 email: user['email'],
                 emailVerified: user['emailVerified'],
-                photoURL: user['photoURL'],
+                photoURL: user['photoURL'] ? user['photoURL'] : null,
                 // contactNo: typeof user['contactNo'] !== 'undefined' ? user['contactNo'] : 'not set',
                 // address: typeof user['address'] !== 'undefined' ? user['address'] : 'not set',
                 // metadata: user['metadata']
                 // photoUrl: user.photoUrl
             });
     }
-
 }
 
 const database = new Database();
