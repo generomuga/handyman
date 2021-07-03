@@ -40,6 +40,30 @@ class Database {
                 }
             });
     }
+
+    loginWithEmailAndPassword(email, password) {
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                var user = userCredential.user;
+                const emailVerified = user.emailVerified;
+
+                if (emailVerified === true) {
+                    this.props.navigation.navigate('Home')
+                }
+
+                else {
+                    // return false
+                    this.props.navigation.navigate('Login')
+                    // this.setState({errorMsg: '* Please verify your account through your email'})
+                }
+
+            })
+            .catch((error) => {
+                // this.setState({errorMsg:'* Your email or password is incorrect.'})
+                // return false
+            });
+    }
+
 }
 
 const database = new Database();
