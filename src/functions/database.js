@@ -21,7 +21,7 @@ class Database {
                 displayName: user['displayName'] ? user['displayName'] : '',
                 email: user['email'],
                 emailVerified: user['emailVerified'],
-                photoURL: user['photoURL'] ? user['photoURL'] : 'not set',
+                photoURL: user['photoURL'] ? user['photoURL'] : '',
                 contactNo: user['contactNo'] ? user['contactNo'] : 'not set',
                 address: user['address'] ? user['address'] : 'not set',
             });
