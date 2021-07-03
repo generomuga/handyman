@@ -12,7 +12,6 @@ import {
 import * as firebase from 'firebase';
 
 import database from './functions/database';
-import { cos } from 'react-native-reanimated';
 
 database.init();
 
@@ -111,7 +110,8 @@ export default class MeTab extends Component {
 
                 <Image 
                     style={{width:150,height:150,resizeMode:'contain'}}
-                    source={{uri:this.state.photoURL?this.state.photoURL:null}}
+                    source={{uri:this.state.photoURL?this.state.photoURL:Image.resolveAssetSource(require('../assets/user.png')).uri}}
+                    // source={{uri:Image.resolveAssetSource(require('../assets/user.png')).uri}}
                 />
 
                 <TextInput 
