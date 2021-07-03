@@ -15,7 +15,6 @@ import {
 } from './styles';
 
 import validation from './functions/validation';
-import database from './functions/database';
 
 import * as firebase from 'firebase';
 
@@ -24,7 +23,7 @@ import {
     FontAwesome 
 } from '@expo/vector-icons';
 
-database.init();
+// database.init();
 
 export default class Signup extends Component {
 
