@@ -46,17 +46,6 @@ export default class Login extends Component {
                     
                     const emailVerified = user.emailVerified;
                     
-                    //const dbRef = firebase.database().ref();
-
-                    // dbRef.child('users').child(user['uid']).get()                        
-                    //     .then(snapshot => {
-                    //         if (snapshot.exists()) {
-                    //             console.log('user exists in db');
-                    //         } else {
-                    //             console.log('not found');
-                    //             database.registerUser(user);
-                    //         }
-                    //     });
                     database.isUserExists(user);
 
                     if (emailVerified === true) {
@@ -66,7 +55,6 @@ export default class Login extends Component {
                     else {
                         this.props.navigation.navigate('Login')
                         this.setState({errorMsg: '* Please verify your account through your email'})
-                        // database.registerUser(user);
                         console.log('wala')
                     }
                 }
