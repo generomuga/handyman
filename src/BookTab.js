@@ -121,7 +121,7 @@ export default class BookTab extends Component {
 
                 <ModalDropdown 
                     defaultValue="Payment method..."
-                    options={['Service']} >
+                    options={['Cash on service']} >
                 </ModalDropdown>
             </View>
         )
