@@ -13,6 +13,7 @@ export default class BookTab extends Component {
 
         // const listService = this.getServiceList('Repair');
         // this.setState({services:listService});
+        console.log('Meme');
     }
 
     constructor(props){
@@ -20,7 +21,9 @@ export default class BookTab extends Component {
 
         this.state = {
             categories: [],
-            services: []
+            services: [],
+            categoryValue: '',
+            serviceValue: ''
         }
 
     }
@@ -82,7 +85,7 @@ export default class BookTab extends Component {
                 }
             });
 
-        // console.log(items);
+        // console.log(items)
         return items;
 
     }
@@ -91,27 +94,29 @@ export default class BookTab extends Component {
         return (
             <View>
                 <ModalDropdown 
-                    defaultValue={this.state.categories[0]}
+                    // defaultValue='Select category'
                     options={this.state.categories} 
-                    onSelect={(value)=>{
-                                console.log('Vale',String(this.state.categories[value]));
-                                const listService = this.getServiceList(String(this.state.categories[value]));
-                                this.setState({services:listService})
+                    onSelect={(idx, value)=>{
+                                console.log('Vale',String(this.state.categories[idx]));
+                                this.setState({categoryValue:value})
+                                const listService = this.getServiceList(String(this.state.categories[idx]));
+                                this.setState({services:listService});
+                                this.setState({serviceValue:''});
                             }
                         }
-                    // renderRow={()=>this.setState({services:['tets']})}
                     >
+                        <Text>{this.state.categoryValue?this.state.categoryValue:'[Select category]'}</Text>
                 </ModalDropdown>
 
                 <ModalDropdown 
-                    defaultValue={this.state.services[0]}
+                    // defaultValue={this.state.services[0]}
                     options={this.state.services} 
                     //  ref={(ref)=> this.state.services = ref}
-                    onSelect={(value)=>{
-                    
+                    onSelect={(idx, value)=>{
+                        this.setState({serviceValue:value})
                     }}
                     >
-
+                        <Text>{this.state.serviceValue?this.state.serviceValue:'[Select service]'}</Text>
                 </ModalDropdown>
 
                 <ModalDropdown 
