@@ -19,11 +19,12 @@ class Database {
             .ref('users/' + user['uid'])
             .set({
                 displayName: user['displayName'] ? user['displayName'] : '',
+                gender: user['gender'] ? user['gender'] : '',
                 email: user['email'],
                 emailVerified: user['emailVerified'],
                 photoURL: user['photoURL'] ? user['photoURL'] : '',
-                contactNo: user['contactNo'] ? user['contactNo'] : 'not set',
-                address: user['address'] ? user['address'] : 'not set',
+                contactNo: user['contactNo'] ? user['contactNo'] : '',
+                address: user['address'] ? user['address'] : '',
             });
     }
 
