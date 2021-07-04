@@ -13,6 +13,8 @@ import * as firebase from 'firebase';
 
 import database from './functions/database';
 
+import ModalDropdown from 'react-native-modal-dropdown';
+
 database.init();
 
 export default class MeTab extends Component {
@@ -31,6 +33,7 @@ export default class MeTab extends Component {
               const data = snapshot.val();
 
               this.setState({displayName:data['displayName']});
+              this.setState({gender:data['gender']});
               this.setState({email:data['email']});
               this.setState({photoURL:data['photoURL']});
               this.setState({contactNo:data['contactNo']});
@@ -50,6 +53,7 @@ export default class MeTab extends Component {
 
         var updates = {};
         updates['displayName'] = this.state.displayName;
+        updates['gender'] = this.state.gender;
         updates['contactNo'] = this.state.contactNo;
         updates['address'] = this.state.address;
 
@@ -63,6 +67,7 @@ export default class MeTab extends Component {
 
         if (isDisplayNameEditable === true) {
             this.setState({isDisplayNameEditable:false});
+            this.setState({isGenderEditable:false});
             this.setState({isContactNoEditable:false});
             this.setState({isAddressEditable:false});
 
@@ -73,6 +78,7 @@ export default class MeTab extends Component {
         }
         else {
             this.setState({isDisplayNameEditable:true});
+            this.setState({isGenderEditable:true});
             this.setState({isContactNoEditable:true});
             this.setState({isAddressEditable:true});
 
@@ -92,10 +98,12 @@ export default class MeTab extends Component {
         this.state = {
             photoURL: '',
             displayName: '',
+            gender:'',
             email: '',
             contactNo: '',
             address: '',
             isDisplayNameEditable: false,
+            isGenderEditable: false,
             isEmailEditable: false,
             isContactNoEditable: false,
             isAddressEditable: false,
@@ -109,22 +117,34 @@ export default class MeTab extends Component {
             <SafeAreaView>
 
                 <Image 
-                    style={{width:150,height:150,resizeMode:'contain'}}
+                    style={{width:150,height:150,resizeMode:'contain', alignSelf:'center'}}
                     source={{uri:this.state.photoURL?this.state.photoURL:Image.resolveAssetSource(require('../assets/user.png')).uri}}
                     // source={{uri:Image.resolveAssetSource(require('../assets/user.png')).uri}}
                 />
 
                 <TextInput 
-                    // style={style.textInput} 
+                    style={{alignSelf:'center'}} 
                     placeholder='full name' 
-                    autoCapitalize='none' 
+                    autoCapitalize='none'
                     value={this.state.displayName?this.state.displayName:null}
                     editable={this.state.isDisplayNameEditable}
                     onChangeText={displayName => this.setState({displayName})}
                     />
 
+                <ModalDropdown 
+                    style={{alignSelf:'center'}} 
+                    defaultValue='Male'
+                    options={['Male','Female']}
+                    disabled={!this.state.isGenderEditable}
+                    onSelect={(idx, value)=>{
+                        this.setState({gender:value})
+                    }}
+                    >
+                        <Text>{this.state.gender?this.state.gender:'Gender'}</Text>
+                </ModalDropdown>
+
                 <TextInput 
-                    // style={style.textInput} 
+                    style={{alignSelf:'center'}} 
                     placeholder='email' 
                     autoCapitalize='none' 
                     value={this.state.email?this.state.email:null}
@@ -133,7 +153,7 @@ export default class MeTab extends Component {
                     />
 
                 <TextInput 
-                    // style={style.textInput} 
+                    style={{alignSelf:'center'}} 
                     placeholder='contact number' 
                     autoCapitalize='none' 
                     value={this.state.contactNo?this.state.contactNo:null}
@@ -142,16 +162,17 @@ export default class MeTab extends Component {
                     />
 
                 <TextInput 
-                    // style={style.textInput} 
+                    style={{alignSelf:'center'}} 
                     placeholder='address' 
                     autoCapitalize='none' 
+                    multiline={true}
                     value={this.state.address?this.state.address:null}
                     editable={this.state.isAddressEditable}
                     onChangeText={address => this.setState({address})}
                     />
 
                 <TouchableOpacity 
-                    // style={style.touchButton}
+                    style={{alignSelf:'center'}} 
                     onPress={()=>this._onPressButton()}
                     >
                     <Text>{this.state.buttonLabel}</Text>
