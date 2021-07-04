@@ -114,16 +114,50 @@ export default class MeTab extends Component {
 
     render(){
         return (
-            <SafeAreaView>
+            <SafeAreaView
+                style={{flex:1}}
+                >
 
-                <Image 
-                    style={{width:150,height:150,resizeMode:'contain', alignSelf:'center'}}
-                    source={{uri:this.state.photoURL?this.state.photoURL:Image.resolveAssetSource(require('../assets/user.png')).uri}}
-                    // source={{uri:Image.resolveAssetSource(require('../assets/user.png')).uri}}
-                />
+                <View
+                    style={{
+                        flex: 0.3,
+                        backgroundColor: '#039BE5'
+                    }}
+                    >
+                    <Image 
+                        style={{
+                            width:100,
+                            height:100,
+                            resizeMode:'contain', 
+                            alignSelf:'center',
+                            marginTop:20,
+                            // alignItems:'',
+                            borderRadius:10,
+                        }}
+                        source={{uri:this.state.photoURL?this.state.photoURL:Image.resolveAssetSource(require('../assets/user.png')).uri}}
+                        // source={{uri:Image.resolveAssetSource(require('../assets/user.png')).uri}}
+                    />
+
+                    <Text>
+                        
+                    </Text>
+
+                </View>
 
                 <TextInput 
-                    style={{alignSelf:'center'}} 
+                    style={{
+                        alignSelf:'stretch',
+                        borderTopLeftRadius: 15,
+                        borderTopRightRadius: 15,
+                        borderBottomLeftRadius: 15,
+                        borderBottomRightRadius: 15,
+                        borderWidth: 1,
+                        borderColor: '#039BE5',
+                        padding:10,
+                        marginLeft:10,
+                        marginRight:10,
+                        textAlign:'center'
+                    }} 
                     placeholder='full name' 
                     autoCapitalize='none'
                     value={this.state.displayName?this.state.displayName:null}
