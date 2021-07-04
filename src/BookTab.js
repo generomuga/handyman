@@ -8,20 +8,24 @@ import * as firebase from 'firebase';
 export default class BookTab extends Component {
         
     componentDidMount(){
-        const items = this.getList();
-        this.setState({category:items});
+        const listCategory = this.getCategoryList();
+        this.setState({categories:listCategory});
+
+        // const listService = this.getServiceList('Repair');
+        // this.setState({services:listService});
     }
 
     constructor(props){
         super(props)
 
         this.state = {
-            category: [],
+            categories: [],
+            services: []
         }
 
     }
 
-    getList() {
+    getCategoryList() {
 
         const dbRef = firebase.database().ref();
 
@@ -33,18 +37,52 @@ export default class BookTab extends Component {
                     snapshot.forEach(function(childsnap){
                         var key = childsnap.key;
                         var data = childsnap.val();
-                        // var ref = db.child(key);
+                        // var ref = db.child(key );
                         items.push(data);
                         // console.log(data);
-                        console.log(items);
+                        // console.log(items);
                     }
                     )}
                 else {
+                    items.push('Wala pa po idol');
                     console.log('user not found');
                 }
             });
 
-        console.log(items);
+        console.log('Categories'+items);
+        return items;
+
+    }
+
+
+    getServiceList(category) {
+
+        const dbRef = firebase.database().ref();
+
+        var items = []
+
+        dbRef.child('tenant/services/'+category+'/').get()                        
+            .then(snapshot => {
+                if (snapshot.exists()) {
+
+                    snapshot.forEach(function(childsnap){
+                        var key = childsnap.key;
+                        var data = childsnap.val();
+                        // var ref = db.child(key );
+                        
+                        items.push(data);
+                        console.log('Services'+data);
+                        // console.log(items);
+                    }
+                    )}
+                else {
+                    // this.setState({services:['Wala eh']});
+                    items.push('Wala idol');
+                    console.log('services not found');
+                }
+            });
+
+        // console.log(items);
         return items;
 
     }
@@ -53,13 +91,27 @@ export default class BookTab extends Component {
         return (
             <View>
                 <ModalDropdown 
-                    defaultValue="Select category..."
-                    options={this.state.category} >
+                    defaultValue={this.state.categories[0]}
+                    options={this.state.categories} 
+                    onSelect={(value)=>{
+                                console.log('Vale',String(this.state.categories[value]));
+                                const listService = this.getServiceList(String(this.state.categories[value]));
+                                this.setState({services:listService})
+                            }
+                        }
+                    // renderRow={()=>this.setState({services:['tets']})}
+                    >
                 </ModalDropdown>
 
                 <ModalDropdown 
-                    defaultValue="Select service..."
-                    options={['Service']} >
+                    defaultValue={this.state.services[0]}
+                    options={this.state.services} 
+                    //  ref={(ref)=> this.state.services = ref}
+                    onSelect={(value)=>{
+                    
+                    }}
+                    >
+
                 </ModalDropdown>
 
                 <ModalDropdown 
