@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button, TabBarIOS } from 'react-native';
+import { View, Text, Button} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -137,7 +137,6 @@ export default class BookTab extends Component {
                                 this.setState({serviceValue:''});
                             }
                         }
-                    scrollEnabled={true}
                     >
                         <Text>{this.state.categoryValue?this.state.categoryValue:'[Select category]'}</Text>
                 </ModalDropdown>
@@ -148,8 +147,7 @@ export default class BookTab extends Component {
                     //  ref={(ref)=> this.state.services = ref}
                     onSelect={(idx, value)=>{
                         this.setState({serviceValue:value})
-                    }}
-                    scrollEnabled={true}
+                    }} 
                     >
                         <Text>{this.state.serviceValue?this.state.serviceValue:'[Select service]'}</Text>
                 </ModalDropdown>
