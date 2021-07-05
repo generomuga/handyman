@@ -128,7 +128,7 @@ export default class Login extends Component {
         return (
             <SafeAreaView style={style.background}>
                 
-                <View style={{ flex:2.9, backgroundColor: "#B3E5FC", justifyContent:"flex-start" }} >
+                <View style={{ flex:3.3, backgroundColor: "#B3E5FC", justifyContent:"flex-start" }} >
 
                     <Image 
                         source={require('../assets/hugefort-ico.png')}
