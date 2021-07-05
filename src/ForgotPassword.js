@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { 
+    View, 
+    Text, 
+    TextInput, 
+    StyleSheet, 
+    TouchableOpacity,
+    SafeAreaView
+} from 'react-native';
 
 import { 
     Background, 
@@ -67,8 +74,12 @@ export default class ForgotPassword extends Component {
 
     render(){
         return (
-            <View style={style.background}>
+            <SafeAreaView style={style.background}>
 
+                <View style={{
+                        marginTop:30
+                    }}
+                    >
                     <TextInput 
                         style={style.textInput} 
                         placeholder='email' 
@@ -97,7 +108,9 @@ export default class ForgotPassword extends Component {
                         <Text style={style.touchButtonLabel}>Reset</Text>
                     </TouchableOpacity>
 
-            </View>            
+                </View>
+
+            </SafeAreaView>            
         )
     }
 
