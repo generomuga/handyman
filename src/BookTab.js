@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, TabBarIOS } from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import * as firebase from 'firebase';
+import { SafeAreaView } from 'react-navigation';
+import { event } from 'react-native-reanimated';
 
 export default class BookTab extends Component {
         
@@ -14,6 +16,9 @@ export default class BookTab extends Component {
         // const listService = this.getServiceList('Repair');
         // this.setState({services:listService});
         console.log('Meme');
+
+        // const newLocal = this;
+        // newLocal.list.scrollToIndex({ index: this.props.scrollToIndex || 0 });
     }
 
     constructor(props){
@@ -23,7 +28,13 @@ export default class BookTab extends Component {
             categories: [],
             services: [],
             categoryValue: '',
-            serviceValue: ''
+            serviceValue: '',
+            date: new Date(),
+            setDate: new Date(),
+            mode: 'date',
+            setMode: 'date',
+            show: false,
+            setShow: false
         }
 
     }
@@ -90,9 +101,31 @@ export default class BookTab extends Component {
 
     }
 
+
+    onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || this.state.date;
+        this.setState({setShow:(Platform.OS === 'ios')});
+        this.setState({setDate:currentDate});
+        console.log(selectedDate);
+      };
+    
+    showMode = (currentMode) => {
+        this.setState({setShow:true});
+        this.setState({setMode:currentMode});
+      };
+    
+    showDatepicker = () => {
+        showMode('date');
+      };
+    
+    showTimepicker = () => {
+        showMode('time');
+      };
+    
+
     render(){
         return (
-            <View>
+            <SafeAreaView>
                 <ModalDropdown 
                     // defaultValue='Select category'
                     options={this.state.categories} 
@@ -104,6 +137,7 @@ export default class BookTab extends Component {
                                 this.setState({serviceValue:''});
                             }
                         }
+                    scrollEnabled={true}
                     >
                         <Text>{this.state.categoryValue?this.state.categoryValue:'[Select category]'}</Text>
                 </ModalDropdown>
@@ -115,15 +149,25 @@ export default class BookTab extends Component {
                     onSelect={(idx, value)=>{
                         this.setState({serviceValue:value})
                     }}
+                    scrollEnabled={true}
                     >
                         <Text>{this.state.serviceValue?this.state.serviceValue:'[Select service]'}</Text>
                 </ModalDropdown>
+                
+                <DateTimePicker
+                    testID="dateTimePicker"
+                    value={this.state.date}
+                    mode={this.state.mode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={this.onChange}
+                    />
 
                 <ModalDropdown 
                     defaultValue="Payment method..."
                     options={['Cash on service']} >
                 </ModalDropdown>
-            </View>
+            </SafeAreaView>
         )
     }
 
