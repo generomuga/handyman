@@ -7,6 +7,8 @@ import * as firebase from 'firebase';
 import { SafeAreaView } from 'react-navigation';
 import { event } from 'react-native-reanimated';
 
+import RNPickerSelect from 'react-native-picker-select';
+
 export default class BookTab extends Component {
         
     componentDidMount(){
@@ -15,7 +17,7 @@ export default class BookTab extends Component {
 
         // const listService = this.getServiceList('Repair');
         // this.setState({services:listService});
-        console.log('Meme');
+        console.log(listCategory);
 
         // const newLocal = this;
         // newLocal.list.scrollToIndex({ index: this.props.scrollToIndex || 0 });
@@ -27,8 +29,8 @@ export default class BookTab extends Component {
         this.state = {
             categories: [],
             services: [],
-            categoryValue: '',
-            serviceValue: '',
+            categoryValue: 'SELECT',
+            serviceValue: 'SELECT',
             date: new Date(),
             setDate: new Date(),
             mode: 'date',
@@ -52,7 +54,8 @@ export default class BookTab extends Component {
                         var key = childsnap.key;
                         var data = childsnap.val();
                         // var ref = db.child(key );
-                        items.push(data);
+                        // items.push(data);
+                        items.push({"label":data,"value":data});
                         // console.log(data);
                         // console.log(items);
                     }
@@ -68,7 +71,6 @@ export default class BookTab extends Component {
 
     }
 
-
     getServiceList(category) {
 
         const dbRef = firebase.database().ref();
@@ -78,20 +80,20 @@ export default class BookTab extends Component {
         dbRef.child('tenant/services/'+category+'/').get()                        
             .then(snapshot => {
                 if (snapshot.exists()) {
-
                     snapshot.forEach(function(childsnap){
                         var key = childsnap.key;
                         var data = childsnap.val();
                         // var ref = db.child(key );
-                        
-                        items.push(data);
-                        console.log('Services'+data);
+                        console.log('Laman',data);
+                        // items.push(data);
+                        items.push({"label":data,"value":data});
+                        // console.log("label":data,"value":data);
                         // console.log(items);
                     }
                     )}
                 else {
                     // this.setState({services:['Wala eh']});
-                    items.push('Wala idol');
+                    // iitems.push({"label":data,"value":data});
                     console.log('services not found');
                 }
             });
@@ -126,7 +128,33 @@ export default class BookTab extends Component {
     render(){
         return (
             <SafeAreaView>
-                <ModalDropdown 
+
+
+            <RNPickerSelect
+                onValueChange={(value) => {
+                    // console.log('Vale',String(this.state.categories[idx]));
+                    this.setState({categoryValue:value})
+                    this.setState({serviceValue:''});
+                    const listService = this.getServiceList(value);
+                    this.setState({services:listService});
+                    
+                }}
+                items={this.state.categories}
+            >
+                <Text>{this.state.categoryValue?this.state.categoryValue:'[Select category]'}</Text>
+            </RNPickerSelect>
+
+            <RNPickerSelect
+                onValueChange={(value) => {
+                    console.log(value);
+                    this.setState({serviceValue:value});
+                }}
+                items={this.state.services}
+            >
+                <Text>{this.state.serviceValue?this.state.serviceValue:'[Select service]'}</Text>
+            </RNPickerSelect>
+
+                {/* <ModalDropdown 
                     // defaultValue='Select category'
                     options={this.state.categories} 
                     onSelect={(idx, value)=>{
@@ -139,9 +167,9 @@ export default class BookTab extends Component {
                         }
                     >
                         <Text>{this.state.categoryValue?this.state.categoryValue:'[Select category]'}</Text>
-                </ModalDropdown>
+                </ModalDropdown> */}
 
-                <ModalDropdown 
+                {/* <ModalDropdown 
                     // defaultValue={this.state.services[0]}
                     options={this.state.services} 
                     //  ref={(ref)=> this.state.services = ref}
@@ -150,7 +178,7 @@ export default class BookTab extends Component {
                     }} 
                     >
                         <Text>{this.state.serviceValue?this.state.serviceValue:'[Select service]'}</Text>
-                </ModalDropdown>
+                </ModalDropdown> */}
                 
                 <DateTimePicker
                     testID="dateTimePicker"
@@ -161,10 +189,13 @@ export default class BookTab extends Component {
                     onChange={this.onChange}
                     />
 
-                <ModalDropdown 
+                {/* <ModalDropdown 
                     defaultValue="Payment method..."
                     options={['Cash on service']} >
-                </ModalDropdown>
+                </ModalDropdown> */}
+
+            
+
             </SafeAreaView>
         )
     }
