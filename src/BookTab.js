@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, Button, SafeAreaView} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 import RNPickerSelect from 'react-native-picker-select';
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 import * as firebase from 'firebase';
 
@@ -26,7 +27,8 @@ export default class BookTab extends Component {
             mode: 'date',
             setMode: 'date',
             show: false,
-            setShow: false
+            setShow: false,
+            isDateTimePickerVisible: false
         }
     }
 
@@ -77,27 +79,40 @@ export default class BookTab extends Component {
     }
 
 
-    onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || this.state.date;
-        this.setState({setShow:(Platform.OS === 'ios')});
-        this.setState({setDate:currentDate});
-        console.log(selectedDate);
-      };
+    // onChange = (event, selectedDate) => {
+    //     const currentDate = selectedDate || this.state.date;
+    //     this.setState({setShow:(Platform.OS === 'ios')});
+    //     this.setState({setDate:currentDate});
+    //     console.log(selectedDate);
+    //   };
     
-    showMode = (currentMode) => {
-        this.setState({setShow:true});
-        this.setState({setMode:currentMode});
-      };
+    // showMode = (currentMode) => {
+    //     this.setState({setShow:true});
+    //     this.setState({setMode:currentMode});
+    //   };
     
-    showDatepicker = () => {
-        showMode('date');
-      };
+    // showDatepicker = () => {
+    //     showMode('date');
+    //   };
     
-    showTimepicker = () => {
-        showMode('time');
-      };
-    
+    // showTimepicker = () => {
+    //     showMode('time');
+    //   };
 
+
+    showDateTimePicker = () => {
+        this.setState({ isDateTimePickerVisible: true });
+      };
+     
+    hideDateTimePicker = () => {
+        this.setState({ isDateTimePickerVisible: false });
+    };
+    
+    handleDatePicked = date => {
+        console.log("A date has been picked: ", date);
+        this.hideDateTimePicker();
+    };
+    
     render(){
         return (
             <SafeAreaView>
@@ -125,15 +140,24 @@ export default class BookTab extends Component {
                     <Text>{this.state.serviceValue?this.state.serviceValue:'Select an item...'}</Text>
                 </RNPickerSelect>
 
-                <DateTimePicker
+                {/* <DateTimePicker
+                    style={{width:'100%', backgroundColor: 'white', position: 'absolute', bottom: 0, zIndex: 10}}
                     testID="dateTimePicker"
                     value={this.state.date}
                     mode={this.state.mode}
                     is24Hour={true}
-                    display="default"
+                    display="spinner"
                     onChange={this.onChange}
                     themeVariant="light"
                     neutralButtonLabel="clear"
+                    /> */}
+
+                <Button title="Show DatePicker" onPress={this.showDateTimePicker} />
+
+                <DateTimePicker
+                    isVisible={this.state.isDateTimePickerVisible}
+                    onConfirm={this.handleDatePicked}
+                    onCancel={this.hideDateTimePicker}
                     />
 
                 <RNPickerSelect
