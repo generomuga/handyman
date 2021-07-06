@@ -13,7 +13,7 @@ import * as firebase from 'firebase';
 
 import database from './functions/database';
 
-import ModalDropdown from 'react-native-modal-dropdown';
+import RNPickerSelect from 'react-native-picker-select';
 
 database.init();
 
@@ -144,6 +144,8 @@ export default class MeTab extends Component {
 
                 </View>
 
+                <Text>full name</Text>
+
                 <TextInput 
                     style={{
                         alignSelf:'stretch',
@@ -165,17 +167,22 @@ export default class MeTab extends Component {
                     onChangeText={displayName => this.setState({displayName})}
                     />
 
-                <ModalDropdown 
-                    style={{alignSelf:'center'}} 
-                    defaultValue='Male'
-                    options={['Male','Female']}
-                    disabled={!this.state.isGenderEditable}
-                    onSelect={(idx, value)=>{
-                        this.setState({gender:value})
+                <Text>gender</Text>
+
+                <RNPickerSelect
+                    onValueChange={(value) => {
+                        console.log(value);
+                        this.setState({gender:value});
                     }}
-                    >
-                        <Text>{this.state.gender?this.state.gender:'Gender'}</Text>
-                </ModalDropdown>
+                    items={[
+                        { label: 'Male', value: 'Male' },
+                        { label: 'Female', value: 'Female' },
+                    ]}
+                >
+                    <Text>{this.state.gender?this.state.gender:'Select an item...'}</Text>
+                </RNPickerSelect>
+
+                <Text>email address</Text>
 
                 <TextInput 
                     style={{alignSelf:'center'}} 
@@ -186,6 +193,8 @@ export default class MeTab extends Component {
                     onChangeText={email => this.setState({email})}
                     />
 
+                <Text>contact number</Text>
+
                 <TextInput 
                     style={{alignSelf:'center'}} 
                     placeholder='contact number' 
@@ -194,6 +203,8 @@ export default class MeTab extends Component {
                     editable={this.state.isContactNoEditable}
                     onChangeText={contactNo => this.setState({contactNo})}
                     />
+
+                <Text>home address</Text>
 
                 <TextInput 
                     style={{alignSelf:'center'}} 
