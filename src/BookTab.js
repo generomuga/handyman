@@ -25,35 +25,35 @@ const DATA = [
     },
   ];
 
-const Item = ({ title, id }) => (
-<View>
-    <Text>{title}</Text>
-    <Text>{id}</Text>
-    <Button title="Delete" onPress={()=>{
-        const dbRef = firebase.database().ref();
-        const user = firebase.auth().currentUser;
+// const Item = ({ title, id }) => (
+// <View>
+//     <Text>{title}</Text>
+//     <Text>{id}</Text>
+//     <Button title="Delete" onPress={()=>{
+//         const dbRef = firebase.database().ref();
+//         const user = firebase.auth().currentUser;
 
-        var items = []
-        dbRef.child('bookings/'+user['uid']+'/'+id).remove()                     
-            .then(()=>{
-                console.log("DELETED");
-                //this.getTempBooking();
-            })
+//         var items = []
+//         dbRef.child('bookings/'+user['uid']+'/'+id).remove()                     
+//             .then(()=>{
+//                 console.log("DELETED");
+//                 //this.getTempBooking();
+//             })
             
-    }}/>
-</View>
-);
+//     }}/>
+// </View>
+// );
 
-const renderItem = ({ item }) => (
-    <Item title={item.title} id={item.id} />
-  );
+// const renderItem = ({ item }) => (
+//     <Item title={item.title} id={item.id} />
+//   );
 
 export default class BookTab extends Component {
         
     componentDidMount(){
         // const listCategory = this.getCategoryList();
         this.getCategoryList();
-        this.getTempBooking();
+        // this.getTempBooking();
         // this.setState({categories:listCategory});
     }
 
@@ -158,6 +158,9 @@ export default class BookTab extends Component {
                 );
                 this.setState({tempBookValue:items})
             }
+            else {
+                this.setState({tempBookValue:null})
+            }
             });
     }
 
@@ -181,16 +184,26 @@ export default class BookTab extends Component {
         this.hideDateTimePicker();
     };
     
-    // Item(data){
-    //     <View>
-    //         <Text>{data.title}</Text>
-    //         <Text>{data.id}</Text>
-    //     </View>
-    // }
+    renderItemComponent = (data) =>
+        <View>
+            <Text>{data.item.title}</Text>
+            <Text>{data.item.id}</Text>
+            <Button title="Delete" onPress={()=>{
+                const dbRef = firebase.database().ref();
+                const user = firebase.auth().currentUser;
 
-    // renderItem = ({ item }) => (
-    //     <Item title={item.title} id={item.id} />
-    // );
+                var items = []
+                dbRef.child('bookings/'+user['uid']+'/'+data.item.id).remove()                     
+                    .then(()=>{
+                        console.log("DELETED");
+                        
+                        const filteredData = this.state.tempBookValue.filter(item => item.id !== id);
+                        this.setState({ tempBookValue: filteredData });
+                        this.getTempBooking();
+                    })
+                    
+            }}/>
+        </View>
 
     render(){
         return (
@@ -273,11 +286,20 @@ export default class BookTab extends Component {
                         <Text>Add service</Text>
                     </TouchableOpacity>
             
-                    <FlatList
+                    {/* <FlatList
                         data={this.state.tempBookValue}
-                        renderItem={renderItem}
+                        renderItem={this.renderItem}
                         keyExtractor={item => item.id}
-                    />
+                    /> */}
+
+                    <FlatList
+                        data={this.state.tempBookValue?this.state.tempBookValue:null}
+                        renderItem={item => this.renderItemComponent(item)}
+                        keyExtractor={item => item.id.toString()}
+                        // ItemSeparatorComponent={this.ItemSeparator}
+                        // refreshing={this.state.refreshing}
+                        // onRefresh={this.handleRefresh}
+                            />
 
             </SafeAreaView>
         )
