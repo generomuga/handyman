@@ -49,30 +49,14 @@ export default class BookTab extends Component {
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
-                        var key = childsnap.key;
+                        // var key = childsnap.key;
                         var data = childsnap.val();
-                        // items.push(data)
                         items.push({"label":data,"value":data})
                     }
-                    // items.push({"label":data,"value":data})
                 );
-                console.log("Awit",items);
                 this.setState({categories:items})
-                // counts = [];
-                // for (var i=0; i < items.length; i++) {
-                    // counts.push(keys[i].wordcount);
-                    // console.log('Meme',items[i]['label']);
-                // }
-                // return items;
             }
-                // else {
-                //     // items.push('Wala pa po idol');
-                //     // console.log('user not found');
-                // }
             });
-
-        // console.log('Categories'+items);
-        // return items;
     }
 
     getServiceList(category) {
@@ -84,19 +68,14 @@ export default class BookTab extends Component {
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
-                        var key = childsnap.key;
+                        // var key = childsnap.key;
                         var data = childsnap.val();
-                        console.log(data)
-                        items.push({"label":data,"value":data});
-                        // items.push(<RNPickerSelect.items>)
+                        items.push({"label":data,"value":data})
                     }
-                    )}
-                else {
-                    // console.log('services not found');
-                }
+                );
+                this.setState({services:items})
+            }
             });
-
-        return items;
     }
 
 
@@ -149,14 +128,11 @@ export default class BookTab extends Component {
                     onValueChange={(value) => {
                         this.setState({categoryValue:value})
                         // this.setState({serviceValue:''});
+                        this.getServiceList(value);
                         // const listService = this.getServiceList(value);
                         // this.setState({services:listService});
-                        
                     }}
                     items={this.state.categories}
-                    // items={[
-                    //     { label: 'Home', value: 'Home' }
-                    // ]}
                 >
                     <Text>{this.state.categoryValue?this.state.categoryValue:'Select an item...'}</Text>
                 </RNPickerSelect>
@@ -166,10 +142,7 @@ export default class BookTab extends Component {
                         console.log(value);
                         this.setState({serviceValue:value});
                     }}
-                    // items={this.state.services}
-                    items={[
-                        { label: 'Home Service 1', value: 'Home Service 1' }
-                    ]}
+                    items={this.state.services}
                 >
                     <Text>{this.state.serviceValue?this.state.serviceValue:'Select an item...'}</Text>
                 </RNPickerSelect>
