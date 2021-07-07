@@ -10,51 +10,11 @@ LogBox.ignoreLogs(['Setting a timer']);
 
 import * as firebase from 'firebase';
 
-const DATA = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Item',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Item',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-    },
-  ];
-
-// const Item = ({ title, id }) => (
-// <View>
-//     <Text>{title}</Text>
-//     <Text>{id}</Text>
-//     <Button title="Delete" onPress={()=>{
-//         const dbRef = firebase.database().ref();
-//         const user = firebase.auth().currentUser;
-
-//         var items = []
-//         dbRef.child('bookings/'+user['uid']+'/'+id).remove()                     
-//             .then(()=>{
-//                 console.log("DELETED");
-//                 //this.getTempBooking();
-//             })
-            
-//     }}/>
-// </View>
-// );
-
-// const renderItem = ({ item }) => (
-//     <Item title={item.title} id={item.id} />
-//   );
-
 export default class BookTab extends Component {
         
     componentDidMount(){
-        // const listCategory = this.getCategoryList();
         this.getCategoryList();
-        // this.getTempBooking();
-        // this.setState({categories:listCategory});
+        this.getTempBooking();
     }
 
     constructor(props){
@@ -76,9 +36,6 @@ export default class BookTab extends Component {
             isDateTimePickerVisible: false,
             tempBookValue: []
         }
-
-        // this.getCategoryList = this.getCategoryList.bind(this);
-        // this.getServiceList = this.getServiceList.bind(this);
     }
 
     getCategoryList() {
@@ -117,28 +74,6 @@ export default class BookTab extends Component {
             }
             });
     }
-
-
-    // onChange = (event, selectedDate) => {
-    //     const currentDate = selectedDate || this.state.date;
-    //     this.setState({setShow:(Platform.OS === 'ios')});
-    //     this.setState({setDate:currentDate});
-    //     console.log(selectedDate);
-    //   };
-    
-    // showMode = (currentMode) => {
-    //     this.setState({setShow:true});
-    //     this.setState({setMode:currentMode});
-    //   };
-    
-    // showDatepicker = () => {
-    //     showMode('date');
-    //   };
-    
-    // showTimepicker = () => {
-    //     showMode('time');
-    //   };
-
 
     getTempBooking(){
         const dbRef = firebase.database().ref();
@@ -286,12 +221,6 @@ export default class BookTab extends Component {
                         <Text>Add service</Text>
                     </TouchableOpacity>
             
-                    {/* <FlatList
-                        data={this.state.tempBookValue}
-                        renderItem={this.renderItem}
-                        keyExtractor={item => item.id}
-                    /> */}
-
                     <FlatList
                         data={this.state.tempBookValue?this.state.tempBookValue:null}
                         renderItem={item => this.renderItemComponent(item)}
