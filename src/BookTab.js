@@ -25,14 +25,27 @@ const DATA = [
     },
   ];
 
-const Item = ({ title }) => (
+const Item = ({ title, id }) => (
 <View>
     <Text>{title}</Text>
+    <Text>{id}</Text>
+    <Button title="Delete" onPress={()=>{
+        const dbRef = firebase.database().ref();
+        const user = firebase.auth().currentUser;
+
+        var items = []
+        dbRef.child('bookings/'+user['uid']+'/'+id).remove()                     
+            .then(()=>{
+                console.log("DELETED");
+                //this.getTempBooking();
+            })
+            
+    }}/>
 </View>
 );
 
 const renderItem = ({ item }) => (
-    <Item title={item.title} />
+    <Item title={item.title} id={item.id} />
   );
 
 export default class BookTab extends Component {
@@ -40,6 +53,7 @@ export default class BookTab extends Component {
     componentDidMount(){
         // const listCategory = this.getCategoryList();
         this.getCategoryList();
+        this.getTempBooking();
         // this.setState({categories:listCategory});
     }
 
@@ -167,15 +181,16 @@ export default class BookTab extends Component {
         this.hideDateTimePicker();
     };
     
-    Item(data){
-        <View>
-            <Text>{title}</Text>
-        </View>
-    }
+    // Item(data){
+    //     <View>
+    //         <Text>{data.title}</Text>
+    //         <Text>{data.id}</Text>
+    //     </View>
+    // }
 
-    renderItem = ({ item }) => (
-        <Item title={item.title} />
-    );
+    // renderItem = ({ item }) => (
+    //     <Item title={item.title} id={item.id} />
+    // );
 
     render(){
         return (
