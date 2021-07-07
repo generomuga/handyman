@@ -87,8 +87,15 @@ export default class BookTab extends Component {
                         // var key = childsnap.key;
                         var data = childsnap.val();
                         var id = childsnap.val()['id']
-                        var title = childsnap.val()['title']
-                        items.push({id:id,title:title})
+                        var category = childsnap.val()['category']
+                        var service = childsnap.val()['service']
+                        var service_date = childsnap.val()['service_date']
+                        items.push({
+                            id:id,
+                            category:category,
+                            service:service,
+                            service_date:service_date
+                        })
                     }
                 );
                 this.setState({tempBookValue:items})
@@ -121,8 +128,11 @@ export default class BookTab extends Component {
     
     renderItemComponent = (data) =>
         <View>
-            <Text>{data.item.title}</Text>
             <Text>{data.item.id}</Text>
+            <Text>{data.item.category}</Text>
+            <Text>{data.item.service}</Text>
+            <Text>{data.item.service_date}</Text>
+            {/* <Text>{data.item.id}</Text> */}
             <Button title="Delete" onPress={()=>{
                 const dbRef = firebase.database().ref();
                 const user = firebase.auth().currentUser;
@@ -212,7 +222,9 @@ export default class BookTab extends Component {
                                 .ref('bookings/' + user['uid'] +'/'+ id)
                                 .set({
                                     id:id,
-                                    title:this.state.categoryValue
+                                    category:this.state.categoryValue,
+                                    service:this.state.serviceValue,
+                                    service_date:this.state.serviceDate
                                 });
 
                             this.getTempBooking();
