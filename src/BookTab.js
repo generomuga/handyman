@@ -26,6 +26,7 @@ export default class BookTab extends Component {
             categoryValue: '',
             serviceValue: '',
             serviceDate: '',
+            actualDate:'',
             paymentMethodValue:'',
             date: new Date(),
             setDate: new Date(),
@@ -115,7 +116,8 @@ export default class BookTab extends Component {
     };
     
     handleDatePicked = date => {
-        console.log("A date has been picked: ", date);
+        this.setState({actualDate:date});
+        console.log("A date has been picked: ", this.state.actualDate);
         var d = String(date).split(' ');
         var day = d[0];
         var month = d[1];
@@ -214,20 +216,40 @@ export default class BookTab extends Component {
                 <TouchableOpacity 
                         // style={{}}
                         onPress={()=>{
-                            const user = firebase.auth().currentUser;
 
-                            var id = new Date().getTime().toString();   
-                            firebase
-                                .database()
-                                .ref('bookings/' + user['uid'] +'/'+ id)
-                                .set({
-                                    id:id,
-                                    category:this.state.categoryValue,
-                                    service:this.state.serviceValue,
-                                    service_date:this.state.serviceDate
-                                });
+                            console.log("date",this.state.serviceDate);  
+                            if (this.state.categoryValue===null){
+                                console.log("Di pde");
+                                return
+                            }
+                            else if (this.state.serviceValue===null){
+                                console.log("Di pde");
+                                return
+                            }
+                            else if (this.state.serviceDate===''){
+                                console.log("Di pde");
+                                return
+                            }
+                            else if (this.state.actualDate.getTime() <= new Date().getTime()){
+                                console.log("Awit di pde");
+                                return
+                            }
+                            else 
+                            {
+                                const user = firebase.auth().currentUser;
+                                var id = new Date().getTime().toString();   
+                                firebase
+                                    .database()
+                                    .ref('bookings/' + user['uid'] +'/'+ id)
+                                    .set({
+                                        id:id,
+                                        category:this.state.categoryValue,
+                                        service:this.state.serviceValue,
+                                        service_date:this.state.serviceDate
+                                    });
 
-                            this.getTempBooking();
+                                this.getTempBooking();
+                            }
                         }}
                         >
                         <Text>Add service</Text>
