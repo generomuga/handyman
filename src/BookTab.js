@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button, SafeAreaView, TouchableOpacity} from 'react-native';
+import { View, Text, Button, SafeAreaView, TouchableOpacity, FlatList} from 'react-native';
 // import DateTimePicker from '@react-native-community/datetimepicker';
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -9,6 +9,31 @@ import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
 
 import * as firebase from 'firebase';
+
+const DATA = [
+    {
+      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: 'First Item',
+    },
+    {
+      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+      title: 'Second Item',
+    },
+    {
+      id: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Third Item',
+    },
+  ];
+
+const Item = ({ title }) => (
+<View>
+    <Text>{title}</Text>
+</View>
+);
+
+const renderItem = ({ item }) => (
+    <Item title={item.title} />
+  );
 
 export default class BookTab extends Component {
         
@@ -35,6 +60,7 @@ export default class BookTab extends Component {
             show: false,
             setShow: false,
             isDateTimePickerVisible: false,
+            tempBookValue: []
         }
 
         // this.getCategoryList = this.getCategoryList.bind(this);
@@ -100,6 +126,27 @@ export default class BookTab extends Component {
     //   };
 
 
+    getTempBooking(){
+        const dbRef = firebase.database().ref();
+        const user = firebase.auth().currentUser;
+
+        var items = []
+        dbRef.child('bookings/'+user['uid']).once('value')                        
+            .then(snapshot => {
+                if (snapshot.exists()) {
+                    snapshot.forEach(function(childsnap){
+                        // var key = childsnap.key;
+                        var data = childsnap.val();
+                        var id = childsnap.val()['id']
+                        var title = childsnap.val()['title']
+                        items.push({id:id,title:title})
+                    }
+                );
+                this.setState({tempBookValue:items})
+            }
+            });
+    }
+
     showDateTimePicker = () => {
         this.setState({ isDateTimePickerVisible: true });
       };
@@ -120,6 +167,16 @@ export default class BookTab extends Component {
         this.hideDateTimePicker();
     };
     
+    Item(data){
+        <View>
+            <Text>{title}</Text>
+        </View>
+    }
+
+    renderItem = ({ item }) => (
+        <Item title={item.title} />
+    );
+
     render(){
         return (
             <SafeAreaView>
@@ -183,11 +240,30 @@ export default class BookTab extends Component {
 
                 <TouchableOpacity 
                         // style={{}}
-                        // onPress={()=>this._onLoginPress()}
+                        onPress={()=>{
+                            const user = firebase.auth().currentUser;
+
+                            var id = new Date().getTime().toString();   
+                            firebase
+                                .database()
+                                .ref('bookings/' + user['uid'] +'/'+ id)
+                                .set({
+                                    id:id,
+                                    title:this.state.categoryValue
+                                });
+
+                            this.getTempBooking();
+                        }}
                         >
                         <Text>Add service</Text>
                     </TouchableOpacity>
             
+                    <FlatList
+                        data={this.state.tempBookValue}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                    />
+
             </SafeAreaView>
         )
     }
