@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Button, SafeAreaView} from 'react-native';
+import { View, Text, Button, SafeAreaView, TouchableOpacity} from 'react-native';
 // import DateTimePicker from '@react-native-community/datetimepicker';
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from "react-native-modal-datetime-picker";
+
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Setting a timer']);
 
 import * as firebase from 'firebase';
 
@@ -21,6 +25,7 @@ export default class BookTab extends Component {
             services: [],
             categoryValue: '',
             serviceValue: '',
+            serviceDate: '',
             paymentMethodValue:'',
             date: new Date(),
             setDate: new Date(),
@@ -28,31 +33,34 @@ export default class BookTab extends Component {
             setMode: 'date',
             show: false,
             setShow: false,
-            isDateTimePickerVisible: false
+            isDateTimePickerVisible: false,
         }
+
+        // this.getCategoryList = this.getCategoryList.bind(this);
+        // this.getServiceList = this.getServiceList.bind(this);
     }
 
     getCategoryList() {
         const dbRef = firebase.database().ref();
 
         var items = []
-        dbRef.child('tenant/categories').get()                        
+        dbRef.child('tenant/categories').once('value')                        
             .then(snapshot => {
                 if (snapshot.exists()) {
-
                     snapshot.forEach(function(childsnap){
                         var key = childsnap.key;
                         var data = childsnap.val();
+                        console.log(data)
                         items.push({"label":data,"value":data});
                     }
                     )}
                 else {
-                    items.push('Wala pa po idol');
-                    console.log('user not found');
+                    // items.push('Wala pa po idol');
+                    // console.log('user not found');
                 }
             });
 
-        console.log('Categories'+items);
+        // console.log('Categories'+items);
         return items;
     }
 
@@ -61,17 +69,19 @@ export default class BookTab extends Component {
 
         var items = []
 
-        dbRef.child('tenant/services/'+category+'/').get()                        
+        dbRef.child('tenant/services/'+category+'/').once('value')                    
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
                         var key = childsnap.key;
                         var data = childsnap.val();
+                        console.log(data)
                         items.push({"label":data,"value":data});
+                        // items.push(<RNPickerSelect.items>)
                     }
                     )}
                 else {
-                    console.log('services not found');
+                    // console.log('services not found');
                 }
             });
 
@@ -110,6 +120,13 @@ export default class BookTab extends Component {
     
     handleDatePicked = date => {
         console.log("A date has been picked: ", date);
+        var d = String(date).split(' ');
+        var day = d[0];
+        var month = d[1];
+        var dayn = d[2];
+        var year = d[3];
+        var displayDate = month+' '+dayn+' '+year+', '+day
+        this.setState({serviceDate:displayDate})
         this.hideDateTimePicker();
     };
     
@@ -152,7 +169,8 @@ export default class BookTab extends Component {
                     neutralButtonLabel="clear"
                     /> */}
 
-                <Button title="Show DatePicker" onPress={this.showDateTimePicker} />
+                <Text>{this.state.serviceDate?this.state.serviceDate:null}</Text>
+                <Button title="Set date of service" onPress={this.showDateTimePicker} />
 
                 <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
@@ -172,6 +190,13 @@ export default class BookTab extends Component {
                 >
                     <Text>{this.state.paymentMethodValue?this.state.paymentMethodValue:'Select an item...'}</Text>
                 </RNPickerSelect>
+
+                <TouchableOpacity 
+                        // style={{}}
+                        // onPress={()=>this._onLoginPress()}
+                        >
+                        <Text>Reserve</Text>
+                    </TouchableOpacity>
             
             </SafeAreaView>
         )
