@@ -137,12 +137,15 @@ export default class BookTab extends Component {
                 <RNPickerSelect
                     onValueChange={(value) => {
                         this.setState({categoryValue:value})
-                        this.setState({serviceValue:''});
+                        // this.setState({serviceValue:''});
                         const listService = this.getServiceList(value);
                         this.setState({services:listService});
                         
                     }}
-                    items={this.state.categories}
+                    // items={this.state.categories}
+                    items={[
+                        { label: 'Home', value: 'Home' }
+                    ]}
                 >
                     <Text>{this.state.categoryValue?this.state.categoryValue:'Select an item...'}</Text>
                 </RNPickerSelect>
@@ -152,7 +155,10 @@ export default class BookTab extends Component {
                         console.log(value);
                         this.setState({serviceValue:value});
                     }}
-                    items={this.state.services}
+                    // items={this.state.services}
+                    items={[
+                        { label: 'Home Service 1', value: 'Home Service 1' }
+                    ]}
                 >
                     <Text>{this.state.serviceValue?this.state.serviceValue:'Select an item...'}</Text>
                 </RNPickerSelect>
@@ -195,7 +201,7 @@ export default class BookTab extends Component {
                         // style={{}}
                         // onPress={()=>this._onLoginPress()}
                         >
-                        <Text>Reserve</Text>
+                        <Text>Add service</Text>
                     </TouchableOpacity>
             
             </SafeAreaView>
