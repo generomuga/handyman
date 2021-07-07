@@ -42,7 +42,7 @@ export default class BookTab extends Component {
         const dbRef = firebase.database().ref();
 
         var items = []
-        dbRef.child('tenant/categories').once('value')                        
+        dbRef.child('tenant/categories').get()                      
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
@@ -61,7 +61,7 @@ export default class BookTab extends Component {
 
         var items = []
 
-        dbRef.child('tenant/services/'+category+'/').once('value')                    
+        dbRef.child('tenant/services/'+category+'/').get()                  
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
@@ -80,7 +80,7 @@ export default class BookTab extends Component {
         const user = firebase.auth().currentUser;
 
         var items = []
-        dbRef.child('bookings/'+user['uid']).once('value')                        
+        dbRef.child('bookings/'+user['uid']).get()                        
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
