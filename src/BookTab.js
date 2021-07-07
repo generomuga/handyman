@@ -42,7 +42,7 @@ export default class BookTab extends Component {
         const dbRef = firebase.database().ref();
 
         var items = []
-        dbRef.child('tenant/categories').get()                      
+        dbRef.child('tenant/categories').once("value")                      
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
@@ -61,7 +61,7 @@ export default class BookTab extends Component {
 
         var items = []
 
-        dbRef.child('tenant/services/'+category+'/').get()                  
+        dbRef.child('tenant/services/'+category+'/').once("value")                  
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
@@ -134,9 +134,9 @@ export default class BookTab extends Component {
                         
                         const filteredData = this.state.tempBookValue.filter(item => item.id !== id);
                         this.setState({ tempBookValue: filteredData });
-                        this.getTempBooking();
+                        
                     })
-                    
+                this.getTempBooking();
             }}/>
         </View>
 
@@ -222,14 +222,14 @@ export default class BookTab extends Component {
                     </TouchableOpacity>
             
                     
-                    <TouchableOpacity 
+                    {/* <TouchableOpacity 
                         // style={{}}
                         onPress={()=>{
                             this.getTempBooking();
                         }}
                         >
                         <Text>Refresh</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     <FlatList
                         data={this.state.tempBookValue?this.state.tempBookValue:null}
