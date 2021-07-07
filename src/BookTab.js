@@ -221,6 +221,16 @@ export default class BookTab extends Component {
                         <Text>Add service</Text>
                     </TouchableOpacity>
             
+                    
+                    <TouchableOpacity 
+                        // style={{}}
+                        onPress={()=>{
+                            this.getTempBooking();
+                        }}
+                        >
+                        <Text>Refresh</Text>
+                    </TouchableOpacity>
+
                     <FlatList
                         data={this.state.tempBookValue?this.state.tempBookValue:null}
                         renderItem={item => this.renderItemComponent(item)}
