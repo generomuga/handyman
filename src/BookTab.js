@@ -158,6 +158,7 @@ export default class BookTab extends Component {
                     isVisible={this.state.isDateTimePickerVisible}
                     onConfirm={this.handleDatePicked}
                     onCancel={this.hideDateTimePicker}
+                    display="default"
                     />
 
                 <RNPickerSelect
