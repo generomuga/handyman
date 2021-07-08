@@ -163,7 +163,7 @@ export default class BookTab extends Component {
     
     renderItemComponent = (data) =>
         <View style={{
-                backgroundColor:'#FAFAFA', 
+                backgroundColor:'white', 
                 borderRadius:10, 
                 borderWidth:2, 
                 borderColor:'#F44336',
@@ -225,12 +225,18 @@ export default class BookTab extends Component {
 
     render(){
         return (
-            <SafeAreaView>
+            <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
 
-                <ScrollView>
-
+                {/* <ScrollView> */}
+                {/* <View> */}
                     <View style={{backgroundColor:"white", justifyContent:'center'}}>
-                        <Text style={{marginLeft:10}}>Category</Text>
+                        <Text style={{
+                            marginTop:10,
+                            marginLeft:10, 
+                            marginBottom:5, 
+                            fontSize:17
+                            }}>Category</Text>
+
                         <RNPickerSelect
                             onValueChange={(value) => {
                                 this.setState({categoryValue:value})
@@ -241,7 +247,17 @@ export default class BookTab extends Component {
                             }}
                             items={this.state.categories}
                         >
-                            <Text style={{marginLeft:10}}>
+                            <Text style={{
+                                marginLeft:10,
+                                marginRight:10, 
+                                marginBottom:5,
+                                borderWidth:1, 
+                                padding:8, 
+                                borderRadius:10, 
+                                textAlign:'left',
+                                color:'#424242',
+                                borderColor:'#039BE5',
+                                }}>
                                 {this.state.categoryValue?this.state.categoryValue:'Select an item...'}
                             </Text>
                         </RNPickerSelect>
@@ -249,7 +265,12 @@ export default class BookTab extends Component {
                     </View>
 
                     <View style={{backgroundColor:"white", justifyContent:'center'}}>
-                        <Text style={{marginLeft:10}}>Service</Text>
+                        <Text style={{
+                            marginTop:10,
+                            marginLeft:10, 
+                            marginBottom:5, 
+                            fontSize:17
+                            }}>Service</Text>
                         <RNPickerSelect
                             onValueChange={(value) => {
                                 console.log(value);
@@ -257,22 +278,50 @@ export default class BookTab extends Component {
                             }}
                             items={this.state.services}
                         >
-                            <Text style={{marginLeft:10}}>{this.state.serviceValue?this.state.serviceValue:'Select an item...'}</Text>
+                            <Text style={{
+                                marginLeft:10,
+                                marginRight:10, 
+                                marginBottom:5,
+                                borderWidth:1, 
+                                padding:8, 
+                                borderRadius:10, 
+                                textAlign:'left',
+                                color:'#424242',
+                                borderColor:'#039BE5',
+                                }}>{this.state.serviceValue?this.state.serviceValue:'Select an item...'}</Text>
                         </RNPickerSelect>
 
                     </View>
                     
                     <View style={{backgroundColor:"white", justifyContent:'center'}}>
-                        <Text style={{marginLeft:10}}>Date of service</Text>
-                        <Text style={{marginLeft:10}}>{this.state.serviceDate?this.state.serviceDate:"Not set"}</Text>
+                        <Text style={{
+                            marginTop:10,
+                            marginLeft:10, 
+                            marginBottom:5, 
+                            fontSize:17
+                            }}>Date of service</Text>
+                        <Text 
+                            style={{
+                                marginLeft:10,
+                                marginRight:10, 
+                                marginBottom:20,
+                                borderWidth:1, 
+                                padding:8, 
+                                borderRadius:10, 
+                                textAlign:'left',
+                                color:'#424242',
+                                borderColor:'#039BE5'
+                                }}
+                            onPress={this.showDateTimePicker}
+                                >{this.state.serviceDate?this.state.serviceDate:"Not set"}</Text>
                         
                         {/* <Button title="Set date of service" onPress={this.showDateTimePicker} /> */}
-                        <TouchableOpacity 
+                        {/* <TouchableOpacity 
                             style={{marginLeft:10}}
                             onPress={this.showDateTimePicker}
                             >
                             <Text>Set date of service</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                         <DateTimePicker
                             isVisible={this.state.isDateTimePickerVisible}
@@ -282,12 +331,17 @@ export default class BookTab extends Component {
                             />
                     </View>
 
-                    <TouchableOpacity 
-                            // style={{}}
+                    <View style={{justifyContent:'center', backgroundColor:'white'}}>
+                        <TouchableOpacity 
+                            style={{
+                                marginLeft:10,
+                                marginRight:10,
+                                backgroundColor:'#039BE5',
+                                padding:18,
+                                borderRadius:10
+                            }}
                             onPress={()=>{
-
                                 this.setState({errorMsg:''})
-
                                 // console.log("date",this.state.serviceDate);  
                                 if (this.state.categoryValue===null){
                                     console.log("Di pde");
@@ -329,32 +383,48 @@ export default class BookTab extends Component {
                                 }
                             }}
                             >
-                            <Text>Add service</Text>
+
+                            <Text 
+                                style={{
+                                    color:'#FAFAFA',
+                                    textAlign:'center'
+                                }}>Add service</Text>
+
                         </TouchableOpacity>
-        
-                        <Text>{this.state.errorMsg}</Text>
 
-                        {/* <TouchableOpacity 
-                            // style={{}}
-                            onPress={()=>{
-                                this.getTempBooking();
+                        <Text
+                            style={{
+                                color:'#C62828',
+                                textAlign:'center',
+                                padding:15
                             }}
-                            >
-                            <Text>Refresh</Text>
-                        </TouchableOpacity> */}
+                        >{this.state.errorMsg}</Text>
 
-                        <FlatList
-                            data={this.state.tempBookValue?this.state.tempBookValue:null}
-                            renderItem={item => this.renderItemComponent(item)}
-                            keyExtractor={item => item.id.toString()}
-                            // ItemSeparatorComponent={this.ItemSeparator}
-                            // refreshing={this.state.refreshing}
-                            // onRefresh={this.handleRefresh}
-                                />
+                    </View>
+                        
+                    <FlatList
+                        data={this.state.tempBookValue?this.state.tempBookValue:null}
+                        renderItem={item => this.renderItemComponent(item)}
+                        keyExtractor={item => item.id.toString()}
+                        // ItemSeparatorComponent={this.ItemSeparator}
+                        // refreshing={this.state.refreshing}
+                        // onRefresh={this.handleRefresh}
+                            />
 
-                        <Text>Total price: PHP {this.state.totalServicePrice?this.state.totalServicePrice:0}</Text>
+                    <View>
+                        <Text style={{
+                            marginTop:10,
+                            marginLeft:10, 
+                            marginBottom:5, 
+                            fontSize:17
+                            }}>Total price: PHP {this.state.totalServicePrice?this.state.totalServicePrice:0}</Text>
 
-                        <Text>Payment method</Text>
+                        <Text style={{
+                            marginTop:10,
+                            marginLeft:10, 
+                            marginBottom:5, 
+                            fontSize:17
+                            }}>Payment method</Text>
 
                         <RNPickerSelect
                             onValueChange={(value) => {
@@ -365,11 +435,44 @@ export default class BookTab extends Component {
                                 { label: 'Cash', value: 'Cash' }
                             ]}
                         >
-                            <Text>{this.state.paymentMethodValue?this.state.paymentMethodValue:'Select an item...'}</Text>
+                            <Text style={{
+                                marginLeft:10,
+                                marginRight:10, 
+                                marginBottom:20,
+                                borderWidth:1, 
+                                padding:8, 
+                                borderRadius:10, 
+                                textAlign:'left',
+                                color:'#424242',
+                                borderColor:'#039BE5',
+                                }}>{this.state.paymentMethodValue?this.state.paymentMethodValue:'Select an item...'}</Text>
                         </RNPickerSelect>
 
-                </ScrollView>
+                            
+                        <TouchableOpacity 
+                            style={{
+                                marginLeft:10,
+                                marginRight:10,
+                                marginBottom:30,
+                                backgroundColor:'#039BE5',
+                                padding:18,
+                                borderRadius:10
+                            }}
+                            onPress={()=>null}
+                            >
 
+                            <Text 
+                                style={{
+                                    color:'#FAFAFA',
+                                    textAlign:'center'
+                                }}>Book it now</Text>
+
+                        </TouchableOpacity>
+                        
+                    </View>
+
+                {/* </ScrollView> */}
+                {/* </View>         */}
             </SafeAreaView>
         )
     }
