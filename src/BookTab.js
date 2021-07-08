@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button, SafeAreaView, TouchableOpacity, FlatList} from 'react-native';
+import { View, Text, Button, SafeAreaView, TouchableOpacity, FlatList, Alert} from 'react-native';
 // import DateTimePicker from '@react-native-community/datetimepicker';
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -32,12 +32,9 @@ export default class BookTab extends Component {
             paymentMethodValue:'',
             date: new Date(),
             setDate: new Date(),
-            // mode: 'date',
-            // setMode: 'date',
-            // show: false,
-            // setShow: false,
             isDateTimePickerVisible: false,
-            tempBookValue: []
+            tempBookValue: [],
+            errorMsg: ''
         }
     }
 
@@ -179,6 +176,8 @@ export default class BookTab extends Component {
         return (
             <SafeAreaView>
 
+                <Text>{this.state.errorMsg}</Text>
+
                 <RNPickerSelect
                     onValueChange={(value) => {
                         this.setState({categoryValue:value})
@@ -240,21 +239,27 @@ export default class BookTab extends Component {
                         // style={{}}
                         onPress={()=>{
 
-                            console.log("date",this.state.serviceDate);  
+                            this.setState({errorMsg:''})
+
+                            // console.log("date",this.state.serviceDate);  
                             if (this.state.categoryValue===null){
                                 console.log("Di pde");
+                                this.setState({errorMsg:"* Please select category"})
                                 return
                             }
                             else if (this.state.serviceValue===null){
                                 console.log("Di pde");
+                                this.setState({errorMsg:"* Please select service"})
                                 return
                             }
                             else if (this.state.serviceDate===''){
                                 console.log("Di pde");
+                                this.setState({errorMsg:"* Please select date of service"})
                                 return
                             }
                             else if (this.state.actualDate.getTime() <= new Date().getTime()){
                                 console.log("Awit di pde");
+                                this.setState({errorMsg:"* Please select valid date of service"})
                                 return
                             }
                             else 
