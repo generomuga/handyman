@@ -8,7 +8,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
-LogBox.ignoreLogs(['Unhandled promise rejection']);
+LogBox.ignoreLogs(['Unhandled Promise Rejection']);
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 import * as firebase from 'firebase';
