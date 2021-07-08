@@ -161,13 +161,12 @@ export default class BookTab extends Component {
     };
     
     renderItemComponent = (data) =>
-        <View>
+        <View style={{backgroundColor:''}}>
             <Text>{data.item.id}</Text>
-            <Text>{data.item.category}</Text>
-            <Text>{data.item.service}</Text>
-            <Text>{data.item.service_date}</Text>
-            <Text>{String(data.item.service_currency).toUpperCase()}</Text>
-            <Text>{data.item.service_price}</Text>
+            <Text>Category: {data.item.category}</Text>
+            <Text>Service: {data.item.service}</Text>
+            <Text>Date of service: {data.item.service_date}</Text>
+            <Text>Price: {String(data.item.service_currency).toUpperCase()} {data.item.service_price}</Text>
             {/* <Text>{data.item.id}</Text> */}
             <Button title="Delete" onPress={()=>{
                 const dbRef = firebase.database().ref();
@@ -192,6 +191,7 @@ export default class BookTab extends Component {
 
                 <Text>{this.state.errorMsg}</Text>
 
+                <Text>Category</Text>
                 <RNPickerSelect
                     onValueChange={(value) => {
                         this.setState({categoryValue:value})
@@ -205,6 +205,7 @@ export default class BookTab extends Component {
                     <Text>{this.state.categoryValue?this.state.categoryValue:'Select an item...'}</Text>
                 </RNPickerSelect>
 
+                <Text>Service</Text>
                 <RNPickerSelect
                     onValueChange={(value) => {
                         console.log(value);
@@ -227,6 +228,7 @@ export default class BookTab extends Component {
                     neutralButtonLabel="clear"
                     /> */}
 
+                <Text>Date of service</Text>
                 <Text>{this.state.serviceDate?this.state.serviceDate:null}</Text>
                 <Button title="Set date of service" onPress={this.showDateTimePicker} />
 
@@ -237,19 +239,7 @@ export default class BookTab extends Component {
                     display="default"
                     />
 
-                <RNPickerSelect
-                    onValueChange={(value) => {
-                        console.log(value);
-                        this.setState({paymentMethodValue:value});
-                    }}
-                    items={[
-                        { label: 'Cash on service', value: 'Cash on service' }
-                    ]}
-                >
-                    <Text>{this.state.paymentMethodValue?this.state.paymentMethodValue:'Select an item...'}</Text>
-                </RNPickerSelect>
-
-                <TouchableOpacity 
+<TouchableOpacity 
                         // style={{}}
                         onPress={()=>{
 
@@ -298,8 +288,7 @@ export default class BookTab extends Component {
                         >
                         <Text>Add service</Text>
                     </TouchableOpacity>
-            
-                    
+    
                     {/* <TouchableOpacity 
                         // style={{}}
                         onPress={()=>{
@@ -318,7 +307,21 @@ export default class BookTab extends Component {
                         // onRefresh={this.handleRefresh}
                             />
 
-                    <Text>Total price: {this.state.totalServicePrice?this.state.totalServicePrice:0}</Text>
+                    <Text>Total price: PHP {this.state.totalServicePrice?this.state.totalServicePrice:0}</Text>
+
+                    <Text>Payment method</Text>
+                    
+                    <RNPickerSelect
+                        onValueChange={(value) => {
+                            console.log(value);
+                            this.setState({paymentMethodValue:value});
+                        }}
+                        items={[
+                            { label: 'Cash', value: 'Cash' }
+                        ]}
+                    >
+                        <Text>{this.state.paymentMethodValue?this.state.paymentMethodValue:'Select an item...'}</Text>
+                    </RNPickerSelect>
 
             </SafeAreaView>
         )
