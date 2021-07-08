@@ -29,9 +29,10 @@ export default class BookTab extends Component {
             categoryValue: '',
             serviceValue: '',
             serviceDate: '',
-            servicePrice: 0,
+            servicePrice: 0.00,
             serviceCurrency: 'php',
-            totalServicePrice: 0,
+            totalServicePrice: 0.00,
+            totalReserveService: 0,
             actualDate:'',
             paymentMethodValue:'',
             date: new Date(),
@@ -106,6 +107,7 @@ export default class BookTab extends Component {
         var service_price = 0
         var service_currency = ''
         var totalPrice = 0
+        var totalReserveService = 0
 
         dbRef.child('bookings/'+user['uid']).get()                        
             .then(snapshot => {
@@ -120,6 +122,7 @@ export default class BookTab extends Component {
                         service_currency = childsnap.val()['service_currency']
 
                         totalPrice = totalPrice + service_price;
+                        totalReserveService = totalReserveService + 1
 
                         items.push({
                             id:id,
@@ -134,10 +137,12 @@ export default class BookTab extends Component {
                 console.log("total",totalPrice);
                 this.setState({tempBookValue:items})
                 this.setState({totalServicePrice:totalPrice})
+                this.setState({totalReserveService:totalReserveService})
             }
             else {
                 this.setState({tempBookValue:null})
                 this.setState({totalServicePrice:0})
+                this.setState({totalReserveService:0})
             }
             });
     }
@@ -197,15 +202,40 @@ export default class BookTab extends Component {
                 }}
                 />
             
-            <Text>{data.item.id}</Text>
+            <Text 
+                style={{
+                    marginLeft:10,
+                    fontWeight:'bold'
+                }}
+            >Ref no. HHP{data.item.id}</Text>
             
-            <Text>Category: {data.item.category}</Text>
+            <Text
+                style={{
+                    marginLeft:10,
+                    fontWeight:'400'
+                }}
+            >Category: {data.item.category}</Text>
             
-            <Text>Service: {data.item.service}</Text>
+            <Text
+                style={{
+                    marginLeft:10,
+                    fontWeight:'400'
+                }}
+            >Service: {data.item.service}</Text>
             
-            <Text>Date of service: {data.item.service_date}</Text>
+            <Text
+                style={{
+                    marginLeft:10,
+                    fontWeight:'400'
+                }}
+                >Date of service: {data.item.service_date}</Text>
             
-            <Text>Price: {String(data.item.service_currency).toUpperCase()} {data.item.service_price}</Text>
+            <Text
+                style={{
+                    marginLeft:10,
+                    fontWeight:'400',
+                    marginBottom:10
+                }}>Price: {data.item.service_currency} {data.item.service_price.toFixed(2)}</Text>
             {/* <Text>{data.item.id}</Text> */}
             
             {/* <Button title="Delete" onPress={()=>{
@@ -413,7 +443,7 @@ export default class BookTab extends Component {
                                 marginBottom:10, 
                                 fontSize:17
                                 }}
-                            >Service/s</Text>
+                            >Total Services Reserved ({this.state.totalReserveService})</Text>
                         <FlatList
                             data={this.state.tempBookValue?this.state.tempBookValue:null}
                             renderItem={item => this.renderItemComponent(item)}
@@ -430,7 +460,7 @@ export default class BookTab extends Component {
                             marginLeft:10, 
                             marginBottom:5, 
                             fontSize:17
-                            }}>Total price: PHP {this.state.totalServicePrice?this.state.totalServicePrice:0}</Text>
+                            }}>Total price: Php {this.state.totalServicePrice.toFixed(2)?this.state.totalServicePrice.toFixed(2):0}</Text>
 
                         <Text style={{
                             marginTop:10,
