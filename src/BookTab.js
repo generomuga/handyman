@@ -189,8 +189,6 @@ export default class BookTab extends Component {
         return (
             <SafeAreaView>
 
-                <Text>{this.state.errorMsg}</Text>
-
                 <Text>Category</Text>
                 <RNPickerSelect
                     onValueChange={(value) => {
@@ -239,7 +237,7 @@ export default class BookTab extends Component {
                     display="default"
                     />
 
-<TouchableOpacity 
+                <TouchableOpacity 
                         // style={{}}
                         onPress={()=>{
 
@@ -289,6 +287,8 @@ export default class BookTab extends Component {
                         <Text>Add service</Text>
                     </TouchableOpacity>
     
+                    <Text>{this.state.errorMsg}</Text>
+
                     {/* <TouchableOpacity 
                         // style={{}}
                         onPress={()=>{
@@ -310,7 +310,7 @@ export default class BookTab extends Component {
                     <Text>Total price: PHP {this.state.totalServicePrice?this.state.totalServicePrice:0}</Text>
 
                     <Text>Payment method</Text>
-                    
+
                     <RNPickerSelect
                         onValueChange={(value) => {
                             console.log(value);
