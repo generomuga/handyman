@@ -8,6 +8,8 @@ import { AntDesign } from '@expo/vector-icons';
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
+LogBox.ignoreLogs(['Unhandled promise rejection']);
+LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 import * as firebase from 'firebase';
 
@@ -227,8 +229,16 @@ export default class BookTab extends Component {
         return (
             <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
 
-                {/* <ScrollView> */}
+                <ScrollView>
                 {/* <View> */}
+                    <Text
+                        style={{
+                            color:'#C62828',
+                            textAlign:'center',
+                            padding:5
+                        }}
+                    >{this.state.errorMsg}</Text>
+
                     <View style={{backgroundColor:"white", justifyContent:'center'}}>
                         <Text style={{
                             marginTop:10,
@@ -304,7 +314,7 @@ export default class BookTab extends Component {
                             style={{
                                 marginLeft:10,
                                 marginRight:10, 
-                                marginBottom:20,
+                                marginBottom:15,
                                 borderWidth:1, 
                                 padding:8, 
                                 borderRadius:10, 
@@ -336,6 +346,7 @@ export default class BookTab extends Component {
                             style={{
                                 marginLeft:10,
                                 marginRight:10,
+                                marginBottom:10,
                                 backgroundColor:'#039BE5',
                                 padding:18,
                                 borderRadius:10
@@ -392,24 +403,26 @@ export default class BookTab extends Component {
 
                         </TouchableOpacity>
 
+                    </View>
+                    
+                    <View>
                         <Text
                             style={{
-                                color:'#C62828',
-                                textAlign:'center',
-                                padding:15
-                            }}
-                        >{this.state.errorMsg}</Text>
-
+                                marginTop:10,
+                                marginLeft:10, 
+                                marginBottom:10, 
+                                fontSize:17
+                                }}
+                            >Service/s</Text>
+                        <FlatList
+                            data={this.state.tempBookValue?this.state.tempBookValue:null}
+                            renderItem={item => this.renderItemComponent(item)}
+                            keyExtractor={item => item.id.toString()}
+                            // ItemSeparatorComponent={this.ItemSeparator}
+                            // refreshing={this.state.refreshing}
+                            // onRefresh={this.handleRefresh}
+                                />
                     </View>
-                        
-                    <FlatList
-                        data={this.state.tempBookValue?this.state.tempBookValue:null}
-                        renderItem={item => this.renderItemComponent(item)}
-                        keyExtractor={item => item.id.toString()}
-                        // ItemSeparatorComponent={this.ItemSeparator}
-                        // refreshing={this.state.refreshing}
-                        // onRefresh={this.handleRefresh}
-                            />
 
                     <View>
                         <Text style={{
@@ -471,7 +484,7 @@ export default class BookTab extends Component {
                         
                     </View>
 
-                {/* </ScrollView> */}
+                </ScrollView>
                 {/* </View>         */}
             </SafeAreaView>
         )
