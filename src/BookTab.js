@@ -26,14 +26,16 @@ export default class BookTab extends Component {
             categoryValue: '',
             serviceValue: '',
             serviceDate: '',
+            servicePrice: 0,
+            serviceCurrency: 'php',
             actualDate:'',
             paymentMethodValue:'',
             date: new Date(),
             setDate: new Date(),
-            mode: 'date',
-            setMode: 'date',
-            show: false,
-            setShow: false,
+            // mode: 'date',
+            // setMode: 'date',
+            // show: false,
+            // setShow: false,
             isDateTimePickerVisible: false,
             tempBookValue: []
         }
@@ -60,17 +62,32 @@ export default class BookTab extends Component {
     getServiceList(category) {
         const dbRef = firebase.database().ref();
 
-        var items = []
+        var items = [];
+        var price = 0;
+        var currency = 'php';
+        var isAvailable = false;
+        var name = '';
 
         dbRef.child('tenant/services/'+category+'/').once("value")                  
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
                         // var key = childsnap.key;
-                        var data = childsnap.val();
-                        items.push({"label":data,"value":data})
+                        // var data = childsnap.val();
+                        name = childsnap.val()['name']
+                        price = childsnap.val()['price']
+                        currency = childsnap.val()['currency']
+                        isAvailable = childsnap.val()['isAvailable']
+                        console.log(name, price, currency, isAvailable)
+
+                        if (isAvailable === true) {
+                            items.push({"label":name,"value":name})
+                        }
+
                     }
                 );
+                this.setState({serviceCurrency:currency})
+                this.setState({servicePrice:price})
                 this.setState({services:items})
             }
             });
@@ -91,11 +108,15 @@ export default class BookTab extends Component {
                         var category = childsnap.val()['category']
                         var service = childsnap.val()['service']
                         var service_date = childsnap.val()['service_date']
+                        var service_price = childsnap.val()['service_price']
+                        var service_currency = childsnap.val()['service_currency']
                         items.push({
                             id:id,
                             category:category,
                             service:service,
-                            service_date:service_date
+                            service_date:service_date,
+                            service_price:service_price,
+                            service_currency:service_currency
                         })
                     }
                 );
@@ -134,6 +155,8 @@ export default class BookTab extends Component {
             <Text>{data.item.category}</Text>
             <Text>{data.item.service}</Text>
             <Text>{data.item.service_date}</Text>
+            <Text>{String(data.item.service_currency).toUpperCase()}</Text>
+            <Text>{data.item.service_price}</Text>
             {/* <Text>{data.item.id}</Text> */}
             <Button title="Delete" onPress={()=>{
                 const dbRef = firebase.database().ref();
@@ -245,7 +268,9 @@ export default class BookTab extends Component {
                                         id:id,
                                         category:this.state.categoryValue,
                                         service:this.state.serviceValue,
-                                        service_date:this.state.serviceDate
+                                        service_date:this.state.serviceDate,
+                                        service_price:this.state.servicePrice,
+                                        service_currency:this.state.serviceCurrency
                                     });
 
                                 this.getTempBooking();
