@@ -28,6 +28,7 @@ export default class BookTab extends Component {
             serviceDate: '',
             servicePrice: 0,
             serviceCurrency: 'php',
+            totalServicePrice: 0,
             actualDate:'',
             paymentMethodValue:'',
             date: new Date(),
@@ -95,18 +96,28 @@ export default class BookTab extends Component {
         const user = firebase.auth().currentUser;
 
         var items = []
+        var id = ''
+        var category = ''
+        var service = ''
+        var service_date = ''
+        var service_price = 0
+        var service_currency = ''
+        var totalPrice = 0
+
         dbRef.child('bookings/'+user['uid']).get()                        
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
                         // var key = childsnap.key;
-                        var data = childsnap.val();
-                        var id = childsnap.val()['id']
-                        var category = childsnap.val()['category']
-                        var service = childsnap.val()['service']
-                        var service_date = childsnap.val()['service_date']
-                        var service_price = childsnap.val()['service_price']
-                        var service_currency = childsnap.val()['service_currency']
+                        id = childsnap.val()['id']
+                        category = childsnap.val()['category']
+                        service = childsnap.val()['service']
+                        service_date = childsnap.val()['service_date']
+                        service_price = childsnap.val()['service_price']
+                        service_currency = childsnap.val()['service_currency']
+
+                        totalPrice = totalPrice + service_price;
+
                         items.push({
                             id:id,
                             category:category,
@@ -117,10 +128,13 @@ export default class BookTab extends Component {
                         })
                     }
                 );
+                console.log("total",totalPrice);
                 this.setState({tempBookValue:items})
+                this.setState({totalServicePrice:totalPrice})
             }
             else {
                 this.setState({tempBookValue:null})
+                this.setState({totalServicePrice:0})
             }
             });
     }
@@ -303,6 +317,8 @@ export default class BookTab extends Component {
                         // refreshing={this.state.refreshing}
                         // onRefresh={this.handleRefresh}
                             />
+
+                    <Text>Total price: {this.state.totalServicePrice?this.state.totalServicePrice:0}</Text>
 
             </SafeAreaView>
         )
