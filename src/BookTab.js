@@ -171,40 +171,27 @@ export default class BookTab extends Component {
     }
 
     getDefaultAddress() {
-        const user = firebase.auth().currentUser;
+        const user = firebase.auth().currentUser
 
-        dbRef.child("users").child(user['uid']).get()
+        dbRef.child('users').child(user['uid']).get()
             .then((snapshot) => {
                 if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    this.setState({address:data['address']});
+                    const data = snapshot.val()
+                    this.setState({address:data['address']})
                 }
             })
     }
 
     getDefaultContactNo() {
-        const user = firebase.auth().currentUser;
+        const user = firebase.auth().currentUser
 
-        const userId = user['uid'];
-        console.log(userId);
-
-        dbRef.child("users").child(userId).get().then((snapshot) => {
-            if (snapshot.exists()) {
-              const data = snapshot.val();
-
-            //   this.setState({displayName:data['displayName']});
-            //   this.setState({gender:data['gender']});
-            //   this.setState({email:data['email']});
-            //   this.setState({photoURL:data['photoURL']});
-              this.setState({contactNo:data['contactNo']});
-            //   this.setState({address:data['address']});
-            //   this.setState({contact:data['contact']});
-            } else {
-              console.log("No data available");
-            }
-          }).catch((error) => {
-            console.error(error);
-          });
+        dbRef.child('users').child(user['uid']).get()
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val()
+                    this.setState({contactNo:data['contactNo']})
+                } 
+            })
     }
 
     updateBookingDetails() {
