@@ -80,39 +80,34 @@ export default class BookTab extends Component {
                     });
                     this.setState({categories:items})
                 }
-            }
-        );
+            });
     }
 
     getServiceList(category) {
         var items = [];
         var price = 0;
-        var currency = 'php';
+        var currency = 'Php';
         var isAvailable = false;
         var name = '';
 
-        dbRef.child('tenant/services/'+category+'/').once("value")                  
+        dbRef.child('tenant/services/'+category+'/').once("value")
             .then(snapshot => {
                 if (snapshot.exists()) {
-                    snapshot.forEach(function(childsnap){
-                        // var key = childsnap.key;
-                        // var data = childsnap.val();
-                        name = childsnap.val()['name']
-                        price = childsnap.val()['price']
-                        currency = childsnap.val()['currency']
-                        isAvailable = childsnap.val()['isAvailable']
-                        console.log(name, price, currency, isAvailable)
-
-                        if (isAvailable === true) {
-                            items.push({"label":name,"value":name})
-                        }
-
-                    }
-                );
-                this.setState({serviceCurrency:currency})
-                this.setState({servicePrice:price})
-                this.setState({services:items})
-            }
+                        snapshot.forEach(function(childsnap) {
+                            name = childsnap.val()['name']
+                            price = childsnap.val()['price']
+                            currency = childsnap.val()['currency']
+                            isAvailable = childsnap.val()['isAvailable']
+                        
+                            if (isAvailable === true) {
+                                items.push({"label":name,"value":name})
+                            }
+                        });
+                    
+                    this.setState({serviceCurrency:currency})
+                    this.setState({servicePrice:price})
+                    this.setState({services:items})
+                }
             });
     }
 
