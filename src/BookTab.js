@@ -24,6 +24,7 @@ import * as firebase from 'firebase';
 import { TextInput } from 'react-native-gesture-handler';
 
 
+const dbRef = firebase.database().ref();
 
 export default class BookTab extends Component {
         
@@ -40,9 +41,10 @@ export default class BookTab extends Component {
         this.state = {
             categories: [],
             services: [],
-            categoryValue: '',
-            serviceValue: '',
-            serviceDate: '',
+
+            categoryCurrentVal: '',
+            serviceCurrentVal: '',
+            serviceDateCurrentVal: '',
             servicePrice: 0.00,
             address:'',
             contactNo:'',
@@ -61,15 +63,13 @@ export default class BookTab extends Component {
             isUseDefaultContact: true,
             isAddressEditable: false,
             isContactEditable: false,
-            
-            tempBookValue: [],
+
+            serviceInfo: [],
             errorMsg: '',
         }
     }
 
     getCategoryList() {
-        const dbRef = firebase.database().ref();
-
         var items = []
         dbRef.child('tenant/categories').once("value")                      
             .then(snapshot => {
@@ -86,8 +86,6 @@ export default class BookTab extends Component {
     }
 
     getServiceList(category) {
-        const dbRef = firebase.database().ref();
-
         var items = [];
         var price = 0;
         var currency = 'php';
@@ -120,7 +118,6 @@ export default class BookTab extends Component {
     }
 
     getTempBooking(){
-        const dbRef = firebase.database().ref();
         const user = firebase.auth().currentUser;
 
         var items = []
@@ -164,7 +161,7 @@ export default class BookTab extends Component {
                             totalReserveService = totalReserveService + 1
 
                             items.push({
-                                id:id,
+                                id:id, 
                                 category:category,
                                 service:service,
                                 service_date:service_date,
@@ -179,12 +176,12 @@ export default class BookTab extends Component {
                     }
                 );
                 console.log("total",totalPrice);
-                this.setState({tempBookValue:items})
+                this.setState({serviceInfo:items})
                 this.setState({totalServicePrice:totalPrice})
                 this.setState({totalReserveService:totalReserveService})
             }
             else {
-                this.setState({tempBookValue:null})
+                this.setState({serviceInfo:null})
                 this.setState({totalServicePrice:0})
                 this.setState({totalReserveService:0})
             }
@@ -192,8 +189,6 @@ export default class BookTab extends Component {
     }
 
     getDefaultAddress() {
-        
-        const dbRef = firebase.database().ref();
         const user = firebase.auth().currentUser;
 
         const userId = user['uid'];
@@ -219,8 +214,6 @@ export default class BookTab extends Component {
     }
 
     getDefaultContactNo() {
-        
-        const dbRef = firebase.database().ref();
         const user = firebase.auth().currentUser;
 
         const userId = user['uid'];
@@ -246,7 +239,6 @@ export default class BookTab extends Component {
     }
 
     updateBookingDetails() {
-        const dbRef = firebase.database().ref();
         const user = firebase.auth().currentUser;
 
         var id = ''
@@ -332,7 +324,7 @@ export default class BookTab extends Component {
         var dayn = d[2];
         var year = d[3];
         var displayDate = month+' '+dayn+' '+year+', '+day
-        this.setState({serviceDate:displayDate})
+        this.setState({serviceDateCurrentVal:displayDate})
         this.hideDateTimePicker();
     };
     
@@ -357,7 +349,6 @@ export default class BookTab extends Component {
                 size={24} 
                 color="#F44336" 
                 onPress={()=>{
-                    const dbRef = firebase.database().ref();
                     const user = firebase.auth().currentUser;
     
                     var items = []
@@ -365,8 +356,8 @@ export default class BookTab extends Component {
                         .then(()=>{
                             console.log("DELETED");
                             
-                            const filteredData = this.state.tempBookValue.filter(item => item.id !== id);
-                            this.setState({ tempBookValue: filteredData });
+                            const filteredData = this.state.serviceInfo.filter(item => item.id !== id);
+                            this.setState({ serviceInfo: filteredData });
                             
                         })
                     this.getTempBooking();
@@ -448,8 +439,8 @@ export default class BookTab extends Component {
 
                         <RNPickerSelect
                             onValueChange={(value) => {
-                                this.setState({categoryValue:value})
-                                // this.setState({serviceValue:''});
+                                this.setState({categoryCurrentVal:value})
+                                // this.setState({serviceCurrentVal:''});
                                 this.getServiceList(value);
                                 // const listService = this.getServiceList(value);
                                 // this.setState({services:listService});
@@ -467,7 +458,7 @@ export default class BookTab extends Component {
                                 color:'#424242',
                                 borderColor:'#039BE5',
                                 }}>
-                                {this.state.categoryValue?this.state.categoryValue:'Select an item...'}
+                                {this.state.categoryCurrentVal?this.state.categoryCurrentVal:'Select an item...'}
                             </Text>
                         </RNPickerSelect>
 
@@ -483,7 +474,7 @@ export default class BookTab extends Component {
                         <RNPickerSelect
                             onValueChange={(value) => {
                                 console.log(value);
-                                this.setState({serviceValue:value});
+                                this.setState({serviceCurrentVal:value});
                             }}
                             items={this.state.services}
                         >
@@ -497,7 +488,7 @@ export default class BookTab extends Component {
                                 textAlign:'left',
                                 color:'#424242',
                                 borderColor:'#039BE5',
-                                }}>{this.state.serviceValue?this.state.serviceValue:'Select an item...'}</Text>
+                                }}>{this.state.serviceCurrentVal?this.state.serviceCurrentVal:'Select an item...'}</Text>
                         </RNPickerSelect>
 
                     </View>
@@ -522,7 +513,7 @@ export default class BookTab extends Component {
                                 borderColor:'#039BE5'
                                 }}
                             onPress={this.showDateTimePicker}
-                                >{this.state.serviceDate?this.state.serviceDate:"Not set"}</Text>
+                                >{this.state.serviceDateCurrentVal?this.state.serviceDateCurrentVal:"Not set"}</Text>
                         
                         {/* <Button title="Set date of service" onPress={this.showDateTimePicker} /> */}
                         {/* <TouchableOpacity 
@@ -650,18 +641,18 @@ export default class BookTab extends Component {
                             }}
                             onPress={()=>{
                                 this.setState({errorMsg:''})
-                                // console.log("date",this.state.serviceDate);  
-                                if (this.state.categoryValue===null){
+                                // console.log("date",this.state.serviceDateCurrentVal);  
+                                if (this.state.categoryCurrentVal===null){
                                     console.log("Di pde");
                                     this.setState({errorMsg:"* Please select category"})
                                     return
                                 }
-                                else if (this.state.serviceValue===null){
+                                else if (this.state.serviceCurrentVal===null){
                                     console.log("Di pde");
                                     this.setState({errorMsg:"* Please select service"})
                                     return
                                 }
-                                else if (this.state.serviceDate===''){
+                                else if (this.state.serviceDateCurrentVal===''){
                                     console.log("Di pde");
                                     this.setState({errorMsg:"* Please select date of service"})
                                     return
@@ -681,9 +672,9 @@ export default class BookTab extends Component {
                                         .ref('bookings/' + user['uid'] +'/'+ id)
                                         .set({
                                             id:id,
-                                            category:this.state.categoryValue,
-                                            service:this.state.serviceValue,
-                                            service_date:this.state.serviceDate,
+                                            category:this.state.categoryCurrentVal,
+                                            service:this.state.serviceCurrentVal,
+                                            service_date:this.state.serviceDateCurrentVal,
                                             service_price:this.state.servicePrice,
                                             service_currency:this.state.serviceCurrency,
                                             address:this.state.address,
@@ -720,7 +711,7 @@ export default class BookTab extends Component {
                             >Total Services Reserved ({this.state.totalReserveService})</Text>
 
                         <FlatList
-                            data={this.state.tempBookValue?this.state.tempBookValue:null}
+                            data={this.state.serviceInfo?this.state.serviceInfo:null}
                             renderItem={item => this.renderItemComponent(item)}
                             keyExtractor={item => item.id.toString()}
                             // ItemSeparatorComponent={this.ItemSeparator}
