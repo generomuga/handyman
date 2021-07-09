@@ -6,12 +6,15 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 
 import { AntDesign } from '@expo/vector-icons'; 
 
+import ToggleSwitch from 'toggle-switch-react-native'
+
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
 LogBox.ignoreLogs(['Unhandled Promise Rejection']);
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 import * as firebase from 'firebase';
+import { TextInput } from 'react-native-gesture-handler';
 
 export default class BookTab extends Component {
         
@@ -38,6 +41,7 @@ export default class BookTab extends Component {
             date: new Date(),
             setDate: new Date(),
             isDateTimePickerVisible: false,
+            isUseDefaultAddress: true,
             tempBookValue: [],
             errorMsg: ''
         }
@@ -108,6 +112,7 @@ export default class BookTab extends Component {
         var service_currency = ''
         var totalPrice = 0
         var totalReserveService = 0
+        var is_use_default_address = true
 
         dbRef.child('bookings/'+user['uid']).get()                        
             .then(snapshot => {
@@ -120,6 +125,7 @@ export default class BookTab extends Component {
                         service_date = childsnap.val()['service_date']
                         service_price = childsnap.val()['service_price']
                         service_currency = childsnap.val()['service_currency']
+                        is_use_default_address = childsnap.val()['is_use_default_address']
 
                         totalPrice = totalPrice + service_price;
                         totalReserveService = totalReserveService + 1
@@ -130,7 +136,8 @@ export default class BookTab extends Component {
                             service:service,
                             service_date:service_date,
                             service_price:service_price,
-                            service_currency:service_currency
+                            service_currency:service_currency,
+                            is_use_default_address: is_use_default_address
                         })
                     }
                 );
@@ -234,25 +241,48 @@ export default class BookTab extends Component {
                 style={{
                     marginLeft:10,
                     fontWeight:'400',
-                    marginBottom:10
+                    // marginBottom:10
                 }}>Price: {data.item.service_currency} {data.item.service_price.toFixed(2)}</Text>
-            {/* <Text>{data.item.id}</Text> */}
-            
-            {/* <Button title="Delete" onPress={()=>{
-                const dbRef = firebase.database().ref();
-                const user = firebase.auth().currentUser;
+          
+            <ToggleSwitch
+                // style={{marginLeft:10}}
+                isOn={data.item.is_use_default_address}
+                onColor="green"
+                label='Use default address'
+                labelStyle={{ color: "black", fontWeight: "900" }}
+                offColor="red"
+                size="small"
+                onToggle={() => {
 
-                var items = []
-                dbRef.child('bookings/'+user['uid']+'/'+data.item.id).remove()                     
-                    .then(()=>{
-                        console.log("DELETED");
-                        
-                        const filteredData = this.state.tempBookValue.filter(item => item.id !== id);
-                        this.setState({ tempBookValue: filteredData });
-                        
-                    })
-                this.getTempBooking();
-            }}/> */}
+                    const dbRef = firebase.database().ref();
+                    const user = firebase.auth().currentUser;
+                    const userId = user['uid'];
+
+                    var updates = {};
+                    var is_use_default_address = true
+
+                    if (data.item.is_use_default_address === true){
+                        is_use_default_address = false
+                    }
+                    else {
+                        is_use_default_address = true
+                    }
+
+                    updates['is_use_default_address'] = is_use_default_address;
+                    dbRef.child("bookings").child(userId).child(data.item.id).update(updates);
+                    this.getTempBooking();
+                    console.log(data.item.is_use_default_address)
+                }} 
+                />
+
+            <TextInput
+                style={{
+                    marginLeft:10,
+                    borderWidth:1,
+                }}
+            />
+            
+            
         </View>
 
     render(){
@@ -417,7 +447,8 @@ export default class BookTab extends Component {
                                             service:this.state.serviceValue,
                                             service_date:this.state.serviceDate,
                                             service_price:this.state.servicePrice,
-                                            service_currency:this.state.serviceCurrency
+                                            service_currency:this.state.serviceCurrency,
+                                            is_use_default_address:this.state.isUseDefaultAddress
                                         });
 
                                     this.getTempBooking();
