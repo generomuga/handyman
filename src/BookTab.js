@@ -255,14 +255,14 @@ export default class BookTab extends Component {
     };
     
     handleDatePicked = date => {
-        this.setState({actualDate:date});
-        console.log("A date has been picked: ", this.state.actualDate);
-        var d = String(date).split(' ');
-        var day = d[0];
-        var month = d[1];
-        var dayn = d[2];
-        var year = d[3];
+        var parsed_date = String(date).split(' ');
+        var day = parsed_date[0];
+        var month = parsed_date[1];
+        var dayn = parsed_date[2];
+        var year = parsed_date[3];
         var displayDate = month+' '+dayn+' '+year+', '+day
+
+        this.setState({actualDate:date});
         this.setState({serviceDateCurrentVal:displayDate})
         this.hideDateTimePicker();
     };
