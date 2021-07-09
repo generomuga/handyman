@@ -476,7 +476,8 @@ export default class BookTab extends Component {
                                 borderRadius:10, 
                                 textAlign:'left',
                                 color:'#424242',
-                                borderColor:'#039BE5'
+                                borderColor:'#039BE5',
+                                color:'gray'
                             }}
                             onPress={this.showDateTimePicker}
                         >  
@@ -532,6 +533,7 @@ export default class BookTab extends Component {
                                 borderColor:'#039BE5'
                             }}
                             value={this.state.address}
+                            placeholder={'Not set'}
                             editable={this.state.isAddressEditable}
                             onChangeText={(address)=>this.setState({address:address})}
                         />
@@ -578,6 +580,7 @@ export default class BookTab extends Component {
                                 borderColor:'#039BE5'
                             }}
                             value={this.state.contactNo}
+                            placeholder={'Not set'}
                             editable={this.state.isContactEditable}
                             onChangeText={(contactNo)=>this.setState({contactNo:contactNo})}
                         />
@@ -620,6 +623,14 @@ export default class BookTab extends Component {
                                     console.log("Awit di pde");
                                     this.setState({errorMsg:"* Please select valid date of service"})
                                     return
+                                }
+                                else if (this.state.address===''){
+                                    console.log("Di pde");
+                                    this.setState({errorMsg:"* Please set your address"})
+                                }
+                                else if (this.state.contactNo===''){
+                                    console.log("Di pde");
+                                    this.setState({errorMsg:"* Please set your contact number"})
                                 }
                                 else 
                                 {
