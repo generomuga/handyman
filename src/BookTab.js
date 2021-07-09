@@ -219,6 +219,19 @@ export default class BookTab extends Component {
         var contact_no = ''
         var is_visible = false
 
+        var trasaction_id = new Date().getTime().toString();   
+        var refTrans = dbRef
+                    .child('transactions/'+user['uid'])
+                    .child(trasaction_id);
+                    // .set({
+                    //     trasaction_id:id
+                    // })
+
+        // var counter = 0;
+        var items = []
+
+        var created_at = new Date().toString();
+
         dbRef.child('bookings/'+user['uid']).get()                        
             .then(snapshot => {
                 if (snapshot.exists()) {
@@ -240,12 +253,20 @@ export default class BookTab extends Component {
                             updates['is_visible'] = false
                             var refUpdate = dbRef.child('bookings/'+user['uid']).child(id).update(updates);
                             
+                            items.push(id)  
                         }
 
                     }
                 );
                 
+                refTrans.set({
+                    booking_id:items,
+                    total_price: this.state.totalServicePrice,
+                    created_at: created_at,
+                    service_currency: this.state.serviceCurrency
+                })
             }
+
             else {
                
             }
