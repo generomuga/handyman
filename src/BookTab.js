@@ -30,7 +30,7 @@ export default class BookTab extends Component {
         
     componentDidMount(){
         this.getCategoryList();
-        this.getTempBooking();
+        this.getServiceInfo();
         this.getDefaultAddress();
         this.getDefaultContactNo();
     }
@@ -111,7 +111,7 @@ export default class BookTab extends Component {
             });
     }
 
-    getTempBooking(){
+    getServiceInfo(){
         const user = firebase.auth().currentUser;
 
         var items = []
@@ -283,7 +283,7 @@ export default class BookTab extends Component {
             else {
                
             }
-            this.getTempBooking()
+            this.getServiceInfo()
             }
             );
                
@@ -342,7 +342,7 @@ export default class BookTab extends Component {
                             this.setState({ serviceInfo: filteredData });
                             
                         })
-                    this.getTempBooking();
+                    this.getServiceInfo();
                 }}
                 />
             
@@ -667,7 +667,7 @@ export default class BookTab extends Component {
                                             // address:'Default address'
                                         });
 
-                                    this.getTempBooking();
+                                    this.getServiceInfo();
                                 }
                             }}
                             >
