@@ -15,12 +15,14 @@ LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 import * as firebase from 'firebase';
 import { TextInput } from 'react-native-gesture-handler';
+import { add } from 'react-native-reanimated';
 
 export default class BookTab extends Component {
         
     componentDidMount(){
         this.getCategoryList();
         this.getTempBooking();
+        this.getUserDetails();
     }
 
     constructor(props){
@@ -33,6 +35,8 @@ export default class BookTab extends Component {
             serviceValue: '',
             serviceDate: '',
             servicePrice: 0.00,
+            address:'',
+            contactNo:'',
             serviceCurrency: 'php',
             totalServicePrice: 0.00,
             totalReserveService: 0,
@@ -42,8 +46,11 @@ export default class BookTab extends Component {
             setDate: new Date(),
             isDateTimePickerVisible: false,
             isUseDefaultAddress: true,
+            isUseDefaultContact: true,
+            isAddressEditable: false,
+            isContactEditable: false,
             tempBookValue: [],
-            errorMsg: ''
+            errorMsg: '',
         }
     }
 
@@ -113,6 +120,9 @@ export default class BookTab extends Component {
         var totalPrice = 0
         var totalReserveService = 0
         var is_use_default_address = true
+        var contact_no = ''
+        // var is_address_editable = false
+        // var address = ''
 
         dbRef.child('bookings/'+user['uid']).get()                        
             .then(snapshot => {
@@ -125,7 +135,11 @@ export default class BookTab extends Component {
                         service_date = childsnap.val()['service_date']
                         service_price = childsnap.val()['service_price']
                         service_currency = childsnap.val()['service_currency']
-                        is_use_default_address = childsnap.val()['is_use_default_address']
+                        address = childsnap.val()['address']
+                        contact_no = childsnap.val()['contact_no']
+                        // is_use_default_address = childsnap.val()['is_use_default_address']
+                        // is_address_editable = childsnap.val()['is_address_editable']
+                        // address = childsnap.val()['address']
 
                         totalPrice = totalPrice + service_price;
                         totalReserveService = totalReserveService + 1
@@ -137,7 +151,11 @@ export default class BookTab extends Component {
                             service_date:service_date,
                             service_price:service_price,
                             service_currency:service_currency,
-                            is_use_default_address: is_use_default_address
+                            address:address,
+                            contact_no:contact_no
+                            // is_use_default_address: is_use_default_address,
+                            // is_address_editable:is_address_editable,
+                            // address:address
                         })
                     }
                 );
@@ -152,6 +170,33 @@ export default class BookTab extends Component {
                 this.setState({totalReserveService:0})
             }
             });
+    }
+
+    getUserDetails() {
+        
+        const dbRef = firebase.database().ref();
+        const user = firebase.auth().currentUser;
+
+        const userId = user['uid'];
+        console.log(userId);
+
+        dbRef.child("users").child(userId).get().then((snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val();
+
+            //   this.setState({displayName:data['displayName']});
+            //   this.setState({gender:data['gender']});
+            //   this.setState({email:data['email']});
+            //   this.setState({photoURL:data['photoURL']});
+              this.setState({contactNo:data['contactNo']});
+              this.setState({address:data['address']});
+            //   this.setState({contact:data['contact']});
+            } else {
+              console.log("No data available");
+            }
+          }).catch((error) => {
+            console.error(error);
+          });
     }
 
     showDateTimePicker = () => {
@@ -176,6 +221,8 @@ export default class BookTab extends Component {
     };
     
     renderItemComponent = (data) =>
+       
+        // return (
         <View style={{
                 backgroundColor:'white', 
                 borderRadius:10, 
@@ -236,53 +283,28 @@ export default class BookTab extends Component {
                     fontWeight:'400'
                 }}
                 >Date of service: {data.item.service_date}</Text>
+
+            <Text
+                style={{
+                    marginLeft:10,
+                    fontWeight:'400'
+                }}
+                >Contact: {data.item.contact_no}</Text>
+
+            <Text
+                style={{
+                    marginLeft:10,
+                    fontWeight:'400'
+                }}
+                >Address: {data.item.address}</Text>
             
             <Text
                 style={{
                     marginLeft:10,
                     fontWeight:'400',
-                    // marginBottom:10
+                    marginBottom:10
                 }}>Price: {data.item.service_currency} {data.item.service_price.toFixed(2)}</Text>
           
-            <ToggleSwitch
-                // style={{marginLeft:10}}
-                isOn={data.item.is_use_default_address}
-                onColor="green"
-                label='Use default address'
-                labelStyle={{ color: "black", fontWeight: "900" }}
-                offColor="red"
-                size="small"
-                onToggle={() => {
-
-                    const dbRef = firebase.database().ref();
-                    const user = firebase.auth().currentUser;
-                    const userId = user['uid'];
-
-                    var updates = {};
-                    var is_use_default_address = true
-
-                    if (data.item.is_use_default_address === true){
-                        is_use_default_address = false
-                    }
-                    else {
-                        is_use_default_address = true
-                    }
-
-                    updates['is_use_default_address'] = is_use_default_address;
-                    dbRef.child("bookings").child(userId).child(data.item.id).update(updates);
-                    this.getTempBooking();
-                    console.log(data.item.is_use_default_address)
-                }} 
-                />
-
-            <TextInput
-                style={{
-                    marginLeft:10,
-                    borderWidth:1,
-                }}
-            />
-            
-            
         </View>
 
     render(){
@@ -401,6 +423,104 @@ export default class BookTab extends Component {
                             />
                     </View>
 
+                    <View>
+                        <ToggleSwitch
+                            // style={{marginLeft:10}}
+                            isOn={this.state.isUseDefaultAddress}
+                            onColor="green"
+                            label='Use default address'
+                            labelStyle={{ 
+                                marginLeft:10, 
+                                marginBottom:5, 
+                                fontSize:17 }}
+                            offColor="red"
+                            size="small"
+                            onToggle={()=>{
+                                this.getUserDetails();
+                                this.setState({address:this.state.address})
+                                console.log(this.state.address)
+
+                                if (this.state.isUseDefaultAddress === true){
+                                    this.setState({isUseDefaultAddress:false})
+                                    this.setState({isAddressEditable:true})
+                                    
+                                }
+                                else {
+                                    this.setState({isUseDefaultAddress:true})
+                                    this.setState({isAddressEditable:false})
+                                }
+                            }} 
+                        />
+
+                        <TextInput
+                            style={{
+                                marginLeft:10,
+                                marginRight:10, 
+                                marginBottom:15,
+                                borderWidth:1, 
+                                padding:8, 
+                                borderRadius:10, 
+                                textAlign:'left',
+                                color:'#424242',
+                                borderColor:'#039BE5'
+                                }}
+                            value={this.state.address}
+                            // defaultValue={this.address}
+                            editable={this.state.isAddressEditable}
+                            onChangeText={(address)=>this.setState({address:address})}
+                        />
+
+                    </View>
+
+                    <View>
+                        <ToggleSwitch
+                            // style={{marginLeft:10}}
+                            isOn={this.state.isUseDefaultContact}
+                            onColor="green"
+                            label='Use default contact number'
+                            labelStyle={{ 
+                                marginLeft:10, 
+                                marginBottom:5, 
+                                fontSize:17 }}
+                            offColor="red"
+                            size="small"
+                            onToggle={()=>{
+                                this.getUserDetails();
+                                this.setState({contactNo:this.state.contactNo})
+                                console.log(this.state.contactNo)
+
+                                if (this.state.isUseDefaultContact === true){
+                                    this.setState({isUseDefaultContact:false})
+                                    this.setState({isContactEditable:true})
+                                    
+                                }
+                                else {
+                                    this.setState({isUseDefaultContact:true})
+                                    this.setState({isContactEditable:false})
+                                }
+                            }} 
+                        />
+
+                        <TextInput
+                            style={{
+                                marginLeft:10,
+                                marginRight:10, 
+                                marginBottom:15,
+                                borderWidth:1, 
+                                padding:8, 
+                                borderRadius:10, 
+                                textAlign:'left',
+                                color:'#424242',
+                                borderColor:'#039BE5'
+                                }}
+                            value={this.state.contactNo}
+                            // defaultValue={this.address}
+                            editable={this.state.isContactEditable}
+                            onChangeText={(contactNo)=>this.setState({contactNo:contactNo})}
+                        />
+
+                    </View>
+
                     <View style={{justifyContent:'center', backgroundColor:'white'}}>
                         <TouchableOpacity 
                             style={{
@@ -448,7 +568,11 @@ export default class BookTab extends Component {
                                             service_date:this.state.serviceDate,
                                             service_price:this.state.servicePrice,
                                             service_currency:this.state.serviceCurrency,
-                                            is_use_default_address:this.state.isUseDefaultAddress
+                                            address:this.state.address,
+                                            contact_no:this.state.contactNo
+                                            // is_use_default_address:this.state.isUseDefaultAddress,
+                                            // is_address_editable:this.state.isAddressEditable,
+                                            // address:'Default address'
                                         });
 
                                     this.getTempBooking();
@@ -475,6 +599,7 @@ export default class BookTab extends Component {
                                 fontSize:17
                                 }}
                             >Total Services Reserved ({this.state.totalReserveService})</Text>
+
                         <FlatList
                             data={this.state.tempBookValue?this.state.tempBookValue:null}
                             renderItem={item => this.renderItemComponent(item)}
