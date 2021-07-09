@@ -123,17 +123,13 @@ export default class BookTab extends Component {
         var service_currency = ''
         var totalPrice = 0
         var totalReserveService = 0
-        var is_use_default_address = true
         var contact_no = ''
         var is_visible = false
-        // var is_address_editable = false
-        // var address = ''
-
+        
         dbRef.child('bookings/'+user['uid']).get()                        
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
-                        // var key = childsnap.key;
                         id = childsnap.val()['id']
                         category = childsnap.val()['category']
                         service = childsnap.val()['service']
@@ -143,42 +139,34 @@ export default class BookTab extends Component {
                         address = childsnap.val()['address']
                         contact_no = childsnap.val()['contact_no']
                         is_visible = childsnap.val()['is_visible']
-                        // is_use_default_address = childsnap.val()['is_use_default_address']
-                        // is_address_editable = childsnap.val()['is_address_editable']
-                        // address = childsnap.val()['address']
-
-                        console.log(is_visible,'he')
 
                         if (is_visible === true) {
-
-                            totalPrice = totalPrice + service_price;
+                            totalPrice = totalPrice + service_price
                             totalReserveService = totalReserveService + 1
 
                             items.push({
-                                id:id, 
-                                category:category,
-                                service:service,
-                                service_date:service_date,
-                                service_price:service_price,
-                                service_currency:service_currency,
-                                address:address,
-                                contact_no:contact_no,
-                                isVisible:is_visible
+                                id, 
+                                category,
+                                service,
+                                service_date,
+                                service_price,
+                                service_currency,
+                                address,
+                                contact_no,
+                                is_visible
                             })
                         }
-
-                    }
-                );
-                console.log("total",totalPrice);
-                this.setState({serviceInfo:items})
-                this.setState({totalServicePrice:totalPrice})
-                this.setState({totalReserveService:totalReserveService})
-            }
-            else {
-                this.setState({serviceInfo:null})
-                this.setState({totalServicePrice:0})
-                this.setState({totalReserveService:0})
-            }
+                    });
+                
+                    this.setState({serviceInfo:items})
+                    this.setState({totalServicePrice:totalPrice})
+                    this.setState({totalReserveService:totalReserveService})
+                }
+                else {
+                    this.setState({serviceInfo:null})
+                    this.setState({totalServicePrice:0})
+                    this.setState({totalReserveService:0})
+                }
             });
     }
 
