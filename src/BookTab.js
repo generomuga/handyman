@@ -356,86 +356,116 @@ export default class BookTab extends Component {
             <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
 
                 <ScrollView>
-                {/* <View> */}
-                    <Text
-                        style={{
-                            color:'#C62828',
-                            textAlign:'center',
-                            padding:5
-                        }}
-                    >{this.state.errorMsg}</Text>
-
+                
+                    <View>
+                        <Text
+                            style={{
+                                color:'#C62828',
+                                textAlign:'center',
+                                padding:5
+                            }}
+                        >
+                            {this.state.errorMsg}
+                        </Text>
+                    </View>
+                    
                     <View style={{backgroundColor:"white", justifyContent:'center'}}>
-                        <Text style={{
-                            marginTop:10,
-                            marginLeft:10, 
-                            marginBottom:5, 
-                            fontSize:17
-                            }}>Category</Text>
+                        <Text 
+                            style={{
+                                marginTop:10,
+                                marginLeft:10, 
+                                marginBottom:5, 
+                                fontSize:17
+                            }}
+                        >
+                            Category
+                        </Text>
 
                         <RNPickerSelect
                             onValueChange={(value) => {
                                 this.setState({categoryCurrentVal:value})
-                                // this.setState({serviceCurrentVal:''});
                                 this.getServiceList(value);
-                                // const listService = this.getServiceList(value);
-                                // this.setState({services:listService});
                             }}
                             items={this.state.categories}
                         >
-                            <Text style={{
-                                marginLeft:10,
-                                marginRight:10, 
-                                marginBottom:5,
-                                borderWidth:1, 
-                                padding:8, 
-                                borderRadius:10, 
-                                textAlign:'left',
-                                color:'#424242',
-                                borderColor:'#039BE5',
-                                }}>
+                            <Text 
+                                style={{
+                                    marginLeft:10,
+                                    marginRight:10, 
+                                    marginBottom:5,
+                                    borderWidth:1, 
+                                    padding:8, 
+                                    borderRadius:10, 
+                                    textAlign:'left',
+                                    color:'#424242',
+                                    borderColor:'#039BE5',
+                                }}
+                            >
                                 {this.state.categoryCurrentVal?this.state.categoryCurrentVal:'Select an item...'}
                             </Text>
                         </RNPickerSelect>
 
                     </View>
 
-                    <View style={{backgroundColor:"white", justifyContent:'center'}}>
-                        <Text style={{
-                            marginTop:10,
-                            marginLeft:10, 
-                            marginBottom:5, 
-                            fontSize:17
-                            }}>Service</Text>
+                    <View 
+                        style={{
+                            backgroundColor:"white", 
+                            justifyContent:'center'
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                marginTop:10,
+                                marginLeft:10, 
+                                marginBottom:5, 
+                                fontSize:17
+                            }}
+                        >
+                            Service
+                        </Text>
+
                         <RNPickerSelect
                             onValueChange={(value) => {
-                                console.log(value);
                                 this.setState({serviceCurrentVal:value});
                             }}
                             items={this.state.services}
                         >
-                            <Text style={{
-                                marginLeft:10,
-                                marginRight:10, 
-                                marginBottom:5,
-                                borderWidth:1, 
-                                padding:8, 
-                                borderRadius:10, 
-                                textAlign:'left',
-                                color:'#424242',
-                                borderColor:'#039BE5',
-                                }}>{this.state.serviceCurrentVal?this.state.serviceCurrentVal:'Select an item...'}</Text>
+                            <Text 
+                                style={{
+                                    marginLeft:10,
+                                    marginRight:10, 
+                                    marginBottom:5,
+                                    borderWidth:1, 
+                                    padding:8, 
+                                    borderRadius:10, 
+                                    textAlign:'left',
+                                    color:'#424242',
+                                    borderColor:'#039BE5',
+                                }}
+                            >
+                                {this.state.serviceCurrentVal?this.state.serviceCurrentVal:'Select an item...'}
+                            </Text>
                         </RNPickerSelect>
 
                     </View>
                     
-                    <View style={{backgroundColor:"white", justifyContent:'center'}}>
-                        <Text style={{
-                            marginTop:10,
-                            marginLeft:10, 
-                            marginBottom:5, 
-                            fontSize:17
-                            }}>Date of service</Text>
+                    <View 
+                        style={{
+                            backgroundColor:"white", 
+                            justifyContent:'center'
+                        }}
+                    >
+                        <Text 
+                            style={{
+                                marginTop:10,
+                                marginLeft:10, 
+                                marginBottom:5, 
+                                fontSize:17
+                            }}
+                        >
+                            Date of service
+                        </Text>
+
                         <Text 
                             style={{
                                 marginLeft:10,
@@ -447,43 +477,36 @@ export default class BookTab extends Component {
                                 textAlign:'left',
                                 color:'#424242',
                                 borderColor:'#039BE5'
-                                }}
+                            }}
                             onPress={this.showDateTimePicker}
-                                >{this.state.serviceDateCurrentVal?this.state.serviceDateCurrentVal:"Not set"}</Text>
+                        >  
+                            {this.state.serviceDateCurrentVal?this.state.serviceDateCurrentVal:"Not set"}
+                        </Text>
                         
-                        {/* <Button title="Set date of service" onPress={this.showDateTimePicker} /> */}
-                        {/* <TouchableOpacity 
-                            style={{marginLeft:10}}
-                            onPress={this.showDateTimePicker}
-                            >
-                            <Text>Set date of service</Text>
-                        </TouchableOpacity> */}
-
                         <DateTimePicker
                             isVisible={this.state.isDateTimePickerVisible}
                             onConfirm={this.handleDatePicked}
                             onCancel={this.hideDateTimePicker}
                             display="default"
-                            />
+                        />
                     </View>
 
                     <View>
                         <ToggleSwitch
-                            // style={{marginLeft:10}}
                             isOn={this.state.isUseDefaultAddress}
                             onColor="green"
                             label='Use default address'
                             labelStyle={{ 
                                 marginLeft:10, 
                                 marginBottom:5, 
-                                fontSize:17 }}
+                                fontSize:17 
+                            }}
                             offColor="red"
                             size="small"
                             onToggle={()=>{
                                 this.getDefaultAddress();
                                 this.setState({address:this.state.address})
-                                console.log(this.state.address)
-
+                                
                                 if (this.state.isUseDefaultAddress === true){
                                     this.setState({isUseDefaultAddress:false})
                                     this.setState({isAddressEditable:true})
@@ -493,7 +516,7 @@ export default class BookTab extends Component {
                                     this.setState({isUseDefaultAddress:true})
                                     this.setState({isAddressEditable:false})
                                 }
-                            }} 
+                            }}
                         />
 
                         <TextInput
@@ -507,9 +530,8 @@ export default class BookTab extends Component {
                                 textAlign:'left',
                                 color:'#424242',
                                 borderColor:'#039BE5'
-                                }}
+                            }}
                             value={this.state.address}
-                            // defaultValue={this.address}
                             editable={this.state.isAddressEditable}
                             onChangeText={(address)=>this.setState({address:address})}
                         />
@@ -518,31 +540,29 @@ export default class BookTab extends Component {
 
                     <View>
                         <ToggleSwitch
-                            // style={{marginLeft:10}}
                             isOn={this.state.isUseDefaultContact}
                             onColor="green"
                             label='Use default contact number'
                             labelStyle={{ 
                                 marginLeft:10, 
                                 marginBottom:5, 
-                                fontSize:17 }}
+                                fontSize:17 
+                            }}
                             offColor="red"
                             size="small"
                             onToggle={()=>{
                                 this.getDefaultContactNo();
                                 this.setState({contactNo:this.state.contactNo})
-                                console.log(this.state.contactNo)
-
+                            
                                 if (this.state.isUseDefaultContact === true){
                                     this.setState({isUseDefaultContact:false})
                                     this.setState({isContactEditable:true})
-                                    
                                 }
                                 else {
                                     this.setState({isUseDefaultContact:true})
                                     this.setState({isContactEditable:false})
                                 }
-                            }} 
+                            }}
                         />
 
                         <TextInput
@@ -556,16 +576,20 @@ export default class BookTab extends Component {
                                 textAlign:'left',
                                 color:'#424242',
                                 borderColor:'#039BE5'
-                                }}
+                            }}
                             value={this.state.contactNo}
-                            // defaultValue={this.address}
                             editable={this.state.isContactEditable}
                             onChangeText={(contactNo)=>this.setState({contactNo:contactNo})}
                         />
 
                     </View>
 
-                    <View style={{justifyContent:'center', backgroundColor:'white'}}>
+                    <View 
+                        style={{
+                            justifyContent:'center', 
+                            backgroundColor:'white'
+                        }}
+                    >
                         <TouchableOpacity 
                             style={{
                                 marginLeft:10,
@@ -577,7 +601,6 @@ export default class BookTab extends Component {
                             }}
                             onPress={()=>{
                                 this.setState({errorMsg:''})
-                                // console.log("date",this.state.serviceDateCurrentVal);  
                                 if (this.state.categoryCurrentVal===null){
                                     console.log("Di pde");
                                     this.setState({errorMsg:"* Please select category"})
@@ -616,15 +639,12 @@ export default class BookTab extends Component {
                                             address:this.state.address,
                                             contact_no:this.state.contactNo,
                                             is_visible:this.state.isVisible
-                                            // is_use_default_address:this.state.isUseDefaultAddress,
-                                            // is_address_editable:this.state.isAddressEditable,
-                                            // address:'Default address'
                                         });
 
                                     this.getServiceInfo();
                                 }
                             }}
-                            >
+                        >
 
                             <Text 
                                 style={{
@@ -650,10 +670,8 @@ export default class BookTab extends Component {
                             data={this.state.serviceInfo?this.state.serviceInfo:null}
                             renderItem={item => this.renderItemComponent(item)}
                             keyExtractor={item => item.id.toString()}
-                            // ItemSeparatorComponent={this.ItemSeparator}
-                            // refreshing={this.state.refreshing}
-                            // onRefresh={this.handleRefresh}
-                                />
+                        />
+
                     </View>
 
                     <View>
@@ -690,10 +708,12 @@ export default class BookTab extends Component {
                                 textAlign:'left',
                                 color:'#424242',
                                 borderColor:'#039BE5',
-                                }}>{this.state.paymentMethodValue?this.state.paymentMethodValue:'Select an item...'}</Text>
+                                }}
+                            >
+                                {this.state.paymentMethodValue?this.state.paymentMethodValue:'Select an item...'}
+                            </Text>
                         </RNPickerSelect>
 
-                            
                         <TouchableOpacity 
                             style={{
                                 marginLeft:10,
@@ -710,14 +730,17 @@ export default class BookTab extends Component {
                                 style={{
                                     color:'#FAFAFA',
                                     textAlign:'center'
-                                }}>Book it now</Text>
+                                }}
+                            >
+                                Book it now
+                            </Text>
 
                         </TouchableOpacity>
                         
                     </View>
 
                 </ScrollView>
-                {/* </View>         */}
+                
             </SafeAreaView>
         )
     }
