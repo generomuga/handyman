@@ -47,6 +47,7 @@ export default class BookTab extends Component {
             isDateTimePickerVisible: false,
             isUseDefaultAddress: true,
             isUseDefaultContact: true,
+            isVisible: true,
             isAddressEditable: false,
             isContactEditable: false,
             tempBookValue: [],
@@ -121,6 +122,7 @@ export default class BookTab extends Component {
         var totalReserveService = 0
         var is_use_default_address = true
         var contact_no = ''
+        var is_visible = false
         // var is_address_editable = false
         // var address = ''
 
@@ -137,26 +139,31 @@ export default class BookTab extends Component {
                         service_currency = childsnap.val()['service_currency']
                         address = childsnap.val()['address']
                         contact_no = childsnap.val()['contact_no']
+                        is_visible = childsnap.val()['is_visible']
                         // is_use_default_address = childsnap.val()['is_use_default_address']
                         // is_address_editable = childsnap.val()['is_address_editable']
                         // address = childsnap.val()['address']
 
-                        totalPrice = totalPrice + service_price;
-                        totalReserveService = totalReserveService + 1
+                        console.log(is_visible,'he')
 
-                        items.push({
-                            id:id,
-                            category:category,
-                            service:service,
-                            service_date:service_date,
-                            service_price:service_price,
-                            service_currency:service_currency,
-                            address:address,
-                            contact_no:contact_no
-                            // is_use_default_address: is_use_default_address,
-                            // is_address_editable:is_address_editable,
-                            // address:address
-                        })
+                        if (is_visible === true) {
+
+                            totalPrice = totalPrice + service_price;
+                            totalReserveService = totalReserveService + 1
+
+                            items.push({
+                                id:id,
+                                category:category,
+                                service:service,
+                                service_date:service_date,
+                                service_price:service_price,
+                                service_currency:service_currency,
+                                address:address,
+                                contact_no:contact_no,
+                                isVisible:is_visible
+                            })
+                        }
+
                     }
                 );
                 console.log("total",totalPrice);
@@ -199,6 +206,55 @@ export default class BookTab extends Component {
           });
     }
 
+    updateBookingDetails() {
+        const dbRef = firebase.database().ref();
+        const user = firebase.auth().currentUser;
+
+        var id = ''
+        var category = ''
+        var service = ''
+        var service_date = ''
+        var service_price = 0
+        var service_currency = ''
+        var contact_no = ''
+        var is_visible = false
+
+        dbRef.child('bookings/'+user['uid']).get()                        
+            .then(snapshot => {
+                if (snapshot.exists()) {
+                    snapshot.forEach(function(childsnap){
+                        // var key = childsnap.key;
+                        id = childsnap.val()['id']
+                        category = childsnap.val()['category']
+                        service = childsnap.val()['service']
+                        service_date = childsnap.val()['service_date']
+                        service_price = childsnap.val()['service_price']
+                        service_currency = childsnap.val()['service_currency']
+                        address = childsnap.val()['address']
+                        contact_no = childsnap.val()['contact_no']
+                        is_visible = childsnap.val()['is_visible']
+                      
+                        console.log(id)
+                        if (is_visible === true) {
+                            var updates = {}
+                            updates['is_visible'] = false
+                            var refUpdate = dbRef.child('bookings/'+user['uid']).child(id).update(updates);
+                            
+                        }
+
+                    }
+                );
+                
+            }
+            else {
+               
+            }
+            this.getTempBooking()
+            }
+            );
+               
+    }
+
     showDateTimePicker = () => {
         this.setState({ isDateTimePickerVisible: true });
       };
@@ -233,7 +289,8 @@ export default class BookTab extends Component {
                 marginBottom:10,
                 flex:1,
                 justifyContent:'center'
-            }}>
+            }}
+            >
             <AntDesign 
                 style={{textAlign:'right', position:'relative', marginTop:5, marginRight:5}}
                 name="closecircle" 
@@ -556,6 +613,7 @@ export default class BookTab extends Component {
                                 }
                                 else 
                                 {
+                                    this.setState({isVisible:true});
                                     const user = firebase.auth().currentUser;
                                     var id = new Date().getTime().toString();   
                                     firebase
@@ -569,7 +627,8 @@ export default class BookTab extends Component {
                                             service_price:this.state.servicePrice,
                                             service_currency:this.state.serviceCurrency,
                                             address:this.state.address,
-                                            contact_no:this.state.contactNo
+                                            contact_no:this.state.contactNo,
+                                            is_visible:this.state.isVisible
                                             // is_use_default_address:this.state.isUseDefaultAddress,
                                             // is_address_editable:this.state.isAddressEditable,
                                             // address:'Default address'
@@ -657,7 +716,7 @@ export default class BookTab extends Component {
                                 padding:18,
                                 borderRadius:10
                             }}
-                            onPress={()=>null}
+                            onPress={()=>this.updateBookingDetails()}
                             >
 
                             <Text 
