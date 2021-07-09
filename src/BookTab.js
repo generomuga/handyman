@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import { View, Text, Button, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Alert} from 'react-native';
-// import DateTimePicker from '@react-native-community/datetimepicker';
+
+import { 
+    View, 
+    Text, 
+    SafeAreaView, 
+    ScrollView, 
+    TouchableOpacity, 
+    FlatList
+} from 'react-native';
+
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from "react-native-modal-datetime-picker";
+import ToggleSwitch from 'toggle-switch-react-native'
 
 import { AntDesign } from '@expo/vector-icons'; 
-
-import ToggleSwitch from 'toggle-switch-react-native'
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
@@ -15,7 +22,8 @@ LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 import * as firebase from 'firebase';
 import { TextInput } from 'react-native-gesture-handler';
-import { add } from 'react-native-reanimated';
+
+
 
 export default class BookTab extends Component {
         
@@ -39,18 +47,21 @@ export default class BookTab extends Component {
             address:'',
             contactNo:'',
             serviceCurrency: 'php',
+            paymentMethodValue:'',
+            actualDate:'',
+            isVisible: true,
+
             totalServicePrice: 0.00,
             totalReserveService: 0,
-            actualDate:'',
-            paymentMethodValue:'',
+
             date: new Date(),
-            setDate: new Date(),
+
             isDateTimePickerVisible: false,
             isUseDefaultAddress: true,
             isUseDefaultContact: true,
-            isVisible: true,
             isAddressEditable: false,
             isContactEditable: false,
+            
             tempBookValue: [],
             errorMsg: '',
         }
