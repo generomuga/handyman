@@ -268,8 +268,6 @@ export default class BookTab extends Component {
     };
     
     renderItemComponent = (data) =>
-       
-        // return (
         <View style={{
                 backgroundColor:'white', 
                 borderRadius:10, 
@@ -351,7 +349,6 @@ export default class BookTab extends Component {
                     fontWeight:'400',
                     marginBottom:10
                 }}>Price: {data.item.service_currency} {data.item.service_price.toFixed(2)}</Text>
-          
         </View>
 
     render(){
