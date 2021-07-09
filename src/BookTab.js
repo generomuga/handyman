@@ -195,7 +195,7 @@ export default class BookTab extends Component {
     }
 
     updateBookingDetails() {
-        const user = firebase.auth().currentUser;
+        const user = firebase.auth().currentUser
 
         var id = ''
         var category = ''
@@ -206,24 +206,16 @@ export default class BookTab extends Component {
         var contact_no = ''
         var is_visible = false
 
-        var trasaction_id = new Date().getTime().toString();   
-        var refTrans = dbRef
-                    .child('transactions/'+user['uid'])
-                    .child(trasaction_id);
-                    // .set({
-                    //     trasaction_id:id
-                    // })
-
-        // var counter = 0;
+        var trasaction_id = new Date().getTime().toString()
+        var transactionRef = dbRef.child('transactions/'+user['uid']).child(trasaction_id)
+                    
         var items = []
-
-        var created_at = new Date().toString();
+        var created_at = new Date().toString()
 
         dbRef.child('bookings/'+user['uid']).get()                        
             .then(snapshot => {
                 if (snapshot.exists()) {
-                    snapshot.forEach(function(childsnap){
-                        // var key = childsnap.key;
+                    snapshot.forEach(function(childsnap) {
                         id = childsnap.val()['id']
                         category = childsnap.val()['category']
                         service = childsnap.val()['service']
@@ -234,33 +226,24 @@ export default class BookTab extends Component {
                         contact_no = childsnap.val()['contact_no']
                         is_visible = childsnap.val()['is_visible']
                       
-                        console.log(id)
                         if (is_visible === true) {
                             var updates = {}
                             updates['is_visible'] = false
-                            var refUpdate = dbRef.child('bookings/'+user['uid']).child(id).update(updates);
-                            
-                            items.push(id)  
+                            dbRef.child('bookings/'+user['uid']).child(id).update(updates);
+                            items.push(id)
                         }
-
-                    }
-                );
+                    });
                 
-                refTrans.set({
-                    booking_id:items,
-                    total_price: this.state.totalServicePrice,
-                    created_at: created_at,
-                    service_currency: this.state.serviceCurrency
-                })
-            }
+                    transactionRef.set({
+                        booking_id:items,
+                        total_price: this.state.totalServicePrice,
+                        created_at: created_at,
+                        service_currency: this.state.serviceCurrency
+                    })
+                }
 
-            else {
-               
-            }
-            this.getServiceInfo()
-            }
-            );
-               
+                this.getServiceInfo()
+            });   
     }
 
     showDateTimePicker = () => {
