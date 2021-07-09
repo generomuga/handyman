@@ -71,18 +71,17 @@ export default class BookTab extends Component {
 
     getCategoryList() {
         var items = []
-        dbRef.child('tenant/categories').once("value")                      
+        dbRef.child('tenant/categories').once("value")
             .then(snapshot => {
                 if (snapshot.exists()) {
-                    snapshot.forEach(function(childsnap){
-                        // var key = childsnap.key;
-                        var data = childsnap.val();
+                    snapshot.forEach(function(childsnap) {
+                        var data = childsnap.val()
                         items.push({"label":data,"value":data})
-                    }
-                );
-                this.setState({categories:items})
+                    });
+                    this.setState({categories:items})
+                }
             }
-            });
+        );
     }
 
     getServiceList(category) {
