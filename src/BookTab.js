@@ -22,7 +22,8 @@ export default class BookTab extends Component {
     componentDidMount(){
         this.getCategoryList();
         this.getTempBooking();
-        this.getUserDetails();
+        this.getDefaultAddress();
+        this.getDefaultContactNo();
     }
 
     constructor(props){
@@ -179,7 +180,34 @@ export default class BookTab extends Component {
             });
     }
 
-    getUserDetails() {
+    getDefaultAddress() {
+        
+        const dbRef = firebase.database().ref();
+        const user = firebase.auth().currentUser;
+
+        const userId = user['uid'];
+        console.log(userId);
+
+        dbRef.child("users").child(userId).get().then((snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val();
+
+            //   this.setState({displayName:data['displayName']});
+            //   this.setState({gender:data['gender']});
+            //   this.setState({email:data['email']});
+            //   this.setState({photoURL:data['photoURL']});
+            //   this.setState({contactNo:data['contactNo']});
+              this.setState({address:data['address']});
+            //   this.setState({contact:data['contact']});
+            } else {
+              console.log("No data available");
+            }
+          }).catch((error) => {
+            console.error(error);
+          });
+    }
+
+    getDefaultContactNo() {
         
         const dbRef = firebase.database().ref();
         const user = firebase.auth().currentUser;
@@ -196,7 +224,7 @@ export default class BookTab extends Component {
             //   this.setState({email:data['email']});
             //   this.setState({photoURL:data['photoURL']});
               this.setState({contactNo:data['contactNo']});
-              this.setState({address:data['address']});
+            //   this.setState({address:data['address']});
             //   this.setState({contact:data['contact']});
             } else {
               console.log("No data available");
@@ -514,7 +542,7 @@ export default class BookTab extends Component {
                             offColor="red"
                             size="small"
                             onToggle={()=>{
-                                this.getUserDetails();
+                                this.getDefaultAddress();
                                 this.setState({address:this.state.address})
                                 console.log(this.state.address)
 
@@ -563,7 +591,7 @@ export default class BookTab extends Component {
                             offColor="red"
                             size="small"
                             onToggle={()=>{
-                                this.getUserDetails();
+                                this.getDefaultContactNo();
                                 this.setState({contactNo:this.state.contactNo})
                                 console.log(this.state.contactNo)
 
