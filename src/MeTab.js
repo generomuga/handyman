@@ -19,47 +19,41 @@ import * as ImagePicker from 'expo-image-picker';
 
 database.init();
 
+const dbRef = firebase.database().ref();
+
 export default class MeTab extends Component {
         
     getUserDetails() {
         
-        const dbRef = firebase.database().ref();
         const user = firebase.auth().currentUser;
 
-        const userId = user['uid'];
-        console.log(userId);
-
-
-        dbRef.child("users").child(userId).once("value").then((snapshot) => {
-            if (snapshot.exists()) {
-              const data = snapshot.val();
-
-              this.setState({displayName:data['displayName']});
-              this.setState({gender:data['gender']});
-              this.setState({email:data['email']});
-              this.setState({photoURL:data['photoURL']});
-              this.setState({contactNo:data['contactNo']});
-              this.setState({address:data['address']});
-            } else {
-              console.log("No data available");
-            }
-          }).catch((error) => {
-            console.error(error);
-          });
+        dbRef.child("users").child(user['uid']).once("value")
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    this.setState({displayName:data['displayName']});
+                    this.setState({gender:data['gender']});
+                    this.setState({email:data['email']});
+                    this.setState({photoURL:data['photoURL']});
+                    this.setState({contactNo:data['contactNo']});
+                    this.setState({address:data['address']});
+                } 
+                else {
+                    console.log("No data available");
+                }
+            });
     }
 
     updateUserDetails() {
-        const dbRef = firebase.database().ref();
         const user = firebase.auth().currentUser;
-        const userId = user['uid'];
-
+        
         var updates = {};
         updates['displayName'] = this.state.displayName;
         updates['gender'] = this.state.gender;
         updates['contactNo'] = this.state.contactNo;
         updates['address'] = this.state.address;
 
-        dbRef.child("users").child(userId).update(updates);
+        dbRef.child("users").child(user['uid']).update(updates);
     }
 
     _onPressButton() {
