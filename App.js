@@ -24,7 +24,6 @@ export default class App extends Component {
   render() {
 
     return (
-
         <NavigationContainer>
 
             <Stack.Navigator initialRouteName='Login'>
@@ -94,8 +93,7 @@ export default class App extends Component {
 
             </Stack.Navigator>
 
-        </NavigationContainer>
-
+        </NavigationContainer>     
     );
 
   }
