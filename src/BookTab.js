@@ -21,8 +21,9 @@ LogBox.ignoreLogs(['Unhandled Promise Rejection']);
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 import * as firebase from 'firebase';
-import { TextInput } from 'react-native-gesture-handler';
 
+import { TextInput } from 'react-native-gesture-handler';
+import Dialog from "react-native-dialog";
 
 const dbRef = firebase.database().ref();
 
@@ -66,6 +67,8 @@ export default class BookTab extends Component {
 
             serviceInfo: [],
             errorMsg: '',
+
+            isDialogVisible: false
         }
     }
 
@@ -368,6 +371,24 @@ export default class BookTab extends Component {
                     marginBottom:10
                 }}>Price: {data.item.service_currency} {data.item.service_price.toFixed(2)}</Text>
         </View>
+
+    showDialog = () => {
+        this.setState({isDialogVisible:true})
+        console.log('Show')
+    };
+
+    handleCancel = () => {
+        this.setState({isDialogVisible:false})
+        console.log('Hide1')
+    };
+
+    handleProceed = () => {
+        // The user has pressed the "Delete" button, so here you can do your own logic.
+        // ...Your logic
+        this.setState({isDialogVisible:false})
+        this.updateBookingDetails()
+        console.log('Hide2')
+    };
 
     render(){
         return (
@@ -732,7 +753,9 @@ export default class BookTab extends Component {
                                 padding:18,
                                 borderRadius:10
                             }}
-                            onPress={()=>this.updateBookingDetails()}
+                            onPress={()=>{
+                                this.setState({isDialogVisible:true})
+                            }}
                             >
 
                             <Text 
@@ -745,6 +768,15 @@ export default class BookTab extends Component {
                             </Text>
 
                         </TouchableOpacity>
+
+                        <Dialog.Container visible={this.state.isDialogVisible}>
+                            <Dialog.Title>Book it now!</Dialog.Title>
+                            <Dialog.Description>
+                                Do you want to proceed?
+                            </Dialog.Description>
+                            <Dialog.Button label="Cancel" onPress={()=>this.handleCancel()} />
+                            <Dialog.Button label="Ok" onPress={()=>this.handleProceed()} />
+                        </Dialog.Container>
                         
                     </View>
 
