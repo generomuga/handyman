@@ -754,7 +754,35 @@ export default class BookTab extends Component {
                                 borderRadius:10
                             }}
                             onPress={()=>{
-                                this.setState({isDialogVisible:true})
+                                if (this.state.categoryCurrentVal===null){
+                                    this.setState({errorMsg:"* Please select category"})
+                                    return
+                                }
+                                else if (this.state.serviceCurrentVal===null){
+                                    this.setState({errorMsg:"* Please select service"})
+                                    return
+                                }
+                                else if (this.state.serviceDateCurrentVal===''){
+                                    this.setState({errorMsg:"* Please select date of service"})
+                                    return
+                                }
+                                else if (this.state.actualDate.getTime() <= new Date().getTime()){
+                                    this.setState({errorMsg:"* Please select valid date of service"})
+                                    return
+                                }
+                                else if (this.state.address===''){
+                                    this.setState({errorMsg:"* Please set your address"})
+                                }
+                                else if (this.state.contactNo===''){
+                                    this.setState({errorMsg:"* Please set your contact number"})
+                                }
+                                else if (this.state.paymentMethodValue===''){
+                                    this.setState({errorMsg:"* Please select payment method"})
+                                    return
+                                }
+                                else {
+                                    this.setState({isDialogVisible:true})
+                                }
                             }}
                             >
 
