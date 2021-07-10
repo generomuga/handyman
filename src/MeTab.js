@@ -7,7 +7,7 @@ import {
     Button,
     TouchableOpacity,
     Image,
-    ScrollView
+    ScrollView,
 } from 'react-native';
 
 import * as firebase from 'firebase';
@@ -15,6 +15,7 @@ import * as firebase from 'firebase';
 import database from './functions/database';
 
 import RNPickerSelect from 'react-native-picker-select';
+import * as ImagePicker from 'expo-image-picker';
 
 database.init();
 
@@ -59,7 +60,6 @@ export default class MeTab extends Component {
         updates['address'] = this.state.address;
 
         dbRef.child("users").child(userId).update(updates);
-
     }
 
     _onPressButton() {
@@ -113,6 +113,47 @@ export default class MeTab extends Component {
 
     }
 
+    onImagePress = async() => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+        else {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [3, 3],
+                quality: 1,
+              });
+    
+              if (!result.cancelled) {
+                this.uploadImage(result.uri,'test')
+                console.log(result.uri)
+               
+              }
+        }
+
+    }
+
+    uploadImage = async(uri, imageName) => {
+        const response = await fetch(uri)
+        const blob = await response.blob()
+
+        var ref = firebase.storage().ref().child('images/'+imageName);
+        await ref.put(blob)
+        const photoURL = await ref.getDownloadURL()
+        console.log(photoURL)
+
+        const dbRef = firebase.database().ref();
+        const user = firebase.auth().currentUser;
+        var updates = {}
+        updates['photoURL'] = photoURL
+        dbRef.child('users').child(user['uid']).update(updates)
+        // this.getUserDetails();
+        this.setState({photoURL:photoURL})
+    }
+
+
     render(){
         return (
             <ScrollView
@@ -139,8 +180,11 @@ export default class MeTab extends Component {
                         // source={{uri:Image.resolveAssetSource(require('../assets/user.png')).uri}}
                     />
 
-                    <Text>
-                        
+                    <Text
+                        onPress={()=>{
+                            this.onImagePress()
+                        }}>
+                        Change photo
                     </Text>
 
                 </View>
