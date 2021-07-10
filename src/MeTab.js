@@ -30,7 +30,7 @@ export default class MeTab extends Component {
         console.log(userId);
 
 
-        dbRef.child("users").child(userId).get().then((snapshot) => {
+        dbRef.child("users").child(userId).once("value").then((snapshot) => {
             if (snapshot.exists()) {
               const data = snapshot.val();
 
