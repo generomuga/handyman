@@ -144,21 +144,28 @@ export default class MeTab extends Component {
 
                 </View>
 
-                <Text>full name</Text>
+                <Text
+                    style={{
+                        marginTop:10,
+                        marginLeft:10, 
+                        marginBottom:5, 
+                        fontSize:17
+                    }}
+                >
+                    Full name
+                </Text>
 
                 <TextInput 
                     style={{
-                        alignSelf:'stretch',
-                        borderTopLeftRadius: 15,
-                        borderTopRightRadius: 15,
-                        borderBottomLeftRadius: 15,
-                        borderBottomRightRadius: 15,
-                        borderWidth: 1,
-                        borderColor: '#039BE5',
-                        padding:10,
                         marginLeft:10,
-                        marginRight:10,
-                        textAlign:'center'
+                        marginRight:10, 
+                        marginBottom:5,
+                        borderWidth:1, 
+                        padding:8, 
+                        borderRadius:10, 
+                        textAlign:'left',
+                        color:'#424242',
+                        borderColor:'#039BE5'
                     }} 
                     placeholder='full name' 
                     autoCapitalize='none'
@@ -167,7 +174,16 @@ export default class MeTab extends Component {
                     onChangeText={displayName => this.setState({displayName})}
                     />
 
-                <Text>gender</Text>
+                <Text
+                    style={{
+                        marginTop:10,
+                        marginLeft:10, 
+                        marginBottom:5, 
+                        fontSize:17
+                    }}
+                >
+                    Gender
+                </Text>
 
                 <RNPickerSelect
                     onValueChange={(value) => {
@@ -179,13 +195,44 @@ export default class MeTab extends Component {
                         { label: 'Female', value: 'Female' },
                     ]}
                 >
-                    <Text>{this.state.gender?this.state.gender:'Select an item...'}</Text>
+                    <Text
+                        style={{
+                            marginLeft:10,
+                            marginRight:10, 
+                            marginBottom:5,
+                            borderWidth:1, 
+                            padding:8, 
+                            borderRadius:10, 
+                            textAlign:'left',
+                            color:'#424242',
+                            borderColor:'#039BE5',
+                        }}
+                    >{this.state.gender?this.state.gender:'Select an item...'}</Text>
                 </RNPickerSelect>
 
-                <Text>email address</Text>
+                <Text
+                    style={{
+                        marginTop:10,
+                        marginLeft:10, 
+                        marginBottom:5, 
+                        fontSize:17
+                    }}
+                >
+                    Email address
+                </Text>
 
                 <TextInput 
-                    style={{alignSelf:'center'}} 
+                    style={{
+                        marginLeft:10,
+                        marginRight:10, 
+                        marginBottom:5,
+                        borderWidth:1, 
+                        padding:8, 
+                        borderRadius:10, 
+                        textAlign:'left',
+                        color:'#424242',
+                        borderColor:'#039BE5'
+                    }} 
                     placeholder='email' 
                     autoCapitalize='none' 
                     value={this.state.email?this.state.email:null}
@@ -193,10 +240,28 @@ export default class MeTab extends Component {
                     onChangeText={email => this.setState({email})}
                     />
 
-                <Text>contact number</Text>
+                <Text
+                    style={{
+                        marginTop:10,
+                        marginLeft:10, 
+                        marginBottom:5, 
+                        fontSize:17
+                    }}
+                >
+                    Contact number</Text>
 
                 <TextInput 
-                    style={{alignSelf:'center'}} 
+                    style={{
+                        marginLeft:10,
+                        marginRight:10, 
+                        marginBottom:5,
+                        borderWidth:1, 
+                        padding:8, 
+                        borderRadius:10, 
+                        textAlign:'left',
+                        color:'#424242',
+                        borderColor:'#039BE5'
+                    }} 
                     placeholder='contact number' 
                     autoCapitalize='none' 
                     value={this.state.contactNo?this.state.contactNo:null}
@@ -204,10 +269,29 @@ export default class MeTab extends Component {
                     onChangeText={contactNo => this.setState({contactNo})}
                     />
 
-                <Text>home address</Text>
+                <Text
+                    style={{
+                        marginTop:10,
+                        marginLeft:10, 
+                        marginBottom:5, 
+                        fontSize:17
+                    }}
+                >
+                    Home address
+                </Text>
 
                 <TextInput 
-                    style={{alignSelf:'center'}} 
+                    style={{
+                        marginLeft:10,
+                        marginRight:10, 
+                        marginBottom:5,
+                        borderWidth:1, 
+                        padding:8, 
+                        borderRadius:10, 
+                        textAlign:'left',
+                        color:'#424242',
+                        borderColor:'#039BE5'
+                    }} 
                     placeholder='address' 
                     autoCapitalize='none' 
                     multiline={true}
