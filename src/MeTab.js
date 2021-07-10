@@ -133,17 +133,17 @@ export default class MeTab extends Component {
         const response = await fetch(uri)
         const blob = await response.blob()
 
-        var ref = firebase.storage().ref().child('images/'+imageName);
-        await ref.put(blob)
-        const photoURL = await ref.getDownloadURL()
-        console.log(photoURL)
-
-        const dbRef = firebase.database().ref();
         const user = firebase.auth().currentUser;
+
+        var ref = firebase.storage().ref().child('images/'+user['uid']);
+        await ref.put(blob)
+
+        const photoURL = await ref.getDownloadURL()
+        
         var updates = {}
         updates['photoURL'] = photoURL
+        
         dbRef.child('users').child(user['uid']).update(updates)
-        // this.getUserDetails();
         this.setState({photoURL:photoURL})
     }
 
