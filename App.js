@@ -26,7 +26,7 @@ export default class App extends Component {
     return (
         <NavigationContainer>
 
-            <Stack.Navigator initialRouteName='Login'>
+            <Stack.Navigator initialRouteName='Login' screenOptions={{gestureEnabled:false}}>
 
                 <Stack.Screen 
                     name='Login' 
