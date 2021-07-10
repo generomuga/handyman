@@ -625,31 +625,25 @@ export default class BookTab extends Component {
                             onPress={()=>{
                                 this.setState({errorMsg:''})
                                 if (this.state.categoryCurrentVal===null){
-                                    console.log("Di pde");
                                     this.setState({errorMsg:"* Please select category"})
                                     return
                                 }
                                 else if (this.state.serviceCurrentVal===null){
-                                    console.log("Di pde");
                                     this.setState({errorMsg:"* Please select service"})
                                     return
                                 }
                                 else if (this.state.serviceDateCurrentVal===''){
-                                    console.log("Di pde");
                                     this.setState({errorMsg:"* Please select date of service"})
                                     return
                                 }
                                 else if (this.state.actualDate.getTime() <= new Date().getTime()){
-                                    console.log("Awit di pde");
                                     this.setState({errorMsg:"* Please select valid date of service"})
                                     return
                                 }
                                 else if (this.state.address===''){
-                                    console.log("Di pde");
                                     this.setState({errorMsg:"* Please set your address"})
                                 }
                                 else if (this.state.contactNo===''){
-                                    console.log("Di pde");
                                     this.setState({errorMsg:"* Please set your contact number"})
                                 }
                                 else 
