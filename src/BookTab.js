@@ -246,6 +246,24 @@ export default class BookTab extends Component {
             });   
     }
 
+    addServiceInfo() {
+        const user = firebase.auth().currentUser;
+        var id = new Date().getTime().toString();
+           
+        dbRef.child('bookings/' + user['uid'] +'/'+ id)
+            .set({
+                id:id,
+                category:this.state.categoryCurrentVal,
+                service:this.state.serviceCurrentVal,
+                service_date:this.state.serviceDateCurrentVal,
+                service_price:this.state.servicePrice,
+                service_currency:this.state.serviceCurrency,
+                address:this.state.address,
+                contact_no:this.state.contactNo,
+                is_visible:this.state.isVisible
+            });
+    }
+
     showDateTimePicker = () => {
         this.setState({ isDateTimePickerVisible: true });
       };
@@ -384,7 +402,9 @@ export default class BookTab extends Component {
                         <RNPickerSelect
                             onValueChange={(value) => {
                                 this.setState({categoryCurrentVal:value})
-                                this.getServiceList(value);
+                                this.setState({serviceCurrentVal:''})
+                                this.setState({services:[]})
+                                this.getServiceList(value)
                             }}
                             items={this.state.categories}
                         >
@@ -635,23 +655,7 @@ export default class BookTab extends Component {
                                 else 
                                 {
                                     this.setState({isVisible:true});
-                                    const user = firebase.auth().currentUser;
-                                    var id = new Date().getTime().toString();   
-                                    firebase
-                                        .database()
-                                        .ref('bookings/' + user['uid'] +'/'+ id)
-                                        .set({
-                                            id:id,
-                                            category:this.state.categoryCurrentVal,
-                                            service:this.state.serviceCurrentVal,
-                                            service_date:this.state.serviceDateCurrentVal,
-                                            service_price:this.state.servicePrice,
-                                            service_currency:this.state.serviceCurrency,
-                                            address:this.state.address,
-                                            contact_no:this.state.contactNo,
-                                            is_visible:this.state.isVisible
-                                        });
-
+                                    this.addServiceInfo();
                                     this.getServiceInfo();
                                 }
                             }}
