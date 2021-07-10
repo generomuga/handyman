@@ -573,6 +573,7 @@ export default class BookTab extends Component {
                                 color:'#424242',
                                 borderColor:'#039BE5'
                             }}
+                            multiline={false}
                             value={this.state.address}
                             placeholder={'Not set'}
                             editable={this.state.isAddressEditable}

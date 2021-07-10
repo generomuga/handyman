@@ -6,7 +6,8 @@ import {
     SafeAreaView, 
     Button,
     TouchableOpacity,
-    Image
+    Image,
+    ScrollView
 } from 'react-native';
 
 import * as firebase from 'firebase';
@@ -114,8 +115,8 @@ export default class MeTab extends Component {
 
     render(){
         return (
-            <SafeAreaView
-                style={{flex:1}}
+            <ScrollView
+                // style={{flex:1}}
                 >
 
                 <View
@@ -294,7 +295,7 @@ export default class MeTab extends Component {
                     }} 
                     placeholder='address' 
                     autoCapitalize='none' 
-                    multiline={true}
+                    multiline={false}
                     value={this.state.address?this.state.address:null}
                     editable={this.state.isAddressEditable}
                     onChangeText={address => this.setState({address})}
@@ -307,7 +308,7 @@ export default class MeTab extends Component {
                     <Text>{this.state.buttonLabel}</Text>
                 </TouchableOpacity>
 
-            </SafeAreaView>
+            </ScrollView>
         )
     }
 
