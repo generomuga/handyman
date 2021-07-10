@@ -162,8 +162,9 @@ export default class MeTab extends Component {
 
                 <View
                     style={{
-                        flex: 0.3,
-                        backgroundColor: '#039BE5'
+                        backgroundColor: '#039BE5',
+                        flex:1,
+                        justifyContent: 'center'
                     }}
                     >
                     <Image 
@@ -181,6 +182,12 @@ export default class MeTab extends Component {
                     />
 
                     <Text
+                        style={{
+                            alignSelf:'center',
+                            marginTop:10,
+                            marginBottom:20,
+                            color:'white'
+                        }}
                         onPress={()=>{
                             this.onImagePress()
                         }}>
@@ -346,10 +353,23 @@ export default class MeTab extends Component {
                     />
 
                 <TouchableOpacity 
-                    style={{alignSelf:'center'}} 
+                    style={{
+                        marginLeft:10,
+                        marginRight:10,
+                        marginBottom:10,
+                        marginTop:20,
+                        backgroundColor:'#039BE5',
+                        padding:18,
+                        borderRadius:10
+                    }}
                     onPress={()=>this._onPressButton()}
                     >
-                    <Text>{this.state.buttonLabel}</Text>
+                    <Text
+                        style={{
+                            color:'#FAFAFA',
+                            textAlign:'center'
+                        }}
+                        >{this.state.buttonLabel}</Text>
                 </TouchableOpacity>
 
             </ScrollView>
