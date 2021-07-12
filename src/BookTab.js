@@ -213,6 +213,7 @@ export default class BookTab extends Component {
         var transactionRef = dbRef.child('transactions/'+user['uid']).child(trasaction_id)
                     
         var items = []
+        var items_category = []
         var created_at = new Date().toString()
 
         dbRef.child('bookings/'+user['uid']).get()                        
@@ -234,14 +235,24 @@ export default class BookTab extends Component {
                             updates['is_visible'] = false
                             dbRef.child('bookings/'+user['uid']).child(id).update(updates);
                             items.push(id)
+                            items_category.push({
+                                id,
+                                category,
+                                service,
+                                service_date,
+                                service_price,
+                                service_currency,
+                                address
+                            })
                         }
                     });
                 
                     transactionRef.set({
-                        booking_id:items,
+                        // booking_id:items,
                         total_price: this.state.totalServicePrice,
                         created_at: created_at,
-                        service_currency: this.state.serviceCurrency
+                        service_currency: this.state.serviceCurrency,
+                        booking_info:items_category
                     })
                 }
 
