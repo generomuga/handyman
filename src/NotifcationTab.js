@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Button, FlatList } from 'react-native';
 
 import * as firebase from 'firebase';
+import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 const dbRef = firebase.database().ref();
 
 export default class NotificationTab extends Component {
@@ -80,7 +81,7 @@ export default class NotificationTab extends Component {
                         })
 
                         items_trans.push({
-                            // id:transaction_id,
+                            id:transaction_id,
                             book_info:book_info
                         })
 
@@ -133,24 +134,51 @@ export default class NotificationTab extends Component {
 
             <FlatList
                 data={this.state.bookingDetails}
-                renderItem={({item,index}) => this.renderItemComponent2(item, index)}
-                keyExtractor={item => item.book_info[0].id.toString()}
+                renderItem={(item) => this.renderItemComponent2(item)}
+                keyExtractor={item => item.id.toString()}
                 horizontal={false} />
         </View>)
     }
 
-    renderItemComponent2 = (data, index) => 
-    <View>
-        <Text>NMgangangna</Text>
-        <Text>
-            {console.log(data, index)}
-        </Text>
+    renderItemComponent2 = (data) => {
+
         
-        <Text>
-            Awit
-            {/* {console.log('Aw;it',data.item.book_info[data.i])} */}
-        </Text>
-    </View>
+        data.item.book_info.forEach(element => {
+                    console.log(element['address'])
+            //         return <View>
+        
+            //             <Text>Awit</Text>
+            //         </View>
+            })
+        return (
+            <Text>asd</Text>
+            )
+
+    }
+
+
+    
+    // <View>
+    //     <Text>NMgangangna</Text>
+    //     <Text>
+    //         {data.item.id}
+    //     </Text>
+        
+    //     {/* <Text>
+    //         Awit
+    //         {data.item.book_info[0]['address']}
+    //     </Text> */}
+
+
+    //     {data.item.book_info.forEach(element => {
+    //         console.log(element['address'])
+    //         return <View>
+
+    //             <Text>Awit</Text>
+    //         </View>
+    //     })}
+    // </View>
+    
 
     render(){
         return (
