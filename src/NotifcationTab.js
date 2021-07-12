@@ -142,16 +142,18 @@ export default class NotificationTab extends Component {
 
     renderItemComponent2 = (data) => {
 
-        
+        var test = ''
         data.item.book_info.forEach(element => {
                     console.log(element['address'])
+                    test = test + element['address'] + '\n'
             //         return <View>
         
             //             <Text>Awit</Text>
             //         </View>
             })
         return (
-            <Text>asd</Text>
+            
+            <Text>{test}</Text>
             )
 
     }
