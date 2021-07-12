@@ -14,17 +14,13 @@ export default class NotificationTab extends Component {
         super(props)
 
         this.state = {
-            notifications: []
+            notifications: [],
+            bookingDetails: [{
+                id: 1,
+                category:'Hone'
+            }]
         }
 
-    }
-
-    getBookingDetails = async(booking_ids) => {
-
-        console.log(booking_ids)
-
-        // const user = firebase.auth().currentUser;
-        // var refBook = dbRef.child('bookings').child(user['uid']);
     }
 
     getTransactionDetails = async() => {
@@ -32,64 +28,73 @@ export default class NotificationTab extends Component {
         console.log('test');
 
         var items = []
+        var items_trans = []
 
         const user = firebase.auth().currentUser;
 
         var refBook = dbRef.child('bookings').child(user['uid']);
     
-        
-
         await dbRef.child('transactions').child(user['uid']).get()
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap) {
                         var data = childsnap.val()
                         var transaction_id = childsnap['key']
-                        var booking_ids = data['booking_id']
                         var created_at = data['created_at']
                         var service_currency = data['service_currency']
                         var total_price = data['total_price']
+                        var book_info = data['booking_info']
+                        // console.log('Data',book_info)
+
+                        // this.getBookingDetails(booking_ids)
                         // console.log(id)
                         
-                        const booking_info = []
-                        var category = ''
+                        // const booking_info = []
+                        // var category = ''
                     
-                        booking_ids.forEach(function(child) {
-                            // console.log('child',child)
+                        // booking_ids.forEach(function(child) {
+                        //     // console.log('child',child)
                             
-                            refBook.child(child).once("value")
-                                .then((snapshot) => {
-                                    if (snapshot.exists()) {
-                                        category = snapshot.val()['category'];
-                                        console.log(category)
-                                        booking_info.push(category)
-                                        // category = snapshot.val()['category']
-                                        // console.log(snapshot.val())
-                                    }
-                                    
-                                });
-                                
-                        })
-                        console.log(booking_info)
-                        // console.log(booking_ids)
-                        
-
+                        //     refBook.child(child).once("value")
+                        //         .then((snapshot) => {
+                        //             if (snapshot.exists()) {
+                        //                 category = snapshot.val()['category'];
+                        //                 // console.log(category)
+                        //                 booking_info.push({id:snapshot.key,category:category})
+                        //                 // category = snapshot.val()['category']
+                        //                 // console.log(snapshot.val())
+                        //             }
+                        //             console.log(booking_info)
+                        //             this.setState({bookingDetails:booking_info})
+                        //         });
+                                 
+                        // })
+                         
                         items.push({
                             id:transaction_id,
                             transaction_id:transaction_id,
-                            booking_ids:booking_ids,
                             created_at:created_at,
                             service_currency:service_currency,
-                            total_price:total_price
+                            total_price:total_price,
+                            book_info:book_info
+                        })
+
+                        items_trans.push({
+                            // id:transaction_id,
+                            book_info:book_info
                         })
 
                         // getBookingDetails(booking_ids);
 
                     });
 
-                    // console.log(items)
+                    // console.log('Ey',items)
 
+                    console.log('Ery',items_trans);
+                    this.setState({bookingDetails:items_trans})
                     this.setState({notifications:items})
+                    // this.setState({bookingDetails:book_info})
+                    // console.log('T',bookingDetails)
 
                     // console.log('Result askin',this.state.notifications)
                 }
@@ -101,7 +106,10 @@ export default class NotificationTab extends Component {
         
         }
     
-    renderItemComponent = (data) => 
+    renderItemComponent = (data) => {
+        // this.getBookingDetails()
+
+        return (
         <View>
             <Text>
                 {data.item.id}
@@ -110,7 +118,6 @@ export default class NotificationTab extends Component {
                 {data.item.transaction_id}
             </Text>
             <Text
-                onLo
             >
                 {data.item.booking_ids}
             </Text>
@@ -123,7 +130,27 @@ export default class NotificationTab extends Component {
             <Text>
                 {data.item.total_price}
             </Text>
-        </View>
+
+            <FlatList
+                data={this.state.bookingDetails}
+                renderItem={({item,index}) => this.renderItemComponent2(item, index)}
+                keyExtractor={item => item.book_info[0].id.toString()}
+                horizontal={false} />
+        </View>)
+    }
+
+    renderItemComponent2 = (data, index) => 
+    <View>
+        <Text>NMgangangna</Text>
+        <Text>
+            {console.log(data, index)}
+        </Text>
+        
+        <Text>
+            Awit
+            {/* {console.log('Aw;it',data.item.book_info[data.i])} */}
+        </Text>
+    </View>
 
     render(){
         return (
@@ -134,9 +161,9 @@ export default class NotificationTab extends Component {
                     data={this.state.notifications}
                     renderItem={item => this.renderItemComponent(item)}
                     keyExtractor={item => item.id.toString()}
-                    horizontal={true}
-                />
-
+                    horizontal={false} />
+               
+                            
             </View>
 
             
