@@ -11,6 +11,10 @@ export default class NotificationTab extends Component {
         this.getServiceInfo()
     }
     
+    // componentDidUpdate() {
+    //     this.getServiceInfo()
+    // }
+
     constructor(props){
         super(props)
 
@@ -21,6 +25,8 @@ export default class NotificationTab extends Component {
     }
 
     getServiceInfo(){
+
+        console.log('Awit')
         const user = firebase.auth().currentUser;
 
         var items = []
@@ -34,9 +40,8 @@ export default class NotificationTab extends Component {
         var totalReserveService = 0
         var contact_no = ''
         var is_visible = false
+        var is_booked = false
         
-
-
         dbRef.child('bookings/'+user['uid']).orderByKey().get()           
             .then(snapshot => {
                 if (snapshot.exists()) {
@@ -50,8 +55,12 @@ export default class NotificationTab extends Component {
                         address = childsnap.val()['address']
                         contact_no = childsnap.val()['contact_no']
                         is_visible = childsnap.val()['is_visible']
+                        is_booked = childsnap.val()['is_booked']
+                        status = childsnap.val()['status']
 
-                        if (is_visible === false) {
+                        console.log('nasds',is_visible, is_booked)
+
+                        if (is_visible === false && is_booked === true) {
                             totalPrice = totalPrice + service_price
                             totalReserveService = totalReserveService + 1
 
@@ -64,7 +73,8 @@ export default class NotificationTab extends Component {
                                 service_currency,
                                 address,
                                 contact_no,
-                                is_visible
+                                is_visible,
+                                status
                             })
                         }
                     });
@@ -102,6 +112,9 @@ export default class NotificationTab extends Component {
             <Text>
                 {data.item.service_date}
             </Text>
+            <Text>
+                {data.item.status}
+            </Text>
         </View>)
     }
 
@@ -117,7 +130,11 @@ export default class NotificationTab extends Component {
                     renderItem={item => this.renderItemComponent(item)}
                     keyExtractor={item => item.id.toString()}
                     inverted={true}
-                    horizontal={false} />
+                    horizontal={false} 
+                    // onScroll={()=>{this.getServiceInfo()}}
+                    onScrollBeginDrag={()=>this.getServiceInfo()}
+                    onScrollEndDrag={()=>this.getServiceInfo()}
+                    />
                     
                     
             </View>
