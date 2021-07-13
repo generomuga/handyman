@@ -29,6 +29,8 @@ const dbRef = firebase.database().ref();
 
 const dbRef2 = firebase.firestore();
 
+import NotificationTab from './NotifcationTab';
+
 
 export default class BookTab extends Component {
         
@@ -486,6 +488,9 @@ export default class BookTab extends Component {
         this.setState({isDialogVisible:false})
         this.updateBookingDetails()
         console.log('Hide2')
+
+        // const notif = new NotificationTab;
+        // notif.getServiceInfo()
 
         // this.setState({isBooked:true})
     };
