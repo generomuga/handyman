@@ -8,179 +8,104 @@ const dbRef = firebase.database().ref();
 export default class NotificationTab extends Component {
         
     componentDidMount() {
-        this.getTransactionDetails();
+        this.getServiceInfo()
     }
     
     constructor(props){
         super(props)
 
         this.state = {
-            notifications: [],
-            bookingDetails: [{
-                id: 1,
-                category:'Hone'
-            }]
+            serviceInfo: []
         }
 
     }
 
-    getTransactionDetails = async() => {
-
-        console.log('test');
-
-        var items = []
-        var items_trans = []
-
+    getServiceInfo(){
         const user = firebase.auth().currentUser;
 
-        var refBook = dbRef.child('bookings').child(user['uid']);
-    
-        await dbRef.child('transactions').child(user['uid']).get()
-            .then((snapshot) => {
+        var items = []
+        var id = ''
+        var category = ''
+        var service = ''
+        var service_date = ''
+        var service_price = 0
+        var service_currency = ''
+        var totalPrice = 0
+        var totalReserveService = 0
+        var contact_no = ''
+        var is_visible = false
+        
+
+
+        dbRef.child('bookings/'+user['uid']).orderByKey().get()           
+            .then(snapshot => {
                 if (snapshot.exists()) {
-                    snapshot.forEach(function(childsnap) {
-                        var data = childsnap.val()
-                        var transaction_id = childsnap['key']
-                        var created_at = data['created_at']
-                        var service_currency = data['service_currency']
-                        var total_price = data['total_price']
-                        var book_info = data['booking_info']
-                        // console.log('Data',book_info)
+                    snapshot.forEach(function(childsnap){
+                        id = childsnap.val()['id']
+                        category = childsnap.val()['category']
+                        service = childsnap.val()['service']
+                        service_date = childsnap.val()['service_date']
+                        service_price = childsnap.val()['service_price']
+                        service_currency = childsnap.val()['service_currency']
+                        address = childsnap.val()['address']
+                        contact_no = childsnap.val()['contact_no']
+                        is_visible = childsnap.val()['is_visible']
 
-                        // this.getBookingDetails(booking_ids)
-                        // console.log(id)
-                        
-                        // const booking_info = []
-                        // var category = ''
-                    
-                        // booking_ids.forEach(function(child) {
-                        //     // console.log('child',child)
-                            
-                        //     refBook.child(child).once("value")
-                        //         .then((snapshot) => {
-                        //             if (snapshot.exists()) {
-                        //                 category = snapshot.val()['category'];
-                        //                 // console.log(category)
-                        //                 booking_info.push({id:snapshot.key,category:category})
-                        //                 // category = snapshot.val()['category']
-                        //                 // console.log(snapshot.val())
-                        //             }
-                        //             console.log(booking_info)
-                        //             this.setState({bookingDetails:booking_info})
-                        //         });
-                                 
-                        // })
-                         
-                        items.push({
-                            id:transaction_id,
-                            transaction_id:transaction_id,
-                            created_at:created_at,
-                            service_currency:service_currency,
-                            total_price:total_price,
-                            book_info:book_info
-                        })
+                        if (is_visible === false) {
+                            totalPrice = totalPrice + service_price
+                            totalReserveService = totalReserveService + 1
 
-                        items_trans.push({
-                            id:transaction_id,
-                            book_info:book_info
-                        })
-
-                        // getBookingDetails(booking_ids);
-
+                            items.push({
+                                id, 
+                                category,
+                                service,
+                                service_date,
+                                service_price,
+                                service_currency,
+                                address,
+                                contact_no,
+                                is_visible
+                            })
+                        }
                     });
-
-                    // console.log('Ey',items)
-
-                    console.log('Ery',items_trans);
-                    this.setState({bookingDetails:items_trans})
-                    this.setState({notifications:items})
-                    // this.setState({bookingDetails:book_info})
-                    // console.log('T',bookingDetails)
-
-                    // console.log('Result askin',this.state.notifications)
+                
+                    console.log(items)
+                    this.setState({serviceInfo:items})
+                    // console.log(serviceInfo)
+                    // this.setState({totalServicePrice:totalPrice})
+                    // this.setState({totalReserveService:totalReserveService})
                 }
                 else {
-                     console.log("No data available")
-            
+                    // this.setState({serviceInfo:null})
+                    // this.setState({totalServicePrice:0})
+                    // this.setState({totalReserveService:0})
                 }
             });
-        
-        }
-    
+    }
+
     renderItemComponent = (data) => {
         // this.getBookingDetails()
 
         return (
-        <View>
+        <View style={{borderWidth:1}}>
             <Text>
                 {data.item.id}
             </Text>
+
             <Text>
-                {data.item.transaction_id}
-            </Text>
-            <Text
-            >
-                {data.item.booking_ids}
-            </Text>
-            <Text>
-                {data.item.created_at}
-            </Text>
-            <Text>
-                {data.item.service_currency}
-            </Text>
-            <Text>
-                {data.item.total_price}
+                {data.item.category}
             </Text>
 
-            <FlatList
-                data={this.state.bookingDetails}
-                renderItem={(item) => this.renderItemComponent2(item)}
-                keyExtractor={item => item.id.toString()}
-                horizontal={false} />
+            <Text>
+                {data.item.service}
+            </Text>
+            <Text>
+                {data.item.service_date}
+            </Text>
         </View>)
     }
 
-    renderItemComponent2 = (data) => {
 
-        var test = ''
-        data.item.book_info.forEach(element => {
-                    console.log(element['address'])
-                    test = test + element['address'] + '\n'
-            //         return <View>
-        
-            //             <Text>Awit</Text>
-            //         </View>
-            })
-        return (
-            
-            <Text>{test}</Text>
-            )
-
-    }
-
-
-    
-    // <View>
-    //     <Text>NMgangangna</Text>
-    //     <Text>
-    //         {data.item.id}
-    //     </Text>
-        
-    //     {/* <Text>
-    //         Awit
-    //         {data.item.book_info[0]['address']}
-    //     </Text> */}
-
-
-    //     {data.item.book_info.forEach(element => {
-    //         console.log(element['address'])
-    //         return <View>
-
-    //             <Text>Awit</Text>
-    //         </View>
-    //     })}
-    // </View>
-    
 
     render(){
         return (
@@ -188,12 +113,13 @@ export default class NotificationTab extends Component {
                 <Text>Transactions</Text>
 
                 <FlatList
-                    data={this.state.notifications}
+                    data={this.state.serviceInfo}
                     renderItem={item => this.renderItemComponent(item)}
                     keyExtractor={item => item.id.toString()}
+                    inverted={true}
                     horizontal={false} />
-               
-                            
+                    
+                    
             </View>
 
             
