@@ -62,10 +62,14 @@ export default class BookTab extends Component {
             isBooked: false,
             status: 'pending',
 
+            createdDate: '',
+
             totalServicePrice: 0.00,
             totalReserveService: 0,
 
             date: new Date(),
+
+            
 
             isDateTimePickerVisible: false,
             isUseDefaultAddress: true,
@@ -351,6 +355,8 @@ export default class BookTab extends Component {
         const user = firebase.auth().currentUser;
         var id = new Date().getTime().toString();
            
+        var dte = new Date().toString();
+
         dbRef.child('bookings/' + user['uid'] +'/'+ id)
             .set({
                 id:id,
@@ -363,7 +369,8 @@ export default class BookTab extends Component {
                 contact_no:this.state.contactNo,
                 is_visible:this.state.isVisible,
                 is_booked:this.state.isBooked,
-                status:this.state.status
+                status:this.state.status,
+                createdDate:dte
             });
     }
 

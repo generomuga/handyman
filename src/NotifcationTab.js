@@ -41,6 +41,7 @@ export default class NotificationTab extends Component {
         var contact_no = ''
         var is_visible = false
         var is_booked = false
+        var createdDate = ''
         
         dbRef.child('bookings/'+user['uid']).orderByKey().get()           
             .then(snapshot => {
@@ -57,8 +58,9 @@ export default class NotificationTab extends Component {
                         is_visible = childsnap.val()['is_visible']
                         is_booked = childsnap.val()['is_booked']
                         status = childsnap.val()['status']
+                        createdDate = childsnap.val()['createdDate']
 
-                        console.log('nasds',is_visible, is_booked)
+                        console.log('nasds',is_visible, is_booked,createdDate)
 
                         if (is_visible === false && is_booked === true) {
                             totalPrice = totalPrice + service_price
@@ -74,12 +76,13 @@ export default class NotificationTab extends Component {
                                 address,
                                 contact_no,
                                 is_visible,
-                                status
+                                status,
+                                createdDate
                             })
                         }
                     });
                 
-                    console.log(items)
+                    // console.log(items)
                     this.setState({serviceInfo:items})
                     // console.log(serviceInfo)
                     // this.setState({totalServicePrice:totalPrice})
@@ -114,6 +117,9 @@ export default class NotificationTab extends Component {
             </Text>
             <Text>
                 {data.item.status}
+            </Text>
+            <Text>
+                {data.item.createdDate}
             </Text>
         </View>)
     }
