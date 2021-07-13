@@ -57,6 +57,8 @@ export default class BookTab extends Component {
             paymentMethodValue:'',
             actualDate:'',
             isVisible: true,
+            isBooked: false,
+            status: 'pending',
 
             totalServicePrice: 0.00,
             totalReserveService: 0,
@@ -132,6 +134,8 @@ export default class BookTab extends Component {
         var totalReserveService = 0
         var contact_no = ''
         var is_visible = false
+        var is_booked = false
+        var status = ''
         
         dbRef.child('bookings/'+user['uid']).get()                        
             .then(snapshot => {
@@ -146,8 +150,12 @@ export default class BookTab extends Component {
                         address = childsnap.val()['address']
                         contact_no = childsnap.val()['contact_no']
                         is_visible = childsnap.val()['is_visible']
+                        is_booked = childsnap.val()['is_booked']
+                        status = childsnap.val()['status']
 
-                        if (is_visible === true) {
+                        console.log('status',status)
+
+                        if (is_visible === true && is_booked === false) {
                             totalPrice = totalPrice + service_price
                             totalReserveService = totalReserveService + 1
 
@@ -309,6 +317,7 @@ export default class BookTab extends Component {
                         if (is_visible === true) {
                             var updates = {}
                             updates['is_visible'] = false
+                            updates['is_booked'] = true
                             dbRef.child('bookings/'+user['uid']).child(id).update(updates);
                             items.push(id)
                             items_category.push({
@@ -350,42 +359,10 @@ export default class BookTab extends Component {
                 service_currency:this.state.serviceCurrency,
                 address:this.state.address,
                 contact_no:this.state.contactNo,
-                is_visible:this.state.isVisible
+                is_visible:this.state.isVisible,
+                is_booked:this.state.isBooked,
+                status:this.state.status
             });
-    }
-
-    addServiceInfo2() {
-        const user = firebase.auth().currentUser;
-        var uid = user['uid']
-        var id = new Date().getTime().toString();
-           
-        // dbRef2.collection('bookings/'+user['uid']).add({
-        dbRef2.collection('bookings').doc(uid).collection(id).add({
-        // dbRef2.collection('bookings').doc(uid).doc(id).set({
-            id:id,
-            category:this.state.categoryCurrentVal,
-            service:this.state.serviceCurrentVal,
-            service_date:this.state.serviceDateCurrentVal,
-            service_price:this.state.servicePrice,
-            service_currency:this.state.serviceCurrency,
-            address:this.state.address,
-            contact_no:this.state.contactNo,
-            is_visible:this.state.isVisible
-        })
-
-        // dbRef2.child('bookings/' + user['uid'] +'/'+ id)
-        //     .set({
-        //         id:id,
-        //         category:this.state.categoryCurrentVal,
-        //         service:this.state.serviceCurrentVal,
-        //         service_date:this.state.serviceDateCurrentVal,
-        //         service_price:this.state.servicePrice,
-        //         service_currency:this.state.serviceCurrency,
-        //         address:this.state.address,
-        //         contact_no:this.state.contactNo,
-        //         is_visible:this.state.isVisible
-        //     });
-
     }
 
     showDateTimePicker = () => {
@@ -509,6 +486,8 @@ export default class BookTab extends Component {
         this.setState({isDialogVisible:false})
         this.updateBookingDetails()
         console.log('Hide2')
+
+        // this.setState({isBooked:true})
     };
 
     render(){
