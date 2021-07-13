@@ -27,11 +27,15 @@ import Dialog from "react-native-dialog";
 
 const dbRef = firebase.database().ref();
 
+const dbRef2 = firebase.firestore();
+
+
 export default class BookTab extends Component {
         
     componentDidMount(){
         this.getCategoryList();
         this.getServiceInfo();
+        this.getServiceInfo2();
         this.getDefaultAddress();
         this.getDefaultContactNo();
     }
@@ -173,6 +177,78 @@ export default class BookTab extends Component {
             });
     }
 
+    getServiceInfo2(){
+        console.log('2')
+        const user = firebase.auth().currentUser;
+        uid = user['uid']
+        console.log(uid)
+
+        var items = []
+        var id = ''
+        var category = ''
+        var service = ''
+        var service_date = ''
+        var service_price = 0
+        var service_currency = ''
+        var totalPrice = 0
+        var totalReserveService = 0
+        var contact_no = ''
+        var is_visible = false
+        
+        // dbRef2.collection('bookings').get()
+        //     .then((doc) =>{
+        //         if (doc.exists) {
+        //             console.log(doc)
+        //         }
+        //         else {
+        //             console.log('wala')
+        //         }
+        //     })
+
+        // dbRef.child('bookings/'+user['uid']).get()                        
+        //     .then(snapshot => {
+        //         if (snapshot.exists()) {
+        //             snapshot.forEach(function(childsnap){
+        //                 id = childsnap.val()['id']
+        //                 category = childsnap.val()['category']
+        //                 service = childsnap.val()['service']
+        //                 service_date = childsnap.val()['service_date']
+        //                 service_price = childsnap.val()['service_price']
+        //                 service_currency = childsnap.val()['service_currency']
+        //                 address = childsnap.val()['address']
+        //                 contact_no = childsnap.val()['contact_no']
+        //                 is_visible = childsnap.val()['is_visible']
+
+        //                 if (is_visible === true) {
+        //                     totalPrice = totalPrice + service_price
+        //                     totalReserveService = totalReserveService + 1
+
+        //                     items.push({
+        //                         id, 
+        //                         category,
+        //                         service,
+        //                         service_date,
+        //                         service_price,
+        //                         service_currency,
+        //                         address,
+        //                         contact_no,
+        //                         is_visible
+        //                     })
+        //                 }
+        //             });
+                
+        //             this.setState({serviceInfo:items})
+        //             this.setState({totalServicePrice:totalPrice})
+        //             this.setState({totalReserveService:totalReserveService})
+        //         }
+        //         else {
+        //             this.setState({serviceInfo:null})
+        //             this.setState({totalServicePrice:0})
+        //             this.setState({totalReserveService:0})
+        //         }
+        //     });
+    }
+
     getDefaultAddress() {
         const user = firebase.auth().currentUser
 
@@ -276,6 +352,40 @@ export default class BookTab extends Component {
                 contact_no:this.state.contactNo,
                 is_visible:this.state.isVisible
             });
+    }
+
+    addServiceInfo2() {
+        const user = firebase.auth().currentUser;
+        var uid = user['uid']
+        var id = new Date().getTime().toString();
+           
+        // dbRef2.collection('bookings/'+user['uid']).add({
+        dbRef2.collection('bookings').doc(uid).collection(id).add({
+        // dbRef2.collection('bookings').doc(uid).doc(id).set({
+            id:id,
+            category:this.state.categoryCurrentVal,
+            service:this.state.serviceCurrentVal,
+            service_date:this.state.serviceDateCurrentVal,
+            service_price:this.state.servicePrice,
+            service_currency:this.state.serviceCurrency,
+            address:this.state.address,
+            contact_no:this.state.contactNo,
+            is_visible:this.state.isVisible
+        })
+
+        // dbRef2.child('bookings/' + user['uid'] +'/'+ id)
+        //     .set({
+        //         id:id,
+        //         category:this.state.categoryCurrentVal,
+        //         service:this.state.serviceCurrentVal,
+        //         service_date:this.state.serviceDateCurrentVal,
+        //         service_price:this.state.servicePrice,
+        //         service_currency:this.state.serviceCurrency,
+        //         address:this.state.address,
+        //         contact_no:this.state.contactNo,
+        //         is_visible:this.state.isVisible
+        //     });
+
     }
 
     showDateTimePicker = () => {
@@ -683,7 +793,9 @@ export default class BookTab extends Component {
                                 {
                                     this.setState({isVisible:true});
                                     this.addServiceInfo();
+                                    // this.addServiceInfo2()
                                     this.getServiceInfo();
+                                    // this.getServiceInfo2();
                                 }
                             }}
                         >
