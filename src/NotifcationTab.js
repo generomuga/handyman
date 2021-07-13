@@ -118,12 +118,12 @@ export default class NotificationTab extends Component {
         </View>)
     }
 
-
-
     render(){
         return (
             <View>
                 <Text>Transactions</Text>
+
+                <Text>Scroll down to refresh</Text>
 
                 <FlatList
                     data={this.state.serviceInfo}
