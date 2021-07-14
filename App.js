@@ -7,6 +7,7 @@ import Login from './src/Login';
 import Signup from './src/Signup';
 import Home from './src/Home';
 import ForgotPassword from './src/ForgotPassword';
+import Admin from './src/Admin';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -82,6 +83,21 @@ export default class App extends Component {
                   options= {{
                         headerShown: true, 
                         title: 'Forgot Password', 
+                        headerStyle: {
+                          backgroundColor: '#039BE5'
+                        },
+                        headerTintColor: '#FAFAFA',
+                        headerTitleStyle: {
+                          alignSelf: 'center'
+                        }
+                  }} />
+
+                <Stack.Screen 
+                  name='Admin' 
+                  component={Admin} 
+                  options= {{
+                        headerShown: true, 
+                        title: 'Admin', 
                         headerStyle: {
                           backgroundColor: '#039BE5'
                         },

@@ -366,6 +366,13 @@ export default class MeTab extends Component {
                         >{this.state.buttonLabel}</Text>
                 </TouchableOpacity>
 
+                <Button 
+                    onPress={()=>
+                            this.props.navigation.navigate('Admin') 
+                    }
+                    title="Eheh"
+                />
+            
             </ScrollView>
         )
     }
