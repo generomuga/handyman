@@ -5,6 +5,8 @@ import * as firebase from 'firebase';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 const dbRef = firebase.database().ref();
 
+import Dialog from "react-native-dialog";
+
 export default class Admin extends Component {
         
     componentDidMount() {
@@ -19,10 +21,45 @@ export default class Admin extends Component {
         super(props)
 
         this.state = {
-            serviceInfo: []
+            serviceInfo: [],
+            isDialogVisible: false
         }
 
     }
+
+    showDialog = () => {
+        this.setState({isDialogVisible:true})
+        console.log('Show')
+    };
+
+    handleCancel = () => {
+        this.setState({isDialogVisible:false})
+        console.log('Hide1')
+    };
+
+    handleAccept = (transaction_id) => {
+        // The user has pressed the "Delete" button, so here you can do your own logic.
+        // ...Your logic
+
+        const user = firebase.auth().currentUser;
+
+        const uid = user['uid']
+        console.log(uid, transaction_id)
+
+        var updates = {}
+        updates['bookings/'+uid+'/'+transaction_id+'/status'] = 'accepted'
+        dbRef.update(updates)
+        this.setState({isDialogVisible:false})
+        this.getServiceInfo();
+        
+        // this.updateBookingDetails()
+        // console.log('Hide2')
+
+        // const notif = new NotificationTab;
+        // notif.getServiceInfo()
+
+        // this.setState({isBooked:true})
+    };
 
     getServiceInfo(){
 
@@ -134,14 +171,23 @@ export default class Admin extends Component {
 
                         console.log(uid, transaction_id)
 
-                        var updates = {}
-                        updates['bookings/'+uid+'/'+transaction_id+'/status'] = 'accepted'
-                        dbRef.update(updates)
-                        this.getServiceInfo();
+                        this.setState({isDialogVisible:true})
+                        // var updates = {}
+                        // updates['bookings/'+uid+'/'+transaction_id+'/status'] = 'accepted'
+                        // dbRef.update(updates)
+                        // this.getServiceInfo();
                     }
 
                 }
             />
+            <Dialog.Container visible={this.state.isDialogVisible}>
+                <Dialog.Title>Accept it now!</Dialog.Title>
+                <Dialog.Description>
+                    Do you want to accept?
+                </Dialog.Description>
+                <Dialog.Button label="Cancel" onPress={()=>this.handleCancel()} />
+                <Dialog.Button label="Ok" onPress={()=>this.handleAccept(data.item.id)} />
+            </Dialog.Container>
             <Text>
                 {data.item.createdDate}
             </Text>
