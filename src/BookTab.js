@@ -17,6 +17,8 @@ import {
     Label
 } from './styles';
 
+import { MaterialIcons } from '@expo/vector-icons'; 
+
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import ToggleSwitch from 'toggle-switch-react-native'
@@ -45,7 +47,6 @@ export default class BookTab extends Component {
     componentDidMount(){
         this.getCategoryList();
         this.getServiceInfo();
-        this.getServiceInfo2();
         this.getDefaultAddress();
         this.getDefaultContactNo();
     }
@@ -199,78 +200,6 @@ export default class BookTab extends Component {
             });
     }
 
-    getServiceInfo2(){
-        console.log('2')
-        const user = firebase.auth().currentUser;
-        uid = user['uid']
-        console.log(uid)
-
-        var items = []
-        var id = ''
-        var category = ''
-        var service = ''
-        var service_date = ''
-        var service_price = 0
-        var service_currency = ''
-        var totalPrice = 0
-        var totalReserveService = 0
-        var contact_no = ''
-        var is_visible = false
-        
-        // dbRef2.collection('bookings').get()
-        //     .then((doc) =>{
-        //         if (doc.exists) {
-        //             console.log(doc)
-        //         }
-        //         else {
-        //             console.log('wala')
-        //         }
-        //     })
-
-        // dbRef.child('bookings/'+user['uid']).get()                        
-        //     .then(snapshot => {
-        //         if (snapshot.exists()) {
-        //             snapshot.forEach(function(childsnap){
-        //                 id = childsnap.val()['id']
-        //                 category = childsnap.val()['category']
-        //                 service = childsnap.val()['service']
-        //                 service_date = childsnap.val()['service_date']
-        //                 service_price = childsnap.val()['service_price']
-        //                 service_currency = childsnap.val()['service_currency']
-        //                 address = childsnap.val()['address']
-        //                 contact_no = childsnap.val()['contact_no']
-        //                 is_visible = childsnap.val()['is_visible']
-
-        //                 if (is_visible === true) {
-        //                     totalPrice = totalPrice + service_price
-        //                     totalReserveService = totalReserveService + 1
-
-        //                     items.push({
-        //                         id, 
-        //                         category,
-        //                         service,
-        //                         service_date,
-        //                         service_price,
-        //                         service_currency,
-        //                         address,
-        //                         contact_no,
-        //                         is_visible
-        //                     })
-        //                 }
-        //             });
-                
-        //             this.setState({serviceInfo:items})
-        //             this.setState({totalServicePrice:totalPrice})
-        //             this.setState({totalReserveService:totalReserveService})
-        //         }
-        //         else {
-        //             this.setState({serviceInfo:null})
-        //             this.setState({totalServicePrice:0})
-        //             this.setState({totalReserveService:0})
-        //         }
-        //     });
-    }
-
     getDefaultAddress() {
         const user = firebase.auth().currentUser
 
@@ -412,10 +341,8 @@ export default class BookTab extends Component {
                 marginLeft: 20, 
                 marginRight: 20,
                 marginBottom:10,
-                flex:1,
                 justifyContent:'center'
-            }}
-            >
+            }} >
             <AntDesign 
                 style={{textAlign:'right', position:'relative', marginTop:5, marginRight:5}}
                 name="closecircle" 
@@ -436,55 +363,154 @@ export default class BookTab extends Component {
                     this.getServiceInfo();
                 }}
                 />
-            
-            <Text 
-                style={{
-                    marginLeft:10,
-                    fontWeight:'bold'
-                }}
-            >Ref no. HHP{data.item.id}</Text>
-            
-            <Text
-                style={{
-                    marginLeft:10,
-                    fontWeight:'400'
-                }}
-            >Category: {data.item.category}</Text>
-            
-            <Text
-                style={{
-                    marginLeft:10,
-                    fontWeight:'400'
-                }}
-            >Service: {data.item.service}</Text>
-            
-            <Text
-                style={{
-                    marginLeft:10,
-                    fontWeight:'400'
-                }}
-                >Date of service: {data.item.service_date}</Text>
+        
+            <View
+                style={{flexDirection:'row'}} >
 
-            <Text
-                style={{
-                    marginLeft:10,
-                    fontWeight:'400'
-                }}
-                >Contact: {data.item.contact_no}</Text>
+                <MaterialIcons 
+                    style={{marginLeft:10}}
+                    name="confirmation-number" 
+                    size={24} color="#00695C" />
 
-            <Text
-                style={{
-                    marginLeft:10,
-                    fontWeight:'400'
-                }}
-                >Address: {data.item.address}</Text>
+                <Text 
+                    style={{
+                        marginLeft:10,
+                        fontWeight:'bold',
+                        alignSelf: 'center'
+                    }}
+                >{data.item.id}</Text>
+            </View>
             
-            <Text
+            <View style={{flexDirection:'row'}}>
+                <View 
+                    style={{flexDirection:'row'}} >
+
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="category" 
+                        size={24} 
+                        color="#E65100" />
+
+                    <Text
+                        style={{
+                            marginLeft:10,
+                            fontWeight:'400',
+                            alignSelf: 'center'
+                        }}>
+                            {data.item.category}
+                    </Text>
+
+                </View>
+
+                <View 
+                    style={{flexDirection:'row'}} >
+                    
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="cleaning-services" 
+                        size={24} 
+                        color="#9E9D24" />
+                    
+                    <Text
+                        style={{
+                            marginLeft:10,
+                            fontWeight:'400',
+                            alignSelf: 'center'
+                        }}> 
+                        {data.item.service}
+                    </Text>
+
+                </View>
+
+            </View>
+
+            <View 
+                style={{flexDirection:'row'}} >
+
+                <View
+                    style={{flexDirection:'row'}} >
+
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="date-range" 
+                        size={24} 
+                        color="#0D47A1" />
+
+                    <Text
+                        style={{
+                            alignSelf: 'center',
+                            marginLeft:10,
+                            fontWeight:'400'
+                        }} >
+                            {data.item.service_date}
+                    </Text>
+
+                </View>
+
+                <View
+                    style={{flexDirection:'row'}} >
+
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="contact-phone" 
+                        size={24} 
+                        color="#2E7D32" />
+
+                    <Text
+                        style={{
+                            alignSelf: 'center',
+                            marginLeft:10,
+                            fontWeight:'400'
+                        }} >
+                            {data.item.contact_no}
+                    </Text>
+
+                </View>
+
+            </View>
+
+            <View
+                style={{flexDirection:'row'}} >
+                
+                <MaterialIcons 
+                    style={{marginLeft:10}}
+                    name="add-location" 
+                    size={24} 
+                    color="#B71C1C" />
+                
+                <Text
+                    style={{
+                        marginLeft:10,
+                        fontWeight:'400',
+                        alignSelf: 'center',
+                    }} >
+                        {data.item.address}
+                </Text>
+
+            </View>
+
+            <View
                 style={{
-                    marginLeft:10,
-                    fontWeight:'400',
-                    marginBottom:10
-                }}>Price: {data.item.service_currency} {data.item.service_price.toFixed(2)}</Text>
+                    flexDirection: 'row',
+                    marginBottom: 10
+                }} >
+
+                <MaterialIcons 
+                    style={{marginLeft:10}}
+                    name="attach-money" 
+                    size={24} 
+                    color="#424242" />
+
+                <Text
+                    style={{
+                        marginLeft:10,
+                        fontWeight:'400',
+                        alignSelf: 'center'
+                    }}>
+                        {data.item.service_currency} {data.item.service_price.toFixed(2)}
+                </Text>
+
+            </View>
         </View>
 
     showDialog = () => {
