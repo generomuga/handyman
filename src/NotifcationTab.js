@@ -131,7 +131,7 @@ export default class NotificationTab extends Component {
 
                 <Text 
                     style={{
-                        color: data.item.status==='Accepted'?'green':'orange',
+                        color: data.item.status==='Accepted'?'green':'red',
                         fontWeight: 'bold',
                         marginTop: 2, 
                         marginLeft: 10
@@ -275,7 +275,7 @@ export default class NotificationTab extends Component {
                     <View
                         style={{
                             flexDirection:'row',
-                            marginTop: 10
+                            marginTop: 5
                         }}>
                         <MaterialIcons 
                             style={{marginLeft:10}}
