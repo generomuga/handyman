@@ -218,12 +218,12 @@ const style = StyleSheet.create({
 
     background:{
         ...Background.blue,
-        ...Background.fullscreen
+        ...Background.fullscreen,
+        ...Background.center_content
     },
 
     viewLogo: {
         flex: 3.4, 
-        ...Background.blue,
         justifyContent: 'flex-start'
     },
 
@@ -235,7 +235,6 @@ const style = StyleSheet.create({
 
     viewTextInput: {
         flex: 3.5, 
-        ...Background.blue,
         ...Background.center_content
     },
 
@@ -277,7 +276,6 @@ const style = StyleSheet.create({
 
     viewSocialMedia: {
         flex: 3.5, 
-        ...Background.blue,
         ...Background.center_content
     },
 
