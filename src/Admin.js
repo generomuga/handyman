@@ -47,7 +47,7 @@ export default class Admin extends Component {
         console.log(uid, transaction_id)
 
         var updates = {}
-        updates['bookings/'+uid+'/'+transaction_id+'/status'] = 'accepted'
+        updates['bookings/'+uid+'/'+transaction_id+'/status'] = 'Accepted'
         dbRef.update(updates)
         this.setState({isDialogVisible:false})
         this.getServiceInfo();
@@ -99,7 +99,7 @@ export default class Admin extends Component {
 
                         console.log('nasds',is_visible, is_booked,createdDate)
 
-                        if (is_visible === false && is_booked === true && status === 'pending') {
+                        if (is_visible === false && is_booked === true && status === 'Pending') {
                             totalPrice = totalPrice + service_price
                             totalReserveService = totalReserveService + 1
 

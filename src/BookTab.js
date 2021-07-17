@@ -69,7 +69,7 @@ export default class BookTab extends Component {
             actualDate:'',
             isVisible: true,
             isBooked: false,
-            status: 'pending',
+            status: 'Pending',
 
             createdDate: '',
 

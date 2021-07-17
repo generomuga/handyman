@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, Button, FlatList } from 'react-native';
+import { View, Text, Button, FlatList, ScrollView } from 'react-native';
+
+import { MaterialIcons } from '@expo/vector-icons';
 
 import * as firebase from 'firebase';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
+import { alignment } from './styles/button';
+import { padding } from './styles/inputtext';
+import { SafeAreaView } from 'react-navigation';
 const dbRef = firebase.database().ref();
 
 export default class NotificationTab extends Component {
@@ -19,7 +24,8 @@ export default class NotificationTab extends Component {
         super(props)
 
         this.state = {
-            serviceInfo: []
+            serviceInfo: [],
+            isInverted: true,
         }
 
     }
@@ -27,6 +33,8 @@ export default class NotificationTab extends Component {
     getServiceInfo(){
 
         console.log('Awit')
+        console.log(this.state.serviceInfo.length)
+
         const user = firebase.auth().currentUser;
 
         var items = []
@@ -100,25 +108,155 @@ export default class NotificationTab extends Component {
         // this.getBookingDetails()
 
         return (
-        <View style={{borderWidth:1}}>
-            <Text>
-                {data.item.id}
-            </Text>
+        <View 
+            style={{
+                borderWidth:1,
+                borderColor: '#006064',
+                backgroundColor: 'white',
+                borderRadius: 10,
+                margin: 2,
+                padding: 5
+            }} >
 
-            <Text>
-                {data.item.category}
-            </Text>
+            <View
+                style={{
+                    flexDirection: 'row'
+                }}>
 
-            <Text>
-                {data.item.service}
-            </Text>
-            <Text>
-                {data.item.service_date}
-            </Text>
-            <Text>
-                {data.item.status}
-            </Text>
-            <Text>
+                <MaterialIcons
+                    style={{marginLeft:10}} 
+                    name="approval" 
+                    size={24} 
+                    color="black" />
+
+                <Text 
+                    style={{
+                        color: data.item.status==='Accepted'?'green':'orange',
+                        fontWeight: 'bold',
+                        marginTop: 2, 
+                        marginLeft: 10
+                    }}>
+                    {data.item.status}
+                </Text>
+
+            </View>
+
+            <View
+                style={{flexDirection:'row'}}>
+                
+                <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="confirmation-number" 
+                        size={24} color="#00695C" />
+
+                <Text
+                    style={{
+                        marginTop: 2,
+                        marginLeft: 10
+                    }} >
+                    {data.item.id}
+                </Text>
+
+            </View>
+
+            <View
+                style={{flexDirection:'row'}} >
+
+                <View 
+                    style={{flexDirection:'row'}}>
+
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="category" 
+                        size={24} 
+                        color="#E65100" />
+
+                    <Text
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 10
+                        }} >
+                        {data.item.category}
+                    </Text>
+
+                </View>
+
+                <View
+                    style={{flexDirection:'row'}}>
+
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="cleaning-services" 
+                        size={24} 
+                        color="#9E9D24" />
+
+                    <Text 
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 10
+                        }} >
+                        {data.item.service}
+                    </Text>
+
+                </View>
+
+            </View>
+
+            <View
+                style={{
+                    flexDirection:'row'
+                }}>
+                
+                <View
+                    style={{
+                        flexDirection:'row'
+                    }}>
+
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="date-range" 
+                        size={24} 
+                        color="#0D47A1" />
+                        
+                    <Text
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 10
+                        }} >
+                        {data.item.service_date}
+                    </Text>
+
+                </View>
+                
+                <View
+                    style={{flexDirection:'row'}}>
+
+                    <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="attach-money" 
+                            size={24} 
+                            color="#424242" />
+
+                    <Text
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 10
+                        }} >
+                            {data.item.service_currency} { data.item.service_price}
+                    </Text>
+
+                </View>
+
+            </View>
+
+            <Text
+                style={{
+                    marginTop: 2,
+                    marginRight: 10,
+                    color: '#BDBDBD',
+                    fontSize: 11,
+                    textAlign: 'right'
+                }} >
                 {data.item.createdDate}
             </Text>
         </View>)
@@ -126,26 +264,50 @@ export default class NotificationTab extends Component {
 
     render(){
         return (
-            <View>
-                <Text>Transactions</Text>
 
-                <Text>Scroll down to refresh</Text>
+            <SafeAreaView
+                style={{
+                    backgroundColor: 'white',
+                }} >
+
+                <View>
+
+                    <Text
+                        style={{
+                            marginTop: 10,
+                            marginLeft: 5, 
+                            marginBottom: 8, 
+                            fontSize: 17,
+                        }} >
+                        Transactions
+                    </Text>
+
+                <Text
+                    style={{
+                        // marginTop: 2,
+                        // marginRight: 10,
+                        color: '#BDBDBD',
+                        fontSize: 11,
+                        textAlign: 'center',
+                        marginBottom: 7
+                    }}>
+                        Scroll down/up to refresh
+                </Text>
+
+                </View>
 
                 <FlatList
                     data={this.state.serviceInfo}
                     renderItem={item => this.renderItemComponent(item)}
                     keyExtractor={item => item.id.toString()}
-                    inverted={true}
+                    inverted={this.state.isInverted}
                     horizontal={false} 
                     // onScroll={()=>{this.getServiceInfo()}}
                     onScrollBeginDrag={()=>this.getServiceInfo()}
                     onScrollEndDrag={()=>this.getServiceInfo()}
                     />
-                    
-                    
-            </View>
-
-            
+                        
+            </SafeAreaView>
         )
     }
 
