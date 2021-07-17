@@ -11,7 +11,8 @@ import {
 import { 
     Background, 
     InputText, 
-    Button 
+    Button,
+    Label
 } from './styles';
 
 import validation from './functions/validation';
@@ -76,36 +77,36 @@ export default class ForgotPassword extends Component {
         return (
             <SafeAreaView style={style.background}>
 
-                <View style={{
-                        marginTop:30
-                    }}
-                    >
+                <View>
+
                     <TextInput 
                         style={style.textInput} 
                         placeholder='email' 
                         autoCapitalize='none' 
                         value={this.state.email}
-                        onChangeText={email => this.setState({email})}
-                        />
+                        onChangeText={email => this.setState({email})} />
 
                     <TextInput 
                         style={style.textInput} 
                         placeholder='confirm email' 
                         autoCapitalize='none' 
                         value={this.state.confirm_email}
-                        onChangeText={confirm_email => this.setState({confirm_email})}
-                        />
+                        onChangeText={confirm_email => this.setState({confirm_email})} />
 
                     <Text 
-                        style={{alignSelf:'center',textAlign:'center', color: '#D32F2F', fontSize: 16, fontWeight: '300', marginBottom:10}}>
+                        style={style.labelErrorMessage} >
                             {this.state.errorMsg}
                     </Text>
 
                     <TouchableOpacity 
                         style={style.touchButton}
-                        onPress={()=>this._onResetPress()}
-                        >
-                        <Text style={style.touchButtonLabel}>Reset</Text>
+                        onPress={()=>this._onResetPress()} >
+
+                        <Text 
+                            style={style.touchButtonLabel} >
+                                Reset
+                        </Text>
+
                     </TouchableOpacity>
 
                 </View>
@@ -120,7 +121,8 @@ const style = StyleSheet.create({
 
     background:{
         ...Background.blue,
-        ...Background.fullscreen
+        ...Background.fullscreen,
+        ...Background.center_content
     },
 
     textInput:{
@@ -128,8 +130,7 @@ const style = StyleSheet.create({
         ...InputText.padding,
         ...InputText.color,
         ...InputText.text_alignment,
-        marginLeft: '10%',
-        marginRight: '10%',
+        ...InputText.side_margin,
         marginBottom: 10
     },
 
@@ -138,16 +139,20 @@ const style = StyleSheet.create({
         ...Button.color,
         ...Button.padding,
         ...Button.alignment,
-        marginLeft: '10%',
-        marginRight: '10%',
-        padding:'4%',
-        alignSelf: 'stretch',
-        marginBottom: '5%'
+        ...Button.side_margin,
     },
 
     touchButtonLabel:{
         ...Button.label
     },
+
+    labelErrorMessage: {
+        ...Label.self_alignment,
+        ...Label.text_alignment,
+        ...Label.weight,
+        ...Label.red,
+        marginBottom:10
+    }
 
 });
 

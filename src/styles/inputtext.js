@@ -15,3 +15,8 @@ export const color = {
 export const text_alignment = {
     textAlign: 'center'
 }
+
+export const side_margin = {
+    marginLeft: 40,
+    marginRight: 40
+}

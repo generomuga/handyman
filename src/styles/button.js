@@ -24,3 +24,8 @@ export const padding = {
 export const alignment = {
     alignSelf:'stretch'
 }
+
+export const side_margin = {
+    marginLeft: 40,
+    marginRight: 40
+}

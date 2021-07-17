@@ -154,7 +154,7 @@ export default class Login extends Component {
                         value={this.state.password}
                         onChangeText={password => this.setState({password})} />
 
-                    <Text style={style.textErrorMessage}>
+                    <Text style={style.labelErrorMessage}>
                         {this.state.errorMsg}
                     </Text>
 
@@ -236,7 +236,6 @@ const style = StyleSheet.create({
     viewTextInput: {
         flex: 3.5, 
         ...Background.blue,
-        // backgroundColor: 'green',
         ...Background.center_content
     },
 
@@ -245,17 +244,15 @@ const style = StyleSheet.create({
         ...InputText.padding,
         ...InputText.color,
         ...InputText.text_alignment,
-        marginLeft: 40,
-        marginRight: 40,
+        ...InputText.side_margin,
         marginBottom: 10
     },
 
-    textErrorMessage: {
-        alignSelf:'center',
-        textAlign:'center', 
-        color: '#D32F2F', 
-        fontSize: 16, 
-        fontWeight: '300', 
+    labelErrorMessage: {
+        ...Label.self_alignment,
+        ...Label.text_alignment,
+        ...Label.weight,
+        ...Label.red,
         marginBottom:10
     },
 
@@ -264,8 +261,7 @@ const style = StyleSheet.create({
         ...Button.color,
         ...Button.padding,
         ...Button.alignment,
-        marginLeft: 40,
-        marginRight: 40,
+        ...Button.side_margin,
         marginBottom: 20,
     },
 

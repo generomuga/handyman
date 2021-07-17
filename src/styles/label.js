@@ -10,3 +10,7 @@ export const text_alignment = {
 export const self_alignment = {
     alignSelf:'center'
 }
+
+export const red = {
+    color: '#D32F2F'
+}
