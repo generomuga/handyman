@@ -555,11 +555,24 @@ export default class BookTab extends Component {
                     
                     <View 
                         style={style.viewComponent} >
+                        
+                        <View
+                            style={{
+                                flexDirection: 'row'
+                            }} >
 
-                        <Text 
-                            style={style.labelComponent} >
-                            Category
-                        </Text>
+                            <MaterialIcons 
+                                style={{marginLeft:10}}
+                                name="category" 
+                                size={24} 
+                                color="#E65100" />
+
+                            <Text 
+                                style={style.labelComponent} >
+                                Category
+                            </Text>
+
+                        </View>
 
                         <RNPickerSelect
                             onValueChange={(value) => {
@@ -582,11 +595,23 @@ export default class BookTab extends Component {
                     <View 
                         style={style.viewComponent} >
 
-                        <Text 
-                            style={style.labelComponent} >
-                            Service
-                        </Text>
+                        <View
+                            style={{flexDirection:'row'}}>
 
+                            <MaterialIcons 
+                                style={{marginLeft:10}}
+                                name="cleaning-services" 
+                                size={24} 
+                                color="#9E9D24" />
+
+                            <Text 
+                                style={style.labelComponent} >
+                                Service
+                            </Text>
+
+                        </View>
+
+                    
                         <RNPickerSelect
                             onValueChange={(value) => {
                                 this.setState({serviceCurrentVal:value});
@@ -605,10 +630,21 @@ export default class BookTab extends Component {
                     <View 
                         style={style.viewComponent} >
                             
-                        <Text 
-                            style={style.labelComponent} >
-                            Date of service
-                        </Text>
+                        <View
+                            style={{flexDirection:'row'}}>
+
+                            <MaterialIcons 
+                                style={{marginLeft:10}}
+                                name="date-range" 
+                                size={24} 
+                                color="#0D47A1" />
+
+                            <Text 
+                                style={style.labelComponent} >
+                                Date of service
+                            </Text>
+
+                        </View>
 
                         <Text 
                             style={style.labelComponentItem}
@@ -627,28 +663,39 @@ export default class BookTab extends Component {
                     <View
                         style={style.viewComponent} >
 
-                        <ToggleSwitch
-                            isOn={this.state.isUseDefaultAddress}
-                            onColor="green"
-                            label='Use default address'
-                            labelStyle={style.toggleLabel}
-                            offColor="red"
-                            size="small"
-                            onToggle={()=>{
-                                this.getDefaultAddress();
-                                this.setState({address:this.state.address})
+                        <View
+                            style={{flexDirection:'row'}}>
 
-                                if (this.state.isUseDefaultAddress === true){
-                                    this.setState({isUseDefaultAddress:false})
-                                    this.setState({isAddressEditable:true})
-                                    
-                                }
-                                else {
-                                    this.setState({isUseDefaultAddress:true})
-                                    this.setState({isAddressEditable:false})
-                                }
-                            }}
-                        />
+                            <MaterialIcons 
+                                style={{marginLeft:10}}
+                                name="add-location" 
+                                size={24} 
+                                color="#B71C1C" />
+
+                            <ToggleSwitch
+                                isOn={this.state.isUseDefaultAddress}
+                                onColor="green"
+                                label='Use default address'
+                                labelStyle={style.toggleLabel}
+                                offColor="red"
+                                size="small"
+                                onToggle={()=>{
+                                    this.getDefaultAddress();
+                                    this.setState({address:this.state.address})
+
+                                    if (this.state.isUseDefaultAddress === true){
+                                        this.setState({isUseDefaultAddress:false})
+                                        this.setState({isAddressEditable:true})
+                                        
+                                    }
+                                    else {
+                                        this.setState({isUseDefaultAddress:true})
+                                        this.setState({isAddressEditable:false})
+                                    }
+                                }}
+                            />
+
+                        </View>
 
                         <TextInput
                             style={style.labelComponentItem}
@@ -662,26 +709,37 @@ export default class BookTab extends Component {
 
                     <View>
 
-                        <ToggleSwitch
-                            isOn={this.state.isUseDefaultContact}
-                            onColor="green"
-                            label='Use default contact number'
-                            labelStyle={style.toggleLabel}
-                            offColor="red"
-                            size="small"
-                            onToggle={()=>{
-                                this.getDefaultContactNo();
-                                this.setState({contactNo:this.state.contactNo})
-                            
-                                if (this.state.isUseDefaultContact === true){
-                                    this.setState({isUseDefaultContact:false})
-                                    this.setState({isContactEditable:true})
-                                }
-                                else {
-                                    this.setState({isUseDefaultContact:true})
-                                    this.setState({isContactEditable:false})
-                                }
-                            }} />
+                        <View 
+                            style={{flexDirection: 'row'}}>
+
+                            <MaterialIcons 
+                                style={{marginLeft:10}}
+                                name="contact-phone" 
+                                size={24} 
+                                color="#2E7D32" />
+
+                            <ToggleSwitch
+                                isOn={this.state.isUseDefaultContact}
+                                onColor="green"
+                                label='Use default contact number'
+                                labelStyle={style.toggleLabel}
+                                offColor="red"
+                                size="small"
+                                onToggle={()=>{
+                                    this.getDefaultContactNo();
+                                    this.setState({contactNo:this.state.contactNo})
+                                
+                                    if (this.state.isUseDefaultContact === true){
+                                        this.setState({isUseDefaultContact:false})
+                                        this.setState({isContactEditable:true})
+                                    }
+                                    else {
+                                        this.setState({isUseDefaultContact:true})
+                                        this.setState({isContactEditable:false})
+                                    }
+                                }} />
+
+                        </View>
 
                         <TextInput
                             style={style.labelComponentItem}
@@ -851,14 +909,15 @@ const style = StyleSheet.create({
     }, 
 
     viewComponent: {
-        justifyContent:'center'
+        justifyContent:'center',
+        marginBottom: 8
     },
 
     labelComponent: {
-        marginTop:10,
-        marginLeft:10, 
-        marginBottom:5, 
-        fontSize:17
+        marginTop: 2,
+        marginLeft: 5, 
+        marginBottom: 8, 
+        fontSize: 17,
     },
 
     labelComponentItem: {
@@ -882,9 +941,8 @@ const style = StyleSheet.create({
     },
 
     toggleLabel: {
-        marginLeft:10, 
-        marginBottom:5, 
-        marginTop: 10,
+        marginLeft:5, 
+        marginBottom:8, 
         fontSize:17 
     },
 
