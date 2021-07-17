@@ -8,10 +8,13 @@ import {
     TouchableOpacity
 } from 'react-native';
 
+import ToggleSwitch from 'toggle-switch-react-native';
+
 import { 
     Background, 
     InputText, 
-    Button
+    Button,
+    Label
 } from './styles';
 
 import validation from './functions/validation';
@@ -35,7 +38,8 @@ export default class Signup extends Component {
             password: '',
             confirmPassword: '',
             errorMsg: '',
-            loading: false
+            loading: false,
+            isAgree: true
         }
     }
 
@@ -70,6 +74,11 @@ export default class Signup extends Component {
             return
         }
 
+        if (this.state.isAgree === false) {
+            this.setState({errorMsg: '* Please agree on Terms and Condition'})
+            return
+        }
+
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 // Signed in 
@@ -92,17 +101,17 @@ export default class Signup extends Component {
 
     render(){
         return (
+
             <View style={style.background}>
                 
-                <View style={style.viewHolder}>
+                <View>
 
                     <TextInput 
                         style={style.textinput} 
                         placeholder='email' 
                         autoCapitalize='none' 
                         value={this.state.email}
-                        onChangeText={email => this.setState({email})}
-                        />
+                        onChangeText={email => this.setState({email})} />
 
                     <TextInput 
                         style={style.textinput} 
@@ -110,8 +119,7 @@ export default class Signup extends Component {
                         autoCapitalize='none' 
                         value={this.state.password}
                         secureTextEntry={true}
-                        onChangeText={password => this.setState({password})}
-                        />
+                        onChangeText={password => this.setState({password})} />
 
                     <TextInput 
                         style={style.textinput} 
@@ -119,29 +127,55 @@ export default class Signup extends Component {
                         secureTextEntry={true}
                         autoCapitalize='none' 
                         value={this.state.confirmPassword}
-                        onChangeText={confirmPassword => this.setState({confirmPassword})}
-                        />
+                        onChangeText={confirmPassword => this.setState({confirmPassword})} />
 
-                    <Text style={{ marginTop: '1%', alignSelf:'center',textAlign:'center', color: '#D32F2F', fontSize: 16, fontWeight: '300'}}>{this.state.errorMsg}</Text>
+                    <Text 
+                        style={style.labelErrorMessage} >
+                            {this.state.errorMsg}
+                    </Text>
 
-                    <View style={style.checkboxContainer}>
-                        <CheckBox
-                        // value={isSelected}
-                        // onValueChange={setSelection}
-                        style={style.checkbox}
-                        />
-                        <Text style={style.termsCondition}>Agree to Terms and Condition</Text>
+                    <View
+                        style={style.viewTermsAndCondition} >
+
+                        <ToggleSwitch
+                            isOn={this.state.isAgree}
+                            onColor="green"
+                            label='Agree on Terms and Condition'
+                            labelStyle={{ 
+                                marginLeft:10, 
+                                marginBottom:5, 
+                                fontSize:17 
+                            }}
+                            offColor="red"
+                            size="small"
+                            onToggle={()=>{
+                                if (this.state.isAgree === true){
+                                    this.setState({isAgree:false})   
+                                }
+                                else {
+                                    this.setState({isAgree:true})
+                                }
+                            }} />
+                        
                     </View>
 
                     <TouchableOpacity 
                         style={style.touchbutton}
-                        onPress={()=>this._onSignUpPress()}
-                        >
-                        <Text style={style.touchbuttonlabel}>Join now</Text>
+                        onPress={()=>this._onSignUpPress()} >
+
+                        <Text 
+                            style={style.touchbuttonlabel} >
+                                Join now
+                        </Text>
+
                     </TouchableOpacity>
-                    
-                    <Text style={style.connect}>
-                        ~ or connect with ~
+                </View>
+                
+                <View>
+
+                    <Text 
+                        style={style.connect} >
+                            ~ or connect with ~
                     </Text>
 
                     <View style={style.viewGoogleFb}>
@@ -150,16 +184,13 @@ export default class Signup extends Component {
                           name="google-plus-official" 
                           size={77} 
                           color="#d34836" 
-                          style={style.google}
-                         //   onPress={() => this.signInWithGoogleAsync()}
-                        />
+                          style={style.google} />
 
                         <FontAwesome5 
                           name="facebook" 
                           size={68} 
                           color="#4267B2" 
-                          style={style.facebook}
-                          />
+                          style={style.facebook} />
 
                     </View>
 
@@ -175,11 +206,8 @@ const style = StyleSheet.create({
 
     background:{
         ...Background.blue,
-        ...Background.fullscreen
-    },
-
-    viewHolder: {
-        marginTop: '20%'
+        ...Background.fullscreen,
+        ...Background.center_content
     },
 
     textinput:{
@@ -187,9 +215,8 @@ const style = StyleSheet.create({
         ...InputText.padding,
         ...InputText.color,
         ...InputText.text_alignment,
-        marginLeft: '10%',
-        marginRight: '10%',
-        marginBottom: '3%'
+        ...InputText.side_margin,
+        marginBottom: 10
     },
 
     touchbutton: {
@@ -197,17 +224,14 @@ const style = StyleSheet.create({
         ...Button.color,
         ...Button.padding,
         ...Button.alignment,
-        marginLeft: '10%',
-        marginRight: '10%',
-        padding:'4%',
-        alignSelf: 'stretch',
+        ...Button.side_margin,
         top:'5%',
     },
 
-    checkboxContainer: {
+    viewTermsAndCondition: {
         flexDirection: "row",
         alignSelf: 'center',
-        marginTop: '10%'
+        marginTop: 5
     },
 
     checkbox: {
@@ -248,5 +272,13 @@ const style = StyleSheet.create({
         alignSelf:'center',
         margin: '2%'
     },
+
+    labelErrorMessage: {
+        ...Label.self_alignment,
+        ...Label.text_alignment,
+        ...Label.weight,
+        ...Label.red,
+        marginBottom:10
+    }
 
 })
