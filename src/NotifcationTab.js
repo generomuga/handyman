@@ -272,15 +272,26 @@ export default class NotificationTab extends Component {
 
                 <View>
 
-                    <Text
+                    <View
                         style={{
-                            marginTop: 10,
-                            marginLeft: 5, 
-                            marginBottom: 8, 
-                            fontSize: 17,
-                        }} >
-                        Transactions
-                    </Text>
+                            flexDirection:'row',
+                            marginTop: 10
+                        }}>
+                        <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="miscellaneous-services" 
+                            size={24} color="black" />
+
+                        <Text
+                            style={{
+                                marginTop: 2,
+                                marginLeft: 5, 
+                                marginBottom: 8, 
+                                fontSize: 17,
+                            }} >
+                            Transactions
+                        </Text>
+                    </View>
 
                 <Text
                     style={{
@@ -289,7 +300,7 @@ export default class NotificationTab extends Component {
                         color: '#BDBDBD',
                         fontSize: 11,
                         textAlign: 'center',
-                        marginBottom: 7
+                        marginBottom: 8
                     }}>
                         Scroll down/up to refresh
                 </Text>
