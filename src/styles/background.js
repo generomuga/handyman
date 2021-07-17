@@ -6,3 +6,7 @@ export const fullscreen = {
     flex: 1,
     flexDirection: 'column'
 }
+
+export const center_content = {
+    justifyContent: 'center'
+}

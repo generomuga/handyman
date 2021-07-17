@@ -13,8 +13,9 @@ import {
 
 import { 
     Background, 
-    InputText, 
-    Button 
+    Button,
+    InputText,
+    Label
 } from './styles';
 
 import * as firebase from 'firebase';
@@ -128,32 +129,22 @@ export default class Login extends Component {
         return (
             <SafeAreaView style={style.background}>
                 
-                <View style={{ flex:3.3, backgroundColor: "#B3E5FC", justifyContent:"flex-start" }} >
+                <View style={style.viewLogo}>
 
                     <Image 
                         source={require('../assets/hugefort-ico.png')}
                         style={style.logo} />
 
-                </View >
-
-                <View style={{ flex: 1.1, backgroundColor: "#B3E5FC", justifyContent:'flex-start' }}>
-
-                    <Text
-                      style={style.tagline}>
-                        Best Service. Right Time. Right People 
-                    </Text>
-
                 </View>
 
-                <View style={{ flex: 4.5, backgroundColor: "#B3E5FC", justifyContent:'center' }} >
+                <View style={style.viewTextInput}>
 
                     <TextInput 
                         style={style.textInput} 
                         placeholder='email' 
                         autoCapitalize='none' 
                         value={this.state.email}
-                        onChangeText={email => this.setState({email})}
-                        />
+                        onChangeText={email => this.setState({email})} />
 
                     <TextInput 
                         style={style.textInput} 
@@ -161,28 +152,31 @@ export default class Login extends Component {
                         secureTextEntry={true} 
                         autoCapitalize='none' 
                         value={this.state.password}
-                        onChangeText={password => this.setState({password})}
-                        />
+                        onChangeText={password => this.setState({password})} />
 
-                    <Text style={{alignSelf:'center',textAlign:'center', color: '#D32F2F', fontSize: 16, fontWeight: '300', marginBottom:10}}>{this.state.errorMsg}</Text>
+                    <Text style={style.textErrorMessage}>
+                        {this.state.errorMsg}
+                    </Text>
 
                     <TouchableOpacity 
                         style={style.touchButton}
-                        onPress={()=>this._onLoginPress()}
-                        >
-                        <Text style={style.touchButtonLabel}>Login</Text>
+                        onPress={()=>this._onLoginPress()}>
+
+                        <Text style={style.touchButtonLabel}>
+                            Login
+                        </Text>
+
                     </TouchableOpacity>
 
                     <Text 
                         style={style.forgotPassword}
-                        onPress={()=>this.props.navigation.navigate('ForgotPassword')}
-                        >
+                        onPress={()=>this.props.navigation.navigate('ForgotPassword')}>
                         Forgot password
                     </Text>
                     
                 </View>
 
-                <View style={{ flex: 3, backgroundColor: "#B3E5FC", justifyContent:'center' }} >
+                <View style={style.viewSocialMedia}>
 
                     <Text style={style.connect}>
                         ~ or connect with ~
@@ -191,21 +185,18 @@ export default class Login extends Component {
                     <View style={style.viewGoogleFb}>
 
                         <FontAwesome 
-                          name="google-plus-official" 
-                          size={77} 
-                          color="#d34836" 
-                          style={style.google}
-                        //   onPress={() => this.signInWithGoogleAsync()}
-                          onPress={() => authentication.signInWithGoogleAsync()}
-                          />
+                            name='google-plus-official' 
+                            size={77} 
+                            color='#d34836' 
+                            style={style.google}
+                            onPress={() => authentication.signInWithGoogleAsync()} />
 
                         <FontAwesome5 
-                          name="facebook" 
-                          size={68} 
-                          color="#4267B2" 
-                          style={style.facebook}
-                          onPress={()=> alert('Temporarily disabled')}
-                          />
+                            name='facebook' 
+                            size={68} 
+                            color='#4267B2'
+                            style={style.facebook}
+                            onPress={()=> alert('Temporarily disabled')} />
 
                     </View>
                     
@@ -225,24 +216,28 @@ export default class Login extends Component {
 
 const style = StyleSheet.create({
 
+    background:{
+        ...Background.blue,
+        ...Background.fullscreen
+    },
+
+    viewLogo: {
+        flex: 3.4, 
+        ...Background.blue,
+        justifyContent: 'flex-start'
+    },
+
     logo: {
         width: 300,
         height: 300, 
         alignSelf:'center',
-        marginTop: 20
     },
 
-    tagline:{
-        textAlign: 'center',
-        position: 'absolute',
-        alignSelf: 'center',
-        fontSize: 18,
-        fontWeight: '400'
-    },
-
-    background:{
+    viewTextInput: {
+        flex: 3.5, 
         ...Background.blue,
-        ...Background.fullscreen
+        // backgroundColor: 'green',
+        ...Background.center_content
     },
 
     textInput:{
@@ -255,6 +250,15 @@ const style = StyleSheet.create({
         marginBottom: 10
     },
 
+    textErrorMessage: {
+        alignSelf:'center',
+        textAlign:'center', 
+        color: '#D32F2F', 
+        fontSize: 16, 
+        fontWeight: '300', 
+        marginBottom:10
+    },
+
     touchButton: {
         ...Button.border,
         ...Button.color,
@@ -262,9 +266,7 @@ const style = StyleSheet.create({
         ...Button.alignment,
         marginLeft: 40,
         marginRight: 40,
-        padding: 15,
-        alignSelf: 'stretch',
-        marginBottom: 20
+        marginBottom: 20,
     },
 
     touchButtonLabel:{
@@ -272,16 +274,21 @@ const style = StyleSheet.create({
     },
 
     forgotPassword: {
-        alignSelf:'center',
-        textAlign: 'center',
-        fontSize: 16,
-        fontWeight: '300'
+        ...Label.self_alignment,
+        ...Label.text_alignment,
+        ...Label.weight
+    },
+
+    viewSocialMedia: {
+        flex: 3.5, 
+        ...Background.blue,
+        ...Background.center_content
     },
 
     connect: {
-        alignSelf:'center',
-        fontSize: 16,
-        fontWeight: '300',
+        ...Label.self_alignment,
+        ...Label.text_alignment,
+        ...Label.weight
     },
 
     viewGoogleFb: {
@@ -301,10 +308,9 @@ const style = StyleSheet.create({
     },
 
     signUp: {
-        alignSelf:'center',
-        textAlign:'center',
-        fontSize: 16,
-        fontWeight: '300',
+        ...Label.self_alignment,
+        ...Label.text_alignment,
+        ...Label.weight,
         marginTop: 10
     }
 

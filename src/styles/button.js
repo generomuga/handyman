@@ -22,5 +22,5 @@ export const padding = {
 }
 
 export const alignment = {
-    alignSelf:'center'
+    alignSelf:'stretch'
 }
