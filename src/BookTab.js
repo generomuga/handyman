@@ -366,9 +366,11 @@ export default class BookTab extends Component {
                 marginLeft: 20, 
                 marginRight: 20,
                 marginBottom:10,
-                justifyContent:'center'
+                justifyContent:'center',
+                // padding: 5
             }} >
 
+            
             <AntDesign 
                 style={{textAlign:'right', position:'relative', marginTop:5, marginRight:5}}
                 name="closecircle" 
@@ -390,31 +392,6 @@ export default class BookTab extends Component {
                 }}
                 />
         
-            <CheckBox
-                title='Add to list'
-                checked={data.item.is_service_added}
-                containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-                onPress={()=>{
-                    if (data.item.is_service_added === true) {
-                        const user = firebase.auth().currentUser;
-                        const uid = user['uid']
-                
-                        var updates = {}
-                        updates['bookings/'+uid+'/'+data.item.id+'/is_service_added'] = false
-                        dbRef.update(updates)
-                        this.getServiceInfo()
-                    }
-                    else {
-                        const user = firebase.auth().currentUser;
-                        const uid = user['uid']
-                        var updates = {}
-                        updates['bookings/'+uid+'/'+data.item.id+'/is_service_added'] = true
-                        dbRef.update(updates)
-                        this.getServiceInfo()
-                    }
-                }}
-                />
-
             {/* <View
                 style={{flexDirection:'row'}} >
 
@@ -432,7 +409,10 @@ export default class BookTab extends Component {
                 >{data.item.id}</Text>
             </View> */}
             
-            <View style={{flexDirection:'row'}}>
+            <View style={{
+                flexDirection:'row',
+                padding: 5
+                }}>
                 <View 
                     style={{flexDirection:'row'}} >
 
@@ -476,7 +456,7 @@ export default class BookTab extends Component {
             </View>
 
             <View 
-                style={{flexDirection:'row'}} >
+                style={{flexDirection:'row', padding: 5}} >
 
                 <View
                     style={{flexDirection:'row'}} >
@@ -521,7 +501,7 @@ export default class BookTab extends Component {
             </View>
 
             <View
-                style={{flexDirection:'row'}} >
+                style={{flexDirection:'row', padding: 5}} >
                 
                 <MaterialIcons 
                     style={{marginLeft:10}}
@@ -540,15 +520,16 @@ export default class BookTab extends Component {
 
             </View>
 
+            
             <View
                 style={{
-                    flexDirection: 'row',
-                    marginBottom: 10
+                    flexDirection: 'row',padding: 5
+                    // marginBottom: 10
                 }} >
 
                 <MaterialIcons 
                     style={{marginLeft:10}}
-                    name="attach-money" 
+                    name="money" 
                     size={24} 
                     color="#424242" />
 
@@ -562,6 +543,38 @@ export default class BookTab extends Component {
                 </Text>
 
             </View>
+            
+            <View
+                style={{
+                    alignItems: 'flex-end'
+                }}>
+
+                <CheckBox
+                    title='Add to reservation list'
+                    checked={data.item.is_service_added}
+                    containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
+                    onPress={()=>{
+                        if (data.item.is_service_added === true) {
+                            const user = firebase.auth().currentUser;
+                            const uid = user['uid']
+                    
+                            var updates = {}
+                            updates['bookings/'+uid+'/'+data.item.id+'/is_service_added'] = false
+                            dbRef.update(updates)
+                            this.getServiceInfo()
+                        }
+                        else {
+                            const user = firebase.auth().currentUser;
+                            const uid = user['uid']
+                            var updates = {}
+                            updates['bookings/'+uid+'/'+data.item.id+'/is_service_added'] = true
+                            dbRef.update(updates)
+                            this.getServiceInfo()
+                        }
+                    }} />
+
+            </View>
+
         </View>
 
     showDialog = () => {
@@ -588,7 +601,6 @@ export default class BookTab extends Component {
 
         // this.setState({isBooked:true})
 
-        console.log(this.props)
     };
 
 
@@ -867,7 +879,7 @@ export default class BookTab extends Component {
                     <View>
                         <Text
                             style={style.labelComponent} >
-                                Total Services Reserved ({this.state.totalReserveService})
+                                Total Reserved Services ({this.state.totalReserveService})
                         </Text>
 
                         <FlatList
