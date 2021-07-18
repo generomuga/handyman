@@ -126,7 +126,7 @@ export default class NotificationTab extends Component {
         var createdDate = ''
         var booking_info = []
         var booking_id = ''
-        var booking_info_items = []
+        
         
         dbRef.child('transactions/'+user['uid']).orderByKey().get()           
             .then(snapshot => {
@@ -138,6 +138,7 @@ export default class NotificationTab extends Component {
                         
                         booking_info = childsnap.val()['booking_info']
                         
+                        var booking_info_items = []
                         booking_info.forEach(function(childsnap1){
                             booking_id = childsnap1['id']
                             console.log(booking_id)
