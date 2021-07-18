@@ -51,6 +51,13 @@ export default class BookTab extends Component {
         this.getServiceInfo();
         this.getDefaultAddress();
         this.getDefaultContactNo();
+
+        // console.log(this.navigation)
+        // this.props.navigation.jump_to
+        // console.log(this.props.navigation.jumpTo('Notification', {
+        //     owner:'Gene'
+        // }))
+        // console.log(this.props.navigation)
     }
 
     constructor(props){
@@ -81,10 +88,10 @@ export default class BookTab extends Component {
             date: new Date(),
 
             isDateTimePickerVisible: false,
-            isUseDefaultAddress: true,
-            isUseDefaultContact: true,
-            isAddressEditable: false,
-            isContactEditable: false,
+            isUseDefaultAddress: false,
+            isUseDefaultContact: false,
+            isAddressEditable: true,
+            isContactEditable: true,
 
             serviceInfo: [],
             errorMsg: '',
@@ -573,12 +580,25 @@ export default class BookTab extends Component {
         this.setState({isDialogVisible:false})
         this.updateBookingDetails()
         console.log('Hide2')
+        this.clearFields()
 
+        
         // const notif = new NotificationTab;
         // notif.getServiceInfo()
 
         // this.setState({isBooked:true})
+
+        console.log(this.props)
     };
+
+
+    clearFields() {
+        this.setState({categoryCurrentVal:''})
+        this.setState({serviceCurrentVal:''})
+        this.setState({serviceDateCurrentVal:''})
+        this.setState({address:''})
+        this.setState({contactNo:''})
+    }
 
     render(){
         return (
@@ -693,7 +713,7 @@ export default class BookTab extends Component {
                         <Text 
                             style={style.labelComponentItem}
                             onPress={this.showDateTimePicker} >  
-                            {this.state.serviceDateCurrentVal?this.state.serviceDateCurrentVal:"Not set"}
+                            {this.state.serviceDateCurrentVal?this.state.serviceDateCurrentVal:"<MMM DD YYYY, WD>"}
                         </Text>
                         
                         <DateTimePicker
@@ -745,7 +765,7 @@ export default class BookTab extends Component {
                             style={style.labelComponentItem}
                             multiline={false}
                             value={this.state.address}
-                            placeholder={'Not set'}
+                            placeholder={'Lot/Block No, Street, City, Province'}
                             editable={this.state.isAddressEditable}
                             onChangeText={(address)=>this.setState({address:address})} />
 
@@ -788,7 +808,7 @@ export default class BookTab extends Component {
                         <TextInput
                             style={style.labelComponentItem}
                             value={this.state.contactNo}
-                            placeholder={'Not set'}
+                            placeholder={'0917XXXXXXX'}
                             editable={this.state.isContactEditable}
                             onChangeText={(contactNo)=>this.setState({contactNo:contactNo})}
                         />
@@ -912,6 +932,7 @@ export default class BookTab extends Component {
                                 //     this.setState({errorMsg:"* Please select payment method"})
                                 //     return
                                 // }
+                               
                                 if (this.state.serviceInfo.length === 0) {
                                     this.setState({errorMsg:"* Please add service/s"})
                                     return
