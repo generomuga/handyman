@@ -207,7 +207,10 @@ export default class NotificationTab extends Component {
             }} >
 
             <View
-                style={{flexDirection:'row'}} >
+                style={{
+                    flexDirection:'row',
+                    alignSelf: 'flex-end'
+                }} >
 
                 <MaterialIcons 
                     style={{marginLeft:10}}
@@ -225,7 +228,10 @@ export default class NotificationTab extends Component {
             </View>
 
             <View
-                style={{flexDirection:'row'}}>
+                style={{
+                    flexDirection:'row',
+                    alignSelf:'flex-end'
+                }}>
 
                 <MaterialIcons 
                         style={{marginLeft:10}}
@@ -236,167 +242,19 @@ export default class NotificationTab extends Component {
                 <Text
                     style={{
                         marginTop: 2,
-                        marginLeft: 10
+                        fontSize: 14,
+                        fontWeight: 'bold'
                     }} >
-                        Total amount: {data.item.service_currency} { data.item.total_price}
+                        {data.item.service_currency} { data.item.total_price}
                 </Text>
 
             </View>
-
-            {/* <Text>TOTAL PRICE {data.item.total_price}</Text> */}
 
             <FlatList
-                    data={data.item.booking_info_items}
-                    renderItem={item => this.renderItemComponent2(item)}
-                    keyExtractor={item => item.booking_id.toString()}
-                    // inverted={false}
-                    // horizontal={false} 
-                    // onScroll={()=>{this.getServiceInfo()}}
-                    // onScrollBeginDrag={()=>this.getServiceInfo2()}
-                    // onScrollEndDrag={()=>this.getServiceInfo2()}
-                    />
-
-            {/* <View
-                style={{
-                    flexDirection: 'row'
-                }}>
-
-                <MaterialIcons
-                    style={{marginLeft:10}} 
-                    name="approval" 
-                    size={24} 
-                    color="black" />
-
-                <Text 
-                    style={{
-                        color: data.item.status==='Accepted'?'green':'red',
-                        fontWeight: 'bold',
-                        marginTop: 2, 
-                        marginLeft: 10
-                    }}>
-                    {data.item.status}
-                </Text>
-
-            </View>
-
-            <View
-                style={{flexDirection:'row'}}>
-                
-                <MaterialIcons 
-                        style={{marginLeft:10}}
-                        name="confirmation-number" 
-                        size={24} color="#00695C" />
-
-                <Text
-                    style={{
-                        marginTop: 2,
-                        marginLeft: 10
-                    }} >
-                    {data.item.id}
-                </Text>
-
-            </View>
-
-            <View
-                style={{flexDirection:'row'}} >
-
-                <View 
-                    style={{flexDirection:'row'}}>
-
-                    <MaterialIcons 
-                        style={{marginLeft:10}}
-                        name="category" 
-                        size={24} 
-                        color="#E65100" />
-
-                    <Text
-                        style={{
-                            marginTop: 2,
-                            marginLeft: 10
-                        }} >
-                        {data.item.category}
-                    </Text>
-
-                </View>
-
-                <View
-                    style={{flexDirection:'row'}}>
-
-                    <MaterialIcons 
-                        style={{marginLeft:10}}
-                        name="cleaning-services" 
-                        size={24} 
-                        color="#9E9D24" />
-
-                    <Text 
-                        style={{
-                            marginTop: 2,
-                            marginLeft: 10
-                        }} >
-                        {data.item.service}
-                    </Text>
-
-                </View>
-
-            </View>
-
-            <View
-                style={{
-                    flexDirection:'row'
-                }}>
-                
-                <View
-                    style={{
-                        flexDirection:'row'
-                    }}>
-
-                    <MaterialIcons 
-                        style={{marginLeft:10}}
-                        name="date-range" 
-                        size={24} 
-                        color="#0D47A1" />
-                        
-                    <Text
-                        style={{
-                            marginTop: 2,
-                            marginLeft: 10
-                        }} >
-                        {data.item.service_date}
-                    </Text>
-
-                </View>
-                
-                <View
-                    style={{flexDirection:'row'}}>
-
-                    <MaterialIcons 
-                            style={{marginLeft:10}}
-                            name="attach-money" 
-                            size={24} 
-                            color="#424242" />
-
-                    <Text
-                        style={{
-                            marginTop: 2,
-                            marginLeft: 10
-                        }} >
-                            {data.item.service_currency} { data.item.service_price}
-                    </Text>
-
-                </View>
-
-            </View>
-
-            <Text
-                style={{
-                    marginTop: 2,
-                    marginRight: 10,
-                    color: '#BDBDBD',
-                    fontSize: 11,
-                    textAlign: 'right'
-                }} >
-                {data.item.createdDate}
-            </Text> */}
+                data={data.item.booking_info_items}
+                renderItem={item => this.renderItemComponent2(item)}
+                keyExtractor={item => item.booking_id.toString()}
+                />
 
             <Text
                 style={{
@@ -415,10 +273,19 @@ export default class NotificationTab extends Component {
         // this.getBookingDetails()
 
         return (
-            <View>
+            <View
+                style={{
+                    borderWidth:1,
+                    borderRadius:10,
+                    margin:5,
+                    padding: 5
+                }}>
 
                 <View
-                    style={{flexDirection:'row'}}>
+                    style={{
+                        flexDirection:'row',
+                        // alignSelf: 'flex-end'
+                    }}>
 
                     <MaterialIcons
                         style={{marginLeft:10}} 
@@ -431,7 +298,9 @@ export default class NotificationTab extends Component {
                             color: data.item.status==='Accepted'?'green':'red',
                             fontWeight: 'bold',
                             marginTop: 2, 
-                            marginLeft: 10
+                            marginLeft: 10,
+                            fontSize: 17,
+                            // alignSelf: 'flex-end'
                         }}>
                         {data.item.status}
                     </Text>
@@ -617,17 +486,23 @@ export default class NotificationTab extends Component {
 
                 </View>
 
-                <FlatList
-                    data={this.state.serviceInfo}
-                    renderItem={item => this.renderItemComponent(item)}
-                    keyExtractor={item => item.transaction_id.toString()}
-                    inverted={this.state.isInverted}
-                    horizontal={false} 
-                    // onScroll={()=>{this.getServiceInfo()}}
-                    onScrollBeginDrag={()=>this.getServiceInfo2()}
-                    onScrollEndDrag={()=>this.getServiceInfo2()}
-                    />
+                <View
+                    style={{
+                        marginBottom: 120
+                    }}
+                    >
+                    <FlatList
+                        data={this.state.serviceInfo}
+                        renderItem={item => this.renderItemComponent(item)}
+                        keyExtractor={item => item.transaction_id.toString()}
+                        inverted={this.state.isInverted}
+                        horizontal={false} 
+                        // onScroll={()=>{this.getServiceInfo()}}
+                        onScrollBeginDrag={()=>this.getServiceInfo2()}
+                        onScrollEndDrag={()=>this.getServiceInfo2()}
+                        />
                         
+                </View>
             </SafeAreaView>
         )
     }
