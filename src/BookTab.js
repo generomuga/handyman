@@ -785,7 +785,7 @@ export default class BookTab extends Component {
                             <ToggleSwitch
                                 isOn={this.state.isUseDefaultContact}
                                 onColor="green"
-                                label='Use default contact number'
+                                label='Use default mobile number'
                                 labelStyle={style.toggleLabel}
                                 offColor="red"
                                 size="small"
@@ -843,6 +843,9 @@ export default class BookTab extends Component {
                                 }
                                 else if (this.state.contactNo===''){
                                     this.setState({errorMsg:"* Please set your contact number"})
+                                }
+                                else if (!/^\d{11}$/.test(this.state.contactNo)) {
+                                    this.setState({errorMsg:"* Please set valid contact number"})
                                 }
                                 else 
                                 {
