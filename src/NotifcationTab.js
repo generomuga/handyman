@@ -13,7 +13,7 @@ const dbRef = firebase.database().ref();
 export default class NotificationTab extends Component {
         
     componentDidMount() {
-        this.getServiceInfo()
+        this.getServiceInfo2()
     }
     
     // componentDidUpdate() {
@@ -105,6 +105,72 @@ export default class NotificationTab extends Component {
             });
     }
 
+    getServiceInfo2(){
+
+        const user = firebase.auth().currentUser;
+
+        var items = []
+        var transaction_id = ''
+        var category = ''
+        var service = ''
+        var status = ''
+        var service_date = ''
+        var service_price = 0
+        var service_currency = ''
+        var totalPrice = 0
+        var totalReserveService = 0
+        var contact_no = ''
+        var is_visible = false
+        var is_booked = false
+        var is_service_added = false
+        var createdDate = ''
+        var booking_info = []
+        var booking_id = ''
+        var booking_info_items = []
+        
+        dbRef.child('transactions/'+user['uid']).orderByKey().get()           
+            .then(snapshot => {
+                if (snapshot.exists()) {
+                    snapshot.forEach(function(childsnap){
+                        transaction_id = childsnap.key
+                        createdDate = childsnap.val()['created_at']
+                        console.log(createdDate)
+                        
+                        booking_info = childsnap.val()['booking_info']
+                        
+                        booking_info.forEach(function(childsnap1){
+                            booking_id = childsnap1['id']
+                            console.log(booking_id)
+                            booking_info_items.push({
+                                booking_id
+                            })
+                        })
+
+                        items.push({
+                            transaction_id,
+                            createdDate,
+                            booking_info_items
+                        })
+                        console.log(items)
+                        // console.log(booking_info_items)
+
+                        // var refBookingInfo = dbRef.child('transactions/'+user['uid']).child(transaction_id).child('booking_info').get()
+                        //     .then(snapshot =>{
+                        //         if (snapshot.exists()) {
+                        //             console.log(snapshot)
+                        //         }
+                        //     })
+                        
+                    });
+                    
+                    this.setState({serviceInfo:items})
+                }
+                else {
+                    
+                }
+            });
+    }
+
     renderItemComponent = (data) => {
         // this.getBookingDetails()
 
@@ -119,7 +185,36 @@ export default class NotificationTab extends Component {
                 padding: 5
             }} >
 
-            <View
+            <Text>
+                {data.item.transaction_id}
+            </Text>
+
+            <Text>
+                {data.item.createdDate}
+            </Text>
+
+            {
+                // data.item.booking_info_items.forEach(function(snapshot){
+                //     return <Text>snapshot['booking_id']/</Text>
+                // })
+
+                console.log(data.item.booking_info_items)
+            }
+
+            <Text>Asd</Text>
+
+            <FlatList
+                    data={data.item.booking_info_items}
+                    renderItem={item => this.renderItemComponent2(item)}
+                    keyExtractor={item => item.booking_id.toString()}
+                    // inverted={false}
+                    // horizontal={false} 
+                    // onScroll={()=>{this.getServiceInfo()}}
+                    // onScrollBeginDrag={()=>this.getServiceInfo2()}
+                    // onScrollEndDrag={()=>this.getServiceInfo2()}
+                    />
+
+            {/* <View
                 style={{
                     flexDirection: 'row'
                 }}>
@@ -157,7 +252,7 @@ export default class NotificationTab extends Component {
                     }} >
                     {data.item.id}
                 </Text>
-
+a
             </View>
 
             <View
@@ -259,8 +354,19 @@ export default class NotificationTab extends Component {
                     textAlign: 'right'
                 }} >
                 {data.item.createdDate}
-            </Text>
+            </Text> */}
         </View>)
+    }
+
+    renderItemComponent2 = (data) => {
+        // this.getBookingDetails()
+
+        return (
+            <View>
+                <Text>Umaw</Text>
+                <Text>{data.item.booking_id}</Text>
+            </View>
+        )
     }
 
     render(){
@@ -298,7 +404,7 @@ export default class NotificationTab extends Component {
                             name="miscellaneous-services" 
                             size={24} color="black" 
                             onPress={()=>{
-                                this.getServiceInfo()
+                                this.getServiceInfo2()
                             }}
                             />
                     </View>
@@ -320,12 +426,12 @@ export default class NotificationTab extends Component {
                 <FlatList
                     data={this.state.serviceInfo}
                     renderItem={item => this.renderItemComponent(item)}
-                    keyExtractor={item => item.id.toString()}
+                    keyExtractor={item => item.transaction_id.toString()}
                     inverted={this.state.isInverted}
                     horizontal={false} 
                     // onScroll={()=>{this.getServiceInfo()}}
-                    onScrollBeginDrag={()=>this.getServiceInfo()}
-                    onScrollEndDrag={()=>this.getServiceInfo()}
+                    onScrollBeginDrag={()=>this.getServiceInfo2()}
+                    onScrollEndDrag={()=>this.getServiceInfo2()}
                     />
                         
             </SafeAreaView>
