@@ -118,8 +118,7 @@ export default class NotificationTab extends Component {
         var createdDate = ''
         var booking_info = []
         
-        
-        
+    
         dbRef.child('transactions/'+user['uid']).orderByKey().get()           
             .then(snapshot => {
                 if (snapshot.exists()) {
@@ -139,20 +138,30 @@ export default class NotificationTab extends Component {
                         var service_price = 0
                         var service_currency = ''
                         var contact_no = ''
+                        var address = ''
 
                         booking_info.forEach(function(childsnap1){
                             booking_id = childsnap1['id']
                             category = childsnap1['category']
                             service = childsnap1['service']
+                            address = childsnap1['address']
                             service_currency = childsnap1['service_currency']
                             service_price = childsnap1['service_price']
+                            service_date = childsnap1['service_date']
+                            contact_no = childsnap1['contact_no']
+                            
+                            status = childsnap1['status']
 
                             booking_info_items.push({
                                 booking_id,
                                 category,
                                 service,
+                                address,
                                 service_currency,
-                                service_price
+                                service_price,
+                                service_date,
+                                contact_no,
+                                status
                             })
                         })
 
@@ -197,15 +206,44 @@ export default class NotificationTab extends Component {
                 padding: 5
             }} >
 
-            <Text>
-                TRANSACTION_ID {data.item.transaction_id}
-            </Text>
+            <View
+                style={{flexDirection:'row'}} >
 
-            <Text>
-                BOOKDATE {data.item.createdDate}
-            </Text>
+                <MaterialIcons 
+                    style={{marginLeft:10}}
+                    name="confirmation-number" 
+                    size={24} color="#00695C" />
 
-            <Text>TOTAL PRICE {data.item.total_price}</Text>
+                <Text 
+                    style={{
+                        marginLeft:10,
+                        fontWeight:'bold',
+                        alignSelf: 'center',
+                        fontSize: 17,
+                    }}
+                >{data.item.transaction_id}</Text>
+            </View>
+
+            <View
+                style={{flexDirection:'row'}}>
+
+                <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="money" 
+                        size={24} 
+                        color="#424242" />
+
+                <Text
+                    style={{
+                        marginTop: 2,
+                        marginLeft: 10
+                    }} >
+                        Total amount: {data.item.service_currency} { data.item.total_price}
+                </Text>
+
+            </View>
+
+            {/* <Text>TOTAL PRICE {data.item.total_price}</Text> */}
 
             <FlatList
                     data={data.item.booking_info_items}
@@ -359,6 +397,17 @@ export default class NotificationTab extends Component {
                 }} >
                 {data.item.createdDate}
             </Text> */}
+
+            <Text
+                style={{
+                    marginTop: 2,
+                    marginRight: 10,
+                    color: '#BDBDBD',
+                    fontSize: 11,
+                    textAlign: 'right'
+                }} >
+                {data.item.createdDate}
+            </Text> 
         </View>)
     }
 
@@ -367,9 +416,149 @@ export default class NotificationTab extends Component {
 
         return (
             <View>
-                <Text>Category: {data.item.category} </Text>
-                <Text>Service: {data.item.service} </Text>
-                <Text>PHP: {data.item.service_currency} {data.item.service_price} </Text>
+
+                <View
+                    style={{flexDirection:'row'}}>
+
+                    <MaterialIcons
+                        style={{marginLeft:10}} 
+                        name="approval" 
+                        size={24} 
+                        color="black" />
+
+                    <Text 
+                        style={{
+                            color: data.item.status==='Accepted'?'green':'red',
+                            fontWeight: 'bold',
+                            marginTop: 2, 
+                            marginLeft: 10
+                        }}>
+                        {data.item.status}
+                    </Text>
+
+                </View>
+
+                <View 
+                    style={{flexDirection:'row'}}>
+
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="category" 
+                        size={24} 
+                        color="#E65100" />
+
+                    <Text
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 10
+                        }} >
+                        {data.item.category}
+                    </Text>
+
+                </View>
+
+                <View
+                    style={{flexDirection:'row'}}>
+
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="cleaning-services" 
+                        size={24} 
+                        color="#9E9D24" />
+
+                    <Text 
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 10
+                        }} >
+                        {data.item.service}
+                    </Text>
+
+                </View>
+
+                <View
+                    style={{flexDirection:'row'}}>
+
+                    <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="money" 
+                            size={24} 
+                            color="#424242" />
+
+                    <Text
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 10
+                        }} >
+                            {data.item.service_currency} { data.item.service_price}
+                    </Text>
+
+                </View>
+
+                <View
+                    style={{
+                        flexDirection:'row'
+                    }}>
+
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="date-range" 
+                        size={24} 
+                        color="#0D47A1" />
+                        
+                    <Text
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 10
+                        }} >
+                        {data.item.service_date}
+                    </Text>
+
+                </View>
+
+                <View
+                    style={{
+                        flexDirection:'row'
+                    }}>
+
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="contact-phone" 
+                        size={24} 
+                        color="#2E7D32" />
+                        
+                    <Text
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 10
+                        }} >
+                        {data.item.contact_no}
+                    </Text>
+
+                </View>
+
+                <View
+                    style={{
+                        flexDirection:'row'
+                    }}>
+
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="add-location" 
+                        size={24} 
+                        color="#B71C1C" />
+                        
+                    <Text
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 10
+                        }} >
+                        {data.item.address}
+                    </Text>
+
+                </View>
+
+                {/* <Text>PHP: {data.item.service_currency} {data.item.service_price} </Text> */}
             </View>
         )
     }
