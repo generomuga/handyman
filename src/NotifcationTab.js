@@ -202,14 +202,15 @@ export default class NotificationTab extends Component {
                 borderColor: '#006064',
                 backgroundColor: 'white',
                 borderRadius: 10,
-                margin: 2,
+                margin: 5,
                 padding: 5
             }} >
 
             <View
                 style={{
                     flexDirection:'row',
-                    alignSelf: 'flex-end'
+                    alignSelf: 'flex-end',
+                    marginRight: 20
                 }} >
 
                 <MaterialIcons 
@@ -230,7 +231,8 @@ export default class NotificationTab extends Component {
             <View
                 style={{
                     flexDirection:'row',
-                    alignSelf:'flex-end'
+                    alignSelf:'flex-end',
+                    marginRight: 25,
                 }}>
 
                 <MaterialIcons 
@@ -242,6 +244,7 @@ export default class NotificationTab extends Component {
                 <Text
                     style={{
                         marginTop: 2,
+                        marginLeft: 10,
                         fontSize: 14,
                         fontWeight: 'bold'
                     }} >
@@ -259,10 +262,10 @@ export default class NotificationTab extends Component {
             <Text
                 style={{
                     marginTop: 2,
-                    marginRight: 10,
+                    marginLeft: 30,
                     color: '#BDBDBD',
                     fontSize: 11,
-                    textAlign: 'right'
+                    textAlign: 'left'
                 }} >
                 {data.item.createdDate}
             </Text> 
@@ -275,23 +278,29 @@ export default class NotificationTab extends Component {
         return (
             <View
                 style={{
-                    borderWidth:1,
+                    borderWidth:2,
                     borderRadius:10,
-                    margin:5,
-                    padding: 5
+                    borderColor: data.item.status==='Pending'?'red':'green',
+                    marginLeft:15,
+                    marginRight: 15,
+                    marginTop: 5,
+                    marginBottom: 5,
+                    padding: 5,
+                    borderStyle: 'dashed',
                 }}>
 
                 <View
                     style={{
                         flexDirection:'row',
                         // alignSelf: 'flex-end'
+                        padding: 5
                     }}>
 
                     <MaterialIcons
                         style={{marginLeft:10}} 
                         name="approval" 
-                        size={24} 
-                        color="black" />
+                        size={27} 
+                        color="#5D4037" />
 
                     <Text 
                         style={{
@@ -307,108 +316,113 @@ export default class NotificationTab extends Component {
 
                 </View>
 
-                <View 
-                    style={{flexDirection:'row'}}>
-
-                    <MaterialIcons 
-                        style={{marginLeft:10}}
-                        name="category" 
-                        size={24} 
-                        color="#E65100" />
-
-                    <Text
-                        style={{
-                            marginTop: 2,
-                            marginLeft: 10
-                        }} >
-                        {data.item.category}
-                    </Text>
-
-                </View>
 
                 <View
-                    style={{flexDirection:'row'}}>
+                    style={{
+                        flexDirection:'row',
+                        marginLeft:20,
+                        padding: 5
+                    }}>
 
-                    <MaterialIcons 
-                        style={{marginLeft:10}}
-                        name="cleaning-services" 
-                        size={24} 
-                        color="#9E9D24" />
+                    <View 
+                        style={{flexDirection:'row'}}>
 
-                    <Text 
-                        style={{
-                            marginTop: 2,
-                            marginLeft: 10
-                        }} >
-                        {data.item.service}
-                    </Text>
-
-                </View>
-
-                <View
-                    style={{flexDirection:'row'}}>
-
-                    <MaterialIcons 
+                        <MaterialIcons 
                             style={{marginLeft:10}}
-                            name="money" 
+                            name="category" 
                             size={24} 
-                            color="#424242" />
+                            color="#E65100" />
 
-                    <Text
+                        <Text
+                            style={{
+                                marginTop: 2,
+                                marginLeft: 10
+                            }} >
+                            {data.item.category}
+                        </Text>
+
+                    </View>
+
+                    <View
                         style={{
-                            marginTop: 2,
-                            marginLeft: 10
-                        }} >
-                            {data.item.service_currency} { data.item.service_price}
-                    </Text>
+                            flexDirection:'row',
+                        }}>
+
+                        <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="cleaning-services" 
+                            size={24} 
+                            color="#9E9D24" />
+
+                        <Text 
+                            style={{
+                                marginTop: 2,
+                                marginLeft: 10
+                            }} >
+                            {data.item.service}
+                        </Text>
+
+                    </View>
 
                 </View>
 
                 <View
                     style={{
-                        flexDirection:'row'
+                        flexDirection:'row',
+                        marginLeft:20,
+                        padding: 5
                     }}>
 
-                    <MaterialIcons 
-                        style={{marginLeft:10}}
-                        name="date-range" 
-                        size={24} 
-                        color="#0D47A1" />
-                        
-                    <Text
+                    <View
                         style={{
-                            marginTop: 2,
-                            marginLeft: 10
-                        }} >
-                        {data.item.service_date}
-                    </Text>
+                            flexDirection:'row'
+                        }}>
+
+                        <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="date-range" 
+                            size={24} 
+                            color="#0D47A1" />
+                            
+                        <Text
+                            style={{
+                                marginTop: 2,
+                                marginLeft: 10
+                            }} >
+                            {data.item.service_date}
+                        </Text>
+
+                    </View>
+
+                    <View
+                        style={{
+                            flexDirection:'row',
+                            marginLeft:20
+                        }}>
+
+                        <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="contact-phone" 
+                            size={24} 
+                            color="#2E7D32" />
+                            
+                        <Text
+                            style={{
+                                marginTop: 2,
+                                marginLeft: 10
+                            }} >
+                            {data.item.contact_no}
+                        </Text>
+
+                    </View>
 
                 </View>
 
                 <View
                     style={{
-                        flexDirection:'row'
-                    }}>
-
-                    <MaterialIcons 
-                        style={{marginLeft:10}}
-                        name="contact-phone" 
-                        size={24} 
-                        color="#2E7D32" />
-                        
-                    <Text
-                        style={{
-                            marginTop: 2,
-                            marginLeft: 10
-                        }} >
-                        {data.item.contact_no}
-                    </Text>
-
-                </View>
-
-                <View
-                    style={{
-                        flexDirection:'row'
+                        flexDirection:'row',
+                        marginLeft:20,
+                        padding: 5
                     }}>
 
                     <MaterialIcons 
@@ -427,7 +441,30 @@ export default class NotificationTab extends Component {
 
                 </View>
 
-                {/* <Text>PHP: {data.item.service_currency} {data.item.service_price} </Text> */}
+                <View
+                    style={{
+                        flexDirection:'row',
+                        alignSelf: 'flex-end',
+                        padding: 5
+                    }}>
+
+                    <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="money" 
+                            size={24} 
+                            color="#424242" />
+
+                    <Text
+                        style={{
+                            marginTop: 2,
+                            marginRight: 10,
+                            marginLeft: 10
+                        }} >
+                            {data.item.service_currency} { data.item.service_price}
+                    </Text>
+
+                </View>
+
             </View>
         )
     }
