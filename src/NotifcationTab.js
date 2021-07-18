@@ -118,8 +118,23 @@ export default class NotificationTab extends Component {
         var createdDate = ''
         var booking_info = []
         
+
+        //order
+        // const query = firebase.database().ref('transactions/'+user['uid']).orderByChild('total_price').limitToLast(100)
+            
+        //     query.on('child_added', snapshot => {
+                
+        //         // const transaction_id = snapshot.val().transaction_id
+        //         const total_price = snapshot.val().total_price
+        //         const booking_info = snapshot.val().booking_info
+        //         console.log(booking_info)
+        //     })
+
+            // query.get().then(snapshot =>{
+            //     console.log(snapshot)
+            // })
     
-        dbRef.child('transactions/'+user['uid']).orderByKey().get()           
+        dbRef.child('transactions/'+user['uid']).orderByKey().get()    
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
@@ -172,7 +187,9 @@ export default class NotificationTab extends Component {
                             total_price,
                             booking_info_items
                         })
-                        console.log(items)
+
+                        items.reverse()
+                        // console.log(items)
                         // console.log(booking_info_items)
 
                         // var refBookingInfo = dbRef.child('transactions/'+user['uid']).child(transaction_id).child('booking_info').get()
@@ -475,6 +492,7 @@ export default class NotificationTab extends Component {
             <SafeAreaView
                 style={{
                     backgroundColor: 'white',
+                    flex: 1
                 }} >
 
                 <View>
@@ -525,14 +543,15 @@ export default class NotificationTab extends Component {
 
                 <View
                     style={{
-                        marginBottom: 120
+                        marginBottom: 60
                     }}
                     >
                     <FlatList
                         data={this.state.serviceInfo}
                         renderItem={item => this.renderItemComponent(item)}
                         keyExtractor={item => item.transaction_id.toString()}
-                        inverted={this.state.isInverted}
+                        // inverted={this.state.isInverted}
+                        inverted={false}
                         horizontal={false} 
                         // onScroll={()=>{this.getServiceInfo()}}
                         onScrollBeginDrag={()=>this.getServiceInfo2()}
