@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { CheckBox } from 'react-native-elements';
+
 import { 
     View, 
     Text, 
@@ -78,8 +80,6 @@ export default class BookTab extends Component {
 
             date: new Date(),
 
-            
-
             isDateTimePickerVisible: false,
             isUseDefaultAddress: true,
             isUseDefaultContact: true,
@@ -89,7 +89,9 @@ export default class BookTab extends Component {
             serviceInfo: [],
             errorMsg: '',
 
-            isDialogVisible: false
+            isDialogVisible: false,
+
+            isServiceAdded: true
         }
     }
 
@@ -150,6 +152,7 @@ export default class BookTab extends Component {
         var contact_no = ''
         var is_visible = false
         var is_booked = false
+        var is_service_added = true
         var status = ''
         
         dbRef.child('bookings/'+user['uid']).get()                        
@@ -166,13 +169,19 @@ export default class BookTab extends Component {
                         contact_no = childsnap.val()['contact_no']
                         is_visible = childsnap.val()['is_visible']
                         is_booked = childsnap.val()['is_booked']
+                        is_service_added = childsnap.val()['is_service_added']
                         status = childsnap.val()['status']
 
                         console.log('status',status)
 
-                        if (is_visible === true && is_booked === false) {
+                        if (is_visible === true && is_booked === false && is_service_added === true) {
                             totalPrice = totalPrice + service_price
                             totalReserveService = totalReserveService + 1
+                        }
+
+                        if (is_visible === true && is_booked === false) {
+                            // totalPrice = totalPrice + service_price
+                            // totalReserveService = totalReserveService + 1
 
                             items.push({
                                 id, 
@@ -183,7 +192,8 @@ export default class BookTab extends Component {
                                 service_currency,
                                 address,
                                 contact_no,
-                                is_visible
+                                is_visible,
+                                is_service_added
                             })
                         }
                     });
@@ -306,6 +316,7 @@ export default class BookTab extends Component {
                 contact_no:this.state.contactNo,
                 is_visible:this.state.isVisible,
                 is_booked:this.state.isBooked,
+                is_service_added:this.state.isServiceAdded,
                 status:this.state.status,
                 createdDate:dte
             });
@@ -337,12 +348,14 @@ export default class BookTab extends Component {
                 backgroundColor:'white', 
                 borderRadius:10, 
                 borderWidth:2, 
-                borderColor:'#F44336',
+                // borderColor:'#F44336',
+                borderColor: data.item.is_service_added?'green':'red',
                 marginLeft: 20, 
                 marginRight: 20,
                 marginBottom:10,
                 justifyContent:'center'
             }} >
+
             <AntDesign 
                 style={{textAlign:'right', position:'relative', marginTop:5, marginRight:5}}
                 name="closecircle" 
@@ -364,6 +377,31 @@ export default class BookTab extends Component {
                 }}
                 />
         
+            <CheckBox
+                title='Add to list'
+                checked={data.item.is_service_added}
+                containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
+                onPress={()=>{
+                    if (data.item.is_service_added === true) {
+                        const user = firebase.auth().currentUser;
+                        const uid = user['uid']
+                
+                        var updates = {}
+                        updates['bookings/'+uid+'/'+data.item.id+'/is_service_added'] = false
+                        dbRef.update(updates)
+                        this.getServiceInfo()
+                    }
+                    else {
+                        const user = firebase.auth().currentUser;
+                        const uid = user['uid']
+                        var updates = {}
+                        updates['bookings/'+uid+'/'+data.item.id+'/is_service_added'] = true
+                        dbRef.update(updates)
+                        this.getServiceInfo()
+                    }
+                }}
+                />
+
             <View
                 style={{flexDirection:'row'}} >
 
