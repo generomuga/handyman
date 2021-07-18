@@ -245,6 +245,7 @@ export default class BookTab extends Component {
         var service_currency = ''
         var contact_no = ''
         var is_visible = false
+        var is_service_added = false
 
         var trasaction_id = new Date().getTime().toString()
         var transactionRef = dbRef.child('transactions/'+user['uid']).child(trasaction_id)
@@ -266,8 +267,9 @@ export default class BookTab extends Component {
                         address = childsnap.val()['address']
                         contact_no = childsnap.val()['contact_no']
                         is_visible = childsnap.val()['is_visible']
+                        is_service_added = childsnap.val()['is_service_added']
                       
-                        if (is_visible === true) {
+                        if (is_visible === true && is_service_added === true) {
                             var updates = {}
                             updates['is_visible'] = false
                             updates['is_booked'] = true
@@ -880,29 +882,41 @@ export default class BookTab extends Component {
                         <TouchableOpacity 
                             style={style.touchButton}
                             onPress={()=>{
-                                if (this.state.categoryCurrentVal===null){
-                                    this.setState({errorMsg:"* Please select category"})
+                                // if (this.state.categoryCurrentVal===null){
+                                //     this.setState({errorMsg:"* Please select category"})
+                                //     return
+                                // }
+                                // else if (this.state.serviceCurrentVal===null){
+                                //     this.setState({errorMsg:"* Please select service"})
+                                //     return
+                                // }
+                                // else if (this.state.serviceDateCurrentVal===''){
+                                //     this.setState({errorMsg:"* Please select date of service"})
+                                //     return
+                                // }
+                                // else if (this.state.actualDate.getTime() <= new Date().getTime()){
+                                //     this.setState({errorMsg:"* Please select valid date of service"})
+                                //     return
+                                // }
+                                // else if (this.state.address===''){
+                                //     this.setState({errorMsg:"* Please set your address"})
+                                // }
+                                // else if (this.state.contactNo===''){
+                                //     this.setState({errorMsg:"* Please set your contact number"})
+                                // }
+                                // else if (this.state.paymentMethodValue===''){
+                                //     this.setState({errorMsg:"* Please select payment method"})
+                                //     return
+                                // }
+                                if (this.state.serviceInfo.length === 0) {
+                                    this.setState({errorMsg:"* Please add service/s"})
                                     return
                                 }
-                                else if (this.state.serviceCurrentVal===null){
-                                    this.setState({errorMsg:"* Please select service"})
+                                else if (this.state.totalReserveService < 1) {
+                                    this.setState({errorMsg:"* Please add to list"})
                                     return
                                 }
-                                else if (this.state.serviceDateCurrentVal===''){
-                                    this.setState({errorMsg:"* Please select date of service"})
-                                    return
-                                }
-                                else if (this.state.actualDate.getTime() <= new Date().getTime()){
-                                    this.setState({errorMsg:"* Please select valid date of service"})
-                                    return
-                                }
-                                else if (this.state.address===''){
-                                    this.setState({errorMsg:"* Please set your address"})
-                                }
-                                else if (this.state.contactNo===''){
-                                    this.setState({errorMsg:"* Please set your contact number"})
-                                }
-                                else if (this.state.paymentMethodValue===''){
+                                else if (this.state.paymentMethodValue === '') {
                                     this.setState({errorMsg:"* Please select payment method"})
                                     return
                                 }

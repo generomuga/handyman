@@ -41,6 +41,7 @@ export default class NotificationTab extends Component {
         var id = ''
         var category = ''
         var service = ''
+        var status = ''
         var service_date = ''
         var service_price = 0
         var service_currency = ''
@@ -49,11 +50,13 @@ export default class NotificationTab extends Component {
         var contact_no = ''
         var is_visible = false
         var is_booked = false
+        var is_service_added = false
         var createdDate = ''
         
         dbRef.child('bookings/'+user['uid']).orderByKey().get()           
             .then(snapshot => {
                 if (snapshot.exists()) {
+                    
                     snapshot.forEach(function(childsnap){
                         id = childsnap.val()['id']
                         category = childsnap.val()['category']
@@ -67,8 +70,6 @@ export default class NotificationTab extends Component {
                         is_booked = childsnap.val()['is_booked']
                         status = childsnap.val()['status']
                         createdDate = childsnap.val()['createdDate']
-
-                        console.log('nasds',is_visible, is_booked,createdDate)
 
                         if (is_visible === false && is_booked === true) {
                             totalPrice = totalPrice + service_price
@@ -90,7 +91,7 @@ export default class NotificationTab extends Component {
                         }
                     });
                 
-                    // console.log(items)
+                    console.log(items)
                     this.setState({serviceInfo:items})
                     // console.log(serviceInfo)
                     // this.setState({totalServicePrice:totalPrice})
@@ -291,6 +292,15 @@ export default class NotificationTab extends Component {
                             }} >
                             Transactions
                         </Text>
+
+                        <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="miscellaneous-services" 
+                            size={24} color="black" 
+                            onPress={()=>{
+                                this.getServiceInfo()
+                            }}
+                            />
                     </View>
 
                 <Text
