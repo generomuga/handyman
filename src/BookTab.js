@@ -244,6 +244,7 @@ export default class BookTab extends Component {
         var service_price = 0
         var service_currency = ''
         var contact_no = ''
+        var status = 'Pending'
         var is_visible = false
         var is_service_added = false
 
@@ -264,6 +265,7 @@ export default class BookTab extends Component {
                         service_date = childsnap.val()['service_date']
                         service_price = childsnap.val()['service_price']
                         service_currency = childsnap.val()['service_currency']
+                        status = childsnap.val()['status']
                         address = childsnap.val()['address']
                         contact_no = childsnap.val()['contact_no']
                         is_visible = childsnap.val()['is_visible']
@@ -283,7 +285,8 @@ export default class BookTab extends Component {
                                 service_price,
                                 service_currency,
                                 address,
-                                contact_no
+                                contact_no,
+                                status
                             })
                         }
                     });
@@ -405,7 +408,7 @@ export default class BookTab extends Component {
                 }}
                 />
 
-            <View
+            {/* <View
                 style={{flexDirection:'row'}} >
 
                 <MaterialIcons 
@@ -420,7 +423,7 @@ export default class BookTab extends Component {
                         alignSelf: 'center'
                     }}
                 >{data.item.id}</Text>
-            </View>
+            </View> */}
             
             <View style={{flexDirection:'row'}}>
                 <View 
