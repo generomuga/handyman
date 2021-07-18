@@ -610,6 +610,7 @@ export default class BookTab extends Component {
         this.setState({serviceDateCurrentVal:''})
         this.setState({address:''})
         this.setState({contactNo:''})
+        this.setState({errorMsg:''})
     }
 
     render(){
