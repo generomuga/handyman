@@ -108,24 +108,16 @@ export default class NotificationTab extends Component {
     getServiceInfo2(){
 
         const user = firebase.auth().currentUser;
-
         var items = []
         var transaction_id = ''
-        var category = ''
-        var service = ''
-        var status = ''
-        var service_date = ''
-        var service_price = 0
-        var service_currency = ''
-        var totalPrice = 0
+        var total_price = 0
         var totalReserveService = 0
-        var contact_no = ''
         var is_visible = false
         var is_booked = false
         var is_service_added = false
         var createdDate = ''
         var booking_info = []
-        var booking_id = ''
+        
         
         
         dbRef.child('transactions/'+user['uid']).orderByKey().get()           
@@ -134,22 +126,41 @@ export default class NotificationTab extends Component {
                     snapshot.forEach(function(childsnap){
                         transaction_id = childsnap.key
                         createdDate = childsnap.val()['created_at']
-                        console.log(createdDate)
-                        
+                        service_currency = childsnap.val()['service_currency']
+                        total_price = childsnap.val()['total_price']
                         booking_info = childsnap.val()['booking_info']
                         
                         var booking_info_items = []
+                        var booking_id = ''
+                        var category = ''
+                        var service = ''
+                        var status = ''
+                        var service_date = ''
+                        var service_price = 0
+                        var service_currency = ''
+                        var contact_no = ''
+
                         booking_info.forEach(function(childsnap1){
                             booking_id = childsnap1['id']
-                            console.log(booking_id)
+                            category = childsnap1['category']
+                            service = childsnap1['service']
+                            service_currency = childsnap1['service_currency']
+                            service_price = childsnap1['service_price']
+
                             booking_info_items.push({
-                                booking_id
+                                booking_id,
+                                category,
+                                service,
+                                service_currency,
+                                service_price
                             })
                         })
 
                         items.push({
                             transaction_id,
                             createdDate,
+                            service_currency,
+                            total_price,
                             booking_info_items
                         })
                         console.log(items)
@@ -187,22 +198,14 @@ export default class NotificationTab extends Component {
             }} >
 
             <Text>
-                {data.item.transaction_id}
+                TRANSACTION_ID {data.item.transaction_id}
             </Text>
 
             <Text>
-                {data.item.createdDate}
+                BOOKDATE {data.item.createdDate}
             </Text>
 
-            {
-                // data.item.booking_info_items.forEach(function(snapshot){
-                //     return <Text>snapshot['booking_id']/</Text>
-                // })
-
-                console.log(data.item.booking_info_items)
-            }
-
-            <Text>Asd</Text>
+            <Text>TOTAL PRICE {data.item.total_price}</Text>
 
             <FlatList
                     data={data.item.booking_info_items}
@@ -253,7 +256,7 @@ export default class NotificationTab extends Component {
                     }} >
                     {data.item.id}
                 </Text>
-a
+
             </View>
 
             <View
@@ -364,8 +367,9 @@ a
 
         return (
             <View>
-                <Text>Umaw</Text>
-                <Text>{data.item.booking_id}</Text>
+                <Text>Category: {data.item.category} </Text>
+                <Text>Service: {data.item.service} </Text>
+                <Text>PHP: {data.item.service_currency} {data.item.service_price} </Text>
             </View>
         )
     }
