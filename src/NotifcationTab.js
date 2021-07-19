@@ -324,7 +324,7 @@ export default class NotificationTab extends Component {
                             color: data.item.status==='Accepted'?'green':'red',
                             fontWeight: 'bold',
                             marginTop: 2, 
-                            marginLeft: 10,
+                            marginLeft: 5,
                             fontSize: 17,
                             // alignSelf: 'flex-end'
                         }}>
@@ -337,7 +337,7 @@ export default class NotificationTab extends Component {
                 <View
                     style={{
                         flexDirection:'row',
-                        marginLeft:20,
+                        marginLeft:5,
                         padding: 5
                     }}>
 
@@ -353,7 +353,7 @@ export default class NotificationTab extends Component {
                         <Text
                             style={{
                                 marginTop: 2,
-                                marginLeft: 10
+                                marginLeft: 5
                             }} >
                             {data.item.category}
                         </Text>
@@ -374,7 +374,7 @@ export default class NotificationTab extends Component {
                         <Text 
                             style={{
                                 marginTop: 2,
-                                marginLeft: 10
+                                marginLeft: 5
                             }} >
                             {data.item.service}
                         </Text>
@@ -386,7 +386,7 @@ export default class NotificationTab extends Component {
                 <View
                     style={{
                         flexDirection:'row',
-                        marginLeft:20,
+                        marginLeft:5,
                         padding: 5
                     }}>
 
@@ -404,7 +404,7 @@ export default class NotificationTab extends Component {
                         <Text
                             style={{
                                 marginTop: 2,
-                                marginLeft: 10
+                                marginLeft: 5
                             }} >
                             {data.item.service_date}
                         </Text>
@@ -414,7 +414,7 @@ export default class NotificationTab extends Component {
                     <View
                         style={{
                             flexDirection:'row',
-                            marginLeft:20
+                            marginLeft:1
                         }}>
 
                         <MaterialIcons 
@@ -426,7 +426,7 @@ export default class NotificationTab extends Component {
                         <Text
                             style={{
                                 marginTop: 2,
-                                marginLeft: 10
+                                marginLeft: 5
                             }} >
                             {data.item.contact_no}
                         </Text>
@@ -438,7 +438,7 @@ export default class NotificationTab extends Component {
                 <View
                     style={{
                         flexDirection:'row',
-                        marginLeft:20,
+                        marginLeft:5,
                         padding: 5
                     }}>
 
@@ -451,7 +451,7 @@ export default class NotificationTab extends Component {
                     <Text
                         style={{
                             marginTop: 2,
-                            marginLeft: 10
+                            marginLeft: 5
                         }} >
                         {data.item.address}
                     </Text>
@@ -475,7 +475,7 @@ export default class NotificationTab extends Component {
                         style={{
                             marginTop: 2,
                             marginRight: 10,
-                            marginLeft: 10
+                            marginLeft: 5
                         }} >
                             {data.item.service_currency} { data.item.service_price}
                     </Text>
