@@ -107,6 +107,7 @@ export default class NotificationTab extends Component {
 
     getServiceInfo2(){
 
+        console.log('AWIT')
         const user = firebase.auth().currentUser;
         var items = []
         var transaction_id = ''
@@ -134,7 +135,7 @@ export default class NotificationTab extends Component {
             //     console.log(snapshot)
             // })
     
-        dbRef.child('transactions/'+user['uid']).orderByKey().get()    
+        dbRef.child('transactions/'+user['uid']).get()    
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap){
@@ -188,7 +189,7 @@ export default class NotificationTab extends Component {
                             booking_info_items
                         })
 
-                        items.reverse()
+                        // items.reverse()
                         // console.log(items)
                         // console.log(booking_info_items)
 
@@ -201,7 +202,7 @@ export default class NotificationTab extends Component {
                         
                     });
                     
-                    this.setState({serviceInfo:items})
+                    this.setState({serviceInfo:items.reverse()})
                 }
                 else {
                     
@@ -487,6 +488,27 @@ export default class NotificationTab extends Component {
         )
     }
 
+    renderEmptyList() {
+        return (
+            <View
+                style={{
+                    padding: 50
+                }}>
+                <Text
+                    style={{
+                        // marginTop: 2,
+                        // marginRight: 10,
+                        color: '#BDBDBD',
+                        fontSize: 11,
+                        textAlign: 'center',
+                        marginBottom: 8
+                    }}>
+                        Scroll down to refresh
+                </Text>
+            </View>
+        )
+    }
+
     render(){
         return (
 
@@ -518,27 +540,7 @@ export default class NotificationTab extends Component {
                             Transactions
                         </Text>
 
-                        <MaterialIcons 
-                            style={{marginLeft:10}}
-                            name="miscellaneous-services" 
-                            size={24} color="black" 
-                            onPress={()=>{
-                                this.getServiceInfo2()
-                            }}
-                            />
                     </View>
-
-                <Text
-                    style={{
-                        // marginTop: 2,
-                        // marginRight: 10,
-                        color: '#BDBDBD',
-                        fontSize: 11,
-                        textAlign: 'center',
-                        marginBottom: 8
-                    }}>
-                        Scroll down/up to refresh
-                </Text>
 
                 </View>
 
@@ -554,9 +556,13 @@ export default class NotificationTab extends Component {
                         // inverted={this.state.isInverted}
                         inverted={false}
                         horizontal={false} 
-                        // onScroll={()=>{this.getServiceInfo()}}
-                        onScrollBeginDrag={()=>this.getServiceInfo2()}
-                        onScrollEndDrag={()=>this.getServiceInfo2()}
+                        // onScrollBeginDrag={()=>this.getServiceInfo2()}
+                        // onScrollEndDrag={()=>this.getServiceInfo2()}
+                        // onEndReached={()=>{this.getServiceInfo2()}}
+                        onRefresh={()=>{this.getServiceInfo2()}}
+                        refreshing={false}
+                        // onScrollBeginDrag={()}
+                        ListEmptyComponent={this.renderEmptyList()}
                         />
                         
                 </View>
