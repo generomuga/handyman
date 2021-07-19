@@ -451,7 +451,8 @@ export default class NotificationTab extends Component {
                     <Text
                         style={{
                             marginTop: 2,
-                            marginLeft: 5
+                            marginLeft: 5,
+                            // fontSize: 13
                         }} >
                         {data.item.address}
                     </Text>
