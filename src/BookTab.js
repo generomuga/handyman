@@ -501,7 +501,10 @@ export default class BookTab extends Component {
             </View>
 
             <View
-                style={{flexDirection:'row', padding: 5}} >
+                style={{
+                    flexDirection:'row', 
+                    padding: 5
+                }} >
                 
                 <MaterialIcons 
                     style={{marginLeft:10}}
@@ -512,7 +515,10 @@ export default class BookTab extends Component {
                 <Text
                     style={{
                         marginLeft:10,
+                        // marginRight:10,
+                        // padding:5,
                         fontWeight:'400',
+                        fontSize:12,
                         alignSelf: 'center',
                     }} >
                         {data.item.address}
@@ -729,7 +735,7 @@ export default class BookTab extends Component {
                         <Text 
                             style={style.labelComponentItem}
                             onPress={this.showDateTimePicker} >  
-                            {this.state.serviceDateCurrentVal?this.state.serviceDateCurrentVal:"<MMM DD YYYY, WD>"}
+                            {this.state.serviceDateCurrentVal?this.state.serviceDateCurrentVal:"Please select a date"}
                         </Text>
                         
                         <DateTimePicker
