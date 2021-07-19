@@ -616,7 +616,10 @@ export default class BookTab extends Component {
     render(){
         return (
             <SafeAreaView
-                style={{backgroundColor:'white'}} >
+                style={{
+                    backgroundColor:'white', 
+                    flex:1
+                }} >
 
                 <ScrollView>
                 
