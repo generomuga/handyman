@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { 
-    View, 
+import React, { useState } from 'react';
+import {  
     Text, 
     TextInput, 
     StyleSheet, 
@@ -18,102 +17,90 @@ import {
 import validation from './functions/validation';
 
 import * as firebase from 'firebase';
-
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
   
-export default class ForgotPassword extends Component {
+export default function ForgotPassword () {
 
+    const [
+        email,
+        setEmail,
+    ] = useState('');
+
+    const [
+        confirmEmail,
+        setConfirmEmail,
+    ] = useState('');
+
+    const [
+        errorMessage,
+        setErrorMessage,
+    ] = useState('');
     
-    _onResetPress() {
+    const onResetPassword = ({email, confirmEmail}) => {
 
-        const {email, confirm_email, errorMsg} = this.state;
+        setErrorMessage('')
 
-        this.setState({errorMsg:''});
-
-        if (validation.isEmailEmpty(email)) {
-            this.setState({errorMsg: '* Your email is empty.'})
+        const [resultIsEmailEmpty, messageIsEmailEmpty] = validation.isEmailEmpty(email)
+        if (resultIsEmailEmpty === true) {
+            setErrorMessage(messageIsEmailEmpty)
             return
         }
 
-        if (validation.isNotValidEmail(email)) {
-            this.setState({errorMsg: '* Your email is invalid.'})
+        const [resultIsEmailInvalid, messageIsEmailInvalid] = validation.isEmailInvalid(email)
+        if (resultIsEmailInvalid === true) {
+            setErrorMessage(messageIsEmailInvalid)
             return
         }
 
-        if (validation.isNotSameText(email, confirm_email)) {
-            this.setState({errorMsg: '* Your email and confirm email should be matched.'})
+        const [resultIsEmailUnequal, messageIsEmailUnequal] = validation.isEmailUnequal(email, confirmEmail)
+        if (resultIsEmailUnequal === true) {
+            setErrorMessage(messageIsEmailUnequal)
             return
         }
 
         firebase.auth().sendPasswordResetEmail(email)
             .then(() => {
-                // Password reset email sent!
-                // ..
-                this.setState({errorMsg: '* Reset password link has been sent to your email'})
+                setErrorMessage('Reset password link has been sent to your email')
             })
             .catch((error) => {
-                
-                this.setState({errorMsg:'* Your provided email not found.'});
-
-                // ..
+                setErrorMessage('Your provided email not found.')
             });
-
     }
 
-    constructor(props){
-        super(props)
+    return (
+        <SafeAreaView style={style.background}>
 
-        this.state = {
-            email: '',
-            confirm_email: '',
-            errorMsg: ''
-        }
+            <TextInput 
+                style={style.textInput} 
+                placeholder='email' 
+                autoCapitalize='none' 
+                value={email}
+                onChangeText={email => setEmail(email)} />
 
-    }
+            <TextInput 
+                style={style.textInput} 
+                placeholder='confirm email' 
+                autoCapitalize='none' 
+                value={confirmEmail}
+                onChangeText={confirmEmail => setConfirmEmail(confirmEmail)} />
 
-    render(){
-        return (
-            <SafeAreaView style={style.background}>
+            <Text 
+                style={style.labelErrorMessage} >
+                    {errorMessage}
+            </Text>
 
-                <View>
+            <TouchableOpacity 
+                style={style.touchButton}
+                onPress={()=> onResetPassword({email, confirmEmail})} >
 
-                    <TextInput 
-                        style={style.textInput} 
-                        placeholder='email' 
-                        autoCapitalize='none' 
-                        value={this.state.email}
-                        onChangeText={email => this.setState({email})} />
+                <Text 
+                    style={style.touchButtonLabel} >
+                        Reset
+                </Text>
 
-                    <TextInput 
-                        style={style.textInput} 
-                        placeholder='confirm email' 
-                        autoCapitalize='none' 
-                        value={this.state.confirm_email}
-                        onChangeText={confirm_email => this.setState({confirm_email})} />
+            </TouchableOpacity>
 
-                    <Text 
-                        style={style.labelErrorMessage} >
-                            {this.state.errorMsg}
-                    </Text>
-
-                    <TouchableOpacity 
-                        style={style.touchButton}
-                        onPress={()=>this._onResetPress()} >
-
-                        <Text 
-                            style={style.touchButtonLabel} >
-                                Reset
-                        </Text>
-
-                    </TouchableOpacity>
-
-                </View>
-
-            </SafeAreaView>            
-        )
-    }
+        </SafeAreaView>            
+    )
 
 }
 
