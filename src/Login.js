@@ -61,6 +61,7 @@ export default function Login (props) {
                     database.isUserExists(user);
 
                     if (emailVerified === true) {
+                        clearState()
                         props.navigation.navigate('Home')
                     }
                     else {
@@ -104,6 +105,8 @@ export default function Login (props) {
         
                 if (emailVerified === true) {
                     // Do nothing
+                    props.navigation.navigate('Home')
+                    clearState()
                 }
                 else {
                     setErrorMessage('Please verify your account through your email')
@@ -112,6 +115,12 @@ export default function Login (props) {
             .catch((error) => {
                 setErrorMessage('Your email or password is incorrect.')
             });
+    }
+
+    const clearState = () => {
+        setEmail('')
+        setPassword('')
+        setErrorMessage('')
     }
 
     return (
