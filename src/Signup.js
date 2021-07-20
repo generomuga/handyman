@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { 
     View, 
     TextInput, 
     Text,
-    CheckBox,
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
@@ -19,186 +18,193 @@ import {
 
 import validation from './functions/validation';
 
-import * as firebase from 'firebase';
-
 import { 
     FontAwesome5, 
     FontAwesome 
 } from '@expo/vector-icons';
 
-// database.init();
+import * as firebase from 'firebase';
+import { SafeAreaView } from 'react-navigation';
 
-export default class Signup extends Component {
+export default function Signup (props) {
 
-    constructor(props){
-        super(props)
+    const [
+        email,
+        setEmail,
+    ] = useState('');
 
-        this.state = {
-            email: '',
-            password: '',
-            confirmPassword: '',
-            errorMsg: '',
-            loading: false,
-            isAgree: true
-        }
-    }
+    const [
+        password,
+        setPassword,
+    ] = useState('');
 
-    _onSignUpPress() {
+    const [
+        confirmPassword,
+        setConfirmPassword,
+    ] = useState('');
+
+    const [
+        isAgreeOnTermsAndCondition,
+        setIsAgreeOnTermsAndCondition,
+    ] = useState(true); 
+
+    const [
+        errorMessage,
+        setErrorMessage,
+    ] = useState('');
+
+    const onSignUp = ({email, password, confirmPassword, isAgreeOnTermsAndCondition}) => {
         
-        const {email, password, errorMsg, confirmPassword} = this.state;
+        setErrorMessage('');
 
-        this.setState({errorMsg:''});
-
-        if (validation.isEmailEmpty(email)) {
-            this.setState({errorMsg: '* Your email is empty.'})
+        const [resultIsEmailEmpty, messageIsEmailEmpty] = validation.isEmailEmpty(email)
+        if (resultIsEmailEmpty === true) {
+            setErrorMessage(messageIsEmailEmpty)
             return
         }
 
-        if (validation.isNotValidEmail(email)) {
-            this.setState({errorMsg: '* Your email is invalid.'})
+        const [resultIsEmailInvalid, messageIsEmailInvalid] = validation.isEmailInvalid(email)
+        if (resultIsEmailInvalid === true) {
+            setErrorMessage(messageIsEmailInvalid)
             return
         }
 
-        if (validation.isPasswordEmpty(password)) {
-            this.setState({errorMsg: '* Your password is empty.'})
+        const [resultIsPasswordEmpty, messageIsPasswordEmpty] = validation.isPasswordEmpty(password)
+        if (resultIsPasswordEmpty === true) {
+            setErrorMessage(messageIsPasswordEmpty)
             return
         }
 
-        if (validation.isNotValidPassword(password)) {
-            this.setState({errorMsg: '* Your password should be atleast 8 characters.'})
+        const [resultIsPasswordInvalid, messageIsPasswordInvalid] = validation.isPasswordInvalid(password)
+        if (resultIsPasswordInvalid === true) {
+            setErrorMessage(messageIsPasswordInvalid)
             return
         }
 
-        if (validation.isNotSameText(password, confirmPassword)) {
-            this.setState({errorMsg: '* Your password and confirm password should be matched.'})
+        const [resultIsPasswordUnequal, messageIsPasswordUnequal] = validation.isPasswordUnequal(password, confirmPassword)
+        if (resultIsPasswordUnequal === true) {
+            setErrorMessage(messageIsPasswordUnequal)
             return
         }
-
-        if (this.state.isAgree === false) {
-            this.setState({errorMsg: '* Please agree on Terms and Condition'})
+    
+        const [resultIsTermsAndConditionAccepted, messageIsTermsAndConditionAccepted] = validation.isTermsAndConditionNotAccepted(isAgreeOnTermsAndCondition)
+        if (resultIsTermsAndConditionAccepted === true) {
+            setErrorMessage(messageIsTermsAndConditionAccepted)
             return
         }
 
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                // Signed in 
-                var user = userCredential.user;
-                // ...
-
+                const user = userCredential.user;
                 firebase.auth().currentUser.sendEmailVerification()
                 .then(() => {
                     
                 });
             })
             .catch((error) => {
-                //error = error.code;
-            
-                this.setState({errorMsg: error.message})
-                // this.setState({errorMsg: error.message})
-                // ..
+                props.navigation.navigate('Signup')
+                setErrorMessage(error.message)
             });
         }
 
-    render(){
-        return (
+    return (
 
-            <View style={style.background}>
-                
-                <View>
+        <SafeAreaView style={style.background}>
+            
+            <View>
 
-                    <TextInput 
-                        style={style.textinput} 
-                        placeholder='email' 
-                        autoCapitalize='none' 
-                        value={this.state.email}
-                        onChangeText={email => this.setState({email})} />
-
-                    <TextInput 
-                        style={style.textinput} 
-                        placeholder='password'
-                        autoCapitalize='none' 
-                        value={this.state.password}
-                        secureTextEntry={true}
-                        onChangeText={password => this.setState({password})} />
+                <TextInput 
+                    style={style.textinput} 
+                    placeholder='email' 
+                    autoCapitalize='none' 
+                    value={email}
+                    onChangeText={email => setEmail(email)} />
 
                     <TextInput 
-                        style={style.textinput} 
-                        placeholder='confirm password'
-                        secureTextEntry={true}
-                        autoCapitalize='none' 
-                        value={this.state.confirmPassword}
-                        onChangeText={confirmPassword => this.setState({confirmPassword})} />
+                    style={style.textinput} 
+                    placeholder='password'
+                    autoCapitalize='none' 
+                    value={password}
+                    secureTextEntry={true}
+                    onChangeText={password => setPassword(password)} />
 
-                    <Text 
-                        style={style.labelErrorMessage} >
-                            {this.state.errorMsg}
-                    </Text>
+                <TextInput 
+                    style={style.textinput} 
+                    placeholder='confirm password'
+                    secureTextEntry={true}
+                    autoCapitalize='none' 
+                    value={confirmPassword}
+                    onChangeText={confirmPassword => setConfirmPassword(confirmPassword)} />
 
-                    <View
-                        style={style.viewTermsAndCondition} >
+                <Text 
+                    style={style.labelErrorMessage} >
+                        {errorMessage}
+                </Text>
 
-                        <ToggleSwitch
-                            isOn={this.state.isAgree}
-                            onColor="green"
-                            label='Agree on Terms and Condition'
-                            labelStyle={{ 
-                                marginLeft:10, 
-                                marginBottom:5, 
-                                fontSize:17 
-                            }}
-                            offColor="red"
-                            size="small"
-                            onToggle={()=>{
-                                if (this.state.isAgree === true){
-                                    this.setState({isAgree:false})   
-                                }
-                                else {
-                                    this.setState({isAgree:true})
-                                }
-                            }} />
-                        
-                    </View>
+                <View
+                    style={style.viewTermsAndCondition} >
 
-                    <TouchableOpacity 
-                        style={style.touchbutton}
-                        onPress={()=>this._onSignUpPress()} >
-
-                        <Text 
-                            style={style.touchbuttonlabel} >
-                                Join now
-                        </Text>
-
-                    </TouchableOpacity>
-                </View>
-                
-                <View>
-
-                    <Text 
-                        style={style.connect} >
-                            ~ or connect with ~
-                    </Text>
-
-                    <View style={style.viewGoogleFb}>
-
-                        <FontAwesome 
-                          name="google-plus-official" 
-                          size={77} 
-                          color="#d34836" 
-                          style={style.google} />
-
-                        <FontAwesome5 
-                          name="facebook" 
-                          size={68} 
-                          color="#4267B2" 
-                          style={style.facebook} />
-
-                    </View>
+                    <ToggleSwitch
+                        isOn = {isAgreeOnTermsAndCondition}
+                        onColor = "green"
+                        offColor = "red"
+                        size = "small"
+                        label = 'Agree on Terms and Condition'
+                        labelStyle={{ 
+                            marginLeft: 10, 
+                            marginBottom: 5, 
+                            fontSize: 17 
+                        }}
+                        onToggle = {() => {
+                            if (isAgreeOnTermsAndCondition === true) {
+                                setIsAgreeOnTermsAndCondition(false)  
+                            }
+                            else {
+                                setIsAgreeOnTermsAndCondition(true)  
+                            }
+                        }} />
 
                 </View>
 
-            </View>            
-        )
-    }
+                <TouchableOpacity 
+                    style={style.touchbutton}
+                    onPress={()=> onSignUp({email, password, confirmPassword, isAgreeOnTermsAndCondition})} >
+
+                    <Text 
+                        style={style.touchbuttonlabel} >
+                            Join now
+                    </Text>
+
+                </TouchableOpacity>
+            </View>
+            
+            {/* <View>
+
+                <Text 
+                    style={style.connect} >
+                        ~ or connect with ~
+                </Text>
+
+                <View style={style.viewGoogleFb}>
+
+                    <FontAwesome 
+                        name="google-plus-official" 
+                        size={77} 
+                        color="#d34836" 
+                        style={style.google} />
+
+                    <FontAwesome5 
+                        name="facebook" 
+                        size={68} 
+                        color="#4267B2" 
+                        style={style.facebook} />
+
+                </View>
+
+            </View> */}
+
+        </SafeAreaView>            
+    )
 
 }
 
