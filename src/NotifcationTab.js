@@ -1,139 +1,55 @@
-import React, { Component } from 'react';
-import { View, Text, Button, FlatList, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+
+import { 
+    View, 
+    Text, 
+    FlatList 
+} from 'react-native';
+
+import { SafeAreaView } from 'react-navigation';
 
 import { MaterialIcons } from '@expo/vector-icons';
-
 import * as firebase from 'firebase';
-import { get } from 'react-native/Libraries/Utilities/PixelRatio';
-import { alignment } from './styles/button';
-import { padding } from './styles/inputtext';
-import { SafeAreaView } from 'react-navigation';
+
 const dbRef = firebase.database().ref();
 
-export default class NotificationTab extends Component {
-        
-    componentDidMount() {
-        this.getServiceInfo2()
-    }
-    
-    // componentDidUpdate() {
-    //     this.getServiceInfo()
-    // }
+export default function NotificationTab() {
 
-    constructor(props){
-        super(props)
+    const [
+        serviceInfo,
+        setServiceInfo,
+    ] = useState([]);
 
-        this.state = {
-            serviceInfo: [],
-            isInverted: true,
-        }
+    useEffect(()=>{
+        getServiceInfo
+    }, [])
 
-    }
-
-    getServiceInfo(){
-
-        console.log('Awit')
-        console.log(this.state.serviceInfo.length)
-
-        const user = firebase.auth().currentUser;
-
-        var items = []
-        var id = ''
-        var category = ''
-        var service = ''
-        var status = ''
-        var service_date = ''
-        var service_price = 0
-        var service_currency = ''
-        var totalPrice = 0
-        var totalReserveService = 0
-        var contact_no = ''
-        var is_visible = false
-        var is_booked = false
-        var is_service_added = false
-        var createdDate = ''
-        
-        dbRef.child('bookings/'+user['uid']).orderByKey().get()           
-            .then(snapshot => {
-                if (snapshot.exists()) {
-                    
-                    snapshot.forEach(function(childsnap){
-                        id = childsnap.val()['id']
-                        category = childsnap.val()['category']
-                        service = childsnap.val()['service']
-                        service_date = childsnap.val()['service_date']
-                        service_price = childsnap.val()['service_price']
-                        service_currency = childsnap.val()['service_currency']
-                        address = childsnap.val()['address']
-                        contact_no = childsnap.val()['contact_no']
-                        is_visible = childsnap.val()['is_visible']
-                        is_booked = childsnap.val()['is_booked']
-                        status = childsnap.val()['status']
-                        createdDate = childsnap.val()['createdDate']
-
-                        if (is_visible === false && is_booked === true) {
-                            totalPrice = totalPrice + service_price
-                            totalReserveService = totalReserveService + 1
-
-                            items.push({
-                                id, 
-                                category,
-                                service,
-                                service_date,
-                                service_price,
-                                service_currency,
-                                address,
-                                contact_no,
-                                is_visible,
-                                status,
-                                createdDate
-                            })
-                        }
-                    });
-                
-                    console.log(items)
-                    this.setState({serviceInfo:items})
-                    // console.log(serviceInfo)
-                    // this.setState({totalServicePrice:totalPrice})
-                    // this.setState({totalReserveService:totalReserveService})
-                }
-                else {
-                    // this.setState({serviceInfo:null})
-                    // this.setState({totalServicePrice:0})
-                    // this.setState({totalReserveService:0})
-                }
-            });
-    }
-
-    getServiceInfo2(){
+    const getServiceInfo = () => {
 
         console.log('AWIT')
-        const user = firebase.auth().currentUser;
-        var items = []
-        var transaction_id = ''
-        var total_price = 0
-        var totalReserveService = 0
-        var is_visible = false
-        var is_booked = false
-        var is_service_added = false
-        var createdDate = ''
-        var booking_info = []
+        let user = firebase.auth().currentUser;
+        let items = []
+        let transaction_id = ''
+        let total_price = 0
+        let totalReserveService = 0
+        let is_visible = false
+        let is_booked = false
+        let is_service_added = false
+        let createdDate = ''
+        let booking_info = []
         
 
-        //order
+        // TODO: Implement query order
         // const query = firebase.database().ref('transactions/'+user['uid']).orderByChild('total_price').limitToLast(100)
-            
-        //     query.on('child_added', snapshot => {
-                
-        //         // const transaction_id = snapshot.val().transaction_id
-        //         const total_price = snapshot.val().total_price
-        //         const booking_info = snapshot.val().booking_info
-        //         console.log(booking_info)
-        //     })
-
-            // query.get().then(snapshot =>{
-            //     console.log(snapshot)
-            // })
+        // query.on('child_added', snapshot => {
+        // const transaction_id = snapshot.val().transaction_id
+        // const total_price = snapshot.val().total_price
+        // const booking_info = snapshot.val().booking_info
+        // console.log(booking_info)
+        // })
+        // query.get().then(snapshot =>{
+        //     console.log(snapshot)
+        // })
     
         dbRef.child('transactions/'+user['uid']).get()    
             .then(snapshot => {
@@ -145,16 +61,16 @@ export default class NotificationTab extends Component {
                         total_price = childsnap.val()['total_price']
                         booking_info = childsnap.val()['booking_info']
                         
-                        var booking_info_items = []
-                        var booking_id = ''
-                        var category = ''
-                        var service = ''
-                        var status = ''
-                        var service_date = ''
-                        var service_price = 0
-                        var service_currency = ''
-                        var contact_no = ''
-                        var address = ''
+                        let booking_info_items = []
+                        let booking_id = ''
+                        let category = ''
+                        let service = ''
+                        let status = ''
+                        let service_date = ''
+                        let service_price = 0
+                        let service_currency = ''
+                        let contact_no = ''
+                        let address = ''
 
                         booking_info.forEach(function(childsnap1){
                             booking_id = childsnap1['id']
@@ -189,20 +105,9 @@ export default class NotificationTab extends Component {
                             booking_info_items
                         })
 
-                        // items.reverse()
-                        // console.log(items)
-                        // console.log(booking_info_items)
-
-                        // var refBookingInfo = dbRef.child('transactions/'+user['uid']).child(transaction_id).child('booking_info').get()
-                        //     .then(snapshot =>{
-                        //         if (snapshot.exists()) {
-                        //             console.log(snapshot)
-                        //         }
-                        //     })
-                        
                     });
                     
-                    this.setState({serviceInfo:items.reverse()})
+                    setServiceInfo(items.reverse())
                 }
                 else {
                     
@@ -210,89 +115,88 @@ export default class NotificationTab extends Component {
             });
     }
 
-    renderItemComponent = (data) => {
-        // this.getBookingDetails()
-
+    const renderItemComponent = (data) => {
+        
         return (
-        <View 
-            style={{
-                borderWidth:1,
-                borderColor: '#006064',
-                backgroundColor: 'white',
-                borderRadius: 10,
-                margin: 5,
-                padding: 5
-            }} >
-
-            <View
+            <View 
                 style={{
-                    flexDirection:'row',
-                    alignSelf: 'flex-end',
-                    marginRight: 20
+                    borderWidth:1,
+                    borderColor: '#006064',
+                    backgroundColor: 'white',
+                    borderRadius: 10,
+                    margin: 5,
+                    padding: 5
                 }} >
 
-                <MaterialIcons 
-                    style={{marginLeft:10}}
-                    name="confirmation-number" 
-                    size={24} color="#00695C" />
-
-                <Text 
+                <View
                     style={{
-                        marginLeft:10,
-                        fontWeight:'bold',
-                        alignSelf: 'center',
-                        fontSize: 17,
-                    }}
-                >{data.item.transaction_id}</Text>
-            </View>
+                        flexDirection:'row',
+                        alignSelf: 'flex-end',
+                        marginRight: 20
+                    }} >
 
-            <View
-                style={{
-                    flexDirection:'row',
-                    alignSelf:'flex-end',
-                    marginRight: 25,
-                }}>
-
-                <MaterialIcons 
+                    <MaterialIcons 
                         style={{marginLeft:10}}
-                        name="money" 
-                        size={24} 
-                        color="#424242" />
+                        name="confirmation-number" 
+                        size={24} color="#00695C" />
+
+                    <Text 
+                        style={{
+                            marginLeft:10,
+                            fontWeight:'bold',
+                            alignSelf: 'center',
+                            fontSize: 17,
+                        }}
+                    >{data.item.transaction_id}</Text>
+                </View>
+
+                <View
+                    style={{
+                        flexDirection:'row',
+                        alignSelf:'flex-end',
+                        marginRight: 25,
+                    }}>
+
+                    <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="money" 
+                            size={24} 
+                            color="#424242" />
+
+                    <Text
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 10,
+                            fontSize: 14,
+                            fontWeight: 'bold'
+                        }} >
+                            {data.item.service_currency} { data.item.total_price}
+                    </Text>
+
+                </View>
+
+                <FlatList
+                    data={data.item.booking_info_items}
+                    renderItem={item => renderChildItemComponent(item)}
+                    keyExtractor={item => item.booking_id.toString()}
+                    />
 
                 <Text
                     style={{
                         marginTop: 2,
-                        marginLeft: 10,
-                        fontSize: 14,
-                        fontWeight: 'bold'
+                        marginLeft: 30,
+                        color: '#BDBDBD',
+                        fontSize: 11,
+                        textAlign: 'left'
                     }} >
-                        {data.item.service_currency} { data.item.total_price}
-                </Text>
-
+                    {data.item.createdDate}
+                </Text> 
             </View>
-
-            <FlatList
-                data={data.item.booking_info_items}
-                renderItem={item => this.renderItemComponent2(item)}
-                keyExtractor={item => item.booking_id.toString()}
-                />
-
-            <Text
-                style={{
-                    marginTop: 2,
-                    marginLeft: 30,
-                    color: '#BDBDBD',
-                    fontSize: 11,
-                    textAlign: 'left'
-                }} >
-                {data.item.createdDate}
-            </Text> 
-        </View>)
+        )
     }
 
-    renderItemComponent2 = (data) => {
-        // this.getBookingDetails()
-
+    const renderChildItemComponent = (data) => {
+       
         return (
             <View
                 style={{
@@ -488,7 +392,7 @@ export default class NotificationTab extends Component {
         )
     }
 
-    renderEmptyList() {
+    const renderEmptyList = () => {
         return (
             <View
                 style={{
@@ -496,8 +400,6 @@ export default class NotificationTab extends Component {
                 }}>
                 <Text
                     style={{
-                        // marginTop: 2,
-                        // marginRight: 10,
                         color: '#BDBDBD',
                         fontSize: 11,
                         textAlign: 'center',
@@ -509,65 +411,60 @@ export default class NotificationTab extends Component {
         )
     }
 
-    render(){
-        return (
+    return (
 
-            <SafeAreaView
-                style={{
-                    backgroundColor: 'white',
-                    flex: 1
-                }} >
+        <SafeAreaView
+            style={{
+                backgroundColor: 'white',
+                flex: 1
+            }} >
 
-                <View>
-
-                    <View
-                        style={{
-                            flexDirection:'row',
-                            marginTop: 5
-                        }}>
-                        <MaterialIcons 
-                            style={{marginLeft:10}}
-                            name="miscellaneous-services" 
-                            size={24} color="black" />
-
-                        <Text
-                            style={{
-                                marginTop: 2,
-                                marginLeft: 5, 
-                                marginBottom: 8, 
-                                fontSize: 17,
-                            }} >
-                            Transactions
-                        </Text>
-
-                    </View>
-
-                </View>
+            <View>
 
                 <View
                     style={{
-                        marginBottom: 60
-                    }}
-                    >
-                    <FlatList
-                        data={this.state.serviceInfo}
-                        renderItem={item => this.renderItemComponent(item)}
-                        keyExtractor={item => item.transaction_id.toString()}
-                        // inverted={this.state.isInverted}
-                        inverted={false}
-                        horizontal={false} 
-                        // onScrollBeginDrag={()=>this.getServiceInfo2()}
-                        // onScrollEndDrag={()=>this.getServiceInfo2()}
-                        // onEndReached={()=>{this.getServiceInfo2()}}
-                        onRefresh={()=>{this.getServiceInfo2()}}
-                        refreshing={false}
-                        // onScrollBeginDrag={()}
-                        ListEmptyComponent={this.renderEmptyList()}
-                        />
-                        
-                </View>
-            </SafeAreaView>
-        )
-    }
+                        flexDirection:'row',
+                        // marginTop: 5
+                    }}>
+                    <MaterialIcons 
+                        style={{marginLeft:10}}
+                        name="miscellaneous-services" 
+                        size={24} color="black" />
 
+                    <Text
+                        style={{
+                            marginTop: 2,
+                            marginLeft: 5, 
+                            marginBottom: 8, 
+                            fontSize: 17,
+                        }} >
+                        Transactions
+                    </Text>
+
+                </View>
+
+            </View>
+
+            <View
+                style={{
+                    marginBottom: 60
+                }}
+                >
+
+                <FlatList
+                    data={serviceInfo}
+                    renderItem={item => renderItemComponent(item)}
+                    keyExtractor={item => item.transaction_id.toString()}
+                    // inverted={this.state.isInverted}
+                    inverted={false}
+                    horizontal={false} 
+                    onRefresh={()=>{getServiceInfo()}}
+                    refreshing={false}
+                    ListEmptyComponent={renderEmptyList()}
+                    />
+                    
+            </View>
+        </SafeAreaView>
+    )
+  
 }
