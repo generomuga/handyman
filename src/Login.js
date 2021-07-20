@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { 
     Image, 
@@ -7,8 +7,7 @@ import {
     TextInput, 
     Text, 
     TouchableOpacity, 
-    StyleSheet, 
-    Alert 
+    StyleSheet 
 } from 'react-native';
 
 import { 
@@ -17,8 +16,6 @@ import {
     InputText,
     Label
 } from './styles';
-
-import * as firebase from 'firebase';
 
 import validation from './functions/validation';
 import database from './functions/database';
@@ -29,189 +26,179 @@ import {
     FontAwesome 
 } from '@expo/vector-icons';
 
+import * as firebase from 'firebase';
+
 database.init();
 
-export default class Login extends Component {
+export default function Login (props) {
 
-    componentDidMount() {
-        this.checkIfLoggedIn();
-    }
+    const [
+        email,
+        setEmail,
+    ] = useState('');
+
+    const [
+        password,
+        setPassword,
+    ] = useState('');
+
+    const [
+        errorMessage,
+        setErrorMessage,
+    ] = useState('');
+
+    useEffect(() => {
+        checkIfLoggedIn()
+    });
   
-    checkIfLoggedIn = () => {
+    const checkIfLoggedIn = () => {
         firebase.auth().onAuthStateChanged(user => {
-            
             if (user) {
                 const user = firebase.auth().currentUser;
-                    
+
                 if (user !== null) {
-                    
                     const emailVerified = user.emailVerified;
-                    
                     database.isUserExists(user);
 
                     if (emailVerified === true) {
-                        this.props.navigation.navigate('Home')
+                        props.navigation.navigate('Home')
                     }
-                    
                     else {
-                        this.props.navigation.navigate('Login')
-                        this.setState({errorMsg: '* Please verify your account through your email'})
-                        console.log('wala')
+                        setErrorMessage('* Please verify your account through your email')
+                        props.navigation.navigate('Login')
                     }
                 }
-
             }
             else {
-                this.props.navigation.navigate('Login')
+                props.navigation.navigate('Login')
             }
-
         }
+    )};
 
-    )}
+    const onLogin = ({email, password}) => {
+        setErrorMessage('')
 
-    _onLoginPress() {
-
-        const {email, password, errorMsg} = this.state;
-
-        this.setState({errorMsg:''});
-
-        if (validation.isEmailEmpty(email)) {
-            this.setState({errorMsg: '* Your email is empty.'})
+        const [resultIsEmailEmpty, messageIsEmailEmpty] = validation.isEmailEmpty(email)
+        if (resultIsEmailEmpty === true) {
+            setErrorMessage(messageIsEmailEmpty)
             return
         }
 
-        if (validation.isNotValidEmail(email)) {
-            this.setState({errorMsg: '* Your email is invalid.'})
+        const [resultIsEmailInvalid, messageIsEmailInvalid] = validation.isEmailInvalid(email)
+        if (resultIsEmailInvalid === true) {
+            setErrorMessage(messageIsEmailInvalid)
             return
         }
 
-        if (validation.isPasswordEmpty(password)) {
-            this.setState({errorMsg: '* Your password is empty.'})
+        const [resultIsPasswordEmpty, messageIsPasswordEmpty] = validation.isPasswordEmpty(password)
+        if (resultIsPasswordEmpty === true) {
+            setErrorMessage(messageIsPasswordEmpty)
             return
         }
 
+        // TODO: Put it in authentication class
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                // Signed in
-                var user = userCredential.user;
-
+                const user = userCredential.user;
                 const emailVerified = user.emailVerified;
-                
-                console.log(emailVerified);
-
+        
                 if (emailVerified === true) {
-                    this.props.navigation.navigate('Home')
+                    // Do nothing
                 }
                 else {
-                    this.props.navigation.navigate('Login')
-                    this.setState({errorMsg: '* Please verify your account through your email'})
+                    setErrorMessage('Please verify your account through your email')
                 }
-
             })
             .catch((error) => {
-                this.setState({errorMsg:'* Your email or password is incorrect.'})
+                setErrorMessage('Your email or password is incorrect.')
             });
     }
 
-    constructor(props){
-        super(props)
+    return (
+        <SafeAreaView style={style.background}>
+            
+            <View style={style.viewLogo}>
 
-        this.state = {
-            email: '',
-            password: '',
-            errorMsg: '',
-            isRegistered: false
-        }
+                <Image 
+                    source={require('../assets/hugefort-ico.png')}
+                    style={style.logo} />
 
-    }
+            </View>
 
-    render(){
-        return (
-            <SafeAreaView style={style.background}>
+            <View style={style.viewTextInput}>
+
+                <TextInput 
+                    style={style.textInput} 
+                    placeholder='email' 
+                    autoCapitalize='none' 
+                    value={email}
+                    onChangeText={email => setEmail(email)} />
+
+                <TextInput 
+                    style={style.textInput} 
+                    placeholder='password' 
+                    secureTextEntry={true} 
+                    autoCapitalize='none' 
+                    value={password}
+                    onChangeText={password => setPassword(password)} />
+
+                <Text style={style.labelErrorMessage}>
+                    {errorMessage}
+                </Text>
+
+                <TouchableOpacity 
+                    style={style.touchButton}
+                    onPress={()=> onLogin({email, password})} >
+
+                    <Text style={style.touchButtonLabel}>
+                        Login
+                    </Text>
+
+                </TouchableOpacity>
+
+                <Text 
+                    style={style.forgotPassword}
+                    onPress={()=>props.navigation.navigate('ForgotPassword')}
+                    >
+                    Forgot password
+                </Text>
                 
-                <View style={style.viewLogo}>
+            </View>
 
-                    <Image 
-                        source={require('../assets/hugefort-ico.png')}
-                        style={style.logo} />
+            <View style={style.viewSocialMedia}>
 
-                </View>
+                <Text style={style.connect}>
+                    ~ or connect with ~
+                </Text>
 
-                <View style={style.viewTextInput}>
+                <View style={style.viewGoogleFb}>
 
-                    <TextInput 
-                        style={style.textInput} 
-                        placeholder='email' 
-                        autoCapitalize='none' 
-                        value={this.state.email}
-                        onChangeText={email => this.setState({email})} />
+                    <FontAwesome 
+                        name='google-plus-official' 
+                        size={77} 
+                        color='#d34836' 
+                        style={style.google}
+                        onPress={() => authentication.signInWithGoogleAsync()} />
 
-                    <TextInput 
-                        style={style.textInput} 
-                        placeholder='password' 
-                        secureTextEntry={true} 
-                        autoCapitalize='none' 
-                        value={this.state.password}
-                        onChangeText={password => this.setState({password})} />
-
-                    <Text style={style.labelErrorMessage}>
-                        {this.state.errorMsg}
-                    </Text>
-
-                    <TouchableOpacity 
-                        style={style.touchButton}
-                        onPress={()=>this._onLoginPress()}>
-
-                        <Text style={style.touchButtonLabel}>
-                            Login
-                        </Text>
-
-                    </TouchableOpacity>
-
-                    <Text 
-                        style={style.forgotPassword}
-                        onPress={()=>this.props.navigation.navigate('ForgotPassword')}>
-                        Forgot password
-                    </Text>
-                    
-                </View>
-
-                <View style={style.viewSocialMedia}>
-
-                    <Text style={style.connect}>
-                        ~ or connect with ~
-                    </Text>
-
-                    <View style={style.viewGoogleFb}>
-
-                        <FontAwesome 
-                            name='google-plus-official' 
-                            size={77} 
-                            color='#d34836' 
-                            style={style.google}
-                            onPress={() => authentication.signInWithGoogleAsync()} />
-
-                        <FontAwesome5 
-                            name='facebook' 
-                            size={68} 
-                            color='#4267B2'
-                            style={style.facebook}
-                            onPress={()=> alert('Temporarily disabled')} />
-
-                    </View>
-                    
-                    <Text
-                        style={style.signUp}
-                        onPress={()=>this.props.navigation.navigate('Signup')}>
-                            Don't have an account? Sign up here
-                    </Text>
+                    <FontAwesome5 
+                        name='facebook' 
+                        size={68} 
+                        color='#4267B2'
+                        style={style.facebook}
+                        onPress={()=> alert('Temporarily disabled')} />
 
                 </View>
+                
+                <Text
+                    style={style.signUp}
+                    onPress={()=>props.navigation.navigate('Signup')}>
+                        Don't have an account? Sign up here
+                </Text>
 
-            </SafeAreaView>
-        )
-    }
+            </View>
 
+        </SafeAreaView>
+    )
 }
 
 const style = StyleSheet.create({
@@ -223,7 +210,7 @@ const style = StyleSheet.create({
     },
 
     viewLogo: {
-        flex: 3.4, 
+        flex: 3, 
         justifyContent: 'flex-start'
     },
 
