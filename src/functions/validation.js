@@ -20,6 +20,16 @@ class Validation {
         }
     }
 
+    isEmailUnequal(text1,text2) {
+        if (text1 != text2) {
+            // console.log('Password didnt match new')
+            return [true, "Your email didn't match"];
+        }
+        else {
+            return [false, '']
+        }
+    }
+
     isPasswordEmpty(text) {
         if (text.trim() === '') {
             // console.log('Empty password new')
