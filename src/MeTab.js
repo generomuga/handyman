@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { 
     View, 
     Text, 
-    TextInput, 
-    SafeAreaView, 
-    Button,
+    TextInput,
     TouchableOpacity,
     Image,
     ScrollView,
@@ -17,26 +16,103 @@ import database from './functions/database';
 import RNPickerSelect from 'react-native-picker-select';
 import * as ImagePicker from 'expo-image-picker';
 
-database.init();
+// database.init();
 
 const dbRef = firebase.database().ref();
 
-export default class MeTab extends Component {
+export default function MeTab(props) {
         
-    getUserDetails() {
+    const [
+        photoURL,
+        setPhotoURL,
+    ] = useState('');
+
+    const [
+        displayName,
+        setDisplayName,
+    ] = useState('');
+
+    const [
+        isDisplayNameEditable,
+        setIsDisplayNameEditable,
+    ] = useState(false);
+
+    const [
+        gender,
+        setGender,
+    ] = useState(false);
+
+    const [
+        isGenderEditable,
+        setIsGenderEditable,
+    ] = useState(false);
+
+    const [
+        email,
+        setEmail,
+    ] = useState('');
+
+    const [
+        isEmailEditable,
+        setIsEmailEditable,
+    ] = useState(false);
+
+    const [
+        contactNo,
+        setContactNo,
+    ] = useState('');
+
+    const [
+        isContactNoEditable,
+        setIsContactNoEditable,
+    ] = useState(false);
+
+    const [
+        address,
+        setAddress,
+    ] = useState('');  
+    
+    const [
+        isAddressEditable,
+        setIsAddressEditable,
+    ] = useState(false);
+
+    const [
+        buttonLabel,
+        setButtonLabel,
+    ] = useState('Edit');
+
+    useEffect(()=>{
+        getUserDetails()
+    },[])
+
+    const getUserDetails = () => {
         
-        const user = firebase.auth().currentUser;
+        let user = firebase.auth().currentUser;
+        let displayName = ''
+        let gender = ''
+        let email = ''
+        let photoURL = ''
+        let contactNo = ''
+        let address = ''
 
         dbRef.child("users").child(user['uid']).once("value")
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    this.setState({displayName:data['displayName']});
-                    this.setState({gender:data['gender']});
-                    this.setState({email:data['email']});
-                    this.setState({photoURL:data['photoURL']});
-                    this.setState({contactNo:data['contactNo']});
-                    this.setState({address:data['address']});
+                    displayName = data['displayName']
+                    gender = data['gender']
+                    email = data['email']
+                    photoURL = data['photoURL']
+                    contactNo = data['contactNo']
+                    address = data['address']
+
+                    setDisplayName(displayName)
+                    setGender(gender)
+                    setEmail(email)
+                    setPhotoURL(photoURL)
+                    setContactNo(contactNo)
+                    setAddress(address)
                 } 
                 else {
                     console.log("No data available");
@@ -44,70 +120,40 @@ export default class MeTab extends Component {
             });
     }
 
-    updateUserDetails() {
-        const user = firebase.auth().currentUser;
+    const updateUserDetails = () => {
+        let user = firebase.auth().currentUser;
         
-        var updates = {};
-        updates['displayName'] = this.state.displayName;
-        updates['gender'] = this.state.gender;
-        updates['contactNo'] = this.state.contactNo;
-        updates['address'] = this.state.address;
+        let updates = {};
+        updates['displayName'] = displayName;
+        updates['gender'] = gender;
+        updates['contactNo'] = contactNo;
+        updates['address'] = address;
 
         dbRef.child("users").child(user['uid']).update(updates);
     }
 
-    _onPressButton() {
+    const onPressButton = () => {
      
-        const {isDisplayNameEditable, buttonLabel } = this.state;
-
         if (isDisplayNameEditable === true) {
-            this.setState({isDisplayNameEditable:false});
-            this.setState({isGenderEditable:false});
-            this.setState({isContactNoEditable:false});
-            this.setState({isAddressEditable:false});
+            setIsDisplayNameEditable(false);
+            setIsGenderEditable(false)
+            setIsContactNoEditable(false)
+            setIsAddressEditable(false)
+            setButtonLabel('Edit')
 
-            this.setState({buttonLabel:'Edit'});
-
-            this.updateUserDetails();
-            
+            updateUserDetails();
         }
         else {
-            this.setState({isDisplayNameEditable:true});
-            this.setState({isGenderEditable:true});
-            this.setState({isContactNoEditable:true});
-            this.setState({isAddressEditable:true});
-
-            this.setState({buttonLabel:'Save'})
-            
+            setIsDisplayNameEditable(true);
+            setIsGenderEditable(true)
+            setIsContactNoEditable(true)
+            setIsAddressEditable(true)
+            setButtonLabel('Save')
         }
 
     }
 
-    componentDidMount() {
-        this.getUserDetails()
-    }    
-
-    constructor(props){
-        super(props)
-
-        this.state = {
-            photoURL: '',
-            displayName: '',
-            gender:'',
-            email: '',
-            contactNo: '',
-            address: '',
-            isDisplayNameEditable: false,
-            isGenderEditable: false,
-            isEmailEditable: false,
-            isContactNoEditable: false,
-            isAddressEditable: false,
-            buttonLabel: 'Edit'
-        }
-
-    }
-
-    onImagePress = async() => {
+    const onImagePress = async() => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
           alert('Sorry, we need camera roll permissions to make this work!');
@@ -121,15 +167,12 @@ export default class MeTab extends Component {
               });
     
               if (!result.cancelled) {
-                this.uploadImage(result.uri,'test')
-                console.log(result.uri)
-               
+                uploadImage(result.uri,'test')
               }
         }
-
     }
 
-    uploadImage = async(uri, imageName) => {
+    const uploadImage = async(uri, imageName) => {
         const response = await fetch(uri)
         const blob = await response.blob()
 
@@ -144,237 +187,234 @@ export default class MeTab extends Component {
         updates['photoURL'] = photoURL
         
         dbRef.child('users').child(user['uid']).update(updates)
-        this.setState({photoURL:photoURL})
+        setPhotoURL(photoURL)
     }
 
 
-    render(){
-        return (
-            <ScrollView
-                // style={{flex:1}}
+    return (
+        <ScrollView
+            // style={{flex:1}}
+            >
+
+            <View
+                style={{
+                    backgroundColor: '#039BE5',
+                    flex:1,
+                    justifyContent: 'center'
+                }}
                 >
-
-                <View
+                <Image 
                     style={{
-                        backgroundColor: '#039BE5',
-                        flex:1,
-                        justifyContent: 'center'
-                    }}
-                    >
-                    <Image 
-                        style={{
-                            width:100,
-                            height:100,
-                            resizeMode:'contain', 
-                            alignSelf:'center',
-                            marginTop:20,
-                            // alignItems:'',
-                            borderRadius:10,
-                        }}
-                        source={{uri:this.state.photoURL?this.state.photoURL:Image.resolveAssetSource(require('../assets/user.png')).uri}}
-                        // source={{uri:Image.resolveAssetSource(require('../assets/user.png')).uri}}
-                    />
-
-                    <Text
-                        style={{
-                            alignSelf:'center',
-                            marginTop:10,
-                            marginBottom:20,
-                            color:'white'
-                        }}
-                        onPress={()=>{
-                            this.onImagePress()
-                        }}>
-                        Change photo
-                    </Text>
-
-                </View>
-
-                <Text
-                    style={{
-                        marginTop:10,
-                        marginLeft:10, 
-                        marginBottom:5, 
-                        fontSize:17
-                    }}
-                >
-                    Full name
-                </Text>
-
-                <TextInput 
-                    style={{
-                        marginLeft:10,
-                        marginRight:10, 
-                        marginBottom:5,
-                        borderWidth:1, 
-                        padding:8, 
-                        borderRadius:10, 
-                        textAlign:'left',
-                        color:'#424242',
-                        borderColor:'#039BE5'
-                    }} 
-                    placeholder='full name' 
-                    autoCapitalize='none'
-                    value={this.state.displayName?this.state.displayName:null}
-                    editable={this.state.isDisplayNameEditable}
-                    onChangeText={displayName => this.setState({displayName})}
-                    />
-
-                <Text
-                    style={{
-                        marginTop:10,
-                        marginLeft:10, 
-                        marginBottom:5, 
-                        fontSize:17
-                    }}
-                >
-                    Gender
-                </Text>
-
-                <RNPickerSelect
-                    onValueChange={(value) => {
-                        console.log(value);
-                        this.setState({gender:value});
-                    }}
-                    items={[
-                        { label: 'Male', value: 'Male' },
-                        { label: 'Female', value: 'Female' },
-                    ]}
-                >
-                    <Text
-                        style={{
-                            marginLeft:10,
-                            marginRight:10, 
-                            marginBottom:5,
-                            borderWidth:1, 
-                            padding:8, 
-                            borderRadius:10, 
-                            textAlign:'left',
-                            color:'#424242',
-                            borderColor:'#039BE5',
-                        }}
-                    >{this.state.gender?this.state.gender:'Select an item...'}</Text>
-                </RNPickerSelect>
-
-                <Text
-                    style={{
-                        marginTop:10,
-                        marginLeft:10, 
-                        marginBottom:5, 
-                        fontSize:17
-                    }}
-                >
-                    Email address
-                </Text>
-
-                <TextInput 
-                    style={{
-                        marginLeft:10,
-                        marginRight:10, 
-                        marginBottom:5,
-                        borderWidth:1, 
-                        padding:8, 
-                        borderRadius:10, 
-                        textAlign:'left',
-                        color:'#424242',
-                        borderColor:'#039BE5'
-                    }} 
-                    placeholder='email' 
-                    autoCapitalize='none' 
-                    value={this.state.email?this.state.email:null}
-                    editable={this.state.isEmailEditable}
-                    onChangeText={email => this.setState({email})}
-                    />
-
-                <Text
-                    style={{
-                        marginTop:10,
-                        marginLeft:10, 
-                        marginBottom:5, 
-                        fontSize:17
-                    }}
-                >
-                    Contact number</Text>
-
-                <TextInput 
-                    style={{
-                        marginLeft:10,
-                        marginRight:10, 
-                        marginBottom:5,
-                        borderWidth:1, 
-                        padding:8, 
-                        borderRadius:10, 
-                        textAlign:'left',
-                        color:'#424242',
-                        borderColor:'#039BE5'
-                    }} 
-                    placeholder='contact number' 
-                    autoCapitalize='none' 
-                    value={this.state.contactNo?this.state.contactNo:null}
-                    editable={this.state.isContactNoEditable}
-                    onChangeText={contactNo => this.setState({contactNo})}
-                    />
-
-                <Text
-                    style={{
-                        marginTop:10,
-                        marginLeft:10, 
-                        marginBottom:5, 
-                        fontSize:17
-                    }}
-                >
-                    Home address
-                </Text>
-
-                <TextInput 
-                    style={{
-                        marginLeft:10,
-                        marginRight:10, 
-                        marginBottom:5,
-                        borderWidth:1, 
-                        padding:8, 
-                        borderRadius:10, 
-                        textAlign:'left',
-                        color:'#424242',
-                        borderColor:'#039BE5'
-                    }} 
-                    placeholder='address' 
-                    autoCapitalize='none' 
-                    multiline={false}
-                    value={this.state.address?this.state.address:null}
-                    editable={this.state.isAddressEditable}
-                    onChangeText={address => this.setState({address})}
-                    />
-
-                <TouchableOpacity 
-                    style={{
-                        marginLeft:10,
-                        marginRight:10,
-                        marginBottom:10,
+                        width:100,
+                        height:100,
+                        resizeMode:'contain', 
+                        alignSelf:'center',
                         marginTop:20,
-                        backgroundColor:'#039BE5',
-                        padding:18,
-                        borderRadius:10
+                        // alignItems:'',
+                        borderRadius:10,
                     }}
-                    onPress={()=>this._onPressButton()}
-                    >
-                    <Text
-                        style={{
-                            color:'#FAFAFA',
-                            textAlign:'center'
-                        }}
-                        >{this.state.buttonLabel}</Text>
-                </TouchableOpacity>
-
-                <Button 
-                    onPress={()=>
-                            this.props.navigation.navigate('Admin') 
-                    }
-                    title="Eheh"
+                    source={{uri:photoURL?photoURL:Image.resolveAssetSource(require('../assets/user.png')).uri}}
                 />
-            
-            </ScrollView>
-        )
-    }
+
+                <Text
+                    style={{
+                        alignSelf:'center',
+                        marginTop:10,
+                        marginBottom:20,
+                        color:'white'
+                    }}
+                    onPress={()=>{
+                        onImagePress()
+                    }}>
+                    Change photo
+                </Text>
+
+            </View>
+
+            <Text
+                style={{
+                    marginTop:10,
+                    marginLeft:10, 
+                    marginBottom:5, 
+                    fontSize:17
+                }}
+            >
+                Full name
+            </Text>
+
+            <TextInput 
+                style={{
+                    marginLeft:10,
+                    marginRight:10, 
+                    marginBottom:5,
+                    borderWidth:1, 
+                    padding:8, 
+                    borderRadius:10, 
+                    textAlign:'left',
+                    color:'#424242',
+                    borderColor:'#039BE5'
+                }} 
+                placeholder='full name' 
+                autoCapitalize='none'
+                value={displayName?displayName:null}
+                editable={isDisplayNameEditable}
+                onChangeText={displayName => setDisplayName(displayName)}
+                />
+
+            <Text
+                style={{
+                    marginTop:10,
+                    marginLeft:10, 
+                    marginBottom:5, 
+                    fontSize:17
+                }}
+            >
+                Gender
+            </Text>
+
+            <RNPickerSelect
+                onValueChange={(value) => {
+                    setGender(value)
+                }}
+                items={[
+                    { label: 'Male', value: 'Male' },
+                    { label: 'Female', value: 'Female' },
+                ]}
+                disabled={!isGenderEditable}
+            >
+                <Text
+                    style={{
+                        marginLeft:10,
+                        marginRight:10, 
+                        marginBottom:5,
+                        borderWidth:1, 
+                        padding:8, 
+                        borderRadius:10, 
+                        textAlign:'left',
+                        color:'#424242',
+                        borderColor:'#039BE5',
+                    }}
+                >{gender?gender:'Select an item...'}</Text>
+            </RNPickerSelect>
+
+            <Text
+                style={{
+                    marginTop:10,
+                    marginLeft:10, 
+                    marginBottom:5, 
+                    fontSize:17
+                }}
+            >
+                Email address
+            </Text>
+
+            <TextInput 
+                style={{
+                    marginLeft:10,
+                    marginRight:10, 
+                    marginBottom:5,
+                    borderWidth:1, 
+                    padding:8, 
+                    borderRadius:10, 
+                    textAlign:'left',
+                    color:'#424242',
+                    borderColor:'#039BE5'
+                }} 
+                placeholder='email' 
+                autoCapitalize='none' 
+                value={email?email:null}
+                editable={isEmailEditable}
+                onChangeText={email => setEmail(email)}
+                />
+
+            <Text
+                style={{
+                    marginTop:10,
+                    marginLeft:10, 
+                    marginBottom:5, 
+                    fontSize:17
+                }}
+            >
+                Contact number</Text>
+
+            <TextInput 
+                style={{
+                    marginLeft:10,
+                    marginRight:10, 
+                    marginBottom:5,
+                    borderWidth:1, 
+                    padding:8, 
+                    borderRadius:10, 
+                    textAlign:'left',
+                    color:'#424242',
+                    borderColor:'#039BE5'
+                }} 
+                placeholder='contact number' 
+                autoCapitalize='none' 
+                value={contactNo?contactNo:null}
+                editable={isContactNoEditable}
+                onChangeText={contactNo => setContactNo(contactNo)}
+                />
+
+            <Text
+                style={{
+                    marginTop:10,
+                    marginLeft:10, 
+                    marginBottom:5, 
+                    fontSize:17
+                }}
+            >
+                Home address
+            </Text>
+
+            <TextInput 
+                style={{
+                    marginLeft:10,
+                    marginRight:10, 
+                    marginBottom:5,
+                    borderWidth:1, 
+                    padding:8, 
+                    borderRadius:10, 
+                    textAlign:'left',
+                    color:'#424242',
+                    borderColor:'#039BE5'
+                }} 
+                placeholder='address' 
+                autoCapitalize='none' 
+                multiline={false}
+                value={address?address:null}
+                editable={isAddressEditable}
+                onChangeText={address => setAddress(address)}
+                />
+
+            <TouchableOpacity 
+                style={{
+                    marginLeft:10,
+                    marginRight:10,
+                    marginBottom:10,
+                    marginTop:20,
+                    backgroundColor:'#039BE5',
+                    padding:18,
+                    borderRadius:10
+                }}
+                onPress={()=>onPressButton()}
+                >
+                <Text
+                    style={{
+                        color:'#FAFAFA',
+                        textAlign:'center'
+                    }}
+                    >{buttonLabel}</Text>
+            </TouchableOpacity>
+
+            {/* <Button 
+                onPress={()=>
+                        props.navigation.navigate('Admin') 
+                }
+                title="Eheh"
+            />  */}
+        
+        </ScrollView>
+    )
 
 }
