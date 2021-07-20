@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View } from 'react-native';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -11,78 +12,41 @@ import Admin from './src/Admin';
 
 import { AntDesign } from '@expo/vector-icons';
 
-import authentication from './src/functions/authentication';
-
 import * as firebase from 'firebase';
-import * as Facebook from 'expo-facebook';
 
-export default class App extends Component {
+export default function App () {
 
-  constructor(props){
-    super(props)
-  }
+  const Stack = createStackNavigator();
 
-  render() {
+  return (
+      <NavigationContainer>
 
-    return (
-        <NavigationContainer>
+          <Stack.Navigator initialRouteName='Login' screenOptions={{gestureEnabled:false}}>
 
-            <Stack.Navigator initialRouteName='Login' screenOptions={{gestureEnabled:false}}>
+              <Stack.Screen 
+                  name='Login' 
+                  component={Login} 
+                  options= {{headerShown: false}} />
 
-                <Stack.Screen 
-                    name='Login' 
-                    component={Login} 
-                    options= {{headerShown: false}} />
-
-                <Stack.Screen 
-                    name='Home' 
-                    component={Home} 
-                    options= {{
-                          headerShown: true, 
-                          title: 'Handyman Plus', 
-                          headerLeft: ()=> null,
-                          headerRight: ()=> (
-                              <View>
-                                  <AntDesign 
-                                    name="logout" 
-                                    size={26}
-                                    color="#FAFAFA" 
-                                    style={{marginRight:15}} 
-                                    onPress={()=>{
-                                      firebase.auth().signOut().then(()=>{}).catch((error) =>{}); 
-                                    }} />
-                              </View>
-                          ),
-                          headerStyle: {
-                            backgroundColor: '#039BE5'
-                          },
-                          headerTintColor: '#FAFAFA',
-                          headerTitleStyle: {
-                            alignSelf: 'center'
-                          }
-                    }} />
-
-                <Stack.Screen 
-                    name='Signup' 
-                    component={Signup} 
-                    options= {{
-                          headerShown: true, 
-                          title: 'Sign up', 
-                          headerStyle: {
-                            backgroundColor: '#039BE5'
-                          },
-                          headerTintColor: '#FAFAFA',
-                          headerTitleStyle: {
-                            alignSelf: 'center'
-                          }
-                    }} />
-
-                <Stack.Screen 
-                  name='ForgotPassword' 
-                  component={ForgotPassword} 
+              <Stack.Screen 
+                  name='Home' 
+                  component={Home} 
                   options= {{
                         headerShown: true, 
-                        title: 'Forgot Password', 
+                        title: 'Handyman Plus', 
+                        headerLeft: ()=> null,
+                        headerRight: ()=> (
+                            <View>
+                                <AntDesign 
+                                  name="logout" 
+                                  size={26}
+                                  color="#FAFAFA" 
+                                  style={{marginRight:15}} 
+                                  onPress={()=>{
+                                    firebase.auth().signOut().then(()=>{}).catch((error) =>{}); 
+                                  }} />
+                            </View>
+                        ),
                         headerStyle: {
                           backgroundColor: '#039BE5'
                         },
@@ -92,12 +56,12 @@ export default class App extends Component {
                         }
                   }} />
 
-                <Stack.Screen 
-                  name='Admin' 
-                  component={Admin} 
+              <Stack.Screen 
+                  name='Signup' 
+                  component={Signup} 
                   options= {{
                         headerShown: true, 
-                        title: 'Admin', 
+                        title: 'Sign up', 
                         headerStyle: {
                           backgroundColor: '#039BE5'
                         },
@@ -107,13 +71,39 @@ export default class App extends Component {
                         }
                   }} />
 
-            </Stack.Navigator>
+              <Stack.Screen 
+                name='ForgotPassword' 
+                component={ForgotPassword} 
+                options= {{
+                      headerShown: true, 
+                      title: 'Forgot Password', 
+                      headerStyle: {
+                        backgroundColor: '#039BE5'
+                      },
+                      headerTintColor: '#FAFAFA',
+                      headerTitleStyle: {
+                        alignSelf: 'center'
+                      }
+                }} />
 
-        </NavigationContainer>     
-    );
+              <Stack.Screen 
+                name='Admin' 
+                component={Admin} 
+                options= {{
+                      headerShown: true, 
+                      title: 'Admin', 
+                      headerStyle: {
+                        backgroundColor: '#039BE5'
+                      },
+                      headerTintColor: '#FAFAFA',
+                      headerTitleStyle: {
+                        alignSelf: 'center'
+                      }
+                }} />
 
-  }
+          </Stack.Navigator>
+
+      </NavigationContainer>     
+  );
 
 }
-
-const Stack = createStackNavigator();
