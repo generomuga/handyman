@@ -30,23 +30,32 @@ class Validation {
         }
     }
 
-    isNotValidPassword(text) {
+    isPasswordInvalid(text) {
         if (text.length < 8 || text.trim() === '') {
             // console.log('Invalid password new')
-            return true
+            return [true, 'Please input valid password (atleast 8 characters)']
         }
         else {
-            return false
+            return [false, '']
         }
     }
 
-    isNotSameText(text1,text2) {
+    isPasswordUnequal(text1,text2) {
         if (text1 != text2) {
             // console.log('Password didnt match new')
-            return true
+            return [true, "Your password didn't match"];
         }
         else {
-            return false
+            return [false, '']
+        }
+    }
+
+    isTermsAndConditionNotAccepted(isAgree) {
+        if (isAgree === false) {
+            return [true, 'Please agree on Terms and Condition']
+        } 
+        else {
+            return [false, '']
         }
     }
 
