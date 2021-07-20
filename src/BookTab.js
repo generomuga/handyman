@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { CheckBox } from 'react-native-elements';
 
@@ -13,9 +13,9 @@ import {
 } from 'react-native';
 
 import { 
-    Background, 
+    // Background, 
     Button,
-    InputText,
+    // InputText,
     Label
 } from './styles';
 
@@ -39,89 +39,167 @@ import Dialog from "react-native-dialog";
 
 const dbRef = firebase.database().ref();
 
-const dbRef2 = firebase.firestore();
+export default function BookTab() {
+    
+    const [
+        errorMessage,
+        setErrorMessage,
+    ] = useState('');
 
-import NotificationTab from './NotifcationTab';
+    const [
+        categoryCurrentValue,
+        setCategoryCurrentValue,
+    ] = useState('');
 
+    const [
+        serviceCurrentValue,
+        setServiceCurrentValue,
+    ] = useState('');
 
-export default class BookTab extends Component {
-        
-    componentDidMount(){
-        this.getCategoryList();
-        this.getServiceInfo();
-        this.getDefaultAddress();
-        this.getDefaultContactNo();
+    const [
+        categories,
+        setCategories,
+    ] = useState([]);
 
-        // console.log(this.navigation)
-        // this.props.navigation.jump_to
-        // console.log(this.props.navigation.jumpTo('Notification', {
-        //     owner:'Gene'
-        // }))
-        // console.log(this.props.navigation)
-    }
+    const [
+        services,
+        setServices,
+    ] = useState([]);
 
-    constructor(props){
-        super(props)
+    const [
+        serviceCurrency,
+        setServiceCurrency,
+    ] = useState('');
 
-        this.state = {
-            categories: [],
-            services: [],
+    const [
+        servicePrice,
+        setServicePrice,
+    ] = useState(0);
 
-            categoryCurrentVal: '',
-            serviceCurrentVal: '',
-            serviceDateCurrentVal: '',
-            servicePrice: 0.00,
-            address:'',
-            contactNo:'',
-            serviceCurrency: 'php',
-            paymentMethodValue:'',
-            actualDate:'',
-            isVisible: true,
-            isBooked: false,
-            status: 'Pending',
+    const [
+        actualDate,
+        setActualDate,
+    ] = useState('');
 
-            createdDate: '',
+    const [
+        serviceDateCurrentValue,
+        setServiceDateCurrentValue,
+    ] = useState('');
 
-            totalServicePrice: 0.00,
-            totalReserveService: 0,
+    const [
+        isDateTimePickerVisible,
+        setIsDateTimePickerVisible,
+    ] = useState();
 
-            date: new Date(),
+    const [
+        isUseDefaultAddress,
+        setIsUseDefaultAddress,
+    ] = useState(false);
 
-            isDateTimePickerVisible: false,
-            isUseDefaultAddress: false,
-            isUseDefaultContact: false,
-            isAddressEditable: true,
-            isContactEditable: true,
+    const [
+        isAddressEditable,
+        setIsAddressEditable,
+    ] = useState(true);
 
-            serviceInfo: [],
-            errorMsg: '',
+    const [
+        address,
+        setAddress,
+    ] = useState('');
 
-            isDialogVisible: false,
+    const [
+        isUseDefaultContactNo,
+        setIsUseDefaultContactNo,
+    ] = useState(false);
 
-            isServiceAdded: true
-        }
-    }
+    const [
+        isContactNoEditable,
+        setIsContactNoEditable,
+    ] = useState(true);
 
-    getCategoryList() {
-        var items = []
+    const [
+        contactNo,
+        setContactNo,
+    ] = useState('');
+
+    const [
+        isVisible,
+        setIsVisible,
+    ] = useState(true);
+
+    const [
+        isBooked,
+        setIsBooked,
+    ] = useState(false); 
+    
+    const [
+        isServiceAdded,
+        setIsServiceAdded,
+    ] = useState(true);
+
+    const [
+        status,
+        setStatus,
+    ] = useState('Pending');
+
+    const [
+        serviceInfo,
+        setServiceInfo,
+    ] = useState([]);
+
+    const [
+        totalServicePrice,
+        setTotalServicePrice,
+    ] = useState([]);
+
+    const [
+        totalReserveService,
+        setTotalReserveService,
+    ] = useState(0);
+
+    const [
+        paymentMethodValue,
+        setPaymentMethodValue,
+    ] = useState('');
+
+    const [
+        isDialogVisible,
+        setIsDialogVisible,
+    ] = useState(false);
+
+    useEffect(()=>{
+        getCategoryList();
+        getServiceInfo();
+        getDefaultAddress();
+        getDefaultContactNo();
+    }, [])
+
+    const getCategoryList = () => {
+        const items = []
+
         dbRef.child('tenant/categories').once("value")
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap) {
                         var data = childsnap.val()
-                        items.push({"label":data,"value":data})
+                        console.log(data)
+                        items.push({
+                            label:data,
+                            value:data,
+                            key:data
+                        })
                     });
-                    this.setState({categories:items})
+                    setCategories(items)
                 }
             });
     }
 
-    getServiceList(category) {
-        var items = [];
-        var price = 0;
-        var currency = 'Php';
-        var isAvailable = false;
-        var name = '';
+    const getServiceList = (category) => {
+        console.log('Eyy',category)
+        let items = [];
+        let price = 0;
+        let currency = 'Php';
+        let isAvailable = false;
+        let name = '';
 
         dbRef.child('tenant/services/'+category+'/').once("value")
             .then(snapshot => {
@@ -133,34 +211,42 @@ export default class BookTab extends Component {
                             isAvailable = childsnap.val()['isAvailable']
                         
                             if (isAvailable === true) {
-                                items.push({"label":name,"value":name})
+                                items.push({
+                                    label:name,
+                                    value:name,
+                                    key:name
+                                })
                             }
                         });
                     
-                    this.setState({serviceCurrency:currency})
-                    this.setState({servicePrice:price})
-                    this.setState({services:items})
+                    setServices(items)
+                    setServiceCurrency(currency)
+                    setServicePrice(price)
                 }
+            })
+            .catch((error)=>{
+                // console.log(error)
             });
     }
 
-    getServiceInfo(){
-        const user = firebase.auth().currentUser;
+    const getServiceInfo = () =>{
+        let user = firebase.auth().currentUser;
 
-        var items = []
-        var id = ''
-        var category = ''
-        var service = ''
-        var service_date = ''
-        var service_price = 0
-        var service_currency = ''
-        var totalPrice = 0
-        var totalReserveService = 0
-        var contact_no = ''
-        var is_visible = false
-        var is_booked = false
-        var is_service_added = true
-        var status = ''
+        let items = []
+        let id = ''
+        let category = ''
+        let service = ''
+        let service_date = ''
+        let service_price = 0
+        let service_currency = ''
+        let address = ''
+        let totalPrice = 0
+        let totalReserveService = 0
+        let contact_no = ''
+        let is_visible = false
+        let is_booked = false
+        let is_service_added = true
+        let status = ''
         
         dbRef.child('bookings/'+user['uid']).get()                        
             .then(snapshot => {
@@ -179,17 +265,12 @@ export default class BookTab extends Component {
                         is_service_added = childsnap.val()['is_service_added']
                         status = childsnap.val()['status']
 
-                        console.log('status',status)
-
                         if (is_visible === true && is_booked === false && is_service_added === true) {
                             totalPrice = totalPrice + service_price
                             totalReserveService = totalReserveService + 1
                         }
 
                         if (is_visible === true && is_booked === false) {
-                            // totalPrice = totalPrice + service_price
-                            // totalReserveService = totalReserveService + 1
-
                             items.push({
                                 id, 
                                 category,
@@ -205,62 +286,65 @@ export default class BookTab extends Component {
                         }
                     });
                 
-                    this.setState({serviceInfo:items})
-                    this.setState({totalServicePrice:totalPrice})
-                    this.setState({totalReserveService:totalReserveService})
+                    setServiceInfo(items)
+                    setTotalServicePrice(totalPrice)
+                    setTotalReserveService(totalReserveService)
                 }
                 else {
-                    this.setState({serviceInfo:null})
-                    this.setState({totalServicePrice:0})
-                    this.setState({totalReserveService:0})
+                    setServiceInfo([])
+                    setTotalServicePrice(0)
+                    setTotalReserveService(0)
                 }
             });
     }
 
-    getDefaultAddress() {
-        const user = firebase.auth().currentUser
+    const getDefaultAddress = () => {
+        let user = firebase.auth().currentUser
+        let address = ''
 
         dbRef.child('users').child(user['uid']).get()
             .then((snapshot) => {
                 if (snapshot.exists()) {
-                    const data = snapshot.val()
-                    this.setState({address:data['address']})
+                    address = snapshot.val()['address']
+                    setAddress(address)
                 }
             })
     }
 
-    getDefaultContactNo() {
-        const user = firebase.auth().currentUser
+    const getDefaultContactNo = () => {
+        let user = firebase.auth().currentUser
+        let contactNo = ''
 
         dbRef.child('users').child(user['uid']).get()
             .then((snapshot) => {
                 if (snapshot.exists()) {
-                    const data = snapshot.val()
-                    this.setState({contactNo:data['contactNo']})
+                    contactNo = snapshot.val()['contactNo']
+                    setContactNo(contactNo)
                 } 
             })
     }
 
-    updateBookingDetails() {
-        const user = firebase.auth().currentUser
+    const updateBookingDetails = () => {
+        let user = firebase.auth().currentUser
 
-        var id = ''
-        var category = ''
-        var service = ''
-        var service_date = ''
-        var service_price = 0
-        var service_currency = ''
-        var contact_no = ''
-        var status = 'Pending'
-        var is_visible = false
-        var is_service_added = false
+        let id = ''
+        let category = ''
+        let service = ''
+        let service_date = ''
+        let service_price = 0
+        let service_currency = ''
+        let contact_no = ''
+        let status = 'Pending'
+        let address = ''
+        let is_visible = false
+        let is_service_added = false
 
-        var trasaction_id = new Date().getTime().toString()
-        var transactionRef = dbRef.child('transactions/'+user['uid']).child(trasaction_id)
+        let trasaction_id = new Date().getTime().toString()
+        let transactionRef = dbRef.child('transactions/'+user['uid']).child(trasaction_id)
                     
-        var items = []
-        var items_category = []
-        var created_at = new Date().toString()
+        let items = []
+        let items_category = []
+        let created_at = new Date().toString()
 
         dbRef.child('bookings/'+user['uid']).get()                        
             .then(snapshot => {
@@ -279,7 +363,7 @@ export default class BookTab extends Component {
                         is_service_added = childsnap.val()['is_service_added']
                       
                         if (is_visible === true && is_service_added === true) {
-                            var updates = {}
+                            let updates = {}
                             updates['is_visible'] = false
                             updates['is_booked'] = true
                             dbRef.child('bookings/'+user['uid']).child(id).update(updates);
@@ -299,116 +383,92 @@ export default class BookTab extends Component {
                     });
                 
                     transactionRef.set({
-                        // booking_id:items,
-                        total_price: this.state.totalServicePrice,
+                        total_price: totalServicePrice,
                         created_at: created_at,
-                        service_currency: this.state.serviceCurrency,
+                        service_currency: serviceCurrency,
                         booking_info:items_category
                     })
                 }
 
-                this.getServiceInfo()
+                getServiceInfo()
             });   
     }
 
-    addServiceInfo() {
-        const user = firebase.auth().currentUser;
-        var id = new Date().getTime().toString();
+    const addServiceInfo = () => {
+        let user = firebase.auth().currentUser;
+        let id = new Date().getTime().toString();
            
-        var dte = new Date().toString();
+        let dte = new Date().toString();
 
         dbRef.child('bookings/' + user['uid'] +'/'+ id)
             .set({
                 id:id,
-                category:this.state.categoryCurrentVal,
-                service:this.state.serviceCurrentVal,
-                service_date:this.state.serviceDateCurrentVal,
-                service_price:this.state.servicePrice,
-                service_currency:this.state.serviceCurrency,
-                address:this.state.address,
-                contact_no:this.state.contactNo,
-                is_visible:this.state.isVisible,
-                is_booked:this.state.isBooked,
-                is_service_added:this.state.isServiceAdded,
-                status:this.state.status,
+                category:categoryCurrentValue,
+                service:serviceCurrentValue,
+                service_date:serviceDateCurrentValue,
+                service_price:servicePrice,
+                service_currency:serviceCurrency,
+                address:address,
+                contact_no:contactNo,
+                is_visible:isVisible,
+                is_booked:isBooked,
+                is_service_added:isServiceAdded,
+                status:status,
                 createdDate:dte
             });
     }
 
-    showDateTimePicker = () => {
-        this.setState({ isDateTimePickerVisible: true });
+    const showDateTimePicker = () => {
+        setIsDateTimePickerVisible(true)
       };
      
-    hideDateTimePicker = () => {
-        this.setState({ isDateTimePickerVisible: false });
+    const hideDateTimePicker = () => {
+        setIsDateTimePickerVisible(false)
     };
     
-    handleDatePicked = date => {
-        var parsed_date = String(date).split(' ');
-        var day = parsed_date[0];
-        var month = parsed_date[1];
-        var dayn = parsed_date[2];
-        var year = parsed_date[3];
-        var displayDate = month+' '+dayn+' '+year+', '+day
+    const handleDatePicked = date => {
+        let parsed_date = String(date).split(' ');
+        let day = parsed_date[0];
+        let month = parsed_date[1];
+        let dayn = parsed_date[2];
+        let year = parsed_date[3];
+        let displayDate = month+' '+dayn+' '+year+', '+day
 
-        this.setState({actualDate:date});
-        this.setState({serviceDateCurrentVal:displayDate})
-        this.hideDateTimePicker();
+        setActualDate(date)
+        setServiceDateCurrentValue(displayDate)
+        hideDateTimePicker();
     };
     
-    renderItemComponent = (data) =>
+    const renderItemComponent = (data) =>
         <View style={{
                 backgroundColor:'white', 
                 borderRadius:10, 
                 borderWidth:2, 
-                // borderColor:'#F44336',
                 borderColor: data.item.is_service_added?'green':'red',
                 marginLeft: 20, 
                 marginRight: 20,
                 marginBottom:10,
                 justifyContent:'center',
-                // padding: 5
             }} >
 
-            
             <AntDesign 
                 style={{textAlign:'right', position:'relative', marginTop:5, marginRight:5}}
                 name="closecircle" 
                 size={24} 
                 color="#F44336" 
                 onPress={()=>{
-                    const user = firebase.auth().currentUser;
-    
-                    var items = []
+                    let user = firebase.auth().currentUser;
+
                     dbRef.child('bookings/'+user['uid']+'/'+data.item.id).remove()                     
                         .then(()=>{
-                            console.log("DELETED");
-                            
-                            const filteredData = this.state.serviceInfo.filter(item => item.id !== id);
-                            this.setState({ serviceInfo: filteredData });
+                            let filteredData = serviceInfo.filter(item => item.id !== id);
+                            setServiceInfo(filteredData)
                             
                         })
-                    this.getServiceInfo();
+                    getServiceInfo();
                 }}
                 />
-        
-            {/* <View
-                style={{flexDirection:'row'}} >
 
-                <MaterialIcons 
-                    style={{marginLeft:10}}
-                    name="confirmation-number" 
-                    size={24} color="#00695C" />
-
-                <Text 
-                    style={{
-                        marginLeft:10,
-                        fontWeight:'bold',
-                        alignSelf: 'center'
-                    }}
-                >{data.item.id}</Text>
-            </View> */}
-            
             <View style={{
                 flexDirection:'row',
                 padding: 5
@@ -515,8 +575,6 @@ export default class BookTab extends Component {
                 <Text
                     style={{
                         marginLeft:10,
-                        // marginRight:10,
-                        // padding:5,
                         fontWeight:'400',
                         fontSize:12,
                         alignSelf: 'center',
@@ -529,8 +587,8 @@ export default class BookTab extends Component {
             
             <View
                 style={{
-                    flexDirection: 'row',padding: 5
-                    // marginBottom: 10
+                    flexDirection: 'row',
+                    padding: 5
                 }} >
 
                 <MaterialIcons 
@@ -560,447 +618,396 @@ export default class BookTab extends Component {
                     checked={data.item.is_service_added}
                     containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
                     onPress={()=>{
+                        let updates={}
+                        let user = firebase.auth().currentUser;
+                        let uid = user['uid']
                         if (data.item.is_service_added === true) {
-                            const user = firebase.auth().currentUser;
-                            const uid = user['uid']
-                    
-                            var updates = {}
                             updates['bookings/'+uid+'/'+data.item.id+'/is_service_added'] = false
                             dbRef.update(updates)
-                            this.getServiceInfo()
                         }
                         else {
-                            const user = firebase.auth().currentUser;
-                            const uid = user['uid']
-                            var updates = {}
                             updates['bookings/'+uid+'/'+data.item.id+'/is_service_added'] = true
                             dbRef.update(updates)
-                            this.getServiceInfo()
                         }
+                        getServiceInfo()
                     }} />
 
             </View>
 
         </View>
 
-    showDialog = () => {
-        this.setState({isDialogVisible:true})
-        console.log('Show')
+    const handleCancel = () => {
+        setIsDialogVisible(false)
     };
 
-    handleCancel = () => {
-        this.setState({isDialogVisible:false})
-        console.log('Hide1')
-    };
-
-    handleProceed = () => {
-        // The user has pressed the "Delete" button, so here you can do your own logic.
-        // ...Your logic
-        this.setState({isDialogVisible:false})
-        this.updateBookingDetails()
-        console.log('Hide2')
-        this.clearFields()
-
-        
-        // const notif = new NotificationTab;
-        // notif.getServiceInfo()
-
-        // this.setState({isBooked:true})
-
+    const handleProceed = () => {
+        setIsDialogVisible(false)
+        updateBookingDetails()
+        clearState()
     };
 
 
-    clearFields() {
-        this.setState({categoryCurrentVal:''})
-        this.setState({serviceCurrentVal:''})
-        this.setState({serviceDateCurrentVal:''})
-        this.setState({address:''})
-        this.setState({contactNo:''})
-        this.setState({errorMsg:''})
+    const clearState = () => {
+        setCategoryCurrentValue('')
+        setServiceCurrentValue('')
+        setServiceDateCurrentValue('')
+        setPaymentMethodValue('')
+        setAddress('')
+        setContactNo('')
+        setErrorMessage('')
     }
 
-    render(){
-        return (
-            <SafeAreaView
-                style={{
-                    backgroundColor:'white', 
-                    flex:1
-                }} >
+    return (
+        <SafeAreaView
+            style={{
+                backgroundColor:'white', 
+                flex:1
+            }} >
 
-                <ScrollView>
+            <ScrollView>
+            
+                <View 
+                    style={style.viewErrorMessage} >
+
+                    <Text
+                        style={style.labelErrorMessage} >
+                        {errorMessage}
+                    </Text>
+                    
+                </View>
                 
-                    <View 
-                        style={style.viewErrorMessage} >
-
-                        <Text
-                            style={style.labelErrorMessage} >
-                            {this.state.errorMsg}
-                        </Text>
-                        
-                    </View>
+                <View 
+                    style={style.viewComponent} >
                     
-                    <View 
-                        style={style.viewComponent} >
-                        
-                        <View
-                            style={{
-                                flexDirection: 'row'
-                            }} >
+                    <View
+                        style={{
+                            flexDirection: 'row'
+                        }} >
 
-                            <MaterialIcons 
-                                style={{marginLeft:10}}
-                                name="category" 
-                                size={24} 
-                                color="#E65100" />
-
-                            <Text 
-                                style={style.labelComponent} >
-                                Category
-                            </Text>
-
-                        </View>
-
-                        <RNPickerSelect
-                            onValueChange={(value) => {
-                                this.setState({categoryCurrentVal:value})
-                                this.setState({serviceCurrentVal:''})
-                                this.setState({services:[]})
-                                this.getServiceList(value)
-                            }}
-                            items={this.state.categories} >
-                            
-                            <Text 
-                                style={style.labelComponentItem} >    
-                                {this.state.categoryCurrentVal?this.state.categoryCurrentVal:'Select an item...'}
-                            </Text>
-
-                        </RNPickerSelect>
-
-                    </View>
-
-                    <View 
-                        style={style.viewComponent} >
-
-                        <View
-                            style={{flexDirection:'row'}}>
-
-                            <MaterialIcons 
-                                style={{marginLeft:10}}
-                                name="cleaning-services" 
-                                size={24} 
-                                color="#9E9D24" />
-
-                            <Text 
-                                style={style.labelComponent} >
-                                Service
-                            </Text>
-
-                        </View>
-
-                    
-                        <RNPickerSelect
-                            onValueChange={(value) => {
-                                this.setState({serviceCurrentVal:value});
-                            }}
-                            items={this.state.services} >
-
-                            <Text 
-                                style={style.labelComponentItem} >
-                                {this.state.serviceCurrentVal?this.state.serviceCurrentVal:'Select an item...'}
-                            </Text>
-
-                        </RNPickerSelect>
-
-                    </View>
-                    
-                    <View 
-                        style={style.viewComponent} >
-                            
-                        <View
-                            style={{flexDirection:'row'}}>
-
-                            <MaterialIcons 
-                                style={{marginLeft:10}}
-                                name="date-range" 
-                                size={24} 
-                                color="#0D47A1" />
-
-                            <Text 
-                                style={style.labelComponent} >
-                                Date of service
-                            </Text>
-
-                        </View>
+                        <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="category" 
+                            size={24} 
+                            color="#E65100" />
 
                         <Text 
-                            style={style.labelComponentItem}
-                            onPress={this.showDateTimePicker} >  
-                            {this.state.serviceDateCurrentVal?this.state.serviceDateCurrentVal:"Please select a date"}
+                            style={style.labelComponent} >
+                            Category
                         </Text>
-                        
-                        <DateTimePicker
-                            isVisible={this.state.isDateTimePickerVisible}
-                            onConfirm={this.handleDatePicked}
-                            onCancel={this.hideDateTimePicker}
-                            display="default" />
 
                     </View>
+
+                    <RNPickerSelect
+                        onValueChange={(value) => {
+                            setCategoryCurrentValue(value)
+                            setServiceCurrentValue('')
+                            setServices([])
+                            getServiceList(value)
+                        }}
+                        items={categories} >
+                        
+                        <Text 
+                            style={style.labelComponentItem} >    
+                            {categoryCurrentValue?categoryCurrentValue:'Select an item...'}
+                        </Text>
+
+                    </RNPickerSelect>
+
+                </View>
+
+                <View 
+                    style={style.viewComponent} >
 
                     <View
-                        style={style.viewComponent} >
+                        style={{flexDirection:'row'}}>
 
-                        <View
-                            style={{flexDirection:'row'}}>
+                        <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="cleaning-services" 
+                            size={24} 
+                            color="#9E9D24" />
 
-                            <MaterialIcons 
-                                style={{marginLeft:10}}
-                                name="add-location" 
-                                size={24} 
-                                color="#B71C1C" />
-
-                            <ToggleSwitch
-                                isOn={this.state.isUseDefaultAddress}
-                                onColor="green"
-                                label='Use default address'
-                                labelStyle={style.toggleLabel}
-                                offColor="red"
-                                size="small"
-                                onToggle={()=>{
-                                    this.getDefaultAddress();
-                                    this.setState({address:this.state.address})
-
-                                    if (this.state.isUseDefaultAddress === true){
-                                        this.setState({isUseDefaultAddress:false})
-                                        this.setState({isAddressEditable:true})
-                                        
-                                    }
-                                    else {
-                                        this.setState({isUseDefaultAddress:true})
-                                        this.setState({isAddressEditable:false})
-                                    }
-                                }}
-                            />
-
-                        </View>
-
-                        <TextInput
-                            style={style.labelComponentItem}
-                            multiline={false}
-                            value={this.state.address}
-                            placeholder={'Lot/Block No, Street, City, Province'}
-                            editable={this.state.isAddressEditable}
-                            onChangeText={(address)=>this.setState({address:address})} />
+                        <Text 
+                            style={style.labelComponent} >
+                            Service
+                        </Text>
 
                     </View>
 
-                    <View>
+                
+                    <RNPickerSelect
+                        onValueChange={(value) => {
+                            setServiceCurrentValue(value)
+                        }}
+                        items={services} >
 
-                        <View 
-                            style={{flexDirection: 'row'}}>
+                        <Text 
+                            style={style.labelComponentItem} >
+                            {serviceCurrentValue?serviceCurrentValue:'Select an item...'}
+                        </Text>
 
-                            <MaterialIcons 
-                                style={{marginLeft:10}}
-                                name="contact-phone" 
-                                size={24} 
-                                color="#2E7D32" />
+                    </RNPickerSelect>
 
-                            <ToggleSwitch
-                                isOn={this.state.isUseDefaultContact}
-                                onColor="green"
-                                label='Use default mobile number'
-                                labelStyle={style.toggleLabel}
-                                offColor="red"
-                                size="small"
-                                onToggle={()=>{
-                                    this.getDefaultContactNo();
-                                    this.setState({contactNo:this.state.contactNo})
+                </View>
+                
+                <View 
+                    style={style.viewComponent} >
+                        
+                    <View
+                        style={{flexDirection:'row'}}>
+
+                        <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="date-range" 
+                            size={24} 
+                            color="#0D47A1" />
+
+                        <Text 
+                            style={style.labelComponent} >
+                            Date of service
+                        </Text>
+
+                    </View>
+
+                    <Text 
+                        style={style.labelComponentItem}
+                        onPress={showDateTimePicker} >  
+                        {serviceDateCurrentValue?serviceDateCurrentValue:"Please pick a date"}
+                    </Text>
+                    
+                    <DateTimePicker
+                        isVisible={isDateTimePickerVisible}
+                        onConfirm={handleDatePicked}
+                        onCancel={hideDateTimePicker}
+                        display="default" />
+
+                </View>
+
+                <View
+                    style={style.viewComponent} >
+
+                    <View
+                        style={{flexDirection:'row'}}>
+
+                        <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="add-location" 
+                            size={24} 
+                            color="#B71C1C" />
+
+                        <ToggleSwitch
+                            isOn={isUseDefaultAddress}
+                            onColor="green"
+                            label='Use default address'
+                            labelStyle={style.toggleLabel}
+                            offColor="red"
+                            size="small"
+                            onToggle={()=>{
+                                getDefaultAddress();
+                                setAddress(address)
                                 
-                                    if (this.state.isUseDefaultContact === true){
-                                        this.setState({isUseDefaultContact:false})
-                                        this.setState({isContactEditable:true})
-                                    }
-                                    else {
-                                        this.setState({isUseDefaultContact:true})
-                                        this.setState({isContactEditable:false})
-                                    }
-                                }} />
-
-                        </View>
-
-                        <TextInput
-                            style={style.labelComponentItem}
-                            value={this.state.contactNo}
-                            placeholder={'0917XXXXXXX'}
-                            editable={this.state.isContactEditable}
-                            onChangeText={(contactNo)=>this.setState({contactNo:contactNo})}
+                                if (isUseDefaultAddress === true){
+                                    setIsUseDefaultAddress(false)
+                                    setIsAddressEditable(true)
+                                }
+                                else {
+                                    setIsUseDefaultAddress(true)
+                                    setIsAddressEditable(false)
+                                }
+                            }}
                         />
 
                     </View>
 
+                    <TextInput
+                        style={style.labelComponentItem}
+                        multiline={false}
+                        value={address}
+                        placeholder={'Lot/Block No, Street, City, Province'}
+                        editable={isAddressEditable}
+                        onChangeText={(address)=>setAddress(address)} />
+
+                </View>
+
+                <View>
+
                     <View 
-                        style={style.viewComponent} >
+                        style={{flexDirection: 'row'}}>
 
-                        <TouchableOpacity 
-                            style={style.touchButton}
-                            onPress={()=>{
-                                this.setState({errorMsg:''})
-                                if (this.state.categoryCurrentVal===null){
-                                    this.setState({errorMsg:"* Please select category"})
-                                    return
-                                }
-                                else if (this.state.serviceCurrentVal===null){
-                                    this.setState({errorMsg:"* Please select service"})
-                                    return
-                                }
-                                else if (this.state.serviceDateCurrentVal===''){
-                                    this.setState({errorMsg:"* Please select date of service"})
-                                    return
-                                }
-                                else if (this.state.actualDate.getTime() <= new Date().getTime()){
-                                    this.setState({errorMsg:"* Please select valid date of service"})
-                                    return
-                                }
-                                else if (this.state.address===''){
-                                    this.setState({errorMsg:"* Please set your address"})
-                                }
-                                else if (this.state.contactNo===''){
-                                    this.setState({errorMsg:"* Please set your contact number"})
-                                }
-                                else if (!/^\d{11}$/.test(this.state.contactNo)) {
-                                    this.setState({errorMsg:"* Please set valid contact number"})
-                                }
-                                else 
-                                {
-                                    this.setState({isVisible:true});
-                                    this.addServiceInfo();
-                                    this.getServiceInfo();
-                                }
-                            }} >
+                        <MaterialIcons 
+                            style={{marginLeft:10}}
+                            name="contact-phone" 
+                            size={24} 
+                            color="#2E7D32" />
 
-                            <Text 
-                                style={style.touchButtonLabel}>
-                                    Add service
-                            </Text>
-
-                        </TouchableOpacity>
-
-                    </View>
-                    
-                    <View>
-                        <Text
-                            style={style.labelComponent} >
-                                Total Reserved Services ({this.state.totalReserveService})
-                        </Text>
-
-                        <FlatList
-                            data={this.state.serviceInfo?this.state.serviceInfo:null}
-                            renderItem={item => this.renderItemComponent(item)}
-                            keyExtractor={item => item.id.toString()} />
-
-                    </View>
-
-                    <View>
-                        <Text style={{
-                            marginTop:10,
-                            marginLeft:10, 
-                            marginBottom:5, 
-                            fontSize:17
-                            }}>Total price: Php {this.state.totalServicePrice.toFixed(2)?this.state.totalServicePrice.toFixed(2):0}</Text>
-
-                        <Text 
-                            style={style.labelComponent}>
-                                Payment method
-                        </Text>
-
-                        <RNPickerSelect
-                            onValueChange={(value) => {
-                                console.log(value);
-                                this.setState({paymentMethodValue:value});
-                            }}
-                            items={[
-                                { label: 'Cash', value: 'Cash' }
-                            ]} >
-
-                            <Text 
-                                style={style.labelComponentItem} >
-                                    {this.state.paymentMethodValue?this.state.paymentMethodValue:'Select an item...'}
-                            </Text>
+                        <ToggleSwitch
+                            isOn={isUseDefaultContactNo}
+                            onColor="green"
+                            label='Use default mobile number'
+                            labelStyle={style.toggleLabel}
+                            offColor="red"
+                            size="small"
+                            onToggle={()=>{
+                                getDefaultContactNo();
+                                setContactNo(contactNo)
                             
-                        </RNPickerSelect>
-
-                        <TouchableOpacity 
-                            style={style.touchButton}
-                            onPress={()=>{
-                                // if (this.state.categoryCurrentVal===null){
-                                //     this.setState({errorMsg:"* Please select category"})
-                                //     return
-                                // }
-                                // else if (this.state.serviceCurrentVal===null){
-                                //     this.setState({errorMsg:"* Please select service"})
-                                //     return
-                                // }
-                                // else if (this.state.serviceDateCurrentVal===''){
-                                //     this.setState({errorMsg:"* Please select date of service"})
-                                //     return
-                                // }
-                                // else if (this.state.actualDate.getTime() <= new Date().getTime()){
-                                //     this.setState({errorMsg:"* Please select valid date of service"})
-                                //     return
-                                // }
-                                // else if (this.state.address===''){
-                                //     this.setState({errorMsg:"* Please set your address"})
-                                // }
-                                // else if (this.state.contactNo===''){
-                                //     this.setState({errorMsg:"* Please set your contact number"})
-                                // }
-                                // else if (this.state.paymentMethodValue===''){
-                                //     this.setState({errorMsg:"* Please select payment method"})
-                                //     return
-                                // }
-                               
-                                if (this.state.serviceInfo.length === 0) {
-                                    this.setState({errorMsg:"* Please add service/s"})
-                                    return
-                                }
-                                else if (this.state.totalReserveService < 1) {
-                                    this.setState({errorMsg:"* Please add to list"})
-                                    return
-                                }
-                                else if (this.state.paymentMethodValue === '') {
-                                    this.setState({errorMsg:"* Please select payment method"})
-                                    return
+                                if (isUseDefaultContactNo === true){
+                                    setIsUseDefaultContactNo(false)
+                                    setIsContactNoEditable(true)
                                 }
                                 else {
-                                    this.setState({isDialogVisible:true})
+                                    setIsUseDefaultContactNo(true)
+                                    setIsContactNoEditable(false)
                                 }
-                            }} >
+                            }} />
 
-                            <Text 
-                                style={style.touchButtonLabel} >
-                                Book it now
-                            </Text>
-
-                        </TouchableOpacity>
-
-                        <Dialog.Container visible={this.state.isDialogVisible}>
-                            <Dialog.Title>Book it now!</Dialog.Title>
-                            <Dialog.Description>
-                                Do you want to proceed?
-                            </Dialog.Description>
-                            <Dialog.Button label="Cancel" onPress={()=>this.handleCancel()} />
-                            <Dialog.Button label="Ok" onPress={()=>this.handleProceed()} />
-                        </Dialog.Container>
-                        
                     </View>
 
-                </ScrollView>
+                    <TextInput
+                        style={style.labelComponentItem}
+                        value={contactNo}
+                        placeholder={'0917XXXXXXX'}
+                        editable={isContactNoEditable}
+                        onChangeText={(contactNo)=>setContactNo(contactNo)}
+                    />
+
+                </View>
+
+                <View 
+                    style={style.viewComponent} >
+
+                    <TouchableOpacity 
+                        style={style.touchButton}
+                        onPress={()=>{
+                            setErrorMessage('')
+
+                            if (categoryCurrentValue===null){
+                                setErrorMessage('Please select category')
+                                return
+                            }
+                            else if (serviceCurrentValue===null){
+                                setErrorMessage('Please select service')
+                                return
+                            }
+                            else if (serviceDateCurrentValue===''){
+                                setErrorMessage('Please select date of service')
+                                return
+                            }
+                            else if (actualDate.getTime() <= new Date().getTime()){
+                                setErrorMessage('Please select valid date of service')
+                                return
+                            }
+                            else if (address===''){
+                                setErrorMessage('Please set your address')
+                            }
+                            else if (contactNo===''){
+                                setErrorMessage('Please set your contact number')
+                            }
+                            else if (!/^\d{11}$/.test(contactNo)) {
+                                setErrorMessage('Please set valid contact number')
+                            }
+                            else 
+                            {
+                                setIsVisible(true)
+                                addServiceInfo();
+                                getServiceInfo();
+                            }
+                        }} >
+
+                        <Text 
+                            style={style.touchButtonLabel}>
+                                Add service
+                        </Text>
+
+                    </TouchableOpacity>
+
+                </View>
                 
-            </SafeAreaView>
-        )
-    }
+                <View>
+                    <Text
+                        style={style.labelComponent} >
+                            Total Reserved Services ({totalReserveService})
+                    </Text>
 
+                    <FlatList
+                        data={serviceInfo?serviceInfo:null}
+                        renderItem={item => renderItemComponent(item)}
+                        keyExtractor={item => item.id.toString()} />
+
+                </View>
+
+                <View>
+                    <Text style={{
+                        marginTop:10,
+                        marginLeft:10, 
+                        marginBottom:5, 
+                        fontSize:17
+                        }}>Total price: Php {totalServicePrice?totalServicePrice:0}</Text>
+
+                    <Text 
+                        style={style.labelComponent}>
+                            Payment method
+                    </Text>
+
+                    <RNPickerSelect
+                        onValueChange={(value) => {
+                            setPaymentMethodValue(value)
+                        }}
+                        items={[
+                            { label: 'Cash', value: 'Cash' }
+                        ]} >
+
+                        <Text 
+                            style={style.labelComponentItem} >
+                                {paymentMethodValue?paymentMethodValue:'Select an item...'}
+                        </Text>
+                        
+                    </RNPickerSelect>
+
+                    <TouchableOpacity 
+                        style={style.touchButton}
+                        onPress={()=>{
+                            if (serviceInfo.length === 0) {
+                                setErrorMessage('Please add service/s')
+                                return
+                            }
+                            else if (totalReserveService < 1) {
+                                setErrorMessage('Please add service to list')
+                                return
+                            }
+                            else if (paymentMethodValue === '') {
+                                setErrorMessage('Please select payment method')
+                                return
+                            }
+                            else {
+                                setIsDialogVisible(true)
+                            }
+                        }} >
+
+                        <Text 
+                            style={style.touchButtonLabel} >
+                            Book it now
+                        </Text>
+
+                    </TouchableOpacity>
+
+                    <Dialog.Container visible={isDialogVisible}>
+                        <Dialog.Title>Book it now!</Dialog.Title>
+                        <Dialog.Description>
+                            Do you want to proceed?
+                        </Dialog.Description>
+                        <Dialog.Button label="Cancel" onPress={()=>handleCancel()} />
+                        <Dialog.Button label="Ok" onPress={()=>handleProceed()} />
+                    </Dialog.Container>
+                    
+                </View>
+
+            </ScrollView>
+            
+        </SafeAreaView>
+    )
+    
 }
-
 
 const style = StyleSheet.create({
 
