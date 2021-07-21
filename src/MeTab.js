@@ -160,10 +160,11 @@ export default function MeTab(props) {
         }
         else {
             let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
-                aspect: [3, 3],
-                quality: 1,
+                aspect: [4, 3],
+                quality: 0.1,
+                // format: '.png'
               });
     
               if (!result.cancelled) {
