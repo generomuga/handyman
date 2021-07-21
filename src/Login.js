@@ -56,11 +56,15 @@ export default function Login (props) {
             if (user) {
                 const user = firebase.auth().currentUser;
 
+                console.log(user)
+
                 if (user !== null) {
                     const emailVerified = user.emailVerified;
+                    const contactNumber = user.phoneNumber;
+
                     database.isUserExists(user);
 
-                    if (emailVerified === true) {
+                    if (emailVerified === true || contactNumber.length > 1) {
                         clearState()
                         props.navigation.navigate('Home')
                     }

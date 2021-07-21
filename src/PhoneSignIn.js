@@ -13,15 +13,9 @@ import * as firebase from 'firebase';
 
 import { firebaseConfig } from '../src/config/config';
 
-// Initialize Firebase JS SDK
-// https://firebase.google.com/docs/web/setup
-/*try {
-  firebase.initializeApp({
-    ...
-  });
-} catch (err) {
-  // ignore app already initialized error in snack
-}*/
+import database from './functions/database';
+
+database.init();
 
 export default function PhoneSignIn(props) {
   const recaptchaVerifier = React.useRef(null);
@@ -95,7 +89,7 @@ export default function PhoneSignIn(props) {
               verificationCode
             );
             await firebase.auth().signInWithCredential(credential).then(()=>{
-                props.navigation.navigate('Home')
+                props.navigation.navigate('Login')
             });
             showMessage({ text: 'Phone authentication successful 👍' });
           } catch (err) {
