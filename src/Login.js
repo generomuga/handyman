@@ -175,13 +175,6 @@ export default function Login (props) {
                     >
                     Forgot password
                 </Text>
-
-                <Text 
-                    style={style.forgotPassword}
-                    onPress={()=>props.navigation.navigate('PhoneSignIn')}
-                    >
-                    Mobile
-                </Text>
                 
             </View>
 
@@ -193,19 +186,40 @@ export default function Login (props) {
 
                 <View style={style.viewGoogleFb}>
 
-                    <FontAwesome 
+                    {/* <FontAwesome 
                         name='google-plus-official' 
                         size={77} 
                         color='#d34836' 
                         style={style.google}
-                        onPress={() => authentication.signInWithGoogleAsync()} />
+                        onPress={() => authentication.signInWithGoogleAsync()} /> */}
 
                     <FontAwesome5 
+                        name="google-plus-square" 
+                        size={68}
+                        color="#d34836" 
+                        style={style.google}
+                        onPress={() => authentication.signInWithGoogleAsync()} />
+
+                    {/* <FontAwesome5 
                         name='facebook' 
                         size={68} 
                         color='#4267B2'
                         style={style.facebook}
+                        onPress={()=> alert('Temporarily disabled')} /> */}
+
+                    <FontAwesome5
+                        name="facebook-square" 
+                        size={68} 
+                        style={style.facebook}
+                        color="#4267B2" 
                         onPress={()=> alert('Temporarily disabled')} />
+
+                    <FontAwesome5 
+                        name="phone-square" 
+                        size={68}
+                        style={style.phone}
+                        color="green" 
+                        onPress={()=>props.navigation.navigate('PhoneSignIn')} />
 
                 </View>
                 
@@ -299,6 +313,11 @@ const style = StyleSheet.create({
     },
 
     google: {
+        alignSelf:'center',
+        margin: 10
+    },
+
+    phone: {
         alignSelf:'center',
         margin: 10
     },
