@@ -171,6 +171,13 @@ export default function Login (props) {
                     >
                     Forgot password
                 </Text>
+
+                <Text 
+                    style={style.forgotPassword}
+                    onPress={()=>props.navigation.navigate('PhoneSignIn')}
+                    >
+                    Mobile
+                </Text>
                 
             </View>
 

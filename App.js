@@ -10,6 +10,8 @@ import Home from './src/Home';
 import ForgotPassword from './src/ForgotPassword';
 import Admin from './src/Admin';
 
+import PhoneSignIn from './src/PhoneSignIn';
+
 import { AntDesign } from '@expo/vector-icons';
 
 import * as firebase from 'firebase';
@@ -92,6 +94,21 @@ export default function App () {
                 options= {{
                       headerShown: true, 
                       title: 'Admin', 
+                      headerStyle: {
+                        backgroundColor: '#039BE5'
+                      },
+                      headerTintColor: '#FAFAFA',
+                      headerTitleStyle: {
+                        alignSelf: 'center'
+                      }
+                }} />
+
+              <Stack.Screen 
+                name='PhoneSignIn' 
+                component={PhoneSignIn} 
+                options= {{
+                      headerShown: true, 
+                      title: 'Phone Sign In', 
                       headerStyle: {
                         backgroundColor: '#039BE5'
                       },
