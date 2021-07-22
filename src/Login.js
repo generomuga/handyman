@@ -7,8 +7,12 @@ import {
     TextInput, 
     Text, 
     TouchableOpacity, 
-    StyleSheet 
+    StyleSheet
 } from 'react-native';
+
+import Spinner from 'react-native-loading-spinner-overlay';
+
+import * as Google from 'expo-google-app-auth';
 
 import { 
     Background, 
@@ -47,6 +51,11 @@ export default function Login (props) {
         setErrorMessage,
     ] = useState('');
 
+    const [
+        isLoading,
+        setIsLoading
+    ] = useState(false)
+
     useEffect(() => {
         checkIfLoggedIn()
     });
@@ -65,6 +74,7 @@ export default function Login (props) {
                     database.isUserExists(user);
 
                     if (emailVerified === true || contactNumber.length > 1) {
+                        setIsLoading(false)
                         clearState()
                         props.navigation.navigate('Home')
                     }
@@ -80,7 +90,90 @@ export default function Login (props) {
         }
     )};
 
+
+    const signInWithGoogleAsync = async() => {
+        try {
+            setIsLoading(true)
+            const result = await Google.logInAsync({
+              androidClientId: '876177652588-5fiqiq2vna74qg6aklen12vd1hpre723.apps.googleusercontent.com',
+              iosClientId: '876177652588-s599pfq4cm2k0lotu9erv319kbn1ibh9.apps.googleusercontent.com',
+              scopes: ['profile', 'email']}
+            );
+            if (result.type === 'success') {
+                onSignIn(result);
+                return result.accessToken;
+            } 
+            else {
+                setIsLoading(false)
+                return { cancelled: true };
+                
+            }
+        } 
+        catch (e) {
+          setIsLoading(false)
+          return { error: true };
+        }
+        
+    }
+
+    const onSignIn = googleUser => {
+        console.log('Google Auth Response', googleUser);
+
+        // We need to register an Observer on Firebase Auth to make sure auth is initialized.
+        var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
+            unsubscribe();
+            // Check if we are already signed-in Firebase with the correct user.
+            if (!isUserEqualGoogle(googleUser, firebaseUser)) {
+                // Build Firebase credential with the Google ID token.
+                var credential = firebase.auth.GoogleAuthProvider.credential(
+                    // googleUser.getAuthResponse().id_token);
+                    googleUser.idToken,
+                    googleUser.accessToken
+                );
+                // Sign in with credential from the Google user.
+                firebase.auth().signInWithCredential(credential)
+                    .catch((error) => {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // The email of the user's account used.
+                    var email = error.email;
+                    // The firebase.auth.AuthCredential type that was used.
+                    var credential = error.credential;
+                    // ...
+                    });
+                } 
+            else {
+                console.log('User already signed-in Firebase.');
+            }
+        });
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              // User logged in already or has just logged in.
+              console.log('UID'+user['uid']);
+            //   this.registerUser(user['uid'], user['displayName'], user['email']);
+            } else {
+              // User not logged in or has just logged out.
+            }
+          });
+    }
+
+    const isUserEqualGoogle = (googleUser, firebaseUser) => {
+        if (firebaseUser) {
+            var providerData = firebaseUser.providerData;
+            for (var i = 0; i < providerData.length; i++) {
+                if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+                    providerData[i].uid === googleUser.getBasicProfile().getId()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     const onLogin = ({email, password}) => {
+        
         setErrorMessage('')
 
         const [resultIsEmailEmpty, messageIsEmailEmpty] = validation.isEmailEmpty(email)
@@ -101,6 +194,8 @@ export default function Login (props) {
             return
         }
 
+        setIsLoading(true)
+
         // TODO: Put it in authentication class
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
@@ -109,14 +204,17 @@ export default function Login (props) {
         
                 if (emailVerified === true) {
                     // Do nothing
+                    setIsLoading(false)
                     props.navigation.navigate('Home')
                     clearState()
                 }
                 else {
+                    setIsLoading(false)
                     setErrorMessage('Please verify your account through your email')
                 }
             })
             .catch((error) => {
+                setIsLoading(false)
                 setErrorMessage('Your email or password is incorrect.')
             });
     }
@@ -130,6 +228,14 @@ export default function Login (props) {
     return (
         <SafeAreaView style={style.background}>
             
+            {/* <ActivityIndicator /> */}
+
+            <Spinner
+                visible={isLoading}
+                textContent={'Loading...'} 
+                textStyle={style.spinnerTextStyle}
+                />
+
             <View style={style.viewLogo}>
 
                 <Image 
@@ -198,7 +304,9 @@ export default function Login (props) {
                         size={68}
                         color="#d34836" 
                         style={style.google}
-                        onPress={() => authentication.signInWithGoogleAsync()} />
+                        onPress={() =>
+                            // setIsLoading(true);
+                            signInWithGoogleAsync()} />
 
                     {/* <FontAwesome5 
                         name='facebook' 
@@ -212,14 +320,23 @@ export default function Login (props) {
                         size={68} 
                         style={style.facebook}
                         color="#4267B2" 
-                        onPress={()=> alert('Temporarily disabled')} />
+                        onPress={()=> {
+                            setIsLoading(true)
+                            alert('Temporarily disabled')
+                            setIsLoading(false)
+                            }} />
 
                     <FontAwesome5 
                         name="phone-square" 
                         size={68}
                         style={style.phone}
                         color="green" 
-                        onPress={()=>props.navigation.navigate('PhoneSignIn')} />
+                        onPress={()=>{
+                            setIsLoading(true)
+                            props.navigation.navigate('PhoneSignIn')
+                            setIsLoading(false)
+                            }
+                        } />
 
                 </View>
                 
@@ -332,6 +449,10 @@ const style = StyleSheet.create({
         ...Label.text_alignment,
         ...Label.weight,
         marginTop: 10
-    }
+    },
+
+    spinnerTextStyle: {
+        color: '#FFF'
+      },
 
 });
