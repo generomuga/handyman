@@ -1037,7 +1037,9 @@ const style = StyleSheet.create({
     },
 
     input: {
-        ...Input.standard
+        ...Input.standard,
+        marginLeft: 10,
+        marginRight: 10
     },
 
     labelErrorMessage: {

@@ -26,8 +26,6 @@ export const standard = {
     borderWidth:1, 
     borderColor:'#039BE5',
     borderRadius:10,
-    marginLeft:10,
-    marginRight:10,
     marginBottom:5,
     padding:8, 
     textAlign:'left'

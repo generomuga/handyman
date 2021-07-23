@@ -392,7 +392,9 @@ const style = StyleSheet.create({
     },
 
     textInput: {
-        ...Input.standard
+        ...Input.standard,
+        marginLeft: 10,
+        marginRight: 10
     }, 
 
     button: {
