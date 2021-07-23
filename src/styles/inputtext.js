@@ -20,3 +20,15 @@ export const side_margin = {
     marginLeft: 40,
     marginRight: 40
 }
+
+export const standard = {
+    color:'#424242',
+    borderWidth:1, 
+    borderColor:'#039BE5',
+    borderRadius:10,
+    marginLeft:10,
+    marginRight:10,
+    marginBottom:5,
+    padding:8, 
+    textAlign:'left'
+}

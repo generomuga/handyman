@@ -10,6 +10,13 @@ import {
     StyleSheet,
 } from 'react-native';
 
+import { 
+    Background, 
+    Button,
+    InputText,
+    Label
+} from './styles';
+
 import * as firebase from 'firebase';
 
 import database from './functions/database';
@@ -260,17 +267,7 @@ export default function MeTab(props) {
             </Text>
 
             <TextInput 
-                style={{
-                    marginLeft:10,
-                    marginRight:10, 
-                    marginBottom:5,
-                    borderWidth:1, 
-                    padding:8, 
-                    borderRadius:10, 
-                    textAlign:'left',
-                    color:'#424242',
-                    borderColor:'#039BE5'
-                }} 
+                style={style.textInput} 
                 placeholder='full name' 
                 autoCapitalize='none'
                 value={displayName?displayName:null}
@@ -300,17 +297,7 @@ export default function MeTab(props) {
                 disabled={!isGenderEditable}
             >
                 <Text
-                    style={{
-                        marginLeft:10,
-                        marginRight:10, 
-                        marginBottom:5,
-                        borderWidth:1, 
-                        padding:8, 
-                        borderRadius:10, 
-                        textAlign:'left',
-                        color:'#424242',
-                        borderColor:'#039BE5',
-                    }}
+                    style={style.textInput}
                 >{gender?gender:'Select an item...'}</Text>
             </RNPickerSelect>
 
@@ -326,17 +313,7 @@ export default function MeTab(props) {
             </Text>
 
             <TextInput 
-                style={{
-                    marginLeft:10,
-                    marginRight:10, 
-                    marginBottom:5,
-                    borderWidth:1, 
-                    padding:8, 
-                    borderRadius:10, 
-                    textAlign:'left',
-                    color:'#424242',
-                    borderColor:'#039BE5'
-                }} 
+                style={style.textInput} 
                 placeholder='email' 
                 autoCapitalize='none' 
                 value={email?email:null}
@@ -355,17 +332,7 @@ export default function MeTab(props) {
                 Contact number</Text>
 
             <TextInput 
-                style={{
-                    marginLeft:10,
-                    marginRight:10, 
-                    marginBottom:5,
-                    borderWidth:1, 
-                    padding:8, 
-                    borderRadius:10, 
-                    textAlign:'left',
-                    color:'#424242',
-                    borderColor:'#039BE5'
-                }} 
+                style={style.textInput} 
                 placeholder='contact number' 
                 autoCapitalize='none' 
                 value={contactNo?contactNo:null}
@@ -385,17 +352,7 @@ export default function MeTab(props) {
             </Text>
 
             <TextInput 
-                style={{
-                    marginLeft:10,
-                    marginRight:10, 
-                    marginBottom:5,
-                    borderWidth:1, 
-                    padding:8, 
-                    borderRadius:10, 
-                    textAlign:'left',
-                    color:'#424242',
-                    borderColor:'#039BE5'
-                }} 
+                style={style.textInput} 
                 placeholder='address' 
                 autoCapitalize='none' 
                 multiline={false}
@@ -441,5 +398,9 @@ const style = StyleSheet.create({
     spinnerTextStyle: {
         color: '#FFF'
     },
+
+    textInput: {
+        ...InputText.standard
+    }
 
 })
