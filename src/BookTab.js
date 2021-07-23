@@ -692,7 +692,7 @@ export default function BookTab() {
                             color="#E65100" />
 
                         <Text 
-                            style={style.labelComponent} >
+                            style={style.label} >
                             Category
                         </Text>
 
@@ -729,7 +729,7 @@ export default function BookTab() {
                             color="#9E9D24" />
 
                         <Text 
-                            style={style.labelComponent} >
+                            style={style.label} >
                             Service
                         </Text>
 
@@ -764,7 +764,7 @@ export default function BookTab() {
                             color="#0D47A1" />
 
                         <Text 
-                            style={style.labelComponent} >
+                            style={style.label} >
                             Date of service
                         </Text>
 
@@ -926,7 +926,7 @@ export default function BookTab() {
                 
                 <View>
                     <Text
-                        style={style.labelComponent} >
+                        style={style.label} >
                             Total Reserved Services ({totalReserveService})
                     </Text>
 
@@ -946,7 +946,7 @@ export default function BookTab() {
                         }}>Total price: Php {totalServicePrice?totalServicePrice:0}</Text>
 
                     <Text 
-                        style={style.labelComponent}>
+                        style={style.label}>
                             Payment method
                     </Text>
 
@@ -1022,14 +1022,7 @@ const style = StyleSheet.create({
         justifyContent:'center',
         marginBottom: 8
     },
-
-    labelComponent: {
-        marginTop: 2,
-        marginLeft: 5, 
-        marginBottom: 8, 
-        fontSize: 17,
-    },
-
+    
     button: {
         ...Button.standard,
         marginLeft: 10,
@@ -1040,6 +1033,13 @@ const style = StyleSheet.create({
         ...Input.standard,
         marginLeft: 10,
         marginRight: 10
+    },
+
+    label: {
+        ...Label.standard,
+        marginTop: 2,
+        marginLeft: 5, 
+        marginBottom: 8
     },
 
     labelErrorMessage: {

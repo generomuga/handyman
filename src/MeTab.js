@@ -256,13 +256,7 @@ export default function MeTab(props) {
             </View>
 
             <Text
-                style={{
-                    marginTop:10,
-                    marginLeft:10, 
-                    marginBottom:5, 
-                    fontSize:17
-                }}
-            >
+                style={style.label} >
                 Full name
             </Text>
 
@@ -276,13 +270,7 @@ export default function MeTab(props) {
                 />
 
             <Text
-                style={{
-                    marginTop:10,
-                    marginLeft:10, 
-                    marginBottom:5, 
-                    fontSize:17
-                }}
-            >
+                style={style.label} >
                 Gender
             </Text>
 
@@ -294,21 +282,14 @@ export default function MeTab(props) {
                     { label: 'Male', value: 'Male' },
                     { label: 'Female', value: 'Female' },
                 ]}
-                disabled={!isGenderEditable}
-            >
+                disabled={!isGenderEditable} >
                 <Text
                     style={style.textInput}
                 >{gender?gender:'Select an item...'}</Text>
             </RNPickerSelect>
 
             <Text
-                style={{
-                    marginTop:10,
-                    marginLeft:10, 
-                    marginBottom:5, 
-                    fontSize:17
-                }}
-            >
+                style={style.label} >
                 Email address
             </Text>
 
@@ -322,14 +303,9 @@ export default function MeTab(props) {
                 />
 
             <Text
-                style={{
-                    marginTop:10,
-                    marginLeft:10, 
-                    marginBottom:5, 
-                    fontSize:17
-                }}
-            >
-                Contact number</Text>
+                style={style.label} >
+                Contact number
+            </Text>
 
             <TextInput 
                 style={style.textInput} 
@@ -341,13 +317,7 @@ export default function MeTab(props) {
                 />
 
             <Text
-                style={{
-                    marginTop:10,
-                    marginLeft:10, 
-                    marginBottom:5, 
-                    fontSize:17
-                }}
-            >
+                style={style.label} >
                 Home address
             </Text>
 
@@ -402,5 +372,12 @@ const style = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10
     },
+
+    label: {
+        ...Label.standard,
+        marginTop: 2,
+        marginLeft: 5, 
+        marginBottom: 8
+    }
 
 })

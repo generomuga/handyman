@@ -14,3 +14,7 @@ export const self_alignment = {
 export const red = {
     color: '#D32F2F'
 }
+
+export const standard = {
+    fontSize: 17
+}
