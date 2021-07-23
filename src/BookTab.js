@@ -15,6 +15,7 @@ import {
 import { 
     // Background, 
     Button,
+    InputText,
     // InputText,
     Label
 } from './styles';
@@ -707,7 +708,7 @@ export default function BookTab() {
                         items={categories} >
                         
                         <Text 
-                            style={style.labelComponentItem} >    
+                            style={style.inputText} >    
                             {categoryCurrentValue?categoryCurrentValue:'Select an item...'}
                         </Text>
 
@@ -742,7 +743,7 @@ export default function BookTab() {
                         items={services} >
 
                         <Text 
-                            style={style.labelComponentItem} >
+                            style={style.inputText} >
                             {serviceCurrentValue?serviceCurrentValue:'Select an item...'}
                         </Text>
 
@@ -770,7 +771,7 @@ export default function BookTab() {
                     </View>
 
                     <Text 
-                        style={style.labelComponentItem}
+                        style={style.inputText}
                         onPress={showDateTimePicker} >  
                         {serviceDateCurrentValue?serviceDateCurrentValue:"Please pick a date"}
                     </Text>
@@ -820,7 +821,7 @@ export default function BookTab() {
                     </View>
 
                     <TextInput
-                        style={style.labelComponentItem}
+                        style={style.inputText}
                         multiline={false}
                         value={address}
                         placeholder={'Lot/Block No, Street, City, Province'}
@@ -864,7 +865,7 @@ export default function BookTab() {
                     </View>
 
                     <TextInput
-                        style={style.labelComponentItem}
+                        style={style.inputText}
                         value={contactNo}
                         placeholder={'0917XXXXXXX'}
                         editable={isContactNoEditable}
@@ -1029,16 +1030,8 @@ const style = StyleSheet.create({
         fontSize: 17,
     },
 
-    labelComponentItem: {
-        marginLeft:10,
-        marginRight:10, 
-        marginBottom:5,
-        borderWidth:1, 
-        padding:8, 
-        borderRadius:10, 
-        textAlign:'left',
-        color:'#424242',
-        borderColor:'#039BE5',
+    inputText: {
+        ...InputText.standard
     },
 
     labelErrorMessage: {
