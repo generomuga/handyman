@@ -1,6 +1,6 @@
 import * as Background from './background';
-import * as InputText from './inputtext';
+import * as Input from './input';
 import * as Button from './button';
 import * as Label from './label';
 
-export { Background, Button, InputText, Label };
+export { Background, Button, Input, Label };

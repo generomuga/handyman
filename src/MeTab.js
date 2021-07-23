@@ -13,7 +13,7 @@ import {
 import { 
     Background, 
     Button,
-    InputText,
+    Input,
     Label
 } from './styles';
 
@@ -400,7 +400,7 @@ const style = StyleSheet.create({
     },
 
     textInput: {
-        ...InputText.standard
+        ...Input.standard
     }
 
 })

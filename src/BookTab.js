@@ -15,7 +15,7 @@ import {
 import { 
     // Background, 
     Button,
-    InputText,
+    Input,
     // InputText,
     Label
 } from './styles';
@@ -708,7 +708,7 @@ export default function BookTab() {
                         items={categories} >
                         
                         <Text 
-                            style={style.inputText} >    
+                            style={style.input} >    
                             {categoryCurrentValue?categoryCurrentValue:'Select an item...'}
                         </Text>
 
@@ -743,7 +743,7 @@ export default function BookTab() {
                         items={services} >
 
                         <Text 
-                            style={style.inputText} >
+                            style={style.input} >
                             {serviceCurrentValue?serviceCurrentValue:'Select an item...'}
                         </Text>
 
@@ -771,7 +771,7 @@ export default function BookTab() {
                     </View>
 
                     <Text 
-                        style={style.inputText}
+                        style={style.input}
                         onPress={showDateTimePicker} >  
                         {serviceDateCurrentValue?serviceDateCurrentValue:"Please pick a date"}
                     </Text>
@@ -821,7 +821,7 @@ export default function BookTab() {
                     </View>
 
                     <TextInput
-                        style={style.inputText}
+                        style={style.input}
                         multiline={false}
                         value={address}
                         placeholder={'Lot/Block No, Street, City, Province'}
@@ -865,7 +865,7 @@ export default function BookTab() {
                     </View>
 
                     <TextInput
-                        style={style.inputText}
+                        style={style.input}
                         value={contactNo}
                         placeholder={'0917XXXXXXX'}
                         editable={isContactNoEditable}
@@ -959,7 +959,7 @@ export default function BookTab() {
                         ]} >
 
                         <Text 
-                            style={style.labelComponentItem} >
+                            style={style.input} >
                                 {paymentMethodValue?paymentMethodValue:'Select an item...'}
                         </Text>
                         
@@ -1030,8 +1030,8 @@ const style = StyleSheet.create({
         fontSize: 17,
     },
 
-    inputText: {
-        ...InputText.standard
+    input: {
+        ...Input.standard
     },
 
     labelErrorMessage: {

@@ -9,7 +9,7 @@ import {
 
 import { 
     Background, 
-    InputText, 
+    Input, 
     Button,
     Label
 } from './styles';
@@ -113,11 +113,11 @@ const style = StyleSheet.create({
     },
 
     textInput:{
-        ...InputText.border,
-        ...InputText.padding,
-        ...InputText.color,
-        ...InputText.text_alignment,
-        ...InputText.side_margin,
+        ...Input.border,
+        ...Input.padding,
+        ...Input.color,
+        ...Input.text_alignment,
+        ...Input.side_margin,
         marginBottom: 10
     },
 

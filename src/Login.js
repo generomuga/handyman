@@ -17,7 +17,7 @@ import * as Google from 'expo-google-app-auth';
 import { 
     Background, 
     Button,
-    InputText,
+    Input,
     Label
 } from './styles';
 
@@ -377,11 +377,11 @@ const style = StyleSheet.create({
     },
 
     textInput:{
-        ...InputText.border,
-        ...InputText.padding,
-        ...InputText.color,
-        ...InputText.text_alignment,
-        ...InputText.side_margin,
+        ...Input.border,
+        ...Input.padding,
+        ...Input.color,
+        ...Input.text_alignment,
+        ...Input.side_margin,
         marginBottom: 10
     },
 
