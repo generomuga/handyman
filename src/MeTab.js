@@ -26,6 +26,8 @@ import * as ImagePicker from 'expo-image-picker';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
+import { MaterialIcons } from '@expo/vector-icons';
+
 // database.init();
 
 const dbRef = firebase.database().ref();
@@ -255,10 +257,22 @@ export default function MeTab(props) {
 
             </View>
 
-            <Text
-                style={style.label} >
-                Full name
-            </Text>
+            <View
+                style={{
+                    flexDirection:'row'
+                }}>
+                <MaterialIcons 
+                    style={style.icon}
+                    name="perm-identity" 
+                    size={24} 
+                    color="black" />
+                
+                <Text
+                    style={style.label} >
+                    Full name
+                </Text>
+
+            </View>
 
             <TextInput 
                 style={style.textInput} 
@@ -269,10 +283,21 @@ export default function MeTab(props) {
                 onChangeText={displayName => setDisplayName(displayName)}
                 />
 
-            <Text
-                style={style.label} >
-                Gender
-            </Text>
+            <View
+                style={{flexDirection:'row'}}>
+
+                <MaterialIcons 
+                    style={style.icon}
+                    name="supervised-user-circle" 
+                    size={24} 
+                    color="black" />
+            
+                <Text
+                    style={style.label} >
+                    Gender
+                </Text>
+
+            </View>
 
             <RNPickerSelect
                 onValueChange={(value) => {
@@ -288,11 +313,22 @@ export default function MeTab(props) {
                 >{gender?gender:'Select an item...'}</Text>
             </RNPickerSelect>
 
-            <Text
-                style={style.label} >
-                Email address
-            </Text>
+            <View
+                style={{flexDirection:'row'}}>
+                
+                <MaterialIcons 
+                    style={style.icon}
+                    name="email" 
+                    size={24} 
+                    color="black" />
 
+                <Text
+                    style={style.label} >
+                    Email address
+                </Text>
+
+            </View>
+            
             <TextInput 
                 style={style.textInput} 
                 placeholder='email' 
@@ -302,10 +338,21 @@ export default function MeTab(props) {
                 onChangeText={email => setEmail(email)}
                 />
 
-            <Text
-                style={style.label} >
-                Contact number
-            </Text>
+            <View
+                style={{flexDirection:'row'}}>
+
+                <MaterialIcons 
+                    style={style.icon}
+                    name="quick-contacts-dialer" 
+                    size={24} 
+                    color="black" />
+
+                <Text
+                    style={style.label} >
+                    Contact number
+                </Text>
+
+            </View>
 
             <TextInput 
                 style={style.textInput} 
@@ -316,10 +363,21 @@ export default function MeTab(props) {
                 onChangeText={contactNo => setContactNo(contactNo)}
                 />
 
-            <Text
-                style={style.label} >
-                Home address
-            </Text>
+            <View
+                style={{flexDirection:'row'}}>
+
+                <MaterialIcons 
+                    style={style.icon}
+                    name="add-location" 
+                    size={24} 
+                    color="black" />
+
+                <Text
+                    style={style.label} >
+                    Home address
+                </Text>
+
+            </View>
 
             <TextInput 
                 style={style.textInput} 
@@ -378,6 +436,10 @@ const style = StyleSheet.create({
         marginTop: 2,
         marginLeft: 5, 
         marginBottom: 8
+    },
+
+    icon: {
+        marginLeft:10
     }
 
 })

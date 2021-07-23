@@ -478,7 +478,7 @@ export default function BookTab() {
                     style={{flexDirection:'row'}} >
 
                     <MaterialIcons 
-                        style={{marginLeft:10}}
+                        style={style.icon}
                         name="category" 
                         size={24} 
                         color="#E65100" />
@@ -498,7 +498,7 @@ export default function BookTab() {
                     style={{flexDirection:'row'}} >
                     
                     <MaterialIcons 
-                        style={{marginLeft:10}}
+                        style={style.icon}
                         name="cleaning-services" 
                         size={24} 
                         color="#9E9D24" />
@@ -523,7 +523,7 @@ export default function BookTab() {
                     style={{flexDirection:'row'}} >
 
                     <MaterialIcons 
-                        style={{marginLeft:10}}
+                        style={style.icon}
                         name="date-range" 
                         size={24} 
                         color="#0D47A1" />
@@ -543,7 +543,7 @@ export default function BookTab() {
                     style={{flexDirection:'row'}} >
 
                     <MaterialIcons 
-                        style={{marginLeft:10}}
+                        style={style.icon}
                         name="contact-phone" 
                         size={24} 
                         color="#2E7D32" />
@@ -568,7 +568,7 @@ export default function BookTab() {
                 }} >
                 
                 <MaterialIcons 
-                    style={{marginLeft:10}}
+                    style={style.icon}
                     name="add-location" 
                     size={24} 
                     color="#B71C1C" />
@@ -593,7 +593,7 @@ export default function BookTab() {
                 }} >
 
                 <MaterialIcons 
-                    style={{marginLeft:10}}
+                    style={style.icon}
                     name="money" 
                     size={24} 
                     color="#424242" />
@@ -686,7 +686,7 @@ export default function BookTab() {
                         }} >
 
                         <MaterialIcons 
-                            style={{marginLeft:10}}
+                            style={style.icon}
                             name="category" 
                             size={24} 
                             color="#E65100" />
@@ -723,7 +723,7 @@ export default function BookTab() {
                         style={{flexDirection:'row'}}>
 
                         <MaterialIcons 
-                            style={{marginLeft:10}}
+                            style={style.icon}
                             name="cleaning-services" 
                             size={24} 
                             color="#9E9D24" />
@@ -758,7 +758,7 @@ export default function BookTab() {
                         style={{flexDirection:'row'}}>
 
                         <MaterialIcons 
-                            style={{marginLeft:10}}
+                            style={style.icon}
                             name="date-range" 
                             size={24} 
                             color="#0D47A1" />
@@ -791,7 +791,7 @@ export default function BookTab() {
                         style={{flexDirection:'row'}}>
 
                         <MaterialIcons 
-                            style={{marginLeft:10}}
+                            style={style.icon}
                             name="add-location" 
                             size={24} 
                             color="#B71C1C" />
@@ -836,7 +836,7 @@ export default function BookTab() {
                         style={{flexDirection: 'row'}}>
 
                         <MaterialIcons 
-                            style={{marginLeft:10}}
+                            style={style.icon}
                             name="contact-phone" 
                             size={24} 
                             color="#2E7D32" />
@@ -1022,11 +1022,15 @@ const style = StyleSheet.create({
         justifyContent:'center',
         marginBottom: 8
     },
-    
+
     button: {
         ...Button.standard,
         marginLeft: 10,
         marginRight: 10
+    },
+
+    icon: {
+        marginLeft:10
     },
 
     input: {

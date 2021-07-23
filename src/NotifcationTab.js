@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { 
     View, 
     Text, 
-    FlatList 
+    FlatList, 
+    StyleSheet
 } from 'react-native';
 
 import { SafeAreaView } from 'react-navigation';
@@ -427,7 +428,7 @@ export default function NotificationTab() {
                         // marginTop: 5
                     }}>
                     <MaterialIcons 
-                        style={{marginLeft:10}}
+                        style={style.icon}
                         name="miscellaneous-services" 
                         size={24} color="black" />
 
@@ -468,3 +469,11 @@ export default function NotificationTab() {
     )
   
 }
+
+const style = StyleSheet.create({
+
+    icon: {
+        marginLeft:10
+    }
+
+})
