@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
+    StyleSheet,
 } from 'react-native';
 
 import * as firebase from 'firebase';
@@ -15,6 +16,8 @@ import database from './functions/database';
 
 import RNPickerSelect from 'react-native-picker-select';
 import * as ImagePicker from 'expo-image-picker';
+
+import Spinner from 'react-native-loading-spinner-overlay';
 
 // database.init();
 
@@ -81,6 +84,11 @@ export default function MeTab(props) {
         buttonLabel,
         setButtonLabel,
     ] = useState('Edit');
+
+    const [
+        isLoading,
+        setIsLoading
+    ] = useState(false);
 
     useEffect(()=>{
         getUserDetails()
@@ -174,6 +182,7 @@ export default function MeTab(props) {
     }
 
     const uploadImage = async(uri, imageName) => {
+        setIsLoading(true);
         const response = await fetch(uri)
         const blob = await response.blob()
 
@@ -189,6 +198,7 @@ export default function MeTab(props) {
         
         dbRef.child('users').child(user['uid']).update(updates)
         setPhotoURL(photoURL)
+        setIsLoading(false);
     }
 
 
@@ -196,6 +206,12 @@ export default function MeTab(props) {
         <ScrollView
             // style={{flex:1}}
             >
+
+            <Spinner
+                visible={isLoading}
+                textContent={'Loading...'} 
+                textStyle={style.spinnerTextStyle}
+                />
 
             <View
                 style={{
@@ -419,3 +435,11 @@ export default function MeTab(props) {
     )
 
 }
+
+const style = StyleSheet.create({
+
+    spinnerTextStyle: {
+        color: '#FFF'
+    },
+
+})
