@@ -878,7 +878,7 @@ export default function BookTab() {
                     style={style.viewComponent} >
 
                     <TouchableOpacity 
-                        style={style.touchButton}
+                        style={style.button}
                         onPress={()=>{
                             setErrorMessage('')
 
@@ -966,7 +966,7 @@ export default function BookTab() {
                     </RNPickerSelect>
 
                     <TouchableOpacity 
-                        style={style.touchButton}
+                        style={style.button}
                         onPress={()=>{
                             if (serviceInfo.length === 0) {
                                 setErrorMessage('Please add service/s')
@@ -1028,6 +1028,12 @@ const style = StyleSheet.create({
         marginLeft: 5, 
         marginBottom: 8, 
         fontSize: 17,
+    },
+
+    button: {
+        ...Button.standard,
+        marginLeft: 10,
+        marginRight: 10
     },
 
     input: {

@@ -266,7 +266,7 @@ export default function Login (props) {
                 </Text>
 
                 <TouchableOpacity 
-                    style={style.touchButton}
+                    style={style.button}
                     onPress={()=> onLogin({email, password})} >
 
                     <Text style={style.touchButtonLabel}>
@@ -358,6 +358,12 @@ const style = StyleSheet.create({
         ...Background.blue,
         ...Background.fullscreen,
         ...Background.center_content
+    },
+
+    button: {
+        ...Button.standard,
+        marginLeft: 40,
+        marginRight: 40
     },
 
     viewLogo: {
@@ -453,6 +459,6 @@ const style = StyleSheet.create({
 
     spinnerTextStyle: {
         color: '#FFF'
-      },
+    },
 
 });

@@ -362,15 +362,7 @@ export default function MeTab(props) {
                 />
 
             <TouchableOpacity 
-                style={{
-                    marginLeft:10,
-                    marginRight:10,
-                    marginBottom:10,
-                    marginTop:20,
-                    backgroundColor:'#039BE5',
-                    padding:18,
-                    borderRadius:10
-                }}
+                style={style.button}
                 onPress={()=>onPressButton()}
                 >
                 <Text
@@ -401,6 +393,12 @@ const style = StyleSheet.create({
 
     textInput: {
         ...Input.standard
-    }
+    }, 
+
+    button: {
+        ...Button.standard,
+        marginLeft: 10,
+        marginRight: 10
+    },
 
 })
