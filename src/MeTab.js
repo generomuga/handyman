@@ -104,7 +104,11 @@ export default function MeTab(props) {
     ] = useState(false);
 
     useEffect(()=>{
-        getUserDetails()
+        let isSubscribed = true;
+        if (isSubscribed) {
+            getUserDetails()
+        }
+        return () => isSubscribed = false;
     },[])
 
     const getUserDetails = () => {
@@ -152,6 +156,7 @@ export default function MeTab(props) {
         updates['gender'] = gender;
         updates['contactNo'] = contactNo;
         updates['address'] = address;
+        updates['email'] = email;
 
         dbRef.child("users").child(user['uid']).update(updates);
     }
