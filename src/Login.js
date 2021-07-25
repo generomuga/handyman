@@ -58,14 +58,14 @@ export default function Login (props) {
 
     useEffect(() => {
         checkIfLoggedIn()
-    });
+    }, []);
   
     const checkIfLoggedIn = () => {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 const user = firebase.auth().currentUser;
 
-                console.log(user)
+                // console.log(user)
 
                 if (user !== null) {
                     const emailVerified = user.emailVerified;
@@ -74,20 +74,24 @@ export default function Login (props) {
                     isUserExists(user);
 
                     if (emailVerified === true || contactNumber.length > 1) {
+                        console.log('Pasok')
                         setIsLoading(false)
                         clearState()
                         props.navigation.navigate('Home')
                     }
                     else {
+                        console.log('Hindi pasok')
                         setErrorMessage('* Please verify your account through your email')
                         props.navigation.navigate('Login')
                     }
                 }
             }
             else {
+                console.log('Male')
                 props.navigation.navigate('Login')
             }
         }
+        
     )};
 
     const isUserExists = (user) => {
@@ -105,6 +109,17 @@ export default function Login (props) {
     }
 
     const registerUser = (user) => {
+
+        let signInMethod = ''
+        if (user.emailVerified) {
+            signInMethod = 'email'
+        }
+        if (user.phoneNumber) {
+            signInMethod = 'phone'
+        }
+
+        console.log(signInMethod)
+
         firebase
             .database()
             .ref('users/' + user['uid'])
@@ -114,8 +129,9 @@ export default function Login (props) {
                 email: user['email'],
                 emailVerified: user['emailVerified'],
                 photoURL: user['photoURL'] ? user['photoURL'] : '',
-                contactNo: user['contactNo'] ? user['contactNo'] : '',
+                contactNo: user['phoneNumber'] ? user['phoneNumber'] : '',
                 address: user['address'] ? user['address'] : '',
+                signInMethod: signInMethod
             });
     }
 
