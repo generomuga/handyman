@@ -168,10 +168,16 @@ export default function BookTab() {
     ] = useState(false);
 
     useEffect(()=>{
-        getCategoryList();
-        getServiceInfo();
-        getDefaultAddress();
-        getDefaultContactNo();
+        let isSubscribed = true;
+
+        if (isSubscribed) {
+            getCategoryList();
+            getServiceInfo();
+            getDefaultAddress();
+            getDefaultContactNo();
+        }
+
+        return () => isSubscribed = false;
     }, [])
 
     const getCategoryList = () => {
@@ -875,7 +881,7 @@ export default function BookTab() {
                 </View>
 
                 <View 
-                    style={style.viewComponent} >
+                    style={[style.viewComponent],{marginBottom:15, marginTop:15}} >
 
                     <TouchableOpacity 
                         style={style.button}
@@ -916,7 +922,7 @@ export default function BookTab() {
                         }} >
 
                         <Text 
-                            style={style.touchButtonLabel}>
+                            style={style.touchButtonLabel} >
                                 Add service
                         </Text>
 
@@ -964,33 +970,38 @@ export default function BookTab() {
                         </Text>
                         
                     </RNPickerSelect>
+                        
+                    <View
+                        style={{marginTop:15, marginBottom:15}}>
 
-                    <TouchableOpacity 
-                        style={style.button}
-                        onPress={()=>{
-                            if (serviceInfo.length === 0) {
-                                setErrorMessage('Please add service/s')
-                                return
-                            }
-                            else if (totalReserveService < 1) {
-                                setErrorMessage('Please add service to list')
-                                return
-                            }
-                            else if (paymentMethodValue === '') {
-                                setErrorMessage('Please select payment method')
-                                return
-                            }
-                            else {
-                                setIsDialogVisible(true)
-                            }
-                        }} >
+                        <TouchableOpacity 
+                            style={style.button}
+                            onPress={()=>{
+                                if (serviceInfo.length === 0) {
+                                    setErrorMessage('Please add service/s')
+                                    return
+                                }
+                                else if (totalReserveService < 1) {
+                                    setErrorMessage('Please add service to list')
+                                    return
+                                }
+                                else if (paymentMethodValue === '') {
+                                    setErrorMessage('Please select payment method')
+                                    return
+                                }
+                                else {
+                                    setIsDialogVisible(true)
+                                }
+                            }} >
 
-                        <Text 
-                            style={style.touchButtonLabel} >
-                            Book it now
-                        </Text>
+                            <Text 
+                                style={style.touchButtonLabel} >
+                                Book it now
+                            </Text>
 
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+
+                    </View>
 
                     <Dialog.Container visible={isDialogVisible}>
                         <Dialog.Title>Book it now!</Dialog.Title>
