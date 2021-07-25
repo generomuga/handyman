@@ -277,7 +277,7 @@ export default function MeTab(props) {
                     style.textInput,
                     {borderColor:isDisplayNameEditable?'red':'green'}
                 ]}
-                placeholder='full name' 
+                placeholder='not set' 
                 autoCapitalize='none'
                 value={displayName?displayName:null}
                 editable={isDisplayNameEditable}
@@ -336,7 +336,7 @@ export default function MeTab(props) {
             
             <TextInput 
                 style={style.textInput} 
-                placeholder='email' 
+                placeholder='not set' 
                 autoCapitalize='none' 
                 value={email?email:null}
                 editable={isEmailEditable}
@@ -364,7 +364,7 @@ export default function MeTab(props) {
                     style.textInput,
                     {borderColor:isContactNoEditable?'red':'green'}
                 ]}
-                placeholder='contact number' 
+                placeholder='not set' 
                 autoCapitalize='none' 
                 value={contactNo?contactNo:null}
                 editable={isContactNoEditable}
@@ -392,7 +392,7 @@ export default function MeTab(props) {
                     style.textInput,
                     {borderColor:isAddressEditable?'red':'green'}
                 ]}
-                placeholder='address' 
+                placeholder='not set' 
                 autoCapitalize='none' 
                 multiline={false}
                 value={address?address:null}
