@@ -71,7 +71,7 @@ export default function Login (props) {
                     const emailVerified = user.emailVerified;
                     const contactNumber = user.phoneNumber;
 
-                    database.isUserExists(user);
+                    isUserExists(user);
 
                     if (emailVerified === true || contactNumber.length > 1) {
                         setIsLoading(false)
@@ -90,6 +90,34 @@ export default function Login (props) {
         }
     )};
 
+    const isUserExists = (user) => {
+        const dbRef = firebase.database().ref();
+
+        dbRef.child('users').child(user['uid']).get()                        
+            .then(snapshot => {
+                if (snapshot.exists()) {
+                    console.log('user found');
+                } else {
+                    console.log('user not found');
+                    registerUser(user);
+                }
+            });
+    }
+
+    const registerUser = (user) => {
+        firebase
+            .database()
+            .ref('users/' + user['uid'])
+            .set({
+                displayName: user['displayName'] ? user['displayName'] : '',
+                gender: user['gender'] ? user['gender'] : '',
+                email: user['email'],
+                emailVerified: user['emailVerified'],
+                photoURL: user['photoURL'] ? user['photoURL'] : '',
+                contactNo: user['contactNo'] ? user['contactNo'] : '',
+                address: user['address'] ? user['address'] : '',
+            });
+    }
 
     const signInWithGoogleAsync = async() => {
         try {
@@ -106,7 +134,6 @@ export default function Login (props) {
             else {
                 setIsLoading(false)
                 return { cancelled: true };
-                
             }
         } 
         catch (e) {
@@ -228,8 +255,6 @@ export default function Login (props) {
     return (
         <SafeAreaView style={style.background}>
             
-            {/* <ActivityIndicator /> */}
-
             <Spinner
                 visible={isLoading}
                 textContent={'Loading...'} 
@@ -294,13 +319,6 @@ export default function Login (props) {
 
                 <View style={style.viewGoogleFb}>
 
-                    {/* <FontAwesome 
-                        name='google-plus-official' 
-                        size={77} 
-                        color='#d34836' 
-                        style={style.google}
-                        onPress={() => authentication.signInWithGoogleAsync()} /> */}
-
                     <FontAwesome5 
                         name="google-plus-square" 
                         size={68}
@@ -309,13 +327,6 @@ export default function Login (props) {
                         onPress={() =>
                             // setIsLoading(true);
                             signInWithGoogleAsync()} />
-
-                    {/* <FontAwesome5 
-                        name='facebook' 
-                        size={68} 
-                        color='#4267B2'
-                        style={style.facebook}
-                        onPress={()=> alert('Temporarily disabled')} /> */}
 
                     <FontAwesome5
                         name="facebook-square" 
