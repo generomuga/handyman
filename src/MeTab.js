@@ -273,7 +273,10 @@ export default function MeTab(props) {
             </View>
 
             <TextInput 
-                style={style.textInput} 
+                style={[
+                    style.textInput,
+                    {borderColor:isDisplayNameEditable?'red':'green'}
+                ]}
                 placeholder='full name' 
                 autoCapitalize='none'
                 value={displayName?displayName:null}
@@ -307,7 +310,11 @@ export default function MeTab(props) {
                 ]}
                 disabled={!isGenderEditable} >
                 <Text
-                    style={style.textInput}
+                    // style={style.textInput}
+                    style={[
+                        style.textInput,
+                        {borderColor:isGenderEditable?'red':'green'}
+                    ]}
                 >{gender?gender:'Select an item...'}</Text>
             </RNPickerSelect>
 
@@ -353,7 +360,10 @@ export default function MeTab(props) {
             </View>
 
             <TextInput 
-                style={style.textInput} 
+                style={[
+                    style.textInput,
+                    {borderColor:isContactNoEditable?'red':'green'}
+                ]}
                 placeholder='contact number' 
                 autoCapitalize='none' 
                 value={contactNo?contactNo:null}
@@ -378,7 +388,10 @@ export default function MeTab(props) {
             </View>
 
             <TextInput 
-                style={style.textInput} 
+                style={[
+                    style.textInput,
+                    {borderColor:isAddressEditable?'red':'green'}
+                ]}
                 placeholder='address' 
                 autoCapitalize='none' 
                 multiline={false}
@@ -439,7 +452,7 @@ const style = StyleSheet.create({
     textInput: {
         ...Input.standard,
         marginLeft: 10,
-        marginRight: 10
+        marginRight: 10,
     }, 
 
     button: {

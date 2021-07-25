@@ -24,7 +24,8 @@ export const side_margin = {
 export const standard = {
     color:'#424242',
     borderWidth:1, 
-    borderColor:'#039BE5',
+    // borderColor:'#039BE5',
+    borderColor: 'green',
     borderRadius:10,
     marginBottom:5,
     padding:8, 
