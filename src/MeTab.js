@@ -10,8 +10,7 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import { 
-    Background, 
+import {  
     Button,
     Input,
     Label
@@ -180,7 +179,7 @@ export default function MeTab(props) {
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
                 aspect: [4, 3],
-                quality: 0.1,
+                quality: 0.05,
                 // format: '.png'
               });
     
@@ -212,48 +211,47 @@ export default function MeTab(props) {
 
 
     return (
-        <ScrollView
-            // style={{flex:1}}
-            >
+        <ScrollView>
 
             <Spinner
                 visible={isLoading}
                 textContent={'Loading...'} 
-                textStyle={style.spinnerTextStyle}
-                />
+                textStyle={style.spinnerTextStyle} />
 
             <View
-                style={{
-                    backgroundColor: '#039BE5',
-                    flex:1,
-                    justifyContent: 'center'
-                }}
-                >
+                style={style.containerPhoto} >
+
                 <Image 
-                    style={{
-                        width:100,
-                        height:100,
-                        resizeMode:'contain', 
-                        alignSelf:'center',
-                        marginTop:20,
-                        // alignItems:'',
-                        borderRadius:10,
-                    }}
+                    style={style.photo}
                     source={{uri:photoURL?photoURL:Image.resolveAssetSource(require('../assets/user.png')).uri}}
                 />
 
-                <Text
+                <View
                     style={{
-                        alignSelf:'center',
-                        marginTop:10,
-                        marginBottom:20,
-                        color:'white'
-                    }}
-                    onPress={()=>{
-                        onImagePress()
-                    }}>
-                    Change photo
-                </Text>
+                        flexDirection:'row',
+                        alignSelf: 'center',
+                        marginTop: 10,
+                        marginBottom: 30
+                        }}>
+
+                    <MaterialIcons 
+                        name="edit" 
+                        size={24} 
+                        color="white" />
+
+                    <Text
+                        style={{
+                            alignSelf: 'center',
+                            color: 'white',
+                            marginLeft: 5
+                        }}
+                        onPress={()=>{
+                            onImagePress()
+                        }}>
+                        Change photo
+                    </Text>
+
+                </View>
 
             </View>
 
@@ -414,6 +412,25 @@ export default function MeTab(props) {
 }
 
 const style = StyleSheet.create({
+
+    containerPhoto: {
+        backgroundColor: '#039BE5',
+        flex:1,
+        justifyContent: 'center',
+        marginBottom: 30,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15
+    },
+
+    photo: {
+            width:150,
+            height:150, 
+            resizeMode: 'cover',
+            alignSelf:'center',
+            marginTop:50,
+            borderRadius:10,
+            borderColor:'white'
+    },
 
     spinnerTextStyle: {
         color: '#FFF'
