@@ -266,7 +266,10 @@ export default function Login (props) {
                 </Text>
 
                 <TouchableOpacity 
-                    style={style.button}
+                    style={[
+                        style.button, 
+                        {marginBottom: 20}
+                    ]}
                     onPress={()=> onLogin({email, password})} >
 
                     <Text style={style.touchButtonLabel}>
@@ -277,8 +280,7 @@ export default function Login (props) {
 
                 <Text 
                     style={style.forgotPassword}
-                    onPress={()=>props.navigation.navigate('ForgotPassword')}
-                    >
+                    onPress={()=>props.navigation.navigate('ForgotPassword')} >
                     Forgot password
                 </Text>
                 
