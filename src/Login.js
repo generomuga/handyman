@@ -130,7 +130,7 @@ export default function Login (props) {
             .set({
                 displayName: user['displayName'] ? user['displayName'] : '',
                 gender: user['gender'] ? user['gender'] : '',
-                email: user['email'],
+                email: user['email']? user['email'] : '',
                 emailVerified: user['emailVerified'],
                 photoURL: user['photoURL'] ? user['photoURL'] : '',
                 contactNo: user['phoneNumber'] ? user['phoneNumber'] : '',
