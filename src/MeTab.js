@@ -401,7 +401,10 @@ export default function MeTab(props) {
                 />
 
             <TouchableOpacity 
-                style={style.button}
+                style={[
+                    style.button,
+                    {marginTop: 30, marginBottom: 20}
+                ]}
                 onPress={()=>onPressButton()}
                 >
                 <Text
@@ -411,13 +414,6 @@ export default function MeTab(props) {
                     }}
                     >{buttonLabel}</Text>
             </TouchableOpacity>
-
-            {/* <Button 
-                onPress={()=>
-                        props.navigation.navigate('Admin') 
-                }
-                title="Eheh"
-            />  */}
         
         </ScrollView>
     )
