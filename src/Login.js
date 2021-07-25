@@ -57,7 +57,11 @@ export default function Login (props) {
     ] = useState(false)
 
     useEffect(() => {
-        checkIfLoggedIn()
+        let isSubscribed = true
+        if (isSubscribed) {
+            checkIfLoggedIn()
+        }
+        return () => isSubscribed = false
     }, []);
   
     const checkIfLoggedIn = () => {
