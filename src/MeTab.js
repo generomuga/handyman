@@ -89,6 +89,11 @@ export default function MeTab(props) {
     ] = useState(false);
 
     const [
+        signInMethod,
+        setSignInMethod
+    ] = useState('');
+
+    const [
         buttonLabel,
         setButtonLabel,
     ] = useState('Edit');
@@ -111,6 +116,7 @@ export default function MeTab(props) {
         let photoURL = ''
         let contactNo = ''
         let address = ''
+        let signInMethod = ''
 
         dbRef.child("users").child(user['uid']).once("value")
             .then((snapshot) => {
@@ -122,6 +128,7 @@ export default function MeTab(props) {
                     photoURL = data['photoURL']
                     contactNo = data['contactNo']
                     address = data['address']
+                    signInMethod = data['signInMethod']
 
                     setDisplayName(displayName)
                     setGender(gender)
@@ -129,6 +136,7 @@ export default function MeTab(props) {
                     setPhotoURL(photoURL)
                     setContactNo(contactNo)
                     setAddress(address)
+                    setSignInMethod(signInMethod)
                 } 
                 else {
                     console.log("No data available");
@@ -153,16 +161,44 @@ export default function MeTab(props) {
         if (isDisplayNameEditable === true) {
             setIsDisplayNameEditable(false);
             setIsGenderEditable(false)
+
+            if (signInMethod === 'email') {
+                setIsEmailEditable(false)
+            }
+            else {
+                setIsEmailEditable(false)
+            }
+
+            if (signInMethod === 'phone') {
+                setIsContactNoEditable(false)
+            }
+            else {
+                setIsContactNoEditable(false)
+            }
+
             setIsContactNoEditable(false)
             setIsAddressEditable(false)
             setButtonLabel('Edit')
-
             updateUserDetails();
         }
         else {
             setIsDisplayNameEditable(true);
             setIsGenderEditable(true)
-            setIsContactNoEditable(true)
+
+            if (signInMethod === 'phone') {
+                setIsContactNoEditable(false)
+            }
+            else {
+                setIsContactNoEditable(true)
+            }
+
+            if (signInMethod === 'email') {
+                setIsEmailEditable(false)
+            }
+            else {
+                setIsEmailEditable(true)
+            }
+
             setIsAddressEditable(true)
             setButtonLabel('Save')
         }
@@ -335,7 +371,10 @@ export default function MeTab(props) {
             </View>
             
             <TextInput 
-                style={style.textInput} 
+                style={[
+                    style.textInput,
+                    {borderColor:isEmailEditable?'red':'green'}
+                ]}
                 placeholder='not set' 
                 autoCapitalize='none' 
                 value={email?email:null}
