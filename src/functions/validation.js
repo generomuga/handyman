@@ -1,5 +1,32 @@
 class Validation {
 
+    isFullNameEmpty(text) {
+        if (text.trim() === '') {
+            return [true, 'Please input your full name']
+        }
+        else {
+            return [false, '']
+        }
+    }
+
+    isPhoneNumberEmpty(text) {
+        if (text.trim() === '') {
+            return [true, 'Please input your mobile number']
+        }
+        else {
+            return [false, '']
+        }
+    }
+
+    isAddressEmpty(text) {
+        if (text.trim() === '') {
+            return [true, 'Please input your home address']
+        }
+        else {
+            return [false, '']
+        }
+    }
+
     isEmailEmpty(text) {
         if (text.trim() === '') {
             return [true, 'Please input your email']

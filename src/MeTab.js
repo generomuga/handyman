@@ -18,6 +18,8 @@ import {
 
 import * as firebase from 'firebase';
 
+import validation from './functions/validation';
+
 import database from './functions/database';
 
 import RNPickerSelect from 'react-native-picker-select';
@@ -103,6 +105,11 @@ export default function MeTab(props) {
         setIsLoading
     ] = useState(false);
 
+    const [
+        errorMessage,
+        setErrorMessage
+    ] = useState('');
+
     useEffect(()=>{
         let isSubscribed = true;
         if (isSubscribed) {
@@ -153,7 +160,7 @@ export default function MeTab(props) {
         
         let updates = {};
         updates['displayName'] = displayName;
-        updates['gender'] = gender;
+        updates['gender'] = gender?gender:'';
         updates['contactNo'] = contactNo;
         updates['address'] = address;
         updates['email'] = email;
@@ -163,7 +170,45 @@ export default function MeTab(props) {
 
     const onPressButton = () => {
      
+        setErrorMessage('')
+
         if (isDisplayNameEditable === true) {
+            
+            const [resultIsFullNameEmpty, messageIsFullNameEmpty] = validation.isFullNameEmpty(displayName)
+            if (resultIsFullNameEmpty === true) {
+                setErrorMessage(messageIsFullNameEmpty)
+                console.log('Error',errorMessage)
+                return
+            }
+
+            const [resultIsEmailEmpty, messageIsEmailEmpty] = validation.isEmailEmpty(email)
+            if (resultIsEmailEmpty === true) {
+                setErrorMessage(messageIsEmailEmpty)
+                console.log('Error',errorMessage)
+                return
+            }
+
+            const [resultIsEmailInvalid, messageIsEmailInvalid] = validation.isEmailInvalid(email)
+            if (resultIsEmailInvalid === true) {
+                setErrorMessage(messageIsEmailInvalid)
+                console.log('Error',errorMessage)
+                return
+            }
+
+            const [resultIsPhoneNumberEmpty, messageIsPhoneNumberEmpty] = validation.isPhoneNumberEmpty(contactNo)
+            if (resultIsPhoneNumberEmpty === true) {
+                setErrorMessage(messageIsPhoneNumberEmpty)
+                console.log('Error',errorMessage)
+                return
+            }
+
+            const [resultIsAddressEmpty, messageIsAddressEmpty] = validation.isAddressEmpty(address)
+            if (resultIsAddressEmpty === true) {
+                setErrorMessage(messageIsAddressEmpty)
+                console.log('Error',errorMessage)
+                return
+            }
+
             setIsDisplayNameEditable(false);
             setIsGenderEditable(false)
 
@@ -184,6 +229,7 @@ export default function MeTab(props) {
             setIsContactNoEditable(false)
             setIsAddressEditable(false)
             setButtonLabel('Edit')
+
             updateUserDetails();
         }
         else {
@@ -294,6 +340,12 @@ export default function MeTab(props) {
 
                 </View>
 
+            </View>
+
+            <View>
+                <Text style={style.labelErrorMessage}>
+                    {errorMessage}
+                </Text>
             </View>
 
             <View
@@ -470,7 +522,7 @@ const style = StyleSheet.create({
         backgroundColor: '#039BE5',
         flex:1,
         justifyContent: 'center',
-        marginBottom: 30,
+        marginBottom: 15,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15
     },
@@ -510,6 +562,14 @@ const style = StyleSheet.create({
 
     icon: {
         marginLeft:10
-    }
+    },
+
+    labelErrorMessage: {
+        ...Label.self_alignment,
+        ...Label.text_alignment,
+        ...Label.weight,
+        ...Label.red,
+        // marginBottom: 10
+    },
 
 })
