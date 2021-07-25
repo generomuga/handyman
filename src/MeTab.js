@@ -265,7 +265,7 @@ export default function MeTab(props) {
                     style={style.icon}
                     name="perm-identity" 
                     size={24} 
-                    color="black" />
+                    color="#6A1B9A" />
                 
                 <Text
                     style={style.label} >
@@ -290,7 +290,7 @@ export default function MeTab(props) {
                     style={style.icon}
                     name="supervised-user-circle" 
                     size={24} 
-                    color="black" />
+                    color="#AD1457" />
             
                 <Text
                     style={style.label} >
@@ -320,7 +320,7 @@ export default function MeTab(props) {
                     style={style.icon}
                     name="email" 
                     size={24} 
-                    color="black" />
+                    color="#9E9D24" />
 
                 <Text
                     style={style.label} >
@@ -345,7 +345,7 @@ export default function MeTab(props) {
                     style={style.icon}
                     name="quick-contacts-dialer" 
                     size={24} 
-                    color="black" />
+                    color="#2E7D32" />
 
                 <Text
                     style={style.label} >
@@ -370,7 +370,7 @@ export default function MeTab(props) {
                     style={style.icon}
                     name="add-location" 
                     size={24} 
-                    color="black" />
+                    color="#B71C1C" />
 
                 <Text
                     style={style.label} >
