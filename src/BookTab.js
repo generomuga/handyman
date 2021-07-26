@@ -910,7 +910,7 @@ export default function BookTab() {
                             else if (contactNo===''){
                                 setErrorMessage('Please set your contact number')
                             }
-                            else if (!/^\d{11}$/.test(contactNo)) {
+                            else if (!/^(09|\+639)\d{9}$/.test(contactNo)) {
                                 setErrorMessage('Please set valid contact number')
                             }
                             else 
