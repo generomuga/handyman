@@ -202,6 +202,13 @@ export default function MeTab(props) {
                 return
             }
 
+            const [resultIsPhoneNumberInvalid, messageIsPhoneNumberInvalid] = validation.isPhoneNumberInvalid(contactNo)
+            if (resultIsPhoneNumberInvalid === true) {
+                setErrorMessage(messageIsPhoneNumberInvalid)
+                console.log('Error',errorMessage)
+                return
+            }
+
             const [resultIsAddressEmpty, messageIsAddressEmpty] = validation.isAddressEmpty(address)
             if (resultIsAddressEmpty === true) {
                 setErrorMessage(messageIsAddressEmpty)
@@ -458,9 +465,9 @@ export default function MeTab(props) {
             <TextInput 
                 style={[
                     style.textInput,
-                    {borderColor:isContactNoEditable?'red':'green'}
+                    {borderColor:isContactNoEditable?'red':'green'  }
                 ]}
-                placeholder='not set' 
+                placeholder='not set'
                 autoCapitalize='none' 
                 value={contactNo?contactNo:null}
                 editable={isContactNoEditable}
@@ -545,7 +552,12 @@ const style = StyleSheet.create({
         ...Input.standard,
         marginLeft: 10,
         marginRight: 10,
-    }, 
+    },
+    
+    textInputAreaCode: {
+        ...Input.standard,
+        marginLeft: 10,
+    },
 
     button: {
         ...Button.standard,

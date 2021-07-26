@@ -27,6 +27,17 @@ class Validation {
         }
     }
 
+    isPhoneNumberInvalid(text) {
+        let pattern = /^(09|\+639)\d{9}$/
+
+        if (pattern.test(text) === false) {
+            return [true, 'Please input valid phone number'];
+        }
+        else {
+            return [false, '']
+        }
+    }
+
     isEmailEmpty(text) {
         if (text.trim() === '') {
             return [true, 'Please input your email']
