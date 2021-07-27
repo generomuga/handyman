@@ -12,7 +12,9 @@ import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-fi
 import * as firebase from 'firebase';
 
 import {  
-  Button
+  Button,
+  Input,
+  Label
 } from './styles';
 
 import validation from './functions/validation';
@@ -56,11 +58,14 @@ export default function PhoneSignIn(props) {
   return (
 
     <SafeAreaView
-      style={{flex:1, backgroundColor:'white'}}>
+      style={{flex:1, backgroundColor:'#B3E5FC'}}>
 
       <View style={{ padding: 20, marginTop: 50 }}>
         
-        <Text>{errorMessage}</Text>
+        <Text
+          style={style.labelErrorMessage}>
+          {errorMessage}
+          </Text>
 
         <FirebaseRecaptchaVerifierModal
           ref={recaptchaVerifier}
@@ -68,10 +73,10 @@ export default function PhoneSignIn(props) {
           attemptInvisibleVerification={attemptInvisibleVerification}
         />
         
-        <Text style={{ marginTop: 20 }}>Enter phone number</Text>
+        <Text style={style.label}>Enter phone number</Text>
 
         <TextInput
-          style={{ marginVertical: 10, fontSize: 17 }}
+          style={style.textInput}
           placeholder="+63 (10 digit number)"
           autoFocus
           autoCompleteType="tel"
@@ -122,10 +127,10 @@ export default function PhoneSignIn(props) {
                 >Send verification code</Text>
         </TouchableOpacity>
 
-        <Text style={{ marginTop: 20 }}>Enter Verification code</Text>
+        <Text style={style.label}>Enter Verification code</Text>
 
         <TextInput
-          style={{ marginVertical: 10, fontSize: 17 }}
+          style={style.textInput}
           editable={!!verificationId}
           placeholder="123456"
           onChangeText={setVerificationCode}
@@ -151,7 +156,6 @@ export default function PhoneSignIn(props) {
                   console.log(error)
                 })
               ;
-              showMessage({ text: 'Phone authentication successful 👍' });
             } catch (err) {
               showMessage({ text: `Error: ${err.message}`, color: 'red' });
             }
@@ -195,7 +199,30 @@ export default function PhoneSignIn(props) {
 const style = StyleSheet.create({
 
   button: {
-      ...Button.standard
+    ...Button.standard,
+  },
+
+  textInput: {
+    ...Input.border,
+    ...Input.padding,
+    ...Input.color,
+    ...Input.text_alignment,
+    marginBottom: 15,
+  },
+
+  label: {
+    textAlign: 'left',
+    fontWeight: '300',
+    fontSize: 17,
+    marginBottom: 15,
+    marginTop: 15
+  },
+
+  labelErrorMessage: {
+    ...Label.self_alignment,
+    ...Label.text_alignment,
+    ...Label.weight,
+    ...Label.red,
   },
 
 })
