@@ -402,27 +402,59 @@ export default function BookTab() {
     }
 
     const addServiceInfo = () => {
-        let user = firebase.auth().currentUser;
-        let id = new Date().getTime().toString();
-           
-        let dte = new Date().toString();
 
-        dbRef.child('bookings/' + user['uid'] +'/'+ id)
-            .set({
-                id:id,
-                category:categoryCurrentValue,
-                service:serviceCurrentValue,
-                service_date:serviceDateCurrentValue,
-                service_price:servicePrice,
-                service_currency:serviceCurrency,
-                address:address,
-                contact_no:contactNo,
-                is_visible:isVisible,
-                is_booked:isBooked,
-                is_service_added:isServiceAdded,
-                status:status,
-                createdDate:dte
-            });
+        setErrorMessage('')
+
+        if (categoryCurrentValue===null){
+            setErrorMessage('Please select category')
+            return
+        }
+        else if (serviceCurrentValue===null){
+            setErrorMessage('Please select service')
+            return
+        }
+        else if (serviceDateCurrentValue===''){
+            setErrorMessage('Please select date of service')
+            return
+        }
+        else if (actualDate.getTime() <= new Date().getTime()){
+            setErrorMessage('Please select valid date of service')
+            return
+        }
+        else if (address===''){
+            setErrorMessage('Please set your address')
+        }
+        else if (contactNo===''){
+            setErrorMessage('Please set your contact number')
+        }
+        else if (!/^(09|\+639)\d{9}$/.test(contactNo)) {
+            setErrorMessage('Please set valid contact number')
+        }
+        else 
+        {
+            setIsVisible(true);
+
+            let user = firebase.auth().currentUser;
+            let id = new Date().getTime().toString();
+            let dte = new Date().toString();
+
+            dbRef.child('bookings/' + user['uid'] +'/'+ id)
+                .set({
+                    id:id,
+                    category:categoryCurrentValue,
+                    service:serviceCurrentValue,
+                    service_date:serviceDateCurrentValue,
+                    service_price:servicePrice,
+                    service_currency:serviceCurrency,
+                    address:address,
+                    contact_no:contactNo,
+                    is_visible:isVisible,
+                    is_booked:isBooked,
+                    is_service_added:isServiceAdded,
+                    status:status,
+                    createdDate:dte
+                });
+        }
     }
 
     const showDateTimePicker = () => {
@@ -886,39 +918,8 @@ export default function BookTab() {
                     <TouchableOpacity 
                         style={style.button}
                         onPress={()=>{
-                            setErrorMessage('')
-
-                            if (categoryCurrentValue===null){
-                                setErrorMessage('Please select category')
-                                return
-                            }
-                            else if (serviceCurrentValue===null){
-                                setErrorMessage('Please select service')
-                                return
-                            }
-                            else if (serviceDateCurrentValue===''){
-                                setErrorMessage('Please select date of service')
-                                return
-                            }
-                            else if (actualDate.getTime() <= new Date().getTime()){
-                                setErrorMessage('Please select valid date of service')
-                                return
-                            }
-                            else if (address===''){
-                                setErrorMessage('Please set your address')
-                            }
-                            else if (contactNo===''){
-                                setErrorMessage('Please set your contact number')
-                            }
-                            else if (!/^(09|\+639)\d{9}$/.test(contactNo)) {
-                                setErrorMessage('Please set valid contact number')
-                            }
-                            else 
-                            {
-                                setIsVisible(true)
                                 addServiceInfo();
                                 getServiceInfo();
-                            }
                         }} >
 
                         <Text 
