@@ -17,6 +17,8 @@ import {
   Label
 } from './styles';
 
+import Spinner from 'react-native-loading-spinner-overlay';
+
 import validation from './functions/validation';
 
 import { firebaseConfig } from '../src/config/config';
@@ -49,6 +51,11 @@ export default function PhoneSignIn(props) {
   ] = useState();
 
   const [
+    isLoading,
+    setIsLoading
+  ] = useState(false)
+
+  const [
       errorMessage,
       setErrorMessage
   ] = useState('');
@@ -59,6 +66,11 @@ export default function PhoneSignIn(props) {
 
     <SafeAreaView
       style={{flex:1, backgroundColor:'#B3E5FC'}}>
+
+      <Spinner
+        visible={isLoading}
+        textContent={'Loading...'} 
+        textStyle={style.spinnerTextStyle} />
 
       <View style={{ padding: 20, marginTop: 50 }}>
         
@@ -144,6 +156,7 @@ export default function PhoneSignIn(props) {
           disabled={!verificationId}
           onPress={async () => {
             try {
+              setIsLoading(true);              
               const credential = firebase.auth.PhoneAuthProvider.credential(
                 verificationId,
                 verificationCode
@@ -159,6 +172,7 @@ export default function PhoneSignIn(props) {
             } catch (err) {
               showMessage({ text: `Error: ${err.message}`, color: 'red' });
             }
+            setIsLoading(false);
           }} >
           <Text
                 style={{
@@ -172,12 +186,12 @@ export default function PhoneSignIn(props) {
           <TouchableOpacity
             style={[
               StyleSheet.absoluteFill,
-              { backgroundColor: 0xffffffee, justifyContent: 'center' },
+              { backgroundColor: '#E3F2FD', justifyContent: 'center' },
             ]}
             onPress={() => showMessage(undefined)}>
             <Text
               style={{
-                color: message.color || 'blue',
+                color: message.color || '#0D47A1',
                 fontSize: 17,
                 textAlign: 'center',
                 margin: 20,
@@ -223,6 +237,10 @@ const style = StyleSheet.create({
     ...Label.text_alignment,
     ...Label.weight,
     ...Label.red,
+  },
+
+  spinnerTextStyle: {
+    color: '#FFF'
   },
 
 })
