@@ -18,7 +18,6 @@ import {
 import validation from './functions/validation';
 
 import { firebaseConfig } from '../src/config/config';
-
 import database from './functions/database';
 
 database.init();
@@ -30,7 +29,7 @@ export default function PhoneSignIn(props) {
   const [
     phoneNumber, 
     setPhoneNumber
-  ] = useState();
+  ] = useState('');
 
   const [
     verificationId, 
@@ -61,6 +60,8 @@ export default function PhoneSignIn(props) {
 
       <View style={{ padding: 20, marginTop: 50 }}>
         
+        <Text>{errorMessage}</Text>
+
         <FirebaseRecaptchaVerifierModal
           ref={recaptchaVerifier}
           firebaseConfig={firebaseConfig}
@@ -79,31 +80,27 @@ export default function PhoneSignIn(props) {
           onChangeText={phoneNumber => setPhoneNumber(phoneNumber)}
         />
 
-        {/* <Button
-          title="Send Verification Code"
-          disabled={!phoneNumber}
-          onPress={async () => {
-            try {
-              const phoneProvider = new firebase.auth.PhoneAuthProvider();
-              const verificationId = await phoneProvider.verifyPhoneNumber(
-                phoneNumber,
-                recaptchaVerifier.current
-              );
-              setVerificationId(verificationId);
-              showMessage({
-                text: 'Verification code has been sent to your phone.',
-              });
-            } catch (err) {
-              showMessage({ text: `Error: ${err.message}`, color: 'red' });
-            }
-          }}
-        /> */}
-
         <TouchableOpacity 
           style={style.button} 
-          disabled={!phoneNumber}
           onPress={async () => {
             try {
+
+              setErrorMessage('')
+
+              const [resultIsPhoneNumberEmpty, messageIsPhoneNumberEmpty] = validation.isPhoneNumberEmpty(phoneNumber)
+              if (resultIsPhoneNumberEmpty === true) {
+                  setErrorMessage(messageIsPhoneNumberEmpty)
+                  console.log('Error',errorMessage)
+                  return
+              }
+
+              const [resultIsPhoneNumberInvalid, messageIsPhoneNumberInvalid] = validation.isPhoneNumberInvalid(phoneNumber)
+              if (resultIsPhoneNumberInvalid === true) {
+                  setErrorMessage(messageIsPhoneNumberInvalid)
+                  console.log('Error',errorMessage)
+                  return
+              }
+
               const phoneProvider = new firebase.auth.PhoneAuthProvider();
               const verificationId = await phoneProvider.verifyPhoneNumber(
                 phoneNumber,
@@ -134,32 +131,11 @@ export default function PhoneSignIn(props) {
           onChangeText={setVerificationCode}
         />
 
-        {/* <Button
-          title="Confirm Verification Code"
-          disabled={!verificationId}
-          onPress={async () => {
-            try {
-              const credential = firebase.auth.PhoneAuthProvider.credential(
-                verificationId,
-                verificationCode
-              );
-              await firebase.auth().signInWithCredential(credential)
-                .then(()=>{
-                  props.navigation.navigate('Login')
-                })
-                .catch((error) => {
-                  console.log(error)
-                })
-              ;
-              showMessage({ text: 'Phone authentication successful 👍' });
-            } catch (err) {
-              showMessage({ text: `Error: ${err.message}`, color: 'red' });
-            }
-          }}
-        /> */}
-
         <TouchableOpacity 
-          style={style.button} 
+          style={[
+            style.button,
+            {backgroundColor:verificationId?'#039BE5':'gray'}
+          ]} 
           disabled={!verificationId}
           onPress={async () => {
             try {
