@@ -379,6 +379,13 @@ export default function Login (props) {
                         Don't have an account? Sign up here
                 </Text>
 
+                <Text
+                    onPress={()=>{
+                        props.navigation.navigate('Walkthrough')
+                    }}>
+                    Walkthrough
+                </Text>
+
             </View>
 
         </SafeAreaView>

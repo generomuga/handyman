@@ -9,6 +9,7 @@ import Signup from './src/Signup';
 import Home from './src/Home';
 import ForgotPassword from './src/ForgotPassword';
 import Admin from './src/Admin';
+import Walkthrough from './src/Walkthrough';
 
 import PhoneSignIn from './src/PhoneSignIn';
 
@@ -109,6 +110,21 @@ export default function App () {
                 options= {{
                       headerShown: true, 
                       title: 'Phone Sign In', 
+                      headerStyle: {
+                        backgroundColor: '#039BE5'
+                      },
+                      headerTintColor: '#FAFAFA',
+                      headerTitleStyle: {
+                        alignSelf: 'center'
+                      }
+                }} />
+
+              <Stack.Screen 
+                name='Walkthrough' 
+                component={Walkthrough} 
+                options= {{
+                      headerShown: false, 
+                      title: 'Walkthrough', 
                       headerStyle: {
                         backgroundColor: '#039BE5'
                       },
