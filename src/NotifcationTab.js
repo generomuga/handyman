@@ -4,10 +4,11 @@ import {
     View, 
     Text, 
     FlatList, 
-    StyleSheet
+    StyleSheet,
+    SafeAreaView
 } from 'react-native';
 
-import { SafeAreaView } from 'react-navigation';
+// import { SafeAreaView } from 'react-navigation';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import * as firebase from 'firebase';
@@ -420,29 +421,25 @@ export default function NotificationTab() {
                 flex: 1
             }} >
 
-            <View>
+            <View
+                style={{
+                    flexDirection:'row',
+                    marginTop: 10
+                }}>
+                <MaterialIcons 
+                    style={style.icon}
+                    name="miscellaneous-services" 
+                    size={24} color="black" />
 
-                <View
+                <Text
                     style={{
-                        flexDirection:'row',
-                        // marginTop: 5
-                    }}>
-                    <MaterialIcons 
-                        style={style.icon}
-                        name="miscellaneous-services" 
-                        size={24} color="black" />
-
-                    <Text
-                        style={{
-                            marginTop: 2,
-                            marginLeft: 5, 
-                            marginBottom: 8, 
-                            fontSize: 17,
-                        }} >
-                        Transactions
-                    </Text>
-
-                </View>
+                        marginTop: 2,
+                        marginLeft: 5, 
+                        marginBottom: 8, 
+                        fontSize: 17,
+                    }} >
+                    Transactions
+                </Text>
 
             </View>
 
