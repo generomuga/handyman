@@ -1002,6 +1002,16 @@ export default function BookTab() {
 
                         </TouchableOpacity>
 
+                        <View 
+                            style={style.viewErrorMessage} >
+
+                            <Text
+                                style={style.labelErrorMessage} >
+                                {errorMessage}
+                            </Text>
+                            
+                        </View>
+
                     </View>
 
                     <Dialog.Container visible={isDialogVisible}>
