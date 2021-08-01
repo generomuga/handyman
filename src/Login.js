@@ -348,7 +348,7 @@ export default function Login (props) {
                             // setIsLoading(true);
                             signInWithGoogleAsync()} />
 
-                    <FontAwesome5
+                    {/* <FontAwesome5
                         name="facebook-square" 
                         size={68} 
                         style={style.facebook}
@@ -357,7 +357,7 @@ export default function Login (props) {
                             setIsLoading(true)
                             alert('Temporarily disabled')
                             setIsLoading(false)
-                            }} />
+                            }} /> */}
 
                     <FontAwesome5 
                         name="phone-square" 
