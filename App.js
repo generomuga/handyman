@@ -15,7 +15,7 @@ import PhoneSignIn from './src/PhoneSignIn';
 
 import { AntDesign } from '@expo/vector-icons';
 
-import * as firebase from 'firebase';
+import app from './src/config/app';
 
 export default function App () {
 
@@ -46,7 +46,7 @@ export default function App () {
                                   color="#FAFAFA" 
                                   style={{marginRight:15}} 
                                   onPress={()=>{
-                                    firebase.auth().signOut().then(()=>{}).catch((error) =>{}); 
+                                    app.auth().signOut().then(()=>{}).catch((error) =>{}); 
                                   }} />
                             </View>
                         ),

@@ -16,7 +16,7 @@ import {
     Label
 } from './styles';
 
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 
 import validation from './functions/validation';
 
@@ -31,7 +31,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 // database.init();
 
-const dbRef = firebase.database().ref();
+// const dbRef = firebase.database().ref();
+
+import app from './config/app';
 
 export default function MeTab(props) {
         
@@ -120,7 +122,7 @@ export default function MeTab(props) {
 
     const getUserDetails = () => {
         
-        let user = firebase.auth().currentUser;
+        let user = app.auth().currentUser;
         let displayName = ''
         let gender = ''
         let email = ''
@@ -156,7 +158,7 @@ export default function MeTab(props) {
     }
 
     const updateUserDetails = () => {
-        let user = firebase.auth().currentUser;
+        let user = app.auth().currentUser;
         
         let updates = {};
         updates['displayName'] = displayName;
@@ -288,9 +290,9 @@ export default function MeTab(props) {
         const response = await fetch(uri)
         const blob = await response.blob()
 
-        const user = firebase.auth().currentUser;
+        const user = app.auth().currentUser;
 
-        var ref = firebase.storage().ref().child('images/'+user['uid']);
+        var ref = app.storage().ref().child('images/'+user['uid']);
         await ref.put(blob)
 
         const photoURL = await ref.getDownloadURL()

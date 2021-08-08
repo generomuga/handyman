@@ -3,8 +3,8 @@ import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeTab from './HomeTab';
-import BookTab from './BookTab';
-import NotificationTab from './NotifcationTab';
+// import BookTab from './BookTab';
+// import NotificationTab from './NotifcationTab';
 import MeTab from './MeTab';
 
 import { Entypo } from '@expo/vector-icons'; 
@@ -37,7 +37,7 @@ export default function Home () {
                     )
                 }} />
 
-            <Tab.Screen 
+            {/* <Tab.Screen 
                 name="Book" 
                 component={BookTab} 
                 options={{
@@ -47,9 +47,9 @@ export default function Home () {
                             <Text style={{color:focused?'white':'#B3E5FC', fontSize:12, textAlign:'center'}}>Book</Text>
                         </View>
                     )
-                }} />
+                }} /> */}
 
-            <Tab.Screen 
+            {/* <Tab.Screen 
                 name="Notication" 
                 component={NotificationTab} 
                 options={{
@@ -59,7 +59,7 @@ export default function Home () {
                             <Text style={{color:focused?'white':'#B3E5FC', fontSize:12, textAlign:'center'}}>Notications</Text>
                         </View>
                     )
-                }} />
+                }} /> */}
 
             <Tab.Screen 
                 name="Me" 

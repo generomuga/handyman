@@ -30,9 +30,11 @@ import {
     FontAwesome 
 } from '@expo/vector-icons';
 
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 
-database.init();
+// database.init();
+
+import app from './config/app';
 
 export default function Login (props) {
 
@@ -65,9 +67,9 @@ export default function Login (props) {
     }, []);
   
     const checkIfLoggedIn = () => {
-        firebase.auth().onAuthStateChanged(user => {
+        app.auth().onAuthStateChanged(user => {
             if (user) {
-                const user = firebase.auth().currentUser;
+                const user = app.auth().currentUser;
 
                 // console.log(user)
 
@@ -99,7 +101,7 @@ export default function Login (props) {
     )};
 
     const isUserExists = (user) => {
-        const dbRef = firebase.database().ref();
+        const dbRef = app.database().ref();
 
         dbRef.child('users').child(user['uid']).get()                        
             .then(snapshot => {
@@ -124,7 +126,7 @@ export default function Login (props) {
 
         console.log(signInMethod)
 
-        firebase
+        app
             .database()
             .ref('users/' + user['uid'])
             .set({
@@ -167,18 +169,18 @@ export default function Login (props) {
         console.log('Google Auth Response', googleUser);
 
         // We need to register an Observer on Firebase Auth to make sure auth is initialized.
-        var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
+        var unsubscribe = app.auth().onAuthStateChanged((firebaseUser) => {
             unsubscribe();
             // Check if we are already signed-in Firebase with the correct user.
             if (!isUserEqualGoogle(googleUser, firebaseUser)) {
                 // Build Firebase credential with the Google ID token.
-                var credential = firebase.auth.GoogleAuthProvider.credential(
+                var credential = app.auth.GoogleAuthProvider.credential(
                     // googleUser.getAuthResponse().id_token);
                     googleUser.idToken,
                     googleUser.accessToken
                 );
                 // Sign in with credential from the Google user.
-                firebase.auth().signInWithCredential(credential)
+                app.auth().signInWithCredential(credential)
                     .catch((error) => {
                     // Handle Errors here.
                     var errorCode = error.code;
@@ -195,7 +197,7 @@ export default function Login (props) {
             }
         });
 
-        firebase.auth().onAuthStateChanged((user) => {
+        app.auth().onAuthStateChanged((user) => {
             if (user) {
               // User logged in already or has just logged in.
               console.log('UID'+user['uid']);
@@ -210,7 +212,7 @@ export default function Login (props) {
         if (firebaseUser) {
             var providerData = firebaseUser.providerData;
             for (var i = 0; i < providerData.length; i++) {
-                if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+                if (providerData[i].providerId === app.auth.GoogleAuthProvider.PROVIDER_ID &&
                     providerData[i].uid === googleUser.getBasicProfile().getId()) {
                     return true;
                 }
@@ -244,7 +246,7 @@ export default function Login (props) {
         setIsLoading(true)
 
         // TODO: Put it in authentication class
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        app.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
                 const emailVerified = user.emailVerified;
