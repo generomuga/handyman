@@ -333,6 +333,7 @@ export default function BookTab() {
 
     const updateBookingDetails = () => {
         let user = firebase.auth().currentUser
+        let uid = user['uid']
 
         let id = ''
         let category = ''
@@ -347,13 +348,15 @@ export default function BookTab() {
         let is_service_added = false
 
         let trasaction_id = new Date().getTime().toString()
-        let transactionRef = dbRef.child('transactions/'+user['uid']).child(trasaction_id)
-                    
+        let transactionRef = dbRef.child('transactions/'+uid).child(trasaction_id)
+        let requestRef = dbRef.child('requests').child(trasaction_id)
+        
+        
         let items = []
         let items_category = []
         let created_at = new Date().toString()
 
-        dbRef.child('bookings/'+user['uid']).get()                        
+        dbRef.child('bookings/'+uid).get()                        
             .then(snapshot => {
                 if (snapshot.exists()) {
                     snapshot.forEach(function(childsnap) {
@@ -394,6 +397,14 @@ export default function BookTab() {
                         created_at: created_at,
                         service_currency: serviceCurrency,
                         booking_info:items_category
+                    })
+
+                    requestRef.set({
+                        total_price: totalServicePrice,
+                        created_at: created_at,
+                        service_currency: serviceCurrency,
+                        booking_info:items_category,
+                        uid: uid
                     })
                 }
 
