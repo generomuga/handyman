@@ -6,24 +6,35 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import { MaterialIcons } from '@expo/vector-icons'; 
 
 export default function Walkthrough (props) {
-        
+
+    
     const [
         slides,
         setSlides
     ] = useState([
         {
             key: '1',
-            title: 'Title 1',
-            text: 'Description.Say something cool',
+            title: 'Add service/s',
+            text: 'You can book one or multiple services',
             image: require('../assets/user.png'),
-            backgroundColor: '#59b2ab',
+            backgroundColor: '#81D4FA',
+            icon: 'cleaning-services'
           },
           {
             key: '2',
-            title: 'Title 2',
-            text: 'Other cool stuff',
+            title: 'Book your chosen service/s',
+            text: 'Finalize booking now',
             image: require('../assets/user.png'),
-            backgroundColor: '#febe29',
+            backgroundColor: '#4FC3F7',
+            icon: 'book'
+          },
+          {
+            key: '3',
+            title: 'See transactions status',
+            text: 'You can check the status of your booking',
+            image: require('../assets/user.png'),
+            backgroundColor: '#29B6F6',
+            icon: 'check-circle-outline'
           },
     ]);
 
@@ -42,14 +53,7 @@ export default function Walkthrough (props) {
                 }}>
 
             <View>
-                <Text
-                    style={{
-                        textAlign:'center'
-                    }}>{item.title}</Text>
-                <Text
-                    style={{
-                        textAlign:'center'
-                    }}>{item.text}</Text>
+
                 <Image 
                     style={{
                         width:400,
@@ -57,6 +61,40 @@ export default function Walkthrough (props) {
                         alignSelf:'center'
                     }}
                     source={item.image}/>
+
+                <View
+                    style={{
+                        flexDirection:'row',
+                        marginTop: 20,
+                        alignSelf: 'center'
+                        }}>
+
+                    <MaterialIcons 
+                        name={item.icon} 
+                        size={24} 
+                        color="#FFFFFF" />
+
+                    <Text
+                        style={{
+                            textAlign:'center',
+                            color: '#FFFFFF',
+                            fontSize: 20,
+                            marginLeft: 5,
+                            fontWeight: 'bold',
+                        }}>{item.title} 
+                    </Text>
+
+                </View>
+
+                <Text
+                    style={{
+                        marginTop: 10,
+                        textAlign:'center',
+                        fontSize: 15,
+                        fontWeight: '200'
+                    }}>{item.text}
+                </Text>
+
             </View>
 
           </View>

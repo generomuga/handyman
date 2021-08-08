@@ -380,10 +380,11 @@ export default function Login (props) {
                 </Text>
 
                 <Text
+                    style={style.walkthrough}
                     onPress={()=>{
                         props.navigation.navigate('Walkthrough')
                     }}>
-                    Walkthrough
+                    See our Walkthrough
                 </Text>
 
             </View>
@@ -500,5 +501,14 @@ const style = StyleSheet.create({
     spinnerTextStyle: {
         color: '#FFF'
     },
+
+    walkthrough: {
+        ...Label.self_alignment,
+        ...Label.text_alignment,
+        fontWeight: 'bold',
+        color: '#01579B',
+        marginTop: 10,
+        fontSize: 17
+    }
 
 });
