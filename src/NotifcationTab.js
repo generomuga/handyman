@@ -15,7 +15,7 @@ import * as firebase from 'firebase';
 
 const dbRef = firebase.database().ref();
 
-export default function NotificationTab() {
+export default function NotificationTab({navigation}) {
 
     const [
         serviceInfo,
@@ -23,8 +23,12 @@ export default function NotificationTab() {
     ] = useState([]);
 
     useEffect(()=>{
-        getServiceInfo
-    }, [])
+        const unsubscribe = navigation.addListener('focus', () => {
+            getServiceInfo();
+          });
+
+        return unsubscribe;
+    }, [navigation])
 
     const getServiceInfo = () => {
 
