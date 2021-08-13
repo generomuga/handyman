@@ -332,7 +332,6 @@ export default function BookTab({navigation}) {
         let displayName = ''
         let address = ''
         let contactNo = ''
-        let gender = ''
         let email = ''
 
         dbRef.child('users').child(user['uid']).get()
@@ -341,13 +340,10 @@ export default function BookTab({navigation}) {
                     displayName = snapshot.val()['displayName']
                     email = snapshot.val()['email']
                     address = snapshot.val()['address']
-                    gender = snapshot.val()['gender']
                     contactNo = snapshot.val()['contactNo']
 
                     if (displayName.length < 1 ||
                         email.length < 1 ||
-                        address.length < 1 ||
-                        gender.length < 1 ||
                         address.length < 1 ||
                         contactNo.length < 1) {
 

@@ -413,7 +413,7 @@ export default function MeTab(props) {
                     // style={style.textInput}
                     style={[
                         style.textInput,
-                        {borderColor:isGenderEditable?'red':'green'}
+                        {borderColor:'green'}
                     ]}
                 >{gender?gender:'Select an item...'}</Text>
             </RNPickerSelect>
