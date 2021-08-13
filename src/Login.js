@@ -409,11 +409,12 @@ const style = StyleSheet.create({
 
     viewLogo: {
         flex: 3, 
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        marginBottom: 18
     },
 
     logo: {
-        width: 300,
+        width: 400,
         height: 300, 
         alignSelf:'center',
     },
