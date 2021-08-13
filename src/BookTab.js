@@ -520,10 +520,11 @@ export default function BookTab() {
                 />
 
             <View style={{
-                flexDirection:'row',
+                flexDirection:'column',
                 padding: 5
                 }}>
-                <View 
+
+                {/* <View 
                     style={{flexDirection:'row'}} >
 
                     <MaterialIcons 
@@ -541,7 +542,7 @@ export default function BookTab() {
                             {data.item.category}
                     </Text>
 
-                </View>
+                </View> */}
 
                 <View 
                     style={{flexDirection:'row'}} >
@@ -566,7 +567,7 @@ export default function BookTab() {
             </View>
 
             <View 
-                style={{flexDirection:'row', padding: 5}} >
+                style={{flexDirection:'column', padding: 5}} >
 
                 <View
                     style={{flexDirection:'row'}} >
@@ -588,26 +589,29 @@ export default function BookTab() {
 
                 </View>
 
+            </View>
+
+            <View
+                style={{flexDirection:'column', padding: 5}} >
                 <View
-                    style={{flexDirection:'row'}} >
+                        style={{flexDirection:'row'}} >
 
-                    <MaterialIcons 
-                        style={style.icon}
-                        name="contact-phone" 
-                        size={24} 
-                        color="#2E7D32" />
+                        <MaterialIcons 
+                            style={style.icon}
+                            name="contact-phone" 
+                            size={24} 
+                            color="#2E7D32" />
 
-                    <Text
-                        style={{
-                            alignSelf: 'center',
-                            marginLeft:10,
-                            fontWeight:'400'
-                        }} >
-                            {data.item.contact_no}
-                    </Text>
+                        <Text
+                            style={{
+                                alignSelf: 'center',
+                                marginLeft:10,
+                                fontWeight:'400'
+                            }} >
+                                {data.item.contact_no}
+                        </Text>
 
-                </View>
-
+                    </View>
             </View>
 
             <View
@@ -633,7 +637,6 @@ export default function BookTab() {
                 </Text>
 
             </View>
-
             
             <View
                 style={{
