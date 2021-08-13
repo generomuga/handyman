@@ -12,11 +12,9 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { 
-    // Background, 
+import {  
     Button,
     Input,
-    // InputText,
     Label
 } from './styles';
 
@@ -40,7 +38,7 @@ import Dialog from "react-native-dialog";
 
 const dbRef = firebase.database().ref();
 
-export default function BookTab() {
+export default function BookTab({navigation}) {
     
     const [
         errorMessage,
@@ -103,6 +101,26 @@ export default function BookTab() {
     ] = useState(true);
 
     const [
+        displayName,
+        setDisplayName,
+    ] = useState('');
+
+    const [
+        gender,
+        setGender,
+    ] = useState('');
+
+    const [
+        email,
+        setEmail,
+    ] = useState('');
+
+    const [
+        contactNo,
+        setContactNo,
+    ] = useState('');
+
+    const [
         address,
         setAddress,
     ] = useState('');
@@ -116,11 +134,6 @@ export default function BookTab() {
         isContactNoEditable,
         setIsContactNoEditable,
     ] = useState(true);
-
-    const [
-        contactNo,
-        setContactNo,
-    ] = useState('');
 
     const [
         isVisible,
@@ -167,18 +180,25 @@ export default function BookTab() {
         setIsDialogVisible,
     ] = useState(false);
 
-    useEffect(()=>{
-        let isSubscribed = true;
+    const [
+        isAddServiceDisabled,
+        setIsAddServiceDisabled
+    ] = useState(true);
 
-        if (isSubscribed) {
+    const [
+        isAddBookItNowDisabled,
+        setIsAddBookItNowDisabled
+    ] = useState(true)
+
+    useEffect(()=>{
+        const unsubscribe = navigation.addListener('focus', () => {
             getCategoryList();
             getServiceInfo();
-            getDefaultAddress();
-            getDefaultContactNo();
-        }
+            getUserInfo();
+          });
 
-        return () => isSubscribed = false;
-    }, [])
+        return unsubscribe;
+    }, [navigation])
 
     const getCategoryList = () => {
         const items = []
@@ -305,29 +325,47 @@ export default function BookTab() {
             });
     }
 
-    const getDefaultAddress = () => {
+    const getUserInfo = () => {
+        setErrorMessage('')
+
         let user = firebase.auth().currentUser
+        let displayName = ''
         let address = ''
-
-        dbRef.child('users').child(user['uid']).get()
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    address = snapshot.val()['address']
-                    setAddress(address)
-                }
-            })
-    }
-
-    const getDefaultContactNo = () => {
-        let user = firebase.auth().currentUser
         let contactNo = ''
+        let gender = ''
+        let email = ''
 
         dbRef.child('users').child(user['uid']).get()
             .then((snapshot) => {
                 if (snapshot.exists()) {
+                    displayName = snapshot.val()['displayName']
+                    email = snapshot.val()['email']
+                    address = snapshot.val()['address']
+                    gender = snapshot.val()['gender']
                     contactNo = snapshot.val()['contactNo']
+
+                    if (displayName.length < 1 ||
+                        email.length < 1 ||
+                        address.length < 1 ||
+                        gender.length < 1 ||
+                        address.length < 1 ||
+                        contactNo.length < 1) {
+
+                        setIsAddServiceDisabled(true)
+                        setIsAddBookItNowDisabled(true)
+                        
+                        setErrorMessage('Please complete your profile info')
+                        return
+                    }
+
+                    setIsAddServiceDisabled(false)
+                    setIsAddBookItNowDisabled(false)
+                    setDisplayName(displayName)
+                    setEmail(email)
+                    setGender(gender)
+                    setAddress(address)
                     setContactNo(contactNo)
-                } 
+                }
             })
     }
 
@@ -714,7 +752,7 @@ export default function BookTab() {
         <SafeAreaView
             style={{
                 backgroundColor:'white', 
-                flex:1
+                flex:1,
             }} >
 
             <ScrollView>
@@ -856,8 +894,7 @@ export default function BookTab() {
                             offColor="red"
                             size="small"
                             onToggle={()=>{
-                                getDefaultAddress();
-                                setAddress(address)
+                                getUserInfo();
                                 
                                 if (isUseDefaultAddress === true){
                                     setIsUseDefaultAddress(false)
@@ -901,8 +938,7 @@ export default function BookTab() {
                             offColor="red"
                             size="small"
                             onToggle={()=>{
-                                getDefaultContactNo();
-                                setContactNo(contactNo)
+                                getUserInfo();
                             
                                 if (isUseDefaultContactNo === true){
                                     setIsUseDefaultContactNo(false)
@@ -930,11 +966,12 @@ export default function BookTab() {
                     style={[style.viewComponent],{marginBottom:15, marginTop:15}} >
 
                     <TouchableOpacity 
-                        style={style.button}
+                        style={[style.button,{backgroundColor: isAddServiceDisabled?'gray':'#039BE5'}]}
                         onPress={()=>{
                                 addServiceInfo();
                                 getServiceInfo();
-                        }} >
+                        }} 
+                        disabled={isAddServiceDisabled}>
 
                         <Text 
                             style={style.touchButtonLabel} >
@@ -990,7 +1027,7 @@ export default function BookTab() {
                         style={{marginTop:15, marginBottom:15}}>
 
                         <TouchableOpacity 
-                            style={style.button}
+                            style={[style.button,{backgroundColor: isAddBookItNowDisabled?'gray':'#039BE5'}]}
                             onPress={()=>{
                                 if (serviceInfo.length === 0) {
                                     setErrorMessage('Please add service/s')
@@ -1007,7 +1044,8 @@ export default function BookTab() {
                                 else {
                                     setIsDialogVisible(true)
                                 }
-                            }} >
+                            }} 
+                            disabled={isAddBookItNowDisabled}>
 
                             <Text 
                                 style={style.touchButtonLabel} >
