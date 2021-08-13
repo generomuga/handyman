@@ -553,12 +553,12 @@ export default function BookTab({navigation}) {
                 }}
                 />
 
-            <View style={{
+            <View  
+                style={{
                 flexDirection:'column',
                 padding: 5
                 }}>
-
-                {/* <View 
+                <View 
                     style={{flexDirection:'row'}} >
 
                     <MaterialIcons 
@@ -576,7 +576,13 @@ export default function BookTab({navigation}) {
                             {data.item.category}
                     </Text>
 
-                </View> */}
+                </View>
+            </View>
+
+            <View style={{
+                flexDirection:'column',
+                padding: 5
+                }}>
 
                 <View 
                     style={{flexDirection:'row'}} >
