@@ -243,7 +243,7 @@ export default function NotificationTab() {
 
                 <View
                     style={{
-                        flexDirection:'row',
+                        flexDirection:'column',
                         marginLeft:5,
                         padding: 5
                     }}>
@@ -266,6 +266,15 @@ export default function NotificationTab() {
                         </Text>
 
                     </View>
+
+                </View>
+
+                <View
+                    style={{
+                        flexDirection:'column',
+                        marginLeft:5,
+                        padding: 5
+                    }}>
 
                     <View
                         style={{
@@ -318,6 +327,14 @@ export default function NotificationTab() {
 
                     </View>
 
+                </View>
+
+                <View
+                    style={{
+                        flexDirection:'row',
+                        marginLeft:5,
+                        padding: 5
+                    }}>
                     <View
                         style={{
                             flexDirection:'row',
@@ -337,9 +354,7 @@ export default function NotificationTab() {
                             }} >
                             {data.item.contact_no}
                         </Text>
-
                     </View>
-
                 </View>
 
                 <View
