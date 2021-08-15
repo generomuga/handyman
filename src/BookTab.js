@@ -741,8 +741,8 @@ export default function BookTab({navigation}) {
     const handleProceed = () => {
         setIsDialogVisible(false)
         updateBookingDetails()
-        clearState()
         setIsDoneDialogVisible(true)
+        clearState()
     };
 
     const handleDone = () => {
@@ -750,13 +750,9 @@ export default function BookTab({navigation}) {
     };
 
     const clearState = () => {
-        setCategoryCurrentValue('')
-        setServiceCurrentValue('')
-        setServiceDateCurrentValue('')
-        setPaymentMethodValue('')
-        setAddress('')
-        setContactNo('')
-        setErrorMessage('')
+        getCategoryList()
+        getServiceInfo()
+        getUserInfo()
     }
 
     return (
