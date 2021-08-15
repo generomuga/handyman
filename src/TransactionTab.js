@@ -457,7 +457,7 @@ export default function NotificationTab({navigation}) {
                         marginBottom: 8, 
                         fontSize: 17,
                     }} >
-                    Transactions
+                    History
                 </Text>
 
             </View>
