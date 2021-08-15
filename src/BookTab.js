@@ -181,6 +181,11 @@ export default function BookTab({navigation}) {
     ] = useState(false);
 
     const [
+        isDoneDialogVisible,
+        setIsDoneDialogVisible,
+    ] = useState(false);
+
+    const [
         isAddServiceDisabled,
         setIsAddServiceDisabled
     ] = useState(true);
@@ -737,8 +742,12 @@ export default function BookTab({navigation}) {
         setIsDialogVisible(false)
         updateBookingDetails()
         clearState()
+        setIsDoneDialogVisible(true)
     };
 
+    const handleDone = () => {
+        setIsDoneDialogVisible(false)
+    };
 
     const clearState = () => {
         setCategoryCurrentValue('')
@@ -1075,6 +1084,14 @@ export default function BookTab({navigation}) {
                         </Dialog.Description>
                         <Dialog.Button label="Cancel" onPress={()=>handleCancel()} />
                         <Dialog.Button label="Ok" onPress={()=>handleProceed()} />
+                    </Dialog.Container>
+
+                    <Dialog.Container visible={isDoneDialogVisible}>
+                        <Dialog.Title>Thank you!</Dialog.Title>
+                        <Dialog.Description>
+                            You can check the status of your booking at Transactions tab
+                        </Dialog.Description>
+                        <Dialog.Button label="Ok" onPress={()=>handleDone()} />
                     </Dialog.Container>
                     
                 </View>
