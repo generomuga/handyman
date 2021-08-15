@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeTab from './HomeTab';
 import BookTab from './BookTab';
-import NotificationTab from './NotifcationTab';
+import TransactionTab from './TransactionTab';
 import MeTab from './MeTab';
 
 import { Entypo } from '@expo/vector-icons'; 
@@ -50,13 +50,13 @@ export default function Home () {
                 }} />
 
             <Tab.Screen 
-                name="Notication" 
-                component={NotificationTab} 
+                name="Transaction" 
+                component={TransactionTab} 
                 options={{
                     tabBarIcon: ({focused}) => (
                         <View style={{justifyContent:'center', alignContent:'center', top:2}}>
                             <Entypo name="notification" size={24} style={{color:focused?'white':'#B3E5FC', textAlign:'center'}}  />
-                            <Text style={{color:focused?'white':'#B3E5FC', fontSize:12, textAlign:'center'}}>Notications</Text>
+                            <Text style={{color:focused?'white':'#B3E5FC', fontSize:12, textAlign:'center'}}>Transaction</Text>
                         </View>
                     )
                 }} />
