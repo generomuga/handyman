@@ -16,7 +16,7 @@ export default function Walkthrough (props) {
             key: '1',
             title: 'Add service/s',
             text: 'You can book one or multiple services',
-            image: require('../assets/user.png'),
+            image: require('../assets/add_service.jpg'),
             backgroundColor: '#81D4FA',
             icon: 'cleaning-services'
           },
@@ -24,7 +24,7 @@ export default function Walkthrough (props) {
             key: '2',
             title: 'Book your chosen service/s',
             text: 'Finalize booking now',
-            image: require('../assets/user.png'),
+            image: require('../assets/book.jpg'),
             backgroundColor: '#4FC3F7',
             icon: 'book'
           },
@@ -32,7 +32,7 @@ export default function Walkthrough (props) {
             key: '3',
             title: 'See transactions status',
             text: 'You can check the status of your booking',
-            image: require('../assets/user.png'),
+            image: require('../assets/transaction.jpg'),
             backgroundColor: '#29B6F6',
             icon: 'check-circle-outline'
           },
@@ -56,9 +56,11 @@ export default function Walkthrough (props) {
 
                 <Image 
                     style={{
-                        width:400,
-                        height:400,
-                        alignSelf:'center'
+                        width:300,
+                        height:600,
+                        resizeMode: 'stretch',
+                        alignSelf:'center',
+                        borderRadius: 10
                     }}
                     source={item.image}/>
 
