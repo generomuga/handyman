@@ -69,15 +69,10 @@ export default function Login (props) {
             if (user) {
                 const user = firebase.auth().currentUser;
 
-                // console.log(user)
-
                 if (user !== null) {
-                    const emailVerified = user.emailVerified;
-                    const contactNumber = user.phoneNumber;
-
                     isUserExists(user);
 
-                    if (emailVerified === true || contactNumber.length > 1) {
+                    if (user.emailVerified || user.phoneNumber) {
                         console.log('Pasok')
                         setIsLoading(false)
                         clearState()
@@ -135,7 +130,8 @@ export default function Login (props) {
                 photoURL: user['photoURL'] ? user['photoURL'] : '',
                 contactNo: user['phoneNumber'] ? user['phoneNumber'] : '',
                 address: user['address'] ? user['address'] : '',
-                signInMethod: signInMethod
+                signInMethod: signInMethod,
+                isAdmin: false
             });
     }
 
