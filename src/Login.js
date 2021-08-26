@@ -113,8 +113,11 @@ export default function Login (props) {
         if (user.emailVerified) {
             signInMethod = 'email'
         }
-        if (user.phoneNumber) {
+        else if (user.phoneNumber) {
             signInMethod = 'phone'
+        }
+        else {
+            signInMethod = 'email'
         }
 
         console.log(signInMethod)
