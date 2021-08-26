@@ -154,7 +154,7 @@ export default function Signup (props) {
                         </View>  */}
                         <View> 
                             <Anchor href="https://jsparling.github.io/hashmarks/terms_and_conditions"> 
-                                <Text>Agree on Terms and Conditions </Text>
+                                <Text style={{fontSize:17}}>Agree on Terms and Conditions </Text>
                             </Anchor> 
                         </View> 
                     </View> 
