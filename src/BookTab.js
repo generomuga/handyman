@@ -126,6 +126,11 @@ export default function BookTab({navigation}) {
     ] = useState('');
 
     const [
+        photoURL,
+        setPhotoURL,
+    ] = useState('');
+
+    const [
         isUseDefaultContactNo,
         setIsUseDefaultContactNo,
     ] = useState(false);
@@ -338,6 +343,7 @@ export default function BookTab({navigation}) {
         let address = ''
         let contactNo = ''
         let email = ''
+        let photoURL = ''
 
         dbRef.child('users').child(user['uid']).get()
             .then((snapshot) => {
@@ -346,6 +352,7 @@ export default function BookTab({navigation}) {
                     email = snapshot.val()['email']
                     address = snapshot.val()['address']
                     contactNo = snapshot.val()['contactNo']
+                    photoURL = snapshot.val()['photoURL']
 
                     if (displayName.length < 1 ||
                         email.length < 1 ||
@@ -354,7 +361,6 @@ export default function BookTab({navigation}) {
 
                         setIsAddServiceDisabled(true)
                         setIsAddBookItNowDisabled(true)
-                        
                         setErrorMessage('Please complete your profile info')
                         return
                     }
@@ -366,6 +372,7 @@ export default function BookTab({navigation}) {
                     setGender(gender)
                     setAddress(address)
                     setContactNo(contactNo)
+                    setPhotoURL(photoURL)
                 }
             })
     }
@@ -443,7 +450,9 @@ export default function BookTab({navigation}) {
                         created_at: created_at,
                         service_currency: serviceCurrency,
                         booking_info:items_category,
-                        uid: uid
+                        uid: uid,
+                        displayName: displayName,
+                        photoURL: photoURL
                     })
                 }
 
