@@ -26,6 +26,8 @@ import {
 import * as firebase from 'firebase';
 import { SafeAreaView } from 'react-navigation';
 
+import Anchor from './Anchor';
+
 export default function Signup (props) {
 
     const [
@@ -144,12 +146,25 @@ export default function Signup (props) {
                 <View
                     style={style.viewTermsAndCondition} >
 
+                    <View> 
+                        {/* <View > 
+                            <Anchor href="https://handyman-plus.web.app/"> 
+                            Privacy Policy 
+                            </Anchor> 
+                        </View>  */}
+                        <View> 
+                            <Anchor href="https://jsparling.github.io/hashmarks/terms_and_conditions"> 
+                                <Text>Agree on Terms and Conditions </Text>
+                            </Anchor> 
+                        </View> 
+                    </View> 
+
                     <ToggleSwitch
                         isOn = {isAgreeOnTermsAndCondition}
                         onColor = "green"
                         offColor = "red"
                         size = "small"
-                        label = 'Agree on Terms and Condition'
+                        label = ''
                         labelStyle={{ 
                             marginLeft: 10, 
                             marginBottom: 5, 
@@ -202,6 +217,9 @@ export default function Signup (props) {
                 </View>
 
             </View> */}
+            
+
+
 
         </SafeAreaView>            
     )
