@@ -1,0 +1,123 @@
+{
+  "tenant": {
+    "categories": [
+      null,
+      "Maintenance",
+      "Repair",
+	"Others"
+    ],
+    "services": {
+      "Maintenance": [
+        null,
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Car Wash",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Exterior/Interior Home Cleaning",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Gardening works",
+          "price": 500
+        }
+      ],
+      "Repair": [
+        null,
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Aluminum and Glass Works",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Carpentry",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Furnitures and Fixtures",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Hardwares (Appliances)",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Masonry",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Paint Works",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Plumbing",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Roofing",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Steel Works",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Tile Works",
+          "price": 500
+        }
+      ],
+      "Others": [
+        null,
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Chaperon",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Chauffeur",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Maid",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "isAvailable": true,
+          "name": "Laundry",
+          "price": 500
+        }
+      ]
+    }
+  }
+}
