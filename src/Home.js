@@ -6,6 +6,7 @@ import HomeTab from './HomeTab';
 import BookTab from './BookTab';
 import TransactionTab from './TransactionTab';
 import MeTab from './MeTab';
+import About from './About';
 
 import { Entypo } from '@expo/vector-icons'; 
 
@@ -69,6 +70,17 @@ export default function Home () {
                         <View style={{justifyContent:'center', alignContent:'center', top:2}}>
                             <Entypo name="user" size={24} style={{color:focused?'white':'#B3E5FC', textAlign:'center'}}  />
                             <Text style={{color:focused?'white':'#B3E5FC', fontSize:12, textAlign:'center'}}>Me</Text>
+                        </View>
+                    ) }}/>
+            
+            <Tab.Screen 
+                name="About" 
+                component={About} 
+                options={{
+                    tabBarIcon: ({focused}) => (
+                        <View style={{justifyContent:'center', alignContent:'center', top:2}}>
+                            <Entypo name="info" size={24} style={{color:focused?'white':'#B3E5FC', textAlign:'center'}}  />
+                            <Text style={{color:focused?'white':'#B3E5FC', fontSize:12, textAlign:'center'}}>About Us</Text>
                         </View>
                     ) }}/>
                     
