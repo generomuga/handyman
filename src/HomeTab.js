@@ -103,16 +103,24 @@ export default function HomeTab({navigation}) {
     console.log('Hehe')
 
     let items = []
-    let serviceName = ''
+    let [
+      id,
+      serviceName,
+      photoURL
+    ] = ''
 
     dbRef.child('tenant/services').once("value")
       .then((snapshot) =>{
         if (snapshot.exists()) {
           snapshot.forEach(function(childsnap) {
             childsnap.forEach(function(snap){
+              id = snap.val()['id']
               serviceName = snap.val()['name']
+              photoURL = snap.val()['photoURL']
               items.push({
-                name: serviceName
+                id: id,
+                name: serviceName,
+                photoURL: photoURL
               })
             })
           })
@@ -150,7 +158,7 @@ export default function HomeTab({navigation}) {
           textAlign:'center'
         }}
       >
-        {data.item.title}
+        {data.item.name}
       </Text>
 
     </View>
@@ -189,7 +197,7 @@ export default function HomeTab({navigation}) {
 
           <FlatList
             style={{marginBottom:40}}
-            data={handymanServices}
+            data={services}
             renderItem={item => renderItemComponent(item)}
             keyExtractor={item => item.id.toString()}
             horizontal={false}
