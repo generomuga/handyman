@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { 
   View, 
@@ -7,8 +7,25 @@ import {
   Image
 } from 'react-native';
 
-export default function HomeTab() {
+import * as firebase from 'firebase';
+
+const dbRef = firebase.database().ref();
+
+export default function HomeTab({navigation}) {
   
+  useEffect(()=>{
+    const unsubscribe = navigation.addListener('focus', () => {
+        getServices();
+      });
+
+    return unsubscribe;
+  }, [navigation])
+
+  const [
+    services,
+    setServices
+  ] = useState([])
+
   const [
     hugefortServices,
     // setHugefortServices
@@ -58,20 +75,76 @@ export default function HomeTab() {
       id: 'bd7acbea-c1b1-46c2-22aed5-3ad53abb2228ba',
       title: 'Carpentry',
       photoURL: 'https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft8.jpeg?alt=media&token=a39de99e-154f-4cf7-affe-5666280b1c1a'
+    },
+    
+    {
+      id: 'bd7acbea-c1b1-46c2-22aed5-3ad53abb28ba1',
+      title: 'Electrical Repair',
+      photoURL: 'https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft5.jpeg?alt=media&token=6dfcf12d-ce45-437d-a13d-7b766fb734ff'
+    },
+    {
+      id: '3ac68afc-c605-48d3-a422f8-fbd91aa97f632',
+      title: 'Plumbing',
+      photoURL: 'https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft6.jpeg?alt=media&token=c3726dd3-2fbf-4b94-8962-7fbdd46fce52'
+    },
+    {
+      id: '58694a0f-3da1-471f-bd9622-145571e29d732',
+      title: 'Aluminum and Glassworks',
+      photoURL: 'https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft7.webp?alt=media&token=f1a83bdc-10ee-4f90-849a-a4a7fa27b8b0'
+    },
+    {
+      id: 'bd7acbea-c1b1-46c2-22aed5-3ad53abb2228b4a',
+      title: 'Carpentry',
+      photoURL: 'https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft8.jpeg?alt=media&token=a39de99e-154f-4cf7-affe-5666280b1c1a'
     }
   ]);
+
+  const getServices = () => {
+    console.log('Hehe')
+
+    let items = []
+    let [
+      id,
+      serviceName,
+      photoURL
+    ] = ''
+
+    dbRef.child('tenant/services').once("value")
+      .then((snapshot) =>{
+        if (snapshot.exists()) {
+          snapshot.forEach(function(childsnap) {
+            childsnap.forEach(function(snap){
+              id = snap.val()['id']
+              serviceName = snap.val()['name']
+              photoURL = snap.val()['photoURL']
+              items.push({
+                id: id,
+                name: serviceName,
+                photoURL: photoURL
+              })
+            })
+          })
+        }
+        
+        console.log(items)
+        setServices(items)
+      })
+    
+  }
 
   const renderItemComponent = (data) => 
     <View
       style={{
-        margin:10
+        margin:10,
+        flex: 1,
+        flexDirection: 'column'
       }} >
 
       <Image 
         style={{
-            width:150,
-            height:150,
-            // resizeMode:'contain', 
+            width:180,
+            height:180,
+            resizeMode:'cover', 
             alignSelf:'center',
             // alignItems:'',
             borderRadius:5,
@@ -82,10 +155,15 @@ export default function HomeTab() {
       <Text
         style={{
           marginTop:10,
-          textAlign:'center'
+          textAlign:'center',
+          fontWeight:'400',
+          fontSize:15
+        }}
+        onPress={()=>{
+          // navigation.jumpTo('Book',{category:'Service'})
         }}
       >
-        {data.item.title}
+        {data.item.name}
       </Text>
 
     </View>
@@ -96,7 +174,7 @@ export default function HomeTab() {
           color:'#FFFFFF'
         }} >
 
-          <Text
+          {/* <Text
             style={{
               fontSize:21,
               color:'#424242',
@@ -110,23 +188,26 @@ export default function HomeTab() {
             data={hugefortServices}
             renderItem={item => renderItemComponent(item)}
             keyExtractor={item => item.id.toString()}
-            horizontal={true} />
+            horizontal={true} /> */}
 
           <Text
             style={{
               fontSize:21,
               color:'#424242',
               marginLeft:10,
-              marginTop:10
+              marginTop:10,
+              marginBottom: 10
             }} >
             Handyman Plus Services
           </Text>
 
           <FlatList
-            data={handymanServices}
+            style={{marginBottom:40}}
+            data={services}
             renderItem={item => renderItemComponent(item)}
             keyExtractor={item => item.id.toString()}
-            horizontal={true}
+            horizontal={false}
+            numColumns={2}
           />
           
       </View>
