@@ -1,123 +1,186 @@
 {
-  "tenant": {
-    "categories": [
-      null,
-      "Maintenance",
-      "Repair",
-	"Others"
-    ],
-    "services": {
-      "Maintenance": [
-        null,
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Car Wash",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Exterior/Interior Home Cleaning",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Gardening works",
-          "price": 500
-        }
-      ],
-      "Repair": [
-        null,
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Aluminum and Glass Works",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Carpentry",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Furnitures and Fixtures",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Hardwares (Appliances)",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Masonry",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Paint Works",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Plumbing",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Roofing",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Steel Works",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Tile Works",
-          "price": 500
-        }
-      ],
-      "Others": [
-        null,
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Chaperon",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Chauffeur",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Maid",
-          "price": 500
-        },
-        {
-          "currency": "Php",
-          "isAvailable": true,
-          "name": "Laundry",
-          "price": 500
-        }
-      ]
+  "tenant" : {
+    "categories" : [ null, "Maintenance", "Repair", "Others" ],
+    "services" : {
+      "Maintenance" : [ null, {
+        "currency" : "Php",
+        "id" : 1,
+        "isAvailable" : true,
+        "name" : "Car Wash",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 2,
+        "isAvailable" : true,
+        "name" : "Exterior/Interior Home Cleaning",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 3,
+        "isAvailable" : true,
+        "name" : "Gardening works",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      } ],
+      "Others" : [ null, {
+        "currency" : "Php",
+        "id" : 4,
+        "isAvailable" : true,
+        "name" : "Chaperon",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 5,
+        "isAvailable" : true,
+        "name" : "Chauffeur",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 6,
+        "isAvailable" : true,
+        "name" : "Maid",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 7,
+        "isAvailable" : true,
+        "name" : "Laundry",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      } ],
+      "Repair" : [ null, {
+        "currency" : "Php",
+        "id" : 8,
+        "isAvailable" : true,
+        "name" : "Aluminum and Glass Works",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 9,
+        "isAvailable" : true,
+        "name" : "Carpentry",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 10,
+        "isAvailable" : true,
+        "name" : "Furnitures and Fixtures",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 11,
+        "isAvailable" : true,
+        "name" : "Hardwares (Appliances)",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 12,
+        "isAvailable" : true,
+        "name" : "Masonry",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 13,
+        "isAvailable" : true,
+        "name" : "Paint Works",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 14,
+        "isAvailable" : true,
+        "name" : "Plumbing",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 15,
+        "isAvailable" : true,
+        "name" : "Roofing",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 16,
+        "isAvailable" : true,
+        "name" : "Steel Works",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      }, {
+        "currency" : "Php",
+        "id" : 17,
+        "isAvailable" : true,
+        "name" : "Tile Works",
+        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
+        "price" : 500
+      } ]
+    }
+  },
+  "users" : {
+    "3YrIEyx2FBcTPptSRC20pZSAxAm1" : {
+      "address" : "",
+      "contactNo" : "",
+      "displayName" : "Mark Merc",
+      "email" : "markmerc010104@gmail.com",
+      "emailVerified" : true,
+      "gender" : "",
+      "isAdmin" : false,
+      "photoURL" : "https://lh3.googleusercontent.com/a/AATXAJzk6grT-kBV59nNyOUNGB4czILz4ayE7MBzsmaf=s96-c",
+      "signInMethod" : "email"
+    },
+    "AIF0pnj2X8dLT6aSVZ9j1bB6aSD2" : {
+      "address" : "",
+      "contactNo" : "",
+      "displayName" : "Gene Christopher Romuga (IRRI)",
+      "email" : "g.romuga@irri.org",
+      "emailVerified" : true,
+      "gender" : "",
+      "isAdmin" : false,
+      "photoURL" : "https://lh3.googleusercontent.com/a-/AOh14GilImQ_k3EJiBrycTXrMtRDBOdq4yfho93HbSL2=s96-c",
+      "signInMethod" : "email"
+    },
+    "NjeHgkJUw9Y6wS1KcxPyXxhmeAE3" : {
+      "address" : "",
+      "contactNo" : "",
+      "displayName" : "Gene Christhopher Romuga",
+      "email" : "generomuga12693@gmail.com",
+      "emailVerified" : true,
+      "gender" : "",
+      "isAdmin" : false,
+      "photoURL" : "https://lh3.googleusercontent.com/a/AATXAJykKzFiv2MnWYau4jaoK4klZThB_RxcpJwJHpg9=s96-c",
+      "signInMethod" : "email"
+    },
+    "TfyTI7yOOZZ3jYio8CspZvN9tiD2" : {
+      "address" : "",
+      "contactNo" : "",
+      "displayName" : "Randolph Reaño",
+      "email" : "doyreano@gmail.com",
+      "emailVerified" : true,
+      "gender" : "",
+      "isAdmin" : false,
+      "photoURL" : "https://lh3.googleusercontent.com/a-/AOh14GjbQa2j7K_vTkOuxbPx_NIT-xuAA2rvPKZsbi1KxA=s96-c",
+      "signInMethod" : "email"
+    },
+    "fkBV6iTcxrOrt1SW3HS5ohvuzJz2" : {
+      "address" : "",
+      "contactNo" : "+639173080903",
+      "displayName" : "",
+      "email" : "",
+      "emailVerified" : false,
+      "gender" : "",
+      "isAdmin" : false,
+      "photoURL" : "",
+      "signInMethod" : "phone"
     }
   }
 }
