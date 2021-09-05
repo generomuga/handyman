@@ -142,9 +142,9 @@ export default function HomeTab({navigation}) {
 
       <Image 
         style={{
-            width:200,
-            height:200,
-            // resizeMode:'contain', 
+            width:180,
+            height:180,
+            resizeMode:'cover', 
             alignSelf:'center',
             // alignItems:'',
             borderRadius:5,
@@ -155,7 +155,12 @@ export default function HomeTab({navigation}) {
       <Text
         style={{
           marginTop:10,
-          textAlign:'center'
+          textAlign:'center',
+          fontWeight:'400',
+          fontSize:15
+        }}
+        onPress={()=>{
+          // navigation.jumpTo('Book',{category:'Service'})
         }}
       >
         {data.item.name}
@@ -190,7 +195,8 @@ export default function HomeTab({navigation}) {
               fontSize:21,
               color:'#424242',
               marginLeft:10,
-              marginTop:10
+              marginTop:10,
+              marginBottom: 10
             }} >
             Handyman Plus Services
           </Text>
