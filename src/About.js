@@ -8,6 +8,8 @@ import {
 
 import * as firebase from 'firebase';
 
+import Anchor from './Anchor';
+
 const dbRef = firebase.database().ref();
 
 export default function About({navigation}) {
@@ -68,7 +70,7 @@ export default function About({navigation}) {
                     marginLeft: 15,
                     marginRight: 15,
                     marginTop: 15,
-                    marginBottom: 35,
+                    marginBottom: 20,
                     fontSize: 14,
                     fontWeight: '500',
                     color: '#424242'
@@ -81,26 +83,18 @@ export default function About({navigation}) {
                     alignSelf: 'center',
                     marginBottom: 15
                 }}>
-                <Text
-                    style={{
-                        fontWeight: 'bold',
-                        fontSize: 14
-                    }}>
-                    Terms and Condition
-                </Text>
+                <Anchor href="https://jsparling.github.io/hashmarks/terms_and_conditions"> 
+                    <Text style={{fontSize:15}}>Terms and Conditions </Text>
+                </Anchor> 
             </View>
 
             <View
                 style={{
                     alignSelf: 'center'
                 }}>
-                <Text
-                    style={{
-                        fontWeight: 'bold',
-                        fontSize: 14
-                    }}>
-                    Privacy Policy
-                </Text>
+                <Anchor href="https://jsparling.github.io/hashmarks/terms_and_conditions"> 
+                    <Text style={{fontSize:15}}>Privacy Policy</Text>
+                </Anchor> 
             </View>
 
         </View>
