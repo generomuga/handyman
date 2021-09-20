@@ -42,48 +42,49 @@ export default function About({navigation}) {
     return (
         <View 
             style={{
-            color:'#fffeff',
-            flex: 1
+                backgroundColor: '#E3F2FD',
+                flex: 1
             }} >
 
             <View
                 style={{
                     alignItems: 'center',
-                    backgroundColor: '#E3F2FD'
                 }}
                 >
                 <Image 
                     style={{
-                        width: 200,
-                        height: 200,
+                        width: 300,
+                        height: 100,
                         marginTop: 10,
-                        marginBottom: 10
+                        marginBottom: 10,
                     }}
-                    source={{uri:'https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ftlogo.png?alt=media&token=62de0cc2-5bb4-45bc-8c78-42466da97ac8'}}
+                    source={{uri:'https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ftlogo.png?alt=media&token=0cf81f7b-cc30-4ab5-ba34-f791d624c7cc'}}
                 /> 
             </View>
-
-            <Text
-                style={{
-                    textAlign: 'justify',
-                    alignContent: 'center',
-                    marginLeft: 15,
-                    marginRight: 15,
-                    marginTop: 15,
-                    marginBottom: 20,
-                    fontSize: 14,
-                    fontWeight: '500',
-                    color: '#424242'
-                }}>
-                {companyProfile}
-            </Text>
+            
+            <View>
+                <Text
+                    style={{
+                        textAlign: 'justify',
+                        alignContent: 'center',
+                        marginLeft: 15,
+                        marginRight: 15,
+                        marginTop: 15,
+                        marginBottom: 30,
+                        fontSize: 14,
+                        fontWeight: '500',
+                        color: '#424242'
+                    }}>
+                    {companyProfile}
+                </Text>
+            </View>
 
             <View
                 style={{
                     alignSelf: 'center',
-                    marginBottom: 15
+                    marginBottom: 15,               
                 }}>
-                <Anchor href="https://jsparling.github.io/hashmarks/terms_and_conditions"> 
+                <Anchor href="https://handyman-plus.web.app/terms-and-condition"> 
                     <Text style={{fontSize:15}}>Terms and Conditions </Text>
                 </Anchor> 
             </View>
@@ -92,7 +93,7 @@ export default function About({navigation}) {
                 style={{
                     alignSelf: 'center'
                 }}>
-                <Anchor href="https://jsparling.github.io/hashmarks/terms_and_conditions"> 
+                <Anchor href="https://handyman-plus.web.app/privacy-policy"> 
                     <Text style={{fontSize:15}}>Privacy Policy</Text>
                 </Anchor> 
             </View>
