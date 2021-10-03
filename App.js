@@ -1,142 +1,157 @@
-import React from 'react';
-import { View } from 'react-native';
+import React from "react";
+import { View } from "react-native";
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-import Login from './src/Login';
-import Signup from './src/Signup';
-import Home from './src/Home';
-import ForgotPassword from './src/ForgotPassword';
-import Admin from './src/Admin';
-import Walkthrough from './src/Walkthrough';
+import Login from "./src/Login";
+import Signup from "./src/Signup";
+import Home from "./src/Home";
+import ForgotPassword from "./src/ForgotPassword";
+import Admin from "./src/Admin";
+import Walkthrough from "./src/Walkthrough";
+import Review from "./src/Review";
+import PhoneSignIn from "./src/PhoneSignIn";
 
-import PhoneSignIn from './src/PhoneSignIn';
+import { AntDesign } from "@expo/vector-icons";
 
-import { AntDesign } from '@expo/vector-icons';
+import * as firebase from "firebase";
 
-import * as firebase from 'firebase';
-
-export default function App () {
-
+export default function App(props) {
   const Stack = createStackNavigator();
 
   return (
-      <NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Review"
+        screenOptions={{ gestureEnabled: false }}
+      >
+        <Stack.Screen
+          name="Review"
+          component={Review}
+          options={{ headerShown: false }}
+        />
 
-          <Stack.Navigator initialRouteName='Login' screenOptions={{gestureEnabled:false}}>
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
 
-              <Stack.Screen 
-                  name='Login' 
-                  component={Login} 
-                  options= {{headerShown: false}} />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: true,
+            title: "Handyman Plus",
+            headerLeft: () => null,
+            headerRight: () => (
+              <View>
+                <AntDesign
+                  name="logout"
+                  size={26}
+                  color="#FAFAFA"
+                  style={{ marginRight: 15 }}
+                  onPress={() => {
+                    firebase
+                      .auth()
+                      .signOut()
+                      .then(() => {})
+                      .catch((error) => {});
+                  }}
+                />
+              </View>
+            ),
+            headerStyle: {
+              backgroundColor: "#039BE5",
+            },
+            headerTintColor: "#FAFAFA",
+            headerTitleStyle: {
+              alignSelf: "center",
+            },
+          }}
+        />
 
-              <Stack.Screen 
-                  name='Home' 
-                  component={Home} 
-                  options= {{
-                        headerShown: true, 
-                        title: 'Handyman Plus', 
-                        headerLeft: ()=> null,
-                        headerRight: ()=> (
-                            <View>
-                                <AntDesign 
-                                  name="logout" 
-                                  size={26}
-                                  color="#FAFAFA" 
-                                  style={{marginRight:15}} 
-                                  onPress={()=>{
-                                    firebase.auth().signOut().then(()=>{}).catch((error) =>{}); 
-                                  }} />
-                            </View>
-                        ),
-                        headerStyle: {
-                          backgroundColor: '#039BE5'
-                        },
-                        headerTintColor: '#FAFAFA',
-                        headerTitleStyle: {
-                          alignSelf: 'center'
-                        }
-                  }} />
+        <Stack.Screen
+          name="Signup"
+          component={Signup}
+          options={{
+            headerShown: true,
+            title: "Sign up",
+            headerStyle: {
+              backgroundColor: "#039BE5",
+            },
+            headerTintColor: "#FAFAFA",
+            headerTitleStyle: {
+              alignSelf: "center",
+            },
+          }}
+        />
 
-              <Stack.Screen 
-                  name='Signup' 
-                  component={Signup} 
-                  options= {{
-                        headerShown: true, 
-                        title: 'Sign up', 
-                        headerStyle: {
-                          backgroundColor: '#039BE5'
-                        },
-                        headerTintColor: '#FAFAFA',
-                        headerTitleStyle: {
-                          alignSelf: 'center'
-                        }
-                  }} />
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={{
+            headerShown: true,
+            title: "Forgot Password",
+            headerStyle: {
+              backgroundColor: "#039BE5",
+            },
+            headerTintColor: "#FAFAFA",
+            headerTitleStyle: {
+              alignSelf: "center",
+            },
+          }}
+        />
 
-              <Stack.Screen 
-                name='ForgotPassword' 
-                component={ForgotPassword} 
-                options= {{
-                      headerShown: true, 
-                      title: 'Forgot Password', 
-                      headerStyle: {
-                        backgroundColor: '#039BE5'
-                      },
-                      headerTintColor: '#FAFAFA',
-                      headerTitleStyle: {
-                        alignSelf: 'center'
-                      }
-                }} />
+        <Stack.Screen
+          name="Admin"
+          component={Admin}
+          options={{
+            headerShown: true,
+            title: "Admin",
+            headerStyle: {
+              backgroundColor: "#039BE5",
+            },
+            headerTintColor: "#FAFAFA",
+            headerTitleStyle: {
+              alignSelf: "center",
+            },
+          }}
+        />
 
-              <Stack.Screen 
-                name='Admin' 
-                component={Admin} 
-                options= {{
-                      headerShown: true, 
-                      title: 'Admin', 
-                      headerStyle: {
-                        backgroundColor: '#039BE5'
-                      },
-                      headerTintColor: '#FAFAFA',
-                      headerTitleStyle: {
-                        alignSelf: 'center'
-                      }
-                }} />
+        <Stack.Screen
+          name="PhoneSignIn"
+          component={PhoneSignIn}
+          options={{
+            headerShown: true,
+            title: "Phone Sign In",
+            headerStyle: {
+              backgroundColor: "#039BE5",
+            },
+            headerTintColor: "#FAFAFA",
+            headerTitleStyle: {
+              alignSelf: "center",
+            },
+          }}
+        />
 
-              <Stack.Screen 
-                name='PhoneSignIn' 
-                component={PhoneSignIn} 
-                options= {{
-                      headerShown: true, 
-                      title: 'Phone Sign In', 
-                      headerStyle: {
-                        backgroundColor: '#039BE5'
-                      },
-                      headerTintColor: '#FAFAFA',
-                      headerTitleStyle: {
-                        alignSelf: 'center'
-                      }
-                }} />
-
-              <Stack.Screen 
-                name='Walkthrough' 
-                component={Walkthrough} 
-                options= {{
-                      headerShown: false, 
-                      title: 'Walkthrough', 
-                      headerStyle: {
-                        backgroundColor: '#039BE5'
-                      },
-                      headerTintColor: '#FAFAFA',
-                      headerTitleStyle: {
-                        alignSelf: 'center'
-                      }
-                }} />
-
-          </Stack.Navigator>
-
-      </NavigationContainer>     
+        <Stack.Screen
+          name="Walkthrough"
+          component={Walkthrough}
+          options={{
+            headerShown: false,
+            title: "Walkthrough",
+            headerStyle: {
+              backgroundColor: "#039BE5",
+            },
+            headerTintColor: "#FAFAFA",
+            headerTitleStyle: {
+              alignSelf: "center",
+            },
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-
 }
