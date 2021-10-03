@@ -103,7 +103,7 @@ export default function About({ navigation }) {
           alignSelf: "center",
         }}
       >
-        <Anchor href="https://handyman-plus.web.app/privacy-policy">
+        <Anchor href="https://handyman-plus.web.app/repair-and-maintenance-agreement">
           <Text style={{ fontSize: 15 }}>Repair and Maintenance Agreement</Text>
         </Anchor>
       </View>

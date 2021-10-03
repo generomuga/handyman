@@ -915,7 +915,7 @@ export default function BookTab({ navigation }) {
           <View style={style.viewTermsAndCondition}>
             <View>
               <View>
-                <Anchor href="https://jsparling.github.io/hashmarks/terms_and_conditions">
+                <Anchor href="https://handyman-plus.web.app/repair-and-maintenance-agreement">
                   <Text style={{ fontSize: 15 }}>
                     Agree on Repair and Maintenance Agreement
                   </Text>
