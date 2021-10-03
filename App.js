@@ -17,7 +17,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 import * as firebase from "firebase";
 
-export default function App() {
+export default function App(props) {
   const Stack = createStackNavigator();
 
   return (
