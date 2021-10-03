@@ -25,29 +25,31 @@ export default function Review(props) {
         />
       </View>
 
-      <View style={style.viewTermsAndCondition}>
-        <View>
+      <View style={{ marginTop: "10%" }}>
+        <View style={style.viewTermsAndCondition}>
           <View>
-            <Anchor href="https://handyman-plus.web.app/terms-and-condition">
-              <Text style={{ fontSize: 17 }}>
-                Agree on Terms and Conditions{" "}
-              </Text>
-            </Anchor>
+            <View>
+              <Anchor href="https://handyman-plus.web.app/terms-and-condition">
+                <Text style={{ fontSize: 17 }}>
+                  Agree on Terms and Conditions{" "}
+                </Text>
+              </Anchor>
+            </View>
+          </View>
+        </View>
+
+        <View style={style.viewTermsAndCondition}>
+          <View>
+            <View>
+              <Anchor href="https://handyman-plus.web.app/privacy-policy">
+                <Text style={{ fontSize: 17 }}>Privacy Policy </Text>
+              </Anchor>
+            </View>
           </View>
         </View>
       </View>
 
-      <View style={style.viewTermsAndCondition}>
-        <View>
-          <View>
-            <Anchor href="https://handyman-plus.web.app/privacy-policy">
-              <Text style={{ fontSize: 17 }}>Privacy Policy </Text>
-            </Anchor>
-          </View>
-        </View>
-      </View>
-
-      <View style={style.viewTermsAndCondition}>
+      {/* <View style={style.viewTermsAndCondition}>
         <View>
           <View>
             <Anchor href="https://handyman-plus.web.app/repair-and-maintenance-agreement">
@@ -57,13 +59,13 @@ export default function Review(props) {
             </Anchor>
           </View>
         </View>
-      </View>
+      </View> */}
 
       <View style={style.viewAgree}>
         <View>
           <View>
             <Text style={{ fontSize: 14, fontWeight: "bold" }}>
-              I agree to the conditions, policy and agreement{" "}
+              I agree to the terms and conditions and privacy policy
             </Text>
           </View>
         </View>
@@ -84,10 +86,20 @@ export default function Review(props) {
               setIsAgree(true);
             }
           }}
+          style={{
+            marginLeft: 5,
+          }}
         />
       </View>
 
-      <View style={{ marginTop: 50, marginLeft: 40, marginRight: 40 }}>
+      <View
+        style={{
+          marginTop: 50,
+          marginLeft: "10%",
+          marginRight: "10%",
+          marginTop: "20%",
+        }}
+      >
         <TouchableOpacity
           style={[
             style.button,
@@ -125,13 +137,13 @@ const style = StyleSheet.create({
   viewTermsAndCondition: {
     flexDirection: "row",
     alignSelf: "center",
-    marginTop: 5,
+    marginTop: 10,
   },
 
   viewAgree: {
     flexDirection: "row",
     alignSelf: "center",
-    marginTop: 60,
+    marginTop: "20%",
   },
 
   button: {
