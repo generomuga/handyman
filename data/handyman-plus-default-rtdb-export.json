@@ -1,186 +1,160 @@
 {
-  "tenant" : {
-    "categories" : [ null, "Maintenance", "Repair", "Others" ],
-    "services" : {
-      "Maintenance" : [ null, {
-        "currency" : "Php",
-        "id" : 1,
-        "isAvailable" : true,
-        "name" : "Car Wash",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 2,
-        "isAvailable" : true,
-        "name" : "Exterior/Interior Home Cleaning",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 3,
-        "isAvailable" : true,
-        "name" : "Gardening works",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      } ],
-      "Others" : [ null, {
-        "currency" : "Php",
-        "id" : 4,
-        "isAvailable" : true,
-        "name" : "Chaperon",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 5,
-        "isAvailable" : true,
-        "name" : "Chauffeur",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 6,
-        "isAvailable" : true,
-        "name" : "Maid",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 7,
-        "isAvailable" : true,
-        "name" : "Laundry",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      } ],
-      "Repair" : [ null, {
-        "currency" : "Php",
-        "id" : 8,
-        "isAvailable" : true,
-        "name" : "Aluminum and Glass Works",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 9,
-        "isAvailable" : true,
-        "name" : "Carpentry",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 10,
-        "isAvailable" : true,
-        "name" : "Furnitures and Fixtures",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 11,
-        "isAvailable" : true,
-        "name" : "Hardwares (Appliances)",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 12,
-        "isAvailable" : true,
-        "name" : "Masonry",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 13,
-        "isAvailable" : true,
-        "name" : "Paint Works",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 14,
-        "isAvailable" : true,
-        "name" : "Plumbing",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 15,
-        "isAvailable" : true,
-        "name" : "Roofing",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 16,
-        "isAvailable" : true,
-        "name" : "Steel Works",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      }, {
-        "currency" : "Php",
-        "id" : 17,
-        "isAvailable" : true,
-        "name" : "Tile Works",
-        "photoURL" : "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ft2.webp?alt=media&token=9175f6b1-24f6-4967-9394-24ea0f711b2e",
-        "price" : 500
-      } ]
-    }
-  },
-  "users" : {
-    "3YrIEyx2FBcTPptSRC20pZSAxAm1" : {
-      "address" : "",
-      "contactNo" : "",
-      "displayName" : "Mark Merc",
-      "email" : "markmerc010104@gmail.com",
-      "emailVerified" : true,
-      "gender" : "",
-      "isAdmin" : false,
-      "photoURL" : "https://lh3.googleusercontent.com/a/AATXAJzk6grT-kBV59nNyOUNGB4czILz4ayE7MBzsmaf=s96-c",
-      "signInMethod" : "email"
+  "tenant": {
+    "categories": [
+      null,
+      "Maintenance",
+      "Repair",
+      "Others"
+    ],
+    "company": {
+      "profile": "Handyman Plus is a one of a kind, revolutionary mobile application, and a fully digital in-home services platform which provides you with all your home repairs and maintenance needs PLUS other lifestyle improvement services.\n\nHandyman Plus is a synergistic partner of Hugefort Construction, one of the most sought after construction services provider in South Luzon with projects from semi-elegant to full-elegant residential projects in mid to high end communities in the provinces of Batangas, Laguna, and Cavite.\n\nIn Handyman Plus, we do not sell our services, but the solutions and the quality of life that we provide.\n\nContact us as 0917-308-0903 / (043) 404-3832 / info@handymanplus.asia / fb @hhandymanplus"
     },
-    "AIF0pnj2X8dLT6aSVZ9j1bB6aSD2" : {
-      "address" : "",
-      "contactNo" : "",
-      "displayName" : "Gene Christopher Romuga (IRRI)",
-      "email" : "g.romuga@irri.org",
-      "emailVerified" : true,
-      "gender" : "",
-      "isAdmin" : false,
-      "photoURL" : "https://lh3.googleusercontent.com/a-/AOh14GilImQ_k3EJiBrycTXrMtRDBOdq4yfho93HbSL2=s96-c",
-      "signInMethod" : "email"
-    },
-    "NjeHgkJUw9Y6wS1KcxPyXxhmeAE3" : {
-      "address" : "",
-      "contactNo" : "",
-      "displayName" : "Gene Christhopher Romuga",
-      "email" : "generomuga12693@gmail.com",
-      "emailVerified" : true,
-      "gender" : "",
-      "isAdmin" : false,
-      "photoURL" : "https://lh3.googleusercontent.com/a/AATXAJykKzFiv2MnWYau4jaoK4klZThB_RxcpJwJHpg9=s96-c",
-      "signInMethod" : "email"
-    },
-    "TfyTI7yOOZZ3jYio8CspZvN9tiD2" : {
-      "address" : "",
-      "contactNo" : "",
-      "displayName" : "Randolph Reaño",
-      "email" : "doyreano@gmail.com",
-      "emailVerified" : true,
-      "gender" : "",
-      "isAdmin" : false,
-      "photoURL" : "https://lh3.googleusercontent.com/a-/AOh14GjbQa2j7K_vTkOuxbPx_NIT-xuAA2rvPKZsbi1KxA=s96-c",
-      "signInMethod" : "email"
-    },
-    "fkBV6iTcxrOrt1SW3HS5ohvuzJz2" : {
-      "address" : "",
-      "contactNo" : "+639173080903",
-      "displayName" : "",
-      "email" : "",
-      "emailVerified" : false,
-      "gender" : "",
-      "isAdmin" : false,
-      "photoURL" : "",
-      "signInMethod" : "phone"
+    "services": {
+      "Maintenance": [
+        null,
+        {
+          "currency": "Php",
+          "id": 1,
+          "isAvailable": true,
+          "name": "Car Wash at Home",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Fcar-wash-at-home.jpg?alt=media&token=0f852ae4-b1fe-460c-b359-36c4a72efe27",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 2,
+          "isAvailable": true,
+          "name": "Interior/Exterior Cleaning",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Finterior-or-exterior-cleaning.jpg?alt=media&token=71cb62cb-5755-4a5a-9fca-75b7c5dd5419",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 3,
+          "isAvailable": true,
+          "name": "Garden Maintenance",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Fgarden-maintenance.jpg?alt=media&token=6870d0b6-e67f-4b11-95a5-4af1d553ce95",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 4,
+          "isAvailable": true,
+          "name": "Electrical",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Felectrical.jpg?alt=media&token=8df16fa1-2138-4004-8258-9249ed3119fc",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 5,
+          "isAvailable": true,
+          "name": "Pest Control",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Fpest-control.jpg?alt=media&token=0a1d9e3d-f42d-40e8-afc4-0fb9b46eaf2c",
+          "price": 500
+        }
+      ],
+      "Others": [
+        null,
+        {
+          "currency": "Php",
+          "id": 6,
+          "isAvailable": true,
+          "name": "Maid Service",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Fmaid-service.jpg?alt=media&token=c509bb8d-d142-49e4-9107-784e187ed995",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 7,
+          "isAvailable": true,
+          "name": "Laundry Service",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Flaundry-service.jpg?alt=media&token=735cd19b-95db-41f3-bdd4-0b812bac0141",
+          "price": 500
+        }
+      ],
+      "Repair": [
+        null,
+        {
+          "currency": "Php",
+          "id": 8,
+          "isAvailable": true,
+          "name": "Glass Works",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Fglass-works.jpg?alt=media&token=bf135353-163c-487d-a4ef-eea90686d2f0",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 9,
+          "isAvailable": true,
+          "name": "Carpentry Works",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Fcarpentry-works.jpg?alt=media&token=af344eba-7645-421f-98c7-61a3d6536c80",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 10,
+          "isAvailable": true,
+          "name": "Furnitures and Fixtures",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ffurnitures-and-fixtures.jpg?alt=media&token=582f7046-e2ab-41a2-910d-0540ebfa4b16",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 11,
+          "isAvailable": true,
+          "name": "Hardwares",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Fhardwares.jpg?alt=media&token=7a4c875d-ff1d-4ff5-8eae-0a9ab6fc69a2",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 12,
+          "isAvailable": true,
+          "name": "Masonry Works",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Fmasonry-works.jpg?alt=media&token=9a848f68-3110-4262-85c7-d97045c9658f",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 13,
+          "isAvailable": true,
+          "name": "Paint Works",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Fpaint-works.jpg?alt=media&token=421b38b7-1f2e-447c-a842-0fbf06b77fcd",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 14,
+          "isAvailable": true,
+          "name": "Plumbing",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Fplumbing.jpg?alt=media&token=e93b5cf4-1f9b-4a7f-a3ec-ba1aa1cdd391",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 15,
+          "isAvailable": true,
+          "name": "Roof Works",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Froof-works.jpg?alt=media&token=eb189813-df83-49f5-99fa-8d9ee9d5d440",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 16,
+          "isAvailable": true,
+          "name": "Steel Works",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Fsteel-works.jpg?alt=media&token=4aa9e762-1307-4ea8-97b5-c037e193b4fe",
+          "price": 500
+        },
+        {
+          "currency": "Php",
+          "id": 17,
+          "isAvailable": true,
+          "name": "Tile Works",
+          "photoURL": "https://firebasestorage.googleapis.com/v0/b/handyman-plus.appspot.com/o/tenant%2Ftile-works.jpg?alt=media&token=07edc096-f426-44bd-9327-0b002f0a8a43",
+          "price": 500
+        }
+      ]
     }
   }
 }
