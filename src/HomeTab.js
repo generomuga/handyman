@@ -103,8 +103,6 @@ export default function HomeTab({ navigation }) {
   ]);
 
   const getServices = () => {
-    console.log("Hehe");
-
     let items = [];
     let [id, serviceName, photoURL] = "";
 
@@ -127,7 +125,6 @@ export default function HomeTab({ navigation }) {
           });
         }
 
-        console.log(items);
         setServices(items);
       });
   };

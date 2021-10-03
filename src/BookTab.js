@@ -123,7 +123,6 @@ export default function BookTab({ navigation }) {
         if (snapshot.exists()) {
           snapshot.forEach(function (childsnap) {
             var data = childsnap.val();
-            console.log(data);
             items.push({
               label: data,
               value: data,
@@ -136,7 +135,6 @@ export default function BookTab({ navigation }) {
   };
 
   const getServiceList = (category) => {
-    console.log("Eyy", category);
     let items = [];
     let price = 0;
     let currency = "Php";
@@ -168,9 +166,7 @@ export default function BookTab({ navigation }) {
           setServicePrice(price);
         }
       })
-      .catch((error) => {
-        // console.log(error)
-      });
+      .catch((error) => {});
   };
 
   const getServiceInfo = () => {
