@@ -1,1176 +1,1077 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import { CheckBox } from 'react-native-elements';
+import { CheckBox } from "react-native-elements";
 
-import { 
-    View, 
-    Text, 
-    SafeAreaView, 
-    ScrollView, 
-    TouchableOpacity, 
-    FlatList,
-    StyleSheet
-} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+} from "react-native";
 
-import {  
-    Button,
-    Input,
-    Label
-} from './styles';
+import { Button, Input, Label } from "./styles";
 
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons } from "@expo/vector-icons";
 
-import RNPickerSelect from 'react-native-picker-select';
+import RNPickerSelect from "react-native-picker-select";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import ToggleSwitch from 'toggle-switch-react-native'
+import ToggleSwitch from "toggle-switch-react-native";
 
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from "@expo/vector-icons";
 
-import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Setting a timer']);
-LogBox.ignoreLogs(['Unhandled Promise Rejection']);
-LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+import Anchor from "./Anchor";
 
-import * as firebase from 'firebase';
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Setting a timer"]);
+LogBox.ignoreLogs(["Unhandled Promise Rejection"]);
+LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
 
-import { TextInput } from 'react-native-gesture-handler';
+import * as firebase from "firebase";
+
+import { TextInput } from "react-native-gesture-handler";
 import Dialog from "react-native-dialog";
 
 const dbRef = firebase.database().ref();
 
-export default function BookTab({navigation}) {
-    
-    const [
-        errorMessage,
-        setErrorMessage,
-    ] = useState('');
+export default function BookTab({ navigation }) {
+  const [errorMessage, setErrorMessage] = useState("");
 
-    const [
-        categoryCurrentValue,
-        setCategoryCurrentValue,
-    ] = useState('');
+  const [categoryCurrentValue, setCategoryCurrentValue] = useState("");
 
-    const [
-        serviceCurrentValue,
-        setServiceCurrentValue,
-    ] = useState('');
+  const [serviceCurrentValue, setServiceCurrentValue] = useState("");
 
-    const [
-        categories,
-        setCategories,
-    ] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-    const [
-        services,
-        setServices,
-    ] = useState([]);
+  const [services, setServices] = useState([]);
 
-    const [
-        serviceCurrency,
-        setServiceCurrency,
-    ] = useState('');
+  const [serviceCurrency, setServiceCurrency] = useState("");
 
-    const [
-        servicePrice,
-        setServicePrice,
-    ] = useState(0);
+  const [servicePrice, setServicePrice] = useState(0);
 
-    const [
-        actualDate,
-        setActualDate,
-    ] = useState('');
+  const [actualDate, setActualDate] = useState("");
 
-    const [
-        serviceDateCurrentValue,
-        setServiceDateCurrentValue,
-    ] = useState('');
+  const [serviceDateCurrentValue, setServiceDateCurrentValue] = useState("");
 
-    const [
-        isDateTimePickerVisible,
-        setIsDateTimePickerVisible,
-    ] = useState();
+  const [isDateTimePickerVisible, setIsDateTimePickerVisible] = useState();
 
-    const [
-        isUseDefaultAddress,
-        setIsUseDefaultAddress,
-    ] = useState(false);
+  const [isUseDefaultAddress, setIsUseDefaultAddress] = useState(false);
 
-    const [
-        isAddressEditable,
-        setIsAddressEditable,
-    ] = useState(true);
+  const [isAddressEditable, setIsAddressEditable] = useState(true);
 
-    const [
-        displayName,
-        setDisplayName,
-    ] = useState('');
+  const [displayName, setDisplayName] = useState("");
 
-    const [
-        gender,
-        setGender,
-    ] = useState('');
+  const [gender, setGender] = useState("");
 
-    const [
-        email,
-        setEmail,
-    ] = useState('');
+  const [email, setEmail] = useState("");
 
-    const [
-        contactNo,
-        setContactNo,
-    ] = useState('');
+  const [contactNo, setContactNo] = useState("");
 
-    const [
-        address,
-        setAddress,
-    ] = useState('');
+  const [address, setAddress] = useState("");
 
-    const [
-        photoURL,
-        setPhotoURL,
-    ] = useState('');
+  const [photoURL, setPhotoURL] = useState("");
 
-    const [
-        isUseDefaultContactNo,
-        setIsUseDefaultContactNo,
-    ] = useState(false);
+  const [isUseDefaultContactNo, setIsUseDefaultContactNo] = useState(false);
 
-    const [
-        isContactNoEditable,
-        setIsContactNoEditable,
-    ] = useState(true);
+  const [isContactNoEditable, setIsContactNoEditable] = useState(true);
 
-    const [
-        isVisible,
-        setIsVisible,
-    ] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
 
-    const [
-        isBooked,
-        setIsBooked,
-    ] = useState(false); 
-    
-    const [
-        isServiceAdded,
-        setIsServiceAdded,
-    ] = useState(true);
+  const [isBooked, setIsBooked] = useState(false);
 
-    const [
-        status,
-        setStatus,
-    ] = useState('Pending');
+  const [isServiceAdded, setIsServiceAdded] = useState(true);
 
-    const [
-        serviceInfo,
-        setServiceInfo,
-    ] = useState([]);
+  const [status, setStatus] = useState("Pending");
 
-    const [
-        totalServicePrice,
-        setTotalServicePrice,
-    ] = useState([]);
+  const [serviceInfo, setServiceInfo] = useState([]);
 
-    const [
-        totalReserveService,
-        setTotalReserveService,
-    ] = useState(0);
+  const [totalServicePrice, setTotalServicePrice] = useState([]);
 
-    const [
-        paymentMethodValue,
-        setPaymentMethodValue,
-    ] = useState('');
+  const [totalReserveService, setTotalReserveService] = useState(0);
 
-    const [
-        isDialogVisible,
-        setIsDialogVisible,
-    ] = useState(false);
+  const [paymentMethodValue, setPaymentMethodValue] = useState("");
 
-    const [
-        isDoneDialogVisible,
-        setIsDoneDialogVisible,
-    ] = useState(false);
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
 
-    const [
-        isAddServiceDisabled,
-        setIsAddServiceDisabled
-    ] = useState(true);
+  const [isDoneDialogVisible, setIsDoneDialogVisible] = useState(false);
 
-    const [
-        isAddBookItNowDisabled,
-        setIsAddBookItNowDisabled
-    ] = useState(true)
+  const [isAddServiceDisabled, setIsAddServiceDisabled] = useState(true);
 
-    useEffect(()=>{
-        const unsubscribe = navigation.addListener('focus', () => {
-            getCategoryList();
-            getServiceInfo();
-            getUserInfo();
+  const [isAddBookItNowDisabled, setIsAddBookItNowDisabled] = useState(true);
+
+  const [isAgree, setIsAgree] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      getCategoryList();
+      getServiceInfo();
+      getUserInfo();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const getCategoryList = () => {
+    const items = [];
+
+    dbRef
+      .child("tenant/categories")
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(function (childsnap) {
+            var data = childsnap.val();
+            console.log(data);
+            items.push({
+              label: data,
+              value: data,
+              key: data,
+            });
+          });
+          setCategories(items);
+        }
+      });
+  };
+
+  const getServiceList = (category) => {
+    console.log("Eyy", category);
+    let items = [];
+    let price = 0;
+    let currency = "Php";
+    let isAvailable = false;
+    let name = "";
+
+    dbRef
+      .child("tenant/services/" + category + "/")
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(function (childsnap) {
+            name = childsnap.val()["name"];
+            price = childsnap.val()["price"];
+            currency = childsnap.val()["currency"];
+            isAvailable = childsnap.val()["isAvailable"];
+
+            if (isAvailable === true) {
+              items.push({
+                label: name,
+                value: name,
+                key: name,
+              });
+            }
           });
 
-        return unsubscribe;
-    }, [navigation])
+          setServices(items);
+          setServiceCurrency(currency);
+          setServicePrice(price);
+        }
+      })
+      .catch((error) => {
+        // console.log(error)
+      });
+  };
 
-    const getCategoryList = () => {
-        const items = []
+  const getServiceInfo = () => {
+    let user = firebase.auth().currentUser;
 
-        dbRef.child('tenant/categories').once("value")
-            .then(snapshot => {
-                if (snapshot.exists()) {
-                    snapshot.forEach(function(childsnap) {
-                        var data = childsnap.val()
-                        console.log(data)
-                        items.push({
-                            label:data,
-                            value:data,
-                            key:data
-                        })
-                    });
-                    setCategories(items)
-                }
+    let items = [];
+    let id = "";
+    let category = "";
+    let service = "";
+    let service_date = "";
+    let service_price = 0;
+    let service_currency = "";
+    let address = "";
+    let totalPrice = 0;
+    let totalReserveService = 0;
+    let contact_no = "";
+    let is_visible = false;
+    let is_booked = false;
+    let is_service_added = true;
+    let status = "";
+
+    dbRef
+      .child("bookings/" + user["uid"])
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(function (childsnap) {
+            id = childsnap.val()["id"];
+            category = childsnap.val()["category"];
+            service = childsnap.val()["service"];
+            service_date = childsnap.val()["service_date"];
+            service_price = childsnap.val()["service_price"];
+            service_currency = childsnap.val()["service_currency"];
+            address = childsnap.val()["address"];
+            contact_no = childsnap.val()["contact_no"];
+            is_visible = childsnap.val()["is_visible"];
+            is_booked = childsnap.val()["is_booked"];
+            is_service_added = childsnap.val()["is_service_added"];
+            status = childsnap.val()["status"];
+
+            if (
+              is_visible === true &&
+              is_booked === false &&
+              is_service_added === true
+            ) {
+              totalPrice = totalPrice + service_price;
+              totalReserveService = totalReserveService + 1;
+            }
+
+            if (is_visible === true && is_booked === false) {
+              items.push({
+                id,
+                category,
+                service,
+                service_date,
+                service_price,
+                service_currency,
+                address,
+                contact_no,
+                is_visible,
+                is_service_added,
+              });
+            }
+          });
+
+          setServiceInfo(items);
+          setTotalServicePrice(totalPrice);
+          setTotalReserveService(totalReserveService);
+        } else {
+          setServiceInfo([]);
+          setTotalServicePrice(0);
+          setTotalReserveService(0);
+        }
+      });
+  };
+
+  const getUserInfo = () => {
+    setErrorMessage("");
+
+    let user = firebase.auth().currentUser;
+    let displayName = "";
+    let address = "";
+    let contactNo = "";
+    let email = "";
+    let photoURL = "";
+
+    dbRef
+      .child("users")
+      .child(user["uid"])
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          displayName = snapshot.val()["displayName"];
+          email = snapshot.val()["email"];
+          address = snapshot.val()["address"];
+          contactNo = snapshot.val()["contactNo"];
+          photoURL = snapshot.val()["photoURL"];
+
+          if (
+            displayName.length < 1 ||
+            email.length < 1 ||
+            address.length < 1 ||
+            contactNo.length < 1
+          ) {
+            setIsAddServiceDisabled(true);
+            setIsAddBookItNowDisabled(true);
+            setErrorMessage("Please complete your profile info");
+            return;
+          }
+
+          setIsAddServiceDisabled(false);
+          setIsAddBookItNowDisabled(false);
+          setDisplayName(displayName);
+          setEmail(email);
+          setGender(gender);
+          setAddress(address);
+          setContactNo(contactNo);
+          setPhotoURL(photoURL);
+        }
+      });
+  };
+
+  const updateBookingDetails = () => {
+    let user = firebase.auth().currentUser;
+    let uid = user["uid"];
+
+    let id = "";
+    let category = "";
+    let service = "";
+    let service_date = "";
+    let service_price = 0;
+    let service_currency = "";
+    let contact_no = "";
+    let status = "Pending";
+    let address = "";
+    let is_visible = false;
+    let is_service_added = false;
+
+    let trasaction_id = new Date().getTime().toString();
+    let transactionRef = dbRef
+      .child("transactions/" + uid)
+      .child(trasaction_id);
+    let requestRef = dbRef.child("requests").child(trasaction_id);
+
+    let items = [];
+    let items_category = [];
+    let created_at = new Date().toString();
+
+    dbRef
+      .child("bookings/" + uid)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          snapshot.forEach(function (childsnap) {
+            id = childsnap.val()["id"];
+            category = childsnap.val()["category"];
+            service = childsnap.val()["service"];
+            service_date = childsnap.val()["service_date"];
+            service_price = childsnap.val()["service_price"];
+            service_currency = childsnap.val()["service_currency"];
+            status = childsnap.val()["status"];
+            address = childsnap.val()["address"];
+            contact_no = childsnap.val()["contact_no"];
+            is_visible = childsnap.val()["is_visible"];
+            is_service_added = childsnap.val()["is_service_added"];
+
+            if (is_visible === true && is_service_added === true) {
+              let updates = {};
+              updates["is_visible"] = false;
+              updates["is_booked"] = true;
+              dbRef
+                .child("bookings/" + user["uid"])
+                .child(id)
+                .update(updates);
+              items.push(id);
+              items_category.push({
+                id,
+                category,
+                service,
+                service_date,
+                service_price,
+                service_currency,
+                address,
+                contact_no,
+                status,
+              });
+            }
+          });
+
+          transactionRef.set({
+            total_price: totalServicePrice,
+            created_at: created_at,
+            service_currency: serviceCurrency,
+            booking_info: items_category,
+          });
+
+          requestRef.set({
+            total_price: totalServicePrice,
+            created_at: created_at,
+            service_currency: serviceCurrency,
+            booking_info: items_category,
+            uid: uid,
+            displayName: displayName,
+            photoURL: photoURL,
+          });
+        }
+
+        getServiceInfo();
+      });
+  };
+
+  const addServiceInfo = () => {
+    setErrorMessage("");
+
+    if (categoryCurrentValue === null) {
+      setErrorMessage("Please select category");
+      return;
+    } else if (serviceCurrentValue === null) {
+      setErrorMessage("Please select service");
+      return;
+    } else if (serviceDateCurrentValue === "") {
+      setErrorMessage("Please select date of service");
+      return;
+    } else if (actualDate.getTime() <= new Date().getTime()) {
+      setErrorMessage("Please select valid date of service");
+      return;
+    } else if (address === "") {
+      setErrorMessage("Please set your address");
+    } else if (contactNo === "") {
+      setErrorMessage("Please set your contact number");
+    } else if (!/^(09|\+639)\d{9}$/.test(contactNo)) {
+      setErrorMessage("Please set valid contact number");
+    } else {
+      setIsVisible(true);
+
+      let user = firebase.auth().currentUser;
+      let id = new Date().getTime().toString();
+      let dte = new Date().toString();
+
+      dbRef.child("bookings/" + user["uid"] + "/" + id).set({
+        id: id,
+        category: categoryCurrentValue,
+        service: serviceCurrentValue,
+        service_date: serviceDateCurrentValue,
+        service_price: servicePrice,
+        service_currency: serviceCurrency,
+        address: address,
+        contact_no: contactNo,
+        is_visible: isVisible,
+        is_booked: isBooked,
+        is_service_added: isServiceAdded,
+        status: status,
+        createdDate: dte,
+      });
+    }
+  };
+
+  const showDateTimePicker = () => {
+    setIsDateTimePickerVisible(true);
+  };
+
+  const hideDateTimePicker = () => {
+    setIsDateTimePickerVisible(false);
+  };
+
+  const handleDatePicked = (date) => {
+    let parsed_date = String(date).split(" ");
+    let day = parsed_date[0];
+    let month = parsed_date[1];
+    let dayn = parsed_date[2];
+    let year = parsed_date[3];
+    let displayDate = month + " " + dayn + " " + year + ", " + day;
+
+    setActualDate(date);
+    setServiceDateCurrentValue(displayDate);
+    hideDateTimePicker();
+  };
+
+  const renderItemComponent = (data) => (
+    <View
+      style={{
+        backgroundColor: "white",
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: data.item.is_service_added ? "green" : "red",
+        marginLeft: 20,
+        marginRight: 20,
+        marginBottom: 10,
+        justifyContent: "center",
+      }}
+    >
+      <AntDesign
+        style={{
+          textAlign: "right",
+          position: "relative",
+          marginTop: 5,
+          marginRight: 5,
+        }}
+        name="closecircle"
+        size={24}
+        color="#F44336"
+        onPress={() => {
+          let user = firebase.auth().currentUser;
+
+          dbRef
+            .child("bookings/" + user["uid"] + "/" + data.item.id)
+            .remove()
+            .then(() => {
+              let filteredData = serviceInfo.filter((item) => item.id !== id);
+              setServiceInfo(filteredData);
             });
-    }
+          getServiceInfo();
+        }}
+      />
 
-    const getServiceList = (category) => {
-        console.log('Eyy',category)
-        let items = [];
-        let price = 0;
-        let currency = 'Php';
-        let isAvailable = false;
-        let name = '';
+      <View
+        style={{
+          flexDirection: "column",
+          padding: 5,
+        }}
+      >
+        <View style={{ flexDirection: "row" }}>
+          <MaterialIcons
+            style={style.icon}
+            name="category"
+            size={24}
+            color="#E65100"
+          />
 
-        dbRef.child('tenant/services/'+category+'/').once("value")
-            .then(snapshot => {
-                if (snapshot.exists()) {
-                        snapshot.forEach(function(childsnap) {
-                            name = childsnap.val()['name']
-                            price = childsnap.val()['price']
-                            currency = childsnap.val()['currency']
-                            isAvailable = childsnap.val()['isAvailable']
-                        
-                            if (isAvailable === true) {
-                                items.push({
-                                    label:name,
-                                    value:name,
-                                    key:name
-                                })
-                            }
-                        });
-                    
-                    setServices(items)
-                    setServiceCurrency(currency)
-                    setServicePrice(price)
-                }
-            })
-            .catch((error)=>{
-                // console.log(error)
-            });
-    }
+          <Text
+            style={{
+              marginLeft: 10,
+              fontWeight: "400",
+              alignSelf: "center",
+            }}
+          >
+            {data.item.category}
+          </Text>
+        </View>
+      </View>
 
-    const getServiceInfo = () =>{
-        let user = firebase.auth().currentUser;
+      <View
+        style={{
+          flexDirection: "column",
+          padding: 5,
+        }}
+      >
+        <View style={{ flexDirection: "row" }}>
+          <MaterialIcons
+            style={style.icon}
+            name="cleaning-services"
+            size={24}
+            color="#9E9D24"
+          />
 
-        let items = []
-        let id = ''
-        let category = ''
-        let service = ''
-        let service_date = ''
-        let service_price = 0
-        let service_currency = ''
-        let address = ''
-        let totalPrice = 0
-        let totalReserveService = 0
-        let contact_no = ''
-        let is_visible = false
-        let is_booked = false
-        let is_service_added = true
-        let status = ''
-        
-        dbRef.child('bookings/'+user['uid']).get()                        
-            .then(snapshot => {
-                if (snapshot.exists()) {
-                    snapshot.forEach(function(childsnap){
-                        id = childsnap.val()['id']
-                        category = childsnap.val()['category']
-                        service = childsnap.val()['service']
-                        service_date = childsnap.val()['service_date']
-                        service_price = childsnap.val()['service_price']
-                        service_currency = childsnap.val()['service_currency']
-                        address = childsnap.val()['address']
-                        contact_no = childsnap.val()['contact_no']
-                        is_visible = childsnap.val()['is_visible']
-                        is_booked = childsnap.val()['is_booked']
-                        is_service_added = childsnap.val()['is_service_added']
-                        status = childsnap.val()['status']
+          <Text
+            style={{
+              marginLeft: 10,
+              fontWeight: "400",
+              alignSelf: "center",
+            }}
+          >
+            {data.item.service}
+          </Text>
+        </View>
+      </View>
 
-                        if (is_visible === true && is_booked === false && is_service_added === true) {
-                            totalPrice = totalPrice + service_price
-                            totalReserveService = totalReserveService + 1
-                        }
+      <View style={{ flexDirection: "column", padding: 5 }}>
+        <View style={{ flexDirection: "row" }}>
+          <MaterialIcons
+            style={style.icon}
+            name="date-range"
+            size={24}
+            color="#0D47A1"
+          />
 
-                        if (is_visible === true && is_booked === false) {
-                            items.push({
-                                id, 
-                                category,
-                                service,
-                                service_date,
-                                service_price,
-                                service_currency,
-                                address,
-                                contact_no,
-                                is_visible,
-                                is_service_added
-                            })
-                        }
-                    });
-                
-                    setServiceInfo(items)
-                    setTotalServicePrice(totalPrice)
-                    setTotalReserveService(totalReserveService)
-                }
-                else {
-                    setServiceInfo([])
-                    setTotalServicePrice(0)
-                    setTotalReserveService(0)
-                }
-            });
-    }
+          <Text
+            style={{
+              alignSelf: "center",
+              marginLeft: 10,
+              fontWeight: "400",
+            }}
+          >
+            {data.item.service_date}
+          </Text>
+        </View>
+      </View>
 
-    const getUserInfo = () => {
-        setErrorMessage('')
+      <View style={{ flexDirection: "column", padding: 5 }}>
+        <View style={{ flexDirection: "row" }}>
+          <MaterialIcons
+            style={style.icon}
+            name="contact-phone"
+            size={24}
+            color="#2E7D32"
+          />
 
-        let user = firebase.auth().currentUser
-        let displayName = ''
-        let address = ''
-        let contactNo = ''
-        let email = ''
-        let photoURL = ''
+          <Text
+            style={{
+              alignSelf: "center",
+              marginLeft: 10,
+              fontWeight: "400",
+            }}
+          >
+            {data.item.contact_no}
+          </Text>
+        </View>
+      </View>
 
-        dbRef.child('users').child(user['uid']).get()
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    displayName = snapshot.val()['displayName']
-                    email = snapshot.val()['email']
-                    address = snapshot.val()['address']
-                    contactNo = snapshot.val()['contactNo']
-                    photoURL = snapshot.val()['photoURL']
+      <View
+        style={{
+          flexDirection: "row",
+          padding: 5,
+        }}
+      >
+        <MaterialIcons
+          style={style.icon}
+          name="add-location"
+          size={24}
+          color="#B71C1C"
+        />
 
-                    if (displayName.length < 1 ||
-                        email.length < 1 ||
-                        address.length < 1 ||
-                        contactNo.length < 1) {
+        <Text
+          style={{
+            marginLeft: 10,
+            fontWeight: "400",
+            fontSize: 12,
+            alignSelf: "center",
+          }}
+        >
+          {data.item.address}
+        </Text>
+      </View>
 
-                        setIsAddServiceDisabled(true)
-                        setIsAddBookItNowDisabled(true)
-                        setErrorMessage('Please complete your profile info')
-                        return
-                    }
+      <View
+        style={{
+          flexDirection: "row",
+          padding: 5,
+        }}
+      >
+        <MaterialIcons
+          style={style.icon}
+          name="money"
+          size={24}
+          color="#424242"
+        />
 
-                    setIsAddServiceDisabled(false)
-                    setIsAddBookItNowDisabled(false)
-                    setDisplayName(displayName)
-                    setEmail(email)
-                    setGender(gender)
-                    setAddress(address)
-                    setContactNo(contactNo)
-                    setPhotoURL(photoURL)
-                }
-            })
-    }
+        <Text
+          style={{
+            marginLeft: 10,
+            fontWeight: "400",
+            alignSelf: "center",
+          }}
+        >
+          {data.item.service_currency} {data.item.service_price.toFixed(2)}
+        </Text>
+      </View>
 
-    const updateBookingDetails = () => {
-        let user = firebase.auth().currentUser
-        let uid = user['uid']
-
-        let id = ''
-        let category = ''
-        let service = ''
-        let service_date = ''
-        let service_price = 0
-        let service_currency = ''
-        let contact_no = ''
-        let status = 'Pending'
-        let address = ''
-        let is_visible = false
-        let is_service_added = false
-
-        let trasaction_id = new Date().getTime().toString()
-        let transactionRef = dbRef.child('transactions/'+uid).child(trasaction_id)
-        let requestRef = dbRef.child('requests').child(trasaction_id)
-        
-        
-        let items = []
-        let items_category = []
-        let created_at = new Date().toString()
-
-        dbRef.child('bookings/'+uid).get()                        
-            .then(snapshot => {
-                if (snapshot.exists()) {
-                    snapshot.forEach(function(childsnap) {
-                        id = childsnap.val()['id']
-                        category = childsnap.val()['category']
-                        service = childsnap.val()['service']
-                        service_date = childsnap.val()['service_date']
-                        service_price = childsnap.val()['service_price']
-                        service_currency = childsnap.val()['service_currency']
-                        status = childsnap.val()['status']
-                        address = childsnap.val()['address']
-                        contact_no = childsnap.val()['contact_no']
-                        is_visible = childsnap.val()['is_visible']
-                        is_service_added = childsnap.val()['is_service_added']
-                      
-                        if (is_visible === true && is_service_added === true) {
-                            let updates = {}
-                            updates['is_visible'] = false
-                            updates['is_booked'] = true
-                            dbRef.child('bookings/'+user['uid']).child(id).update(updates);
-                            items.push(id)
-                            items_category.push({
-                                id,
-                                category,
-                                service,
-                                service_date,
-                                service_price,
-                                service_currency,
-                                address,
-                                contact_no,
-                                status
-                            })
-                        }
-                    });
-                
-                    transactionRef.set({
-                        total_price: totalServicePrice,
-                        created_at: created_at,
-                        service_currency: serviceCurrency,
-                        booking_info:items_category
-                    })
-
-                    requestRef.set({
-                        total_price: totalServicePrice,
-                        created_at: created_at,
-                        service_currency: serviceCurrency,
-                        booking_info:items_category,
-                        uid: uid,
-                        displayName: displayName,
-                        photoURL: photoURL
-                    })
-                }
-
-                getServiceInfo()
-            });   
-    }
-
-    const addServiceInfo = () => {
-
-        setErrorMessage('')
-
-        if (categoryCurrentValue===null){
-            setErrorMessage('Please select category')
-            return
-        }
-        else if (serviceCurrentValue===null){
-            setErrorMessage('Please select service')
-            return
-        }
-        else if (serviceDateCurrentValue===''){
-            setErrorMessage('Please select date of service')
-            return
-        }
-        else if (actualDate.getTime() <= new Date().getTime()){
-            setErrorMessage('Please select valid date of service')
-            return
-        }
-        else if (address===''){
-            setErrorMessage('Please set your address')
-        }
-        else if (contactNo===''){
-            setErrorMessage('Please set your contact number')
-        }
-        else if (!/^(09|\+639)\d{9}$/.test(contactNo)) {
-            setErrorMessage('Please set valid contact number')
-        }
-        else 
-        {
-            setIsVisible(true);
-
+      <View
+        style={{
+          alignItems: "flex-end",
+        }}
+      >
+        <CheckBox
+          title="Add to reservation list"
+          checked={data.item.is_service_added}
+          containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
+          onPress={() => {
+            let updates = {};
             let user = firebase.auth().currentUser;
-            let id = new Date().getTime().toString();
-            let dte = new Date().toString();
+            let uid = user["uid"];
+            if (data.item.is_service_added === true) {
+              updates[
+                "bookings/" + uid + "/" + data.item.id + "/is_service_added"
+              ] = false;
+              dbRef.update(updates);
+            } else {
+              updates[
+                "bookings/" + uid + "/" + data.item.id + "/is_service_added"
+              ] = true;
+              dbRef.update(updates);
+            }
+            getServiceInfo();
+          }}
+        />
+      </View>
+    </View>
+  );
 
-            dbRef.child('bookings/' + user['uid'] +'/'+ id)
-                .set({
-                    id:id,
-                    category:categoryCurrentValue,
-                    service:serviceCurrentValue,
-                    service_date:serviceDateCurrentValue,
-                    service_price:servicePrice,
-                    service_currency:serviceCurrency,
-                    address:address,
-                    contact_no:contactNo,
-                    is_visible:isVisible,
-                    is_booked:isBooked,
-                    is_service_added:isServiceAdded,
-                    status:status,
-                    createdDate:dte
-                });
-        }
-    }
+  const handleCancel = () => {
+    setIsDialogVisible(false);
+  };
 
-    const showDateTimePicker = () => {
-        setIsDateTimePickerVisible(true)
-      };
-     
-    const hideDateTimePicker = () => {
-        setIsDateTimePickerVisible(false)
-    };
-    
-    const handleDatePicked = date => {
-        let parsed_date = String(date).split(' ');
-        let day = parsed_date[0];
-        let month = parsed_date[1];
-        let dayn = parsed_date[2];
-        let year = parsed_date[3];
-        let displayDate = month+' '+dayn+' '+year+', '+day
+  const handleProceed = () => {
+    setIsDialogVisible(false);
+    updateBookingDetails();
+    setIsDoneDialogVisible(true);
+    clearState();
+  };
 
-        setActualDate(date)
-        setServiceDateCurrentValue(displayDate)
-        hideDateTimePicker();
-    };
-    
-    const renderItemComponent = (data) =>
-        <View style={{
-                backgroundColor:'white', 
-                borderRadius:10, 
-                borderWidth:2, 
-                borderColor: data.item.is_service_added?'green':'red',
-                marginLeft: 20, 
-                marginRight: 20,
-                marginBottom:10,
-                justifyContent:'center',
-            }} >
+  const handleDone = () => {
+    setIsDoneDialogVisible(false);
+  };
 
-            <AntDesign 
-                style={{textAlign:'right', position:'relative', marginTop:5, marginRight:5}}
-                name="closecircle" 
-                size={24} 
-                color="#F44336" 
-                onPress={()=>{
-                    let user = firebase.auth().currentUser;
+  const clearState = () => {
+    getCategoryList();
+    getServiceInfo();
+    getUserInfo();
+  };
 
-                    dbRef.child('bookings/'+user['uid']+'/'+data.item.id).remove()                     
-                        .then(()=>{
-                            let filteredData = serviceInfo.filter(item => item.id !== id);
-                            setServiceInfo(filteredData)
-                            
-                        })
-                    getServiceInfo();
-                }}
-                />
-
-            <View  
-                style={{
-                flexDirection:'column',
-                padding: 5
-                }}>
-                <View 
-                    style={{flexDirection:'row'}} >
-
-                    <MaterialIcons 
-                        style={style.icon}
-                        name="category" 
-                        size={24} 
-                        color="#E65100" />
-
-                    <Text
-                        style={{
-                            marginLeft:10,
-                            fontWeight:'400',
-                            alignSelf: 'center'
-                        }}>
-                            {data.item.category}
-                    </Text>
-
-                </View>
-            </View>
-
-            <View style={{
-                flexDirection:'column',
-                padding: 5
-                }}>
-
-                <View 
-                    style={{flexDirection:'row'}} >
-                    
-                    <MaterialIcons 
-                        style={style.icon}
-                        name="cleaning-services" 
-                        size={24} 
-                        color="#9E9D24" />
-                    
-                    <Text
-                        style={{
-                            marginLeft:10,
-                            fontWeight:'400',
-                            alignSelf: 'center'
-                        }}> 
-                        {data.item.service}
-                    </Text>
-
-                </View>
-
-            </View>
-
-            <View 
-                style={{flexDirection:'column', padding: 5}} >
-
-                <View
-                    style={{flexDirection:'row'}} >
-
-                    <MaterialIcons 
-                        style={style.icon}
-                        name="date-range" 
-                        size={24} 
-                        color="#0D47A1" />
-
-                    <Text
-                        style={{
-                            alignSelf: 'center',
-                            marginLeft:10,
-                            fontWeight:'400'
-                        }} >
-                            {data.item.service_date}
-                    </Text>
-
-                </View>
-
-            </View>
-
-            <View
-                style={{flexDirection:'column', padding: 5}} >
-                <View
-                        style={{flexDirection:'row'}} >
-
-                        <MaterialIcons 
-                            style={style.icon}
-                            name="contact-phone" 
-                            size={24} 
-                            color="#2E7D32" />
-
-                        <Text
-                            style={{
-                                alignSelf: 'center',
-                                marginLeft:10,
-                                fontWeight:'400'
-                            }} >
-                                {data.item.contact_no}
-                        </Text>
-
-                    </View>
-            </View>
-
-            <View
-                style={{
-                    flexDirection:'row', 
-                    padding: 5
-                }} >
-                
-                <MaterialIcons 
-                    style={style.icon}
-                    name="add-location" 
-                    size={24} 
-                    color="#B71C1C" />
-                
-                <Text
-                    style={{
-                        marginLeft:10,
-                        fontWeight:'400',
-                        fontSize:12,
-                        alignSelf: 'center',
-                    }} >
-                        {data.item.address}
-                </Text>
-
-            </View>
-            
-            <View
-                style={{
-                    flexDirection: 'row',
-                    padding: 5
-                }} >
-
-                <MaterialIcons 
-                    style={style.icon}
-                    name="money" 
-                    size={24} 
-                    color="#424242" />
-
-                <Text
-                    style={{
-                        marginLeft:10,
-                        fontWeight:'400',
-                        alignSelf: 'center'
-                    }}>
-                        {data.item.service_currency} {data.item.service_price.toFixed(2)}
-                </Text>
-
-            </View>
-            
-            <View
-                style={{
-                    alignItems: 'flex-end'
-                }}>
-
-                <CheckBox
-                    title='Add to reservation list'
-                    checked={data.item.is_service_added}
-                    containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-                    onPress={()=>{
-                        let updates={}
-                        let user = firebase.auth().currentUser;
-                        let uid = user['uid']
-                        if (data.item.is_service_added === true) {
-                            updates['bookings/'+uid+'/'+data.item.id+'/is_service_added'] = false
-                            dbRef.update(updates)
-                        }
-                        else {
-                            updates['bookings/'+uid+'/'+data.item.id+'/is_service_added'] = true
-                            dbRef.update(updates)
-                        }
-                        getServiceInfo()
-                    }} />
-
-            </View>
-
+  return (
+    <SafeAreaView
+      style={{
+        backgroundColor: "white",
+        flex: 1,
+      }}
+    >
+      <ScrollView>
+        <View style={style.viewErrorMessage}>
+          <Text style={style.labelErrorMessage}>{errorMessage}</Text>
         </View>
 
-    const handleCancel = () => {
-        setIsDialogVisible(false)
-    };
-
-    const handleProceed = () => {
-        setIsDialogVisible(false)
-        updateBookingDetails()
-        setIsDoneDialogVisible(true)
-        clearState()
-    };
-
-    const handleDone = () => {
-        setIsDoneDialogVisible(false)
-    };
-
-    const clearState = () => {
-        getCategoryList()
-        getServiceInfo()
-        getUserInfo()
-    }
-
-    return (
-        <SafeAreaView
+        <View style={style.viewComponent}>
+          <View
             style={{
-                backgroundColor:'white', 
-                flex:1,
-            }} >
+              flexDirection: "row",
+            }}
+          >
+            <MaterialIcons
+              style={style.icon}
+              name="category"
+              size={24}
+              color="#E65100"
+            />
 
-            <ScrollView>
-            
-                <View 
-                    style={style.viewErrorMessage} >
+            <Text style={style.label}>Category</Text>
+          </View>
 
-                    <Text
-                        style={style.labelErrorMessage} >
-                        {errorMessage}
-                    </Text>
-                    
-                </View>
-                
-                <View 
-                    style={style.viewComponent} >
-                    
-                    <View
-                        style={{
-                            flexDirection: 'row'
-                        }} >
+          <RNPickerSelect
+            onValueChange={(value) => {
+              setCategoryCurrentValue(value);
+              setServiceCurrentValue("");
+              setServices([]);
+              getServiceList(value);
+            }}
+            items={categories}
+          >
+            <Text style={style.input}>
+              {categoryCurrentValue
+                ? categoryCurrentValue
+                : "Select an item..."}
+            </Text>
+          </RNPickerSelect>
+        </View>
 
-                        <MaterialIcons 
-                            style={style.icon}
-                            name="category" 
-                            size={24} 
-                            color="#E65100" />
+        <View style={style.viewComponent}>
+          <View style={{ flexDirection: "row" }}>
+            <MaterialIcons
+              style={style.icon}
+              name="cleaning-services"
+              size={24}
+              color="#9E9D24"
+            />
 
-                        <Text 
-                            style={style.label} >
-                            Category
-                        </Text>
+            <Text style={style.label}>Service</Text>
+          </View>
 
-                    </View>
+          <RNPickerSelect
+            onValueChange={(value) => {
+              setServiceCurrentValue(value);
+            }}
+            items={services}
+          >
+            <Text style={style.input}>
+              {serviceCurrentValue ? serviceCurrentValue : "Select an item..."}
+            </Text>
+          </RNPickerSelect>
+        </View>
 
-                    <RNPickerSelect
-                        onValueChange={(value) => {
-                            setCategoryCurrentValue(value)
-                            setServiceCurrentValue('')
-                            setServices([])
-                            getServiceList(value)
-                        }}
-                        items={categories} >
-                        
-                        <Text 
-                            style={style.input} >    
-                            {categoryCurrentValue?categoryCurrentValue:'Select an item...'}
-                        </Text>
+        <View style={style.viewComponent}>
+          <View style={{ flexDirection: "row" }}>
+            <MaterialIcons
+              style={style.icon}
+              name="date-range"
+              size={24}
+              color="#0D47A1"
+            />
 
-                    </RNPickerSelect>
+            <Text style={style.label}>Date of service</Text>
+          </View>
 
-                </View>
+          <Text style={style.input} onPress={showDateTimePicker}>
+            {serviceDateCurrentValue
+              ? serviceDateCurrentValue
+              : "Please pick a date"}
+          </Text>
 
-                <View 
-                    style={style.viewComponent} >
+          <DateTimePicker
+            isVisible={isDateTimePickerVisible}
+            onConfirm={handleDatePicked}
+            onCancel={hideDateTimePicker}
+            display="default"
+          />
+        </View>
 
-                    <View
-                        style={{flexDirection:'row'}}>
+        <View style={style.viewComponent}>
+          <View style={{ flexDirection: "row" }}>
+            <MaterialIcons
+              style={style.icon}
+              name="add-location"
+              size={24}
+              color="#B71C1C"
+            />
 
-                        <MaterialIcons 
-                            style={style.icon}
-                            name="cleaning-services" 
-                            size={24} 
-                            color="#9E9D24" />
+            <ToggleSwitch
+              isOn={isUseDefaultAddress}
+              onColor="green"
+              label="Use default address"
+              labelStyle={style.toggleLabel}
+              offColor="red"
+              size="small"
+              onToggle={() => {
+                getUserInfo();
 
-                        <Text 
-                            style={style.label} >
-                            Service
-                        </Text>
+                if (isUseDefaultAddress === true) {
+                  setIsUseDefaultAddress(false);
+                  setIsAddressEditable(true);
+                } else {
+                  setIsUseDefaultAddress(true);
+                  setIsAddressEditable(false);
+                }
+              }}
+            />
+          </View>
 
-                    </View>
+          <TextInput
+            style={style.input}
+            multiline={false}
+            value={address}
+            placeholder={"Lot/Block No, Street, City, Province"}
+            editable={isAddressEditable}
+            onChangeText={(address) => setAddress(address)}
+          />
+        </View>
 
-                
-                    <RNPickerSelect
-                        onValueChange={(value) => {
-                            setServiceCurrentValue(value)
-                        }}
-                        items={services} >
+        <View>
+          <View style={{ flexDirection: "row" }}>
+            <MaterialIcons
+              style={style.icon}
+              name="contact-phone"
+              size={24}
+              color="#2E7D32"
+            />
 
-                        <Text 
-                            style={style.input} >
-                            {serviceCurrentValue?serviceCurrentValue:'Select an item...'}
-                        </Text>
+            <ToggleSwitch
+              isOn={isUseDefaultContactNo}
+              onColor="green"
+              label="Use default mobile number"
+              labelStyle={style.toggleLabel}
+              offColor="red"
+              size="small"
+              onToggle={() => {
+                getUserInfo();
 
-                    </RNPickerSelect>
+                if (isUseDefaultContactNo === true) {
+                  setIsUseDefaultContactNo(false);
+                  setIsContactNoEditable(true);
+                } else {
+                  setIsUseDefaultContactNo(true);
+                  setIsContactNoEditable(false);
+                }
+              }}
+            />
+          </View>
 
-                </View>
-                
-                <View 
-                    style={style.viewComponent} >
-                        
-                    <View
-                        style={{flexDirection:'row'}}>
+          <TextInput
+            style={style.input}
+            value={contactNo}
+            placeholder={"0917XXXXXXX"}
+            editable={isContactNoEditable}
+            onChangeText={(contactNo) => setContactNo(contactNo)}
+          />
+        </View>
 
-                        <MaterialIcons 
-                            style={style.icon}
-                            name="date-range" 
-                            size={24} 
-                            color="#0D47A1" />
+        <View
+          style={([style.viewComponent], { marginBottom: 15, marginTop: 15 })}
+        >
+          <TouchableOpacity
+            style={[
+              style.button,
+              { backgroundColor: isAddServiceDisabled ? "gray" : "#039BE5" },
+            ]}
+            onPress={() => {
+              addServiceInfo();
+              getServiceInfo();
+            }}
+            disabled={isAddServiceDisabled}
+          >
+            <Text style={style.touchButtonLabel}>Add service</Text>
+          </TouchableOpacity>
+        </View>
 
-                        <Text 
-                            style={style.label} >
-                            Date of service
-                        </Text>
+        <View>
+          <Text style={style.label}>
+            Total Reserved Services ({totalReserveService})
+          </Text>
 
-                    </View>
+          <FlatList
+            data={serviceInfo ? serviceInfo : null}
+            renderItem={(item) => renderItemComponent(item)}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </View>
 
-                    <Text 
-                        style={style.input}
-                        onPress={showDateTimePicker} >  
-                        {serviceDateCurrentValue?serviceDateCurrentValue:"Please pick a date"}
-                    </Text>
-                    
-                    <DateTimePicker
-                        isVisible={isDateTimePickerVisible}
-                        onConfirm={handleDatePicked}
-                        onCancel={hideDateTimePicker}
-                        display="default" />
+        <View>
+          <Text
+            style={{
+              marginTop: 10,
+              marginLeft: 10,
+              marginBottom: 10,
+              fontSize: 17,
+              fontWeight: "bold",
+            }}
+          >
+            Total convenience fee: Php{" "}
+            {totalServicePrice ? totalServicePrice : 0}
+          </Text>
 
-                </View>
+          <Text style={style.label}>Payment method</Text>
 
-                <View
-                    style={style.viewComponent} >
+          <RNPickerSelect
+            onValueChange={(value) => {
+              setPaymentMethodValue(value);
+            }}
+            items={[{ label: "Cash", value: "Cash" }]}
+          >
+            <Text style={style.input}>
+              {paymentMethodValue ? paymentMethodValue : "Select an item..."}
+            </Text>
+          </RNPickerSelect>
 
-                    <View
-                        style={{flexDirection:'row'}}>
+          <View style={style.viewTermsAndCondition}>
+            <View>
+              <View>
+                <Anchor href="https://jsparling.github.io/hashmarks/terms_and_conditions">
+                  <Text style={{ fontSize: 15 }}>
+                    Agree on Repair and Maintenance Agreement
+                  </Text>
+                </Anchor>
+              </View>
+            </View>
 
-                        <MaterialIcons 
-                            style={style.icon}
-                            name="add-location" 
-                            size={24} 
-                            color="#B71C1C" />
+            <ToggleSwitch
+              isOn={isAgree}
+              onColor="green"
+              offColor="red"
+              size="small"
+              label=""
+              labelStyle={{
+                marginLeft: 12,
+                marginBottom: 5,
+                fontSize: 17,
+              }}
+              onToggle={() => {
+                if (isAgree === true) {
+                  setIsAgree(false);
+                } else {
+                  setIsAgree(true);
+                }
+              }}
+              style={{
+                marginLeft: 5,
+              }}
+            />
+          </View>
 
-                        <ToggleSwitch
-                            isOn={isUseDefaultAddress}
-                            onColor="green"
-                            label='Use default address'
-                            labelStyle={style.toggleLabel}
-                            offColor="red"
-                            size="small"
-                            onToggle={()=>{
-                                getUserInfo();
-                                
-                                if (isUseDefaultAddress === true){
-                                    setIsUseDefaultAddress(false)
-                                    setIsAddressEditable(true)
-                                }
-                                else {
-                                    setIsUseDefaultAddress(true)
-                                    setIsAddressEditable(false)
-                                }
-                            }}
-                        />
+          <View style={{ marginTop: 15, marginBottom: 15 }}>
+            <TouchableOpacity
+              style={[
+                style.button,
+                {
+                  backgroundColor: isAddBookItNowDisabled ? "gray" : "#039BE5",
+                },
+              ]}
+              onPress={() => {
+                if (serviceInfo.length === 0) {
+                  setErrorMessage("Please add service/s");
+                  return;
+                } else if (totalReserveService < 1) {
+                  setErrorMessage("Please add service to list");
+                  return;
+                } else if (paymentMethodValue === "") {
+                  setErrorMessage("Please select payment method");
+                  return;
+                } else if (isAgree === false) {
+                  setErrorMessage(
+                    "Please agree on Repair and Maintenance Agreement"
+                  );
+                  return;
+                } else {
+                  setIsDialogVisible(true);
+                }
+              }}
+              disabled={isAddBookItNowDisabled}
+            >
+              <Text style={style.touchButtonLabel}>Book it now</Text>
+            </TouchableOpacity>
 
-                    </View>
+            <View style={style.viewErrorMessage}>
+              <Text style={style.labelErrorMessage}>{errorMessage}</Text>
+            </View>
+          </View>
 
-                    <TextInput
-                        style={style.input}
-                        multiline={false}
-                        value={address}
-                        placeholder={'Lot/Block No, Street, City, Province'}
-                        editable={isAddressEditable}
-                        onChangeText={(address)=>setAddress(address)} />
+          <Dialog.Container visible={isDialogVisible}>
+            <Dialog.Title>Book it now!</Dialog.Title>
+            <Dialog.Description>Do you want to proceed?</Dialog.Description>
+            <Dialog.Button label="Cancel" onPress={() => handleCancel()} />
+            <Dialog.Button label="Ok" onPress={() => handleProceed()} />
+          </Dialog.Container>
 
-                </View>
-
-                <View>
-
-                    <View 
-                        style={{flexDirection: 'row'}}>
-
-                        <MaterialIcons 
-                            style={style.icon}
-                            name="contact-phone" 
-                            size={24} 
-                            color="#2E7D32" />
-
-                        <ToggleSwitch
-                            isOn={isUseDefaultContactNo}
-                            onColor="green"
-                            label='Use default mobile number'
-                            labelStyle={style.toggleLabel}
-                            offColor="red"
-                            size="small"
-                            onToggle={()=>{
-                                getUserInfo();
-                            
-                                if (isUseDefaultContactNo === true){
-                                    setIsUseDefaultContactNo(false)
-                                    setIsContactNoEditable(true)
-                                }
-                                else {
-                                    setIsUseDefaultContactNo(true)
-                                    setIsContactNoEditable(false)
-                                }
-                            }} />
-
-                    </View>
-
-                    <TextInput
-                        style={style.input}
-                        value={contactNo}
-                        placeholder={'0917XXXXXXX'}
-                        editable={isContactNoEditable}
-                        onChangeText={(contactNo)=>setContactNo(contactNo)}
-                    />
-
-                </View>
-
-                <View 
-                    style={[style.viewComponent],{marginBottom:15, marginTop:15}} >
-
-                    <TouchableOpacity 
-                        style={[style.button,{backgroundColor: isAddServiceDisabled?'gray':'#039BE5'}]}
-                        onPress={()=>{
-                                addServiceInfo();
-                                getServiceInfo();
-                        }} 
-                        disabled={isAddServiceDisabled}>
-
-                        <Text 
-                            style={style.touchButtonLabel} >
-                                Add service
-                        </Text>
-
-                    </TouchableOpacity>
-
-                </View>
-                
-                <View>
-                    <Text
-                        style={style.label} >
-                            Total Reserved Services ({totalReserveService})
-                    </Text>
-
-                    <FlatList
-                        data={serviceInfo?serviceInfo:null}
-                        renderItem={item => renderItemComponent(item)}
-                        keyExtractor={item => item.id.toString()} />
-
-                </View>
-
-                <View>
-                    <Text style={{
-                        marginTop:10,
-                        marginLeft:10, 
-                        marginBottom:5, 
-                        fontSize:17
-                        }}>Total price: Php {totalServicePrice?totalServicePrice:0}</Text>
-
-                    <Text 
-                        style={style.label}>
-                            Payment method
-                    </Text>
-
-                    <RNPickerSelect
-                        onValueChange={(value) => {
-                            setPaymentMethodValue(value)
-                        }}
-                        items={[
-                            { label: 'Cash', value: 'Cash' }
-                        ]} >
-
-                        <Text 
-                            style={style.input} >
-                                {paymentMethodValue?paymentMethodValue:'Select an item...'}
-                        </Text>
-                        
-                    </RNPickerSelect>
-                        
-                    <View
-                        style={{marginTop:15, marginBottom:15}}>
-
-                        <TouchableOpacity 
-                            style={[style.button,{backgroundColor: isAddBookItNowDisabled?'gray':'#039BE5'}]}
-                            onPress={()=>{
-                                if (serviceInfo.length === 0) {
-                                    setErrorMessage('Please add service/s')
-                                    return
-                                }
-                                else if (totalReserveService < 1) {
-                                    setErrorMessage('Please add service to list')
-                                    return
-                                }
-                                else if (paymentMethodValue === '') {
-                                    setErrorMessage('Please select payment method')
-                                    return
-                                }
-                                else {
-                                    setIsDialogVisible(true)
-                                }
-                            }} 
-                            disabled={isAddBookItNowDisabled}>
-
-                            <Text 
-                                style={style.touchButtonLabel} >
-                                Book it now
-                            </Text>
-
-                        </TouchableOpacity>
-
-                        <View 
-                            style={style.viewErrorMessage} >
-
-                            <Text
-                                style={style.labelErrorMessage} >
-                                {errorMessage}
-                            </Text>
-                            
-                        </View>
-
-                    </View>
-
-                    <Dialog.Container visible={isDialogVisible}>
-                        <Dialog.Title>Book it now!</Dialog.Title>
-                        <Dialog.Description>
-                            Do you want to proceed?
-                        </Dialog.Description>
-                        <Dialog.Button label="Cancel" onPress={()=>handleCancel()} />
-                        <Dialog.Button label="Ok" onPress={()=>handleProceed()} />
-                    </Dialog.Container>
-
-                    <Dialog.Container visible={isDoneDialogVisible}>
-                        <Dialog.Title>Thank you!</Dialog.Title>
-                        <Dialog.Description>
-                            You can check the status of your booking at Transactions tab
-                        </Dialog.Description>
-                        <Dialog.Button label="Ok" onPress={()=>handleDone()} />
-                    </Dialog.Container>
-                    
-                </View>
-
-            </ScrollView>
-            
-        </SafeAreaView>
-    )
-    
+          <Dialog.Container visible={isDoneDialogVisible}>
+            <Dialog.Title>Thank you!</Dialog.Title>
+            <Dialog.Description>
+              You can check the status of your booking at Transactions tab
+            </Dialog.Description>
+            <Dialog.Button label="Ok" onPress={() => handleDone()} />
+          </Dialog.Container>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const style = StyleSheet.create({
+  viewErrorMessage: {
+    // flex:2,
+    backgroundColor: "white",
+    justifyContent: "center",
+  },
 
-    viewErrorMessage: {
-        // flex:2, 
-        backgroundColor:'white',
-        justifyContent: 'center'
-    }, 
+  viewComponent: {
+    justifyContent: "center",
+    marginBottom: 8,
+  },
 
-    viewComponent: {
-        justifyContent:'center',
-        marginBottom: 8
-    },
+  button: {
+    ...Button.standard,
+    marginLeft: 10,
+    marginRight: 10,
+  },
 
-    button: {
-        ...Button.standard,
-        marginLeft: 10,
-        marginRight: 10
-    },
+  icon: {
+    marginLeft: 10,
+  },
 
-    icon: {
-        marginLeft:10
-    },
+  input: {
+    ...Input.standard,
+    marginLeft: 10,
+    marginRight: 10,
+  },
 
-    input: {
-        ...Input.standard,
-        marginLeft: 10,
-        marginRight: 10
-    },
+  label: {
+    ...Label.standard,
+    marginTop: 2,
+    marginLeft: 5,
+    marginBottom: 8,
+  },
 
-    label: {
-        ...Label.standard,
-        marginTop: 2,
-        marginLeft: 5, 
-        marginBottom: 8
-    },
+  labelErrorMessage: {
+    ...Label.self_alignment,
+    ...Label.text_alignment,
+    ...Label.weight,
+    ...Label.red,
+    marginTop: 10,
+  },
 
-    labelErrorMessage: {
-        ...Label.self_alignment,
-        ...Label.text_alignment,
-        ...Label.weight,
-        ...Label.red,
-        marginTop: 10
-    },
+  toggleLabel: {
+    marginLeft: 5,
+    marginBottom: 8,
+    fontSize: 17,
+  },
 
-    toggleLabel: {
-        marginLeft:5, 
-        marginBottom:8, 
-        fontSize:17 
-    },
+  touchButton: {
+    ...Button.border,
+    ...Button.color,
+    ...Button.padding,
+    ...Button.alignment,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    marginBottom: 15,
+  },
 
-    touchButton: {
-        ...Button.border,
-        ...Button.color,
-        ...Button.padding,
-        ...Button.alignment,
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 10,
-        marginBottom: 15
-    },
+  touchButtonLabel: {
+    ...Button.label,
+  },
 
-    touchButtonLabel:{
-        ...Button.label
-    },
-
+  viewTermsAndCondition: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginTop: 10,
+    marginBottom: 10,
+  },
 });
