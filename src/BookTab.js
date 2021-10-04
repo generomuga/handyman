@@ -895,6 +895,20 @@ export default function BookTab({ navigation }) {
             {totalServicePrice ? totalServicePrice : 0}
           </Text>
 
+          <Text
+            style={{
+              marginTop: 3,
+              marginLeft: 10,
+              marginBottom: 10,
+              fontSize: 12,
+              fontWeight: "100",
+              color: "#F44336",
+            }}
+          >
+            * Actual cost of service is to be billed separately from the
+            convenience fee
+          </Text>
+
           <Text style={style.label}>Payment method</Text>
 
           <RNPickerSelect

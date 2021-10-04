@@ -67,7 +67,7 @@ export default function About({ navigation }) {
             marginRight: 15,
             marginTop: 10,
             marginBottom: 25,
-            fontSize: 14,
+            fontSize: 17,
             fontWeight: "500",
             color: "#424242",
           }}
@@ -76,7 +76,7 @@ export default function About({ navigation }) {
         </Text>
       </View>
 
-      <View
+      {/* <View
         style={{
           alignSelf: "center",
           marginBottom: 5,
@@ -106,7 +106,7 @@ export default function About({ navigation }) {
         <Anchor href="https://handyman-plus.web.app/repair-and-maintenance-agreement">
           <Text style={{ fontSize: 15 }}>Repair and Maintenance Agreement</Text>
         </Anchor>
-      </View>
+      </View> */}
     </View>
   );
 }
