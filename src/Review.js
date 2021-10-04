@@ -30,9 +30,7 @@ export default function Review(props) {
           <View>
             <View>
               <Anchor href="https://handyman-plus.web.app/terms-and-condition">
-                <Text style={{ fontSize: 17 }}>
-                  Agree on Terms and Conditions{" "}
-                </Text>
+                <Text style={{ fontSize: 17 }}>Terms and Conditions </Text>
               </Anchor>
             </View>
           </View>
