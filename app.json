@@ -5,17 +5,18 @@
     "name": "handyman",
     "slug": "handyman",
     "version": "1.0.0d",
-    "facebookScheme": "fb491440875477602",
-    "facebookAppId": "491440875477602",
-    "facebookDisplayName": "Hugefort Handyman Plus",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
+    "icon": "./assets/appstore.png",
     "ios": {
-      "bundleIdentifier": "com.hugefort.handymanplus"
+      "bundleIdentifier": "com.hugefort.handymanplus",
+      "supportsTablet": true
     },
     "android": {
-      "package": "com.hugefort.handymanplus"
+      "package": "com.hugefort.handymanplus",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/playstore.png",
+        "backgroundColor": "#000"
+      }
     }
   }
 }
