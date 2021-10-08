@@ -63,7 +63,8 @@ export default function Review(props) {
         <View>
           <View>
             <Text style={{ fontSize: 14, fontWeight: "bold" }}>
-              I agree to the terms and conditions and privacy policy
+              I agree to the terms and conditions {"\n                 "} and
+              privacy policy
             </Text>
           </View>
         </View>
