@@ -34,6 +34,8 @@ import * as firebase from "firebase";
 import { TextInput } from "react-native-gesture-handler";
 import Dialog from "react-native-dialog";
 
+import * as WebBrowser from "expo-web-browser";
+
 const dbRef = firebase.database().ref();
 
 export default function BookTab({ navigation }) {
@@ -102,6 +104,12 @@ export default function BookTab({ navigation }) {
   const [isAddBookItNowDisabled, setIsAddBookItNowDisabled] = useState(true);
 
   const [isAgree, setIsAgree] = useState(false);
+
+  const [paymentURL, setPaymentURL] = useState("");
+
+  const [sourceId, setSourceId] = useState("");
+
+  const [type, setType] = useState("");
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -445,6 +453,91 @@ export default function BookTab({ navigation }) {
     hideDateTimePicker();
   };
 
+  const openBrowser = async () => {
+    console.log(paymentURL);
+    let result = await WebBrowser.openBrowserAsync(paymentURL);
+    let open = result["type"];
+
+    if (open == "opened") {
+      console.log("Hehe");
+      // createPayment();
+    }
+  };
+
+  const createSource = async () => {
+    try {
+      const url = "https://api.paymongo.com/v1/sources";
+      const options = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Basic c2tfdGVzdF9qbXI4NWNZbXNKN2FxMUw4Zkdnc0RyM3Y6",
+        },
+        body: JSON.stringify({
+          data: {
+            attributes: {
+              amount: 10000,
+              redirect: {
+                success: "https://google.com",
+                failed: "https://youtube.com",
+              },
+              currency: "PHP",
+              type: "gcash",
+            },
+          },
+        }),
+      };
+
+      fetch(url, options)
+        .then((res) => res.json())
+        .then((json) => {
+          let url = json["data"]["attributes"]["redirect"]["checkout_url"];
+          let id = json["data"]["id"];
+          let type = json["data"]["type"];
+
+          setPaymentURL(url);
+          setSourceId(id);
+          setType(type);
+          WebBrowser.openBrowserAsync(url);
+        })
+        .catch((err) => console.error("error:" + err));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  const createPayment = async () => {
+    if (sourceId != "") {
+      console.log("payment");
+      const url = "https://api.paymongo.com/v1/payments";
+      const options = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Basic c2tfdGVzdF9qbXI4NWNZbXNKN2FxMUw4Zkdnc0RyM3Y6",
+        },
+        body: JSON.stringify({
+          data: {
+            attributes: {
+              amount: 10000,
+              source: { id: sourceId, type: type },
+              currency: "PHP",
+            },
+          },
+        }),
+      };
+
+      fetch(url, options)
+        .then((res) => res.json())
+        .then((json) => console.log(json))
+        .catch((err) => console.error("error:" + err));
+    }
+  };
+
   const renderItemComponent = (data) => (
     <View
       style={{
@@ -661,10 +754,15 @@ export default function BookTab({ navigation }) {
   };
 
   const handleProceed = () => {
+    createSource();
+
+    // createPayment();
+    // openBrowser();
+    // createPayment();
     setIsDialogVisible(false);
-    updateBookingDetails();
-    setIsDoneDialogVisible(true);
-    clearState();
+    // updateBookingDetails();
+    // setIsDoneDialogVisible(true);
+    // clearState();
   };
 
   const handleDone = () => {
@@ -915,7 +1013,10 @@ export default function BookTab({ navigation }) {
             onValueChange={(value) => {
               setPaymentMethodValue(value);
             }}
-            items={[{ label: "Cash", value: "Cash" }]}
+            items={[
+              { label: "Cash", value: "Cash" },
+              { label: "GCash", value: "GCash" },
+            ]}
           >
             <Text style={style.input}>
               {paymentMethodValue ? paymentMethodValue : "Select an item..."}
@@ -987,6 +1088,27 @@ export default function BookTab({ navigation }) {
               disabled={isAddBookItNowDisabled}
             >
               <Text style={style.touchButtonLabel}>Book it now</Text>
+            </TouchableOpacity>
+
+            <View style={style.viewErrorMessage}>
+              <Text style={style.labelErrorMessage}>{errorMessage}</Text>
+            </View>
+          </View>
+
+          <View style={{ marginTop: 15, marginBottom: 15 }}>
+            <TouchableOpacity
+              style={[
+                style.button,
+                {
+                  backgroundColor: isAddBookItNowDisabled ? "gray" : "#039BE5",
+                },
+              ]}
+              onPress={() => {
+                createPayment();
+              }}
+              disabled={isAddBookItNowDisabled}
+            >
+              <Text style={style.touchButtonLabel}>Confirm</Text>
             </TouchableOpacity>
 
             <View style={style.viewErrorMessage}>
