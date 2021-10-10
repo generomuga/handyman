@@ -455,17 +455,6 @@ export default function BookTab({ navigation }) {
     hideDateTimePicker();
   };
 
-  const openBrowser = async () => {
-    console.log(paymentURL);
-    let result = await WebBrowser.openBrowserAsync(paymentURL);
-    let open = result["type"];
-
-    if (open == "opened") {
-      console.log("Hehe");
-      // createPayment();
-    }
-  };
-
   const addZeros = (totalServicePrice) => {
     return parseInt(totalServicePrice + "00");
   };
@@ -509,11 +498,9 @@ export default function BookTab({ navigation }) {
           setType(type);
           WebBrowser.openBrowserAsync(url);
         })
-        .catch((err) => console.error("error:" + err));
+        .catch((err) => {});
     } catch (error) {
-      console.error(error);
     } finally {
-      // setLoading(false);
     }
   };
 
@@ -550,7 +537,7 @@ export default function BookTab({ navigation }) {
             setIsConfirmDisabled(true);
           }
         })
-        .catch((err) => console.error("error:" + err));
+        .catch((err) => {});
     }
   };
 
@@ -790,6 +777,9 @@ export default function BookTab({ navigation }) {
     getCategoryList();
     getServiceInfo();
     getUserInfo();
+    setCategoryCurrentValue("");
+    setServiceCurrentValue("");
+    setServiceDateCurrentValue("");
   };
 
   return (
