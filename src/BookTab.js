@@ -113,6 +113,8 @@ export default function BookTab({ navigation }) {
 
   const [type, setType] = useState("");
 
+  const [paymentId, setPaymentId] = useState("");
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       getCategoryList();
@@ -300,6 +302,7 @@ export default function BookTab({ navigation }) {
   };
 
   const updateBookingDetails = () => {
+    console.log("update", paymentId);
     let user = firebase.auth().currentUser;
     let uid = user["uid"];
 
@@ -372,6 +375,7 @@ export default function BookTab({ navigation }) {
             service_currency: serviceCurrency,
             booking_info: items_category,
             paymentMethod: paymentMethodValue,
+            paymentId: paymentId,
           });
 
           requestRef.set({
@@ -383,6 +387,7 @@ export default function BookTab({ navigation }) {
             displayName: displayName,
             photoURL: photoURL,
             paymentMethod: paymentMethodValue,
+            paymentId: paymentId,
           });
         }
 
@@ -531,8 +536,10 @@ export default function BookTab({ navigation }) {
       fetch(url, options)
         .then((res) => res.json())
         .then((json) => {
+          let pid = json["data"]["id"];
           let type = json["data"]["type"];
-          if (type === "payment") {
+          if (type === "payment" && pid !== "") {
+            setPaymentId(pid);
             updateBookingDetails();
             setIsDoneDialogVisible(true);
             clearState();
