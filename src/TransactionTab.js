@@ -31,6 +31,7 @@ export default function NotificationTab({ navigation }) {
     let is_service_added = false;
     let createdDate = "";
     let booking_info = [];
+    let paymentMethod = "";
 
     // TODO: Implement query order
     // const query = firebase.database().ref('transactions/'+user['uid']).orderByChild('total_price').limitToLast(100)
@@ -55,6 +56,8 @@ export default function NotificationTab({ navigation }) {
             service_currency = childsnap.val()["service_currency"];
             total_price = childsnap.val()["total_price"];
             booking_info = childsnap.val()["booking_info"];
+            paymentMethod = childsnap.val()["paymentMethod"];
+            console.log(paymentMethod);
 
             let booking_info_items = [];
             let booking_id = "";
@@ -98,6 +101,7 @@ export default function NotificationTab({ navigation }) {
               service_currency,
               total_price,
               booking_info_items,
+              paymentMethod,
             });
           });
 
@@ -167,7 +171,8 @@ export default function NotificationTab({ navigation }) {
               fontWeight: "bold",
             }}
           >
-            {data.item.service_currency} {data.item.total_price}
+            {data.item.service_currency} {data.item.total_price} -{" "}
+            {data.item.paymentMethod}
           </Text>
         </View>
 
