@@ -103,6 +103,8 @@ export default function BookTab({ navigation }) {
 
   const [isAddBookItNowDisabled, setIsAddBookItNowDisabled] = useState(true);
 
+  const [isConfirmDisabled, setIsConfirmDisabled] = useState(true);
+
   const [isAgree, setIsAgree] = useState(false);
 
   const [paymentURL, setPaymentURL] = useState("");
@@ -533,7 +535,15 @@ export default function BookTab({ navigation }) {
 
       fetch(url, options)
         .then((res) => res.json())
-        .then((json) => console.log(json))
+        .then((json) => {
+          let type = json["data"]["type"];
+          if (type === "payment") {
+            updateBookingDetails();
+            setIsDoneDialogVisible(true);
+            clearState();
+            setIsConfirmDisabled(true);
+          }
+        })
         .catch((err) => console.error("error:" + err));
     }
   };
@@ -754,15 +764,16 @@ export default function BookTab({ navigation }) {
   };
 
   const handleProceed = () => {
-    createSource();
-
-    // createPayment();
-    // openBrowser();
-    // createPayment();
+    if (paymentMethodValue === "Cash") {
+      updateBookingDetails();
+      setIsDoneDialogVisible(true);
+      clearState();
+    } else if (paymentMethodValue === "GCash") {
+      createSource();
+      setIsAddBookItNowDisabled(true);
+      setIsConfirmDisabled(false);
+    }
     setIsDialogVisible(false);
-    // updateBookingDetails();
-    // setIsDoneDialogVisible(true);
-    // clearState();
   };
 
   const handleDone = () => {
@@ -1095,25 +1106,22 @@ export default function BookTab({ navigation }) {
             </View>
           </View>
 
-          <View style={{ marginTop: 15, marginBottom: 15 }}>
+          <View style={{ marginTop: 0, marginBottom: 15 }}>
             <TouchableOpacity
               style={[
                 style.button,
                 {
-                  backgroundColor: isAddBookItNowDisabled ? "gray" : "#039BE5",
+                  backgroundColor: isConfirmDisabled ? "white" : "#039BE5",
+                  borderColor: isConfirmDisabled ? "white" : "#039BE5",
                 },
               ]}
               onPress={() => {
                 createPayment();
               }}
-              disabled={isAddBookItNowDisabled}
+              disabled={isConfirmDisabled}
             >
-              <Text style={style.touchButtonLabel}>Confirm</Text>
+              <Text style={style.touchButtonLabel}>Confirm payment</Text>
             </TouchableOpacity>
-
-            <View style={style.viewErrorMessage}>
-              <Text style={style.labelErrorMessage}>{errorMessage}</Text>
-            </View>
           </View>
 
           <Dialog.Container visible={isDialogVisible}>
