@@ -371,6 +371,7 @@ export default function BookTab({ navigation }) {
             created_at: created_at,
             service_currency: serviceCurrency,
             booking_info: items_category,
+            paymentMethod: paymentMethodValue,
           });
 
           requestRef.set({
@@ -381,6 +382,7 @@ export default function BookTab({ navigation }) {
             uid: uid,
             displayName: displayName,
             photoURL: photoURL,
+            paymentMethod: paymentMethodValue,
           });
         }
 
