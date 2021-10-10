@@ -469,7 +469,7 @@ export default function BookTab({ navigation }) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Basic c2tfdGVzdF9qbXI4NWNZbXNKN2FxMUw4Zkdnc0RyM3Y6",
+          Authorization: "Basic c2tfdGVzdF9GNjlYb0U0UTI2WlZUZ0NNWlNpWmpSeEw6",
         },
         body: JSON.stringify({
           data: {
@@ -513,7 +513,7 @@ export default function BookTab({ navigation }) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Basic c2tfdGVzdF9qbXI4NWNZbXNKN2FxMUw4Zkdnc0RyM3Y6",
+          Authorization: "Basic c2tfdGVzdF9GNjlYb0U0UTI2WlZUZ0NNWlNpWmpSeEw6",
         },
         body: JSON.stringify({
           data: {
@@ -780,6 +780,7 @@ export default function BookTab({ navigation }) {
     setCategoryCurrentValue("");
     setServiceCurrentValue("");
     setServiceDateCurrentValue("");
+    setPaymentMethodValue("");
   };
 
   return (
@@ -1035,7 +1036,7 @@ export default function BookTab({ navigation }) {
               <View>
                 <Anchor href="https://handyman-plus.web.app/repair-and-maintenance-agreement">
                   <Text style={{ fontSize: 15 }}>
-                    Agree on Repair and Maintenance Agreement
+                    Agree to the Repair and Maintenance Agreement
                   </Text>
                 </Anchor>
               </View>
