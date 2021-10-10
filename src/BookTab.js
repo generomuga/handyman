@@ -466,8 +466,14 @@ export default function BookTab({ navigation }) {
     }
   };
 
+  const addZeros = (totalServicePrice) => {
+    return parseInt(totalServicePrice + "00");
+  };
+
   const createSource = async () => {
     try {
+      let amount = addZeros(totalServicePrice);
+
       const url = "https://api.paymongo.com/v1/sources";
       const options = {
         method: "POST",
@@ -479,7 +485,7 @@ export default function BookTab({ navigation }) {
         body: JSON.stringify({
           data: {
             attributes: {
-              amount: 10000,
+              amount: amount,
               redirect: {
                 success: "https://google.com",
                 failed: "https://youtube.com",
@@ -513,7 +519,7 @@ export default function BookTab({ navigation }) {
 
   const createPayment = async () => {
     if (sourceId != "") {
-      console.log("payment");
+      let amount = addZeros(totalServicePrice);
       const url = "https://api.paymongo.com/v1/payments";
       const options = {
         method: "POST",
@@ -525,7 +531,7 @@ export default function BookTab({ navigation }) {
         body: JSON.stringify({
           data: {
             attributes: {
-              amount: 10000,
+              amount: amount,
               source: { id: sourceId, type: type },
               currency: "PHP",
             },
