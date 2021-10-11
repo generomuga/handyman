@@ -777,19 +777,24 @@ export default function BookTab({ navigation }) {
   };
 
   const handleProceed = () => {
-    if (paymentMethodValue === "Cash") {
-      updateBookingDetails();
-      setIsDoneDialogVisible(true);
-      clearState();
-    } else if (
-      paymentMethodValue === "GCash" ||
-      paymentMethodValue === "GrabPay"
-    ) {
-      createSource();
-      setIsAddBookItNowDisabled(true);
-      setIsConfirmDisabled(false);
+    setErrorMessage("");
+    if (paymentMethodValue !== "Select an item...  ") {
+      if (paymentMethodValue === "Cash") {
+        updateBookingDetails();
+        setIsDoneDialogVisible(true);
+        clearState();
+      } else if (
+        paymentMethodValue === "GCash" ||
+        paymentMethodValue === "GrabPay"
+      ) {
+        createSource();
+        setIsAddBookItNowDisabled(true);
+        setIsConfirmDisabled(false);
+      }
+      setIsDialogVisible(false);
+    } else {
+      setErrorMessage("Please select payment method");
     }
-    setIsDialogVisible(false);
   };
 
   const handleDone = () => {
@@ -804,6 +809,8 @@ export default function BookTab({ navigation }) {
     setServiceCurrentValue("");
     setServiceDateCurrentValue("");
     setPaymentMethodValue("");
+    setErrorMessage("");
+    setPaymentIcon(require("../assets/" + "Default" + ".png"));
   };
 
   return (
