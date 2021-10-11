@@ -302,7 +302,6 @@ export default function BookTab({ navigation }) {
   };
 
   const updateBookingDetails = () => {
-    console.log("update", paymentId);
     let user = firebase.auth().currentUser;
     let uid = user["uid"];
 
@@ -469,6 +468,13 @@ export default function BookTab({ navigation }) {
   const createSource = async () => {
     try {
       let amount = addZeros(totalServicePrice);
+      let ptype = "";
+      if (paymentMethodValue === "GCash") {
+        ptype = "gcash";
+      }
+      if (paymentMethodValue === "GrabPay") {
+        ptype = "grab_pay";
+      }
 
       const url = "https://api.paymongo.com/v1/sources";
       const options = {
@@ -487,7 +493,7 @@ export default function BookTab({ navigation }) {
                 failed: "https://youtube.com",
               },
               currency: "PHP",
-              type: "gcash",
+              type: ptype,
             },
           },
         }),
@@ -770,7 +776,10 @@ export default function BookTab({ navigation }) {
       updateBookingDetails();
       setIsDoneDialogVisible(true);
       clearState();
-    } else if (paymentMethodValue === "GCash") {
+    } else if (
+      paymentMethodValue === "GCash" ||
+      paymentMethodValue === "GrabPay"
+    ) {
       createSource();
       setIsAddBookItNowDisabled(true);
       setIsConfirmDisabled(false);
@@ -1033,6 +1042,7 @@ export default function BookTab({ navigation }) {
             items={[
               { label: "Cash", value: "Cash" },
               { label: "GCash", value: "GCash" },
+              { label: "GrabPay", value: "GrabPay" },
             ]}
           >
             <Text style={style.input}>
