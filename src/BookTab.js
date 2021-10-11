@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  Image,
 } from "react-native";
 
 import { Button, Input, Label } from "./styles";
@@ -114,6 +115,10 @@ export default function BookTab({ navigation }) {
   const [type, setType] = useState("");
 
   const [paymentId, setPaymentId] = useState("");
+
+  const [paymentIcon, setPaymentIcon] = useState(
+    require("../assets/" + "Default" + ".png")
+  );
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -1038,6 +1043,16 @@ export default function BookTab({ navigation }) {
           <RNPickerSelect
             onValueChange={(value) => {
               setPaymentMethodValue(value);
+
+              if (value === "Cash") {
+                setPaymentIcon(require("../assets/" + "Cash" + ".png"));
+              } else if (value === "GCash") {
+                setPaymentIcon(require("../assets/" + "GCash" + ".png"));
+              } else if (value === "GrabPay") {
+                setPaymentIcon(require("../assets/" + "GrabPay" + ".png"));
+              } else {
+                setPaymentIcon(require("../assets/" + "Default" + ".png"));
+              }
             }}
             items={[
               { label: "Cash", value: "Cash" },
@@ -1045,9 +1060,32 @@ export default function BookTab({ navigation }) {
               { label: "GrabPay", value: "GrabPay" },
             ]}
           >
-            <Text style={style.input}>
-              {paymentMethodValue ? paymentMethodValue : "Select an item..."}
-            </Text>
+            <View
+              style={{
+                borderWidth: 1,
+                // borderColor:'#039BE5',
+                borderColor: "green",
+                borderRadius: 10,
+                marginBottom: 5,
+                padding: 8,
+                textAlign: "left",
+                marginLeft: 10,
+                marginRight: 10,
+                flexDirection: "row",
+              }}
+            >
+              <Text style={{ color: "#424242" }}>
+                {paymentMethodValue
+                  ? paymentMethodValue + "  "
+                  : "Select an item...  "}
+              </Text>
+              <Image
+                style={{ height: 20, width: 20, resizeMode: "contain" }}
+                // source={require("../assets/gcash.png")}
+                source={paymentIcon}
+                // style={style.logo}
+              />
+            </View>
           </RNPickerSelect>
 
           <View style={style.viewTermsAndCondition}>
