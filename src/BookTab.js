@@ -1057,6 +1057,8 @@ export default function BookTab({ navigation }) {
                 setPaymentIcon(require("../assets/" + "GCash" + ".png"));
               } else if (value === "GrabPay") {
                 setPaymentIcon(require("../assets/" + "GrabPay" + ".png"));
+              } else if (value === "CreditCard") {
+                setPaymentIcon(require("../assets/" + "CreditCard" + ".png"));
               } else {
                 setPaymentIcon(require("../assets/" + "Default" + ".png"));
               }
@@ -1065,6 +1067,7 @@ export default function BookTab({ navigation }) {
               { label: "Cash", value: "Cash" },
               { label: "GCash", value: "GCash" },
               { label: "GrabPay", value: "GrabPay" },
+              { label: "Credit Card", value: "CreditCard" },
             ]}
           >
             <View
