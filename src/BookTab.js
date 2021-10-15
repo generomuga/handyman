@@ -777,6 +777,7 @@ export default function BookTab({ navigation }) {
   };
 
   const handleProceed = () => {
+    console.log(paymentMethodValue);
     setErrorMessage("");
     if (paymentMethodValue !== "Select an item...  ") {
       if (paymentMethodValue === "Cash") {
@@ -790,6 +791,8 @@ export default function BookTab({ navigation }) {
         createSource();
         setIsAddBookItNowDisabled(true);
         setIsConfirmDisabled(false);
+      } else if (paymentMethodValue === "Credit Card") {
+        navigation.navigate("CreditCard", { amount: totalServicePrice });
       }
       setIsDialogVisible(false);
     } else {
