@@ -123,10 +123,13 @@ export default function BookTab({ navigation, route }) {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       if (route.params !== undefined) {
-        console.log("True");
-        console.log(route.params);
-        console.log(isAddBookItNowDisabled);
-        setIsAddBookItNowDisabled(true);
+        if (route.params.status === "succeeded") {
+          setIsAddBookItNowDisabled(true);
+          updateBookingDetails();
+          setIsDoneDialogVisible(true);
+          clearState();
+          setIsConfirmDisabled(true);
+        }
       } else {
         console.log("False");
         getCategoryList();
@@ -816,6 +819,7 @@ export default function BookTab({ navigation, route }) {
 
   const handleDone = () => {
     setIsDoneDialogVisible(false);
+    navigation.setParams({ status: null });
   };
 
   const clearState = () => {
