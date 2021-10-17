@@ -31,7 +31,8 @@ export default function CreditCard({ navigation, route }) {
       setErrorMessage("");
       let isValid = creditCardInfo["valid"];
       if (isValid != false) {
-        setIsDialogVisible(true);
+        // setIsDialogVisible(true);
+        createPayment();
       } else {
         setErrorMessage("Please enter a valid card info");
       }
