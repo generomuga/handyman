@@ -39,7 +39,7 @@ import * as WebBrowser from "expo-web-browser";
 
 const dbRef = firebase.database().ref();
 
-export default function BookTab({ navigation }) {
+export default function BookTab({ navigation, route }) {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [categoryCurrentValue, setCategoryCurrentValue] = useState("");
@@ -125,10 +125,17 @@ export default function BookTab({ navigation }) {
       getCategoryList();
       getServiceInfo();
       getUserInfo();
+      if (route.params !== undefined) {
+        setIsAddBookItNowDisabled(false);
+        console.log("True");
+      } else {
+        setIsAddBookItNowDisabled(true);
+        console.log("False");
+      }
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, route]);
 
   const getCategoryList = () => {
     const items = [];
@@ -796,7 +803,9 @@ export default function BookTab({ navigation }) {
         setIsAddBookItNowDisabled(true);
         setIsConfirmDisabled(false);
       } else if (paymentMethodValue === "Credit Card") {
+        setIsConfirmDisabled(false);
         navigation.navigate("CreditCard", { amount: totalServicePrice });
+        setIsAddBookItNowDisabled(false);
       }
       setIsDialogVisible(false);
     } else {
@@ -1187,7 +1196,8 @@ export default function BookTab({ navigation }) {
                 },
               ]}
               onPress={() => {
-                createPayment();
+                //createPayment();
+                console.log(route.params);
               }}
               disabled={isConfirmDisabled}
             >

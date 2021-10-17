@@ -15,11 +15,7 @@ import {
 } from "react-native-credit-card-input-view";
 
 export default function CreditCard({ navigation, route }) {
-  useEffect(() => {}, []);
-
   const [creditCardInfo, setCreditCardInfo] = useState("");
-  const [paymentMethodId, setPaymentMethodId] = useState("");
-  const [paymentIntentId, setPaymentIntentId] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   // const _onChange = (form) => console.log(form);
@@ -69,9 +65,7 @@ export default function CreditCard({ navigation, route }) {
         await fetch("https://api.paymongo.com/v1/payment_methods", options)
           .then((response) => response.json())
           .then((response) => {
-            let pid = response["data"]["id"];
-            console.log(pid);
-            setPaymentMethodId(pid);
+            let paymentMethodId = response["data"]["id"];
             const options = {
               method: "POST",
               headers: {
@@ -97,10 +91,7 @@ export default function CreditCard({ navigation, route }) {
             fetch("https://api.paymongo.com/v1/payment_intents", options)
               .then((response) => response.json())
               .then((response) => {
-                // console.log(response);
-                let piid = response["data"]["id"];
-                setPaymentIntentId(piid);
-
+                let paymentIntentId = response["data"]["id"];
                 const options = {
                   method: "POST",
                   headers: {
@@ -126,7 +117,13 @@ export default function CreditCard({ navigation, route }) {
                 )
                   .then((response) => response.json())
                   .then((response) => {
-                    console.log(response);
+                    let status = response["data"]["attributes"]["status"];
+
+                    // navigation.navigate("Home", { status: "test" });
+                    navigation.navigate("Home", {
+                      screen: "Book",
+                      params: { status: status },
+                    });
                     // null;
                   })
                   .catch((err) => console.error(err));
