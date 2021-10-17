@@ -557,7 +557,11 @@ export default function BookTab({ navigation }) {
             setIsConfirmDisabled(true);
           }
         })
-        .catch((err) => {});
+        .catch((err) => {
+          setErrorMessage("Failed to confirm payment");
+          setIsConfirmDisabled(true);
+          setIsAddBookItNowDisabled(false);
+        });
     }
   };
 
