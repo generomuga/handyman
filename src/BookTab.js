@@ -122,20 +122,21 @@ export default function BookTab({ navigation, route }) {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      getCategoryList();
-      getServiceInfo();
-      getUserInfo();
       if (route.params !== undefined) {
-        setIsAddBookItNowDisabled(false);
         console.log("True");
-      } else {
+        console.log(route.params);
+        console.log(isAddBookItNowDisabled);
         setIsAddBookItNowDisabled(true);
+      } else {
         console.log("False");
+        getCategoryList();
+        getServiceInfo();
+        getUserInfo();
       }
     });
 
     return unsubscribe;
-  }, [navigation, route]);
+  }, [navigation, route, isAddBookItNowDisabled]);
 
   const getCategoryList = () => {
     const items = [];
@@ -1196,8 +1197,16 @@ export default function BookTab({ navigation, route }) {
                 },
               ]}
               onPress={() => {
-                //createPayment();
-                console.log(route.params);
+                if (
+                  paymentMethodValue === "GCash" ||
+                  paymentMethodValue === "GrabPay"
+                ) {
+                  createPayment();
+                } else {
+                  console.log("Credit Carddss");
+                  setIsAddBookItNowDisabled(false);
+                }
+                //
               }}
               disabled={isConfirmDisabled}
             >
