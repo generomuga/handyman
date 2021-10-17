@@ -129,6 +129,8 @@ export default function BookTab({ navigation, route }) {
           setIsDoneDialogVisible(true);
           clearState();
           setIsConfirmDisabled(true);
+        } else {
+          console.log(route.params);
         }
       } else {
         console.log("False");
@@ -807,9 +809,9 @@ export default function BookTab({ navigation, route }) {
         setIsAddBookItNowDisabled(true);
         setIsConfirmDisabled(false);
       } else if (paymentMethodValue === "Credit Card") {
-        setIsConfirmDisabled(false);
+        // setIsConfirmDisabled(false);
         navigation.navigate("CreditCard", { amount: totalServicePrice });
-        setIsAddBookItNowDisabled(false);
+        // setIsAddBookItNowDisabled(false);
       }
       setIsDialogVisible(false);
     } else {

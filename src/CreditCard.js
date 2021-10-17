@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 
 import {
-  SafeAreaView,
   StyleSheet,
   View,
   Text,
-  Button,
   TouchableOpacity,
+  Keyboard,
+  ScrollView,
 } from "react-native";
+
+import { Button, Label } from "./styles";
 
 import {
   CreditCardInput,
@@ -18,7 +20,6 @@ export default function CreditCard({ navigation, route }) {
   const [creditCardInfo, setCreditCardInfo] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  // const _onChange = (form) => console.log(form);
   const addZeros = (totalServicePrice) => {
     return parseInt(totalServicePrice + "00");
   };
@@ -27,10 +28,9 @@ export default function CreditCard({ navigation, route }) {
     try {
       setErrorMessage("");
       let isValid = creditCardInfo["valid"];
-      console.log(isValid);
+
       if (isValid != false) {
         let amount = addZeros(route.params.amount);
-        console.log(creditCardInfo);
 
         let card_no = creditCardInfo["values"]["number"]
           .replace(/\s+/g, "")
@@ -134,7 +134,6 @@ export default function CreditCard({ navigation, route }) {
           })
           .catch((err) => console.error(err));
       } else {
-        console.log("Not valid");
         setErrorMessage("Please enter a valid card info");
       }
     } catch (error) {
@@ -143,41 +142,90 @@ export default function CreditCard({ navigation, route }) {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ marginTop: 20, flex: 0.2 }}>
-        <Text>Payment</Text>
-        <Text>AMOUNT{route.params.amount}</Text>
+    <ScrollView style={{ flex: 1 }}>
+      <View
+        style={{
+          marginTop: 70,
+          flex: 0.2,
+          // backgroundColor: "#EDE7F6",
+          flexDirection: "row",
+        }}
+      >
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 17,
+            alignSelf: "center",
+            textAlign: "center",
+            marginLeft: 30,
+            marginBottom: 80,
+          }}
+        >
+          Card Information
+        </Text>
+        {/* <Text>AMOUNT{route.params.amount}</Text> */}
       </View>
       <View
         style={{
-          flex: 0.6,
-          marginTop: 120,
+          flex: 0.4,
+          marginTop: 20,
+          // backgroundColor: "#E3F2FD",
         }}
       >
         <CreditCardInput
           onChange={(form) => {
             setCreditCardInfo(form);
-            // console.log(form);
           }}
         />
       </View>
       <View>
-        <Text>{errorMessage}</Text>
+        <Text style={style.labelErrorMessage}>{errorMessage}</Text>
       </View>
-      <View style={{ flex: 0.1 }}>
+      <View style={{ flex: 0.1, marginBottom: 10 }}>
         <TouchableOpacity
+          style={[style.button]}
           onPress={() => {
-            // console.log(creditCardInfo);
-            // navigation.goBack();
-            // console.log(route.params.amount);
             createPaymentMethod();
           }}
         >
-          <Text>Login</Text>
+          <Text style={style.touchButtonLabel}>
+            Pay Php {route.params.amount}.00
+          </Text>
         </TouchableOpacity>
       </View>
-    </View>
+      <View style={{ flex: 0.1 }}>
+        <TouchableOpacity
+          style={[style.button, { backgroundColor: "#E65100" }]}
+          onPress={() => {
+            navigation.navigate("Home", {
+              screen: "Book",
+              params: { status: "failed" },
+            });
+          }}
+        >
+          <Text style={style.touchButtonLabel}>Cancel</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
-const style = StyleSheet.create({});
+const style = StyleSheet.create({
+  button: {
+    ...Button.standard,
+    marginLeft: 40,
+    marginRight: 40,
+  },
+
+  touchButtonLabel: {
+    ...Button.label,
+  },
+
+  labelErrorMessage: {
+    ...Label.self_alignment,
+    ...Label.text_alignment,
+    ...Label.weight,
+    ...Label.red,
+    marginBottom: 10,
+  },
+});
