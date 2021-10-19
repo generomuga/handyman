@@ -112,9 +112,15 @@ export default function Login(props) {
       setIsLoading(true);
       const result = await Google.logInAsync({
         androidClientId:
-          "876177652588-5fiqiq2vna74qg6aklen12vd1hpre723.apps.googleusercontent.com",
+          // prod
+          // "876177652588-5fiqiq2vna74qg6aklen12vd1hpre723.apps.googleusercontent.com",
+          // dev
+          "1008355623833-e4hlh2p3e297gencmvemn37e71a5caf8.apps.googleusercontent.com",
         iosClientId:
-          "876177652588-s599pfq4cm2k0lotu9erv319kbn1ibh9.apps.googleusercontent.com",
+          //prod
+          // "876177652588-s599pfq4cm2k0lotu9erv319kbn1ibh9.apps.googleusercontent.com",
+          // dev
+          "1008355623833-je5atj8uqgpps8jo8k64ali2h6vq7s64.apps.googleusercontent.com",
         scopes: ["profile", "email"],
       });
       if (result.type === "success") {

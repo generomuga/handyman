@@ -54,7 +54,7 @@ export default function CreditCard({ navigation, route }) {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Basic c2tfdGVzdF9GNjlYb0U0UTI2WlZUZ0NNWlNpWmpSeEw6",
+        Authorization: "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
       },
       body: JSON.stringify({
         data: {
@@ -80,7 +80,7 @@ export default function CreditCard({ navigation, route }) {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: "Basic c2tfdGVzdF9GNjlYb0U0UTI2WlZUZ0NNWlNpWmpSeEw6",
+            Authorization: "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
           },
           body: JSON.stringify({
             data: {
@@ -106,7 +106,7 @@ export default function CreditCard({ navigation, route }) {
                 Accept: "application/json",
                 "Content-Type": "application/json",
                 Authorization:
-                  "Basic c2tfdGVzdF9GNjlYb0U0UTI2WlZUZ0NNWlNpWmpSeEw6",
+                  "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
               },
               body: JSON.stringify({
                 data: {
