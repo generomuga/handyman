@@ -500,7 +500,7 @@ export default function BookTab({ navigation, route }) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Basic c2tfdGVzdF9GNjlYb0U0UTI2WlZUZ0NNWlNpWmpSeEw6",
+          Authorization: "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
         },
         body: JSON.stringify({
           data: {
@@ -520,6 +520,7 @@ export default function BookTab({ navigation, route }) {
       fetch(url, options)
         .then((res) => res.json())
         .then((json) => {
+          console.log(json);
           let url = json["data"]["attributes"]["redirect"]["checkout_url"];
           let id = json["data"]["id"];
           let type = json["data"]["type"];
@@ -544,7 +545,7 @@ export default function BookTab({ navigation, route }) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Basic c2tfdGVzdF9GNjlYb0U0UTI2WlZUZ0NNWlNpWmpSeEw6",
+          Authorization: "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
         },
         body: JSON.stringify({
           data: {
@@ -794,7 +795,6 @@ export default function BookTab({ navigation, route }) {
   };
 
   const handleProceed = () => {
-    console.log(paymentMethodValue);
     setErrorMessage("");
     if (paymentMethodValue !== "Select an item...  ") {
       if (paymentMethodValue === "Cash") {
