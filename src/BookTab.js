@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { CheckBox } from "react-native-elements";
+import { PAYMONGO_API_KEY } from "@env";
 
 import {
   View,
@@ -500,7 +501,7 @@ export default function BookTab({ navigation, route }) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
+          Authorization: "Basic " + PAYMONGO_API_KEY,
         },
         body: JSON.stringify({
           data: {
@@ -545,7 +546,7 @@ export default function BookTab({ navigation, route }) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
+          Authorization: "Basic " + PAYMONGO_API_KEY,
         },
         body: JSON.stringify({
           data: {

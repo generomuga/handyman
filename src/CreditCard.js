@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { PAYMONGO_API_KEY } from "@env";
 
 import {
   StyleSheet,
@@ -54,7 +55,7 @@ export default function CreditCard({ navigation, route }) {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
+        Authorization: "Basic " + PAYMONGO_API_KEY,
       },
       body: JSON.stringify({
         data: {
@@ -80,7 +81,7 @@ export default function CreditCard({ navigation, route }) {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
+            Authorization: "Basic " + PAYMONGO_API_KEY,
           },
           body: JSON.stringify({
             data: {
@@ -105,8 +106,7 @@ export default function CreditCard({ navigation, route }) {
               headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
-                Authorization:
-                  "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
+                Authorization: "Basic " + PAYMONGO_API_KEY,
               },
               body: JSON.stringify({
                 data: {
