@@ -12,6 +12,7 @@ import Admin from "./src/Admin";
 import Walkthrough from "./src/Walkthrough";
 import Review from "./src/Review";
 import PhoneSignIn from "./src/PhoneSignIn";
+import CreditCard from "./src/CreditCard";
 
 import { AntDesign } from "@expo/vector-icons";
 
@@ -142,6 +143,22 @@ export default function App(props) {
           options={{
             headerShown: false,
             title: "Walkthrough",
+            headerStyle: {
+              backgroundColor: "#039BE5",
+            },
+            headerTintColor: "#FAFAFA",
+            headerTitleStyle: {
+              alignSelf: "center",
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="CreditCard"
+          component={CreditCard}
+          options={{
+            headerShown: false,
+            title: "Credit Card",
             headerStyle: {
               backgroundColor: "#039BE5",
             },

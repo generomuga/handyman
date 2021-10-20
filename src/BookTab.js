@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  Image,
 } from "react-native";
 
 import { Button, Input, Label } from "./styles";
@@ -34,9 +35,11 @@ import * as firebase from "firebase";
 import { TextInput } from "react-native-gesture-handler";
 import Dialog from "react-native-dialog";
 
+import * as WebBrowser from "expo-web-browser";
+
 const dbRef = firebase.database().ref();
 
-export default function BookTab({ navigation }) {
+export default function BookTab({ navigation, route }) {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [categoryCurrentValue, setCategoryCurrentValue] = useState("");
@@ -101,17 +104,44 @@ export default function BookTab({ navigation }) {
 
   const [isAddBookItNowDisabled, setIsAddBookItNowDisabled] = useState(true);
 
+  const [isConfirmDisabled, setIsConfirmDisabled] = useState(true);
+
   const [isAgree, setIsAgree] = useState(false);
+
+  const [paymentURL, setPaymentURL] = useState("");
+
+  const [sourceId, setSourceId] = useState("");
+
+  const [type, setType] = useState("");
+
+  const [paymentId, setPaymentId] = useState("");
+
+  const [paymentIcon, setPaymentIcon] = useState(
+    require("../assets/" + "Default" + ".png")
+  );
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      getCategoryList();
-      getServiceInfo();
-      getUserInfo();
+      if (route.params !== undefined) {
+        if (route.params.status === "succeeded") {
+          setIsAddBookItNowDisabled(true);
+          updateBookingDetails();
+          setIsDoneDialogVisible(true);
+          clearState();
+          setIsConfirmDisabled(true);
+        } else {
+          console.log(route.params);
+        }
+      } else {
+        console.log("False");
+        getCategoryList();
+        getServiceInfo();
+        getUserInfo();
+      }
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, route, isAddBookItNowDisabled]);
 
   const getCategoryList = () => {
     const items = [];
@@ -361,6 +391,8 @@ export default function BookTab({ navigation }) {
             created_at: created_at,
             service_currency: serviceCurrency,
             booking_info: items_category,
+            paymentMethod: paymentMethodValue,
+            paymentId: paymentId,
           });
 
           requestRef.set({
@@ -371,6 +403,8 @@ export default function BookTab({ navigation }) {
             uid: uid,
             displayName: displayName,
             photoURL: photoURL,
+            paymentMethod: paymentMethodValue,
+            paymentId: paymentId,
           });
         }
 
@@ -443,6 +477,106 @@ export default function BookTab({ navigation }) {
     setActualDate(date);
     setServiceDateCurrentValue(displayDate);
     hideDateTimePicker();
+  };
+
+  const addZeros = (totalServicePrice) => {
+    return parseInt(totalServicePrice + "00");
+  };
+
+  const createSource = async () => {
+    try {
+      let amount = addZeros(totalServicePrice);
+      let ptype = "";
+      if (paymentMethodValue === "GCash") {
+        ptype = "gcash";
+      }
+      if (paymentMethodValue === "GrabPay") {
+        ptype = "grab_pay";
+      }
+
+      const url = "https://api.paymongo.com/v1/sources";
+      const options = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
+        },
+        body: JSON.stringify({
+          data: {
+            attributes: {
+              amount: amount,
+              redirect: {
+                success: "https://google.com",
+                failed: "https://youtube.com",
+              },
+              currency: "PHP",
+              type: ptype,
+            },
+          },
+        }),
+      };
+
+      fetch(url, options)
+        .then((res) => res.json())
+        .then((json) => {
+          console.log(json);
+          let url = json["data"]["attributes"]["redirect"]["checkout_url"];
+          let id = json["data"]["id"];
+          let type = json["data"]["type"];
+
+          setPaymentURL(url);
+          setSourceId(id);
+          setType(type);
+          WebBrowser.openBrowserAsync(url);
+        })
+        .catch((err) => {});
+    } catch (error) {
+    } finally {
+    }
+  };
+
+  const createPayment = async () => {
+    if (sourceId != "") {
+      let amount = addZeros(totalServicePrice);
+      const url = "https://api.paymongo.com/v1/payments";
+      const options = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Basic c2tfdGVzdF9RTERRWGVnbWdkOG4yTE5nNVNuVXB5RnE6",
+        },
+        body: JSON.stringify({
+          data: {
+            attributes: {
+              amount: amount,
+              source: { id: sourceId, type: type },
+              currency: "PHP",
+            },
+          },
+        }),
+      };
+
+      fetch(url, options)
+        .then((res) => res.json())
+        .then((json) => {
+          let pid = json["data"]["id"];
+          let type = json["data"]["type"];
+          if (type === "payment" && pid !== "") {
+            setPaymentId(pid);
+            updateBookingDetails();
+            setIsDoneDialogVisible(true);
+            clearState();
+            setIsConfirmDisabled(true);
+          }
+        })
+        .catch((err) => {
+          setErrorMessage("Failed to confirm payment");
+          setIsConfirmDisabled(true);
+          setIsAddBookItNowDisabled(false);
+        });
+    }
   };
 
   const renderItemComponent = (data) => (
@@ -661,20 +795,45 @@ export default function BookTab({ navigation }) {
   };
 
   const handleProceed = () => {
-    setIsDialogVisible(false);
-    updateBookingDetails();
-    setIsDoneDialogVisible(true);
-    clearState();
+    setErrorMessage("");
+    if (paymentMethodValue !== "Select an item...  ") {
+      if (paymentMethodValue === "Cash") {
+        updateBookingDetails();
+        setIsDoneDialogVisible(true);
+        clearState();
+      } else if (
+        paymentMethodValue === "GCash" ||
+        paymentMethodValue === "GrabPay"
+      ) {
+        createSource();
+        setIsAddBookItNowDisabled(true);
+        setIsConfirmDisabled(false);
+      } else if (paymentMethodValue === "Credit Card") {
+        // setIsConfirmDisabled(false);
+        navigation.navigate("CreditCard", { amount: totalServicePrice });
+        // setIsAddBookItNowDisabled(false);
+      }
+      setIsDialogVisible(false);
+    } else {
+      setErrorMessage("Please select payment method");
+    }
   };
 
   const handleDone = () => {
     setIsDoneDialogVisible(false);
+    navigation.setParams({ status: null });
   };
 
   const clearState = () => {
     getCategoryList();
     getServiceInfo();
     getUserInfo();
+    setCategoryCurrentValue("");
+    setServiceCurrentValue("");
+    setServiceDateCurrentValue("");
+    setPaymentMethodValue("");
+    setErrorMessage("");
+    setPaymentIcon(require("../assets/" + "Default" + ".png"));
   };
 
   return (
@@ -914,12 +1073,52 @@ export default function BookTab({ navigation }) {
           <RNPickerSelect
             onValueChange={(value) => {
               setPaymentMethodValue(value);
+
+              if (value === "Cash") {
+                setPaymentIcon(require("../assets/" + "Cash" + ".png"));
+              } else if (value === "GCash") {
+                setPaymentIcon(require("../assets/" + "GCash" + ".png"));
+              } else if (value === "GrabPay") {
+                setPaymentIcon(require("../assets/" + "GrabPay" + ".png"));
+              } else if (value === "Credit Card") {
+                setPaymentIcon(require("../assets/" + "CreditCard" + ".png"));
+              } else {
+                setPaymentIcon(require("../assets/" + "Default" + ".png"));
+              }
             }}
-            items={[{ label: "Cash", value: "Cash" }]}
+            items={[
+              { label: "Cash", value: "Cash" },
+              { label: "GCash", value: "GCash" },
+              { label: "GrabPay", value: "GrabPay" },
+              { label: "Credit Card", value: "Credit Card" },
+            ]}
           >
-            <Text style={style.input}>
-              {paymentMethodValue ? paymentMethodValue : "Select an item..."}
-            </Text>
+            <View
+              style={{
+                borderWidth: 1,
+                // borderColor:'#039BE5',
+                borderColor: "green",
+                borderRadius: 10,
+                marginBottom: 5,
+                padding: 8,
+                textAlign: "left",
+                marginLeft: 10,
+                marginRight: 10,
+                flexDirection: "row",
+              }}
+            >
+              <Text style={{ color: "#424242" }}>
+                {paymentMethodValue
+                  ? paymentMethodValue + "  "
+                  : "Select an item...  "}
+              </Text>
+              <Image
+                style={{ height: 20, width: 20, resizeMode: "contain" }}
+                // source={require("../assets/gcash.png")}
+                source={paymentIcon}
+                // style={style.logo}
+              />
+            </View>
           </RNPickerSelect>
 
           <View style={style.viewTermsAndCondition}>
@@ -927,7 +1126,7 @@ export default function BookTab({ navigation }) {
               <View>
                 <Anchor href="https://handyman-plus.web.app/repair-and-maintenance-agreement">
                   <Text style={{ fontSize: 15 }}>
-                    Agree on Repair and Maintenance Agreement
+                    Agree to the Repair and Maintenance Agreement
                   </Text>
                 </Anchor>
               </View>
@@ -992,6 +1191,33 @@ export default function BookTab({ navigation }) {
             <View style={style.viewErrorMessage}>
               <Text style={style.labelErrorMessage}>{errorMessage}</Text>
             </View>
+          </View>
+
+          <View style={{ marginTop: 0, marginBottom: 15 }}>
+            <TouchableOpacity
+              style={[
+                style.button,
+                {
+                  backgroundColor: isConfirmDisabled ? "white" : "#039BE5",
+                  borderColor: isConfirmDisabled ? "white" : "#039BE5",
+                },
+              ]}
+              onPress={() => {
+                if (
+                  paymentMethodValue === "GCash" ||
+                  paymentMethodValue === "GrabPay"
+                ) {
+                  createPayment();
+                } else {
+                  console.log("Credit Carddss");
+                  setIsAddBookItNowDisabled(false);
+                }
+                //
+              }}
+              disabled={isConfirmDisabled}
+            >
+              <Text style={style.touchButtonLabel}>Confirm payment</Text>
+            </TouchableOpacity>
           </View>
 
           <Dialog.Container visible={isDialogVisible}>
