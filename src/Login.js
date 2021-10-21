@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from "@env";
 
 import {
   Image,
@@ -111,16 +112,8 @@ export default function Login(props) {
     try {
       setIsLoading(true);
       const result = await Google.logInAsync({
-        androidClientId:
-          // prod
-          // "876177652588-5fiqiq2vna74qg6aklen12vd1hpre723.apps.googleusercontent.com",
-          // dev
-          "1008355623833-e4hlh2p3e297gencmvemn37e71a5caf8.apps.googleusercontent.com",
-        iosClientId:
-          //prod
-          // "876177652588-s599pfq4cm2k0lotu9erv319kbn1ibh9.apps.googleusercontent.com",
-          // dev
-          "1008355623833-je5atj8uqgpps8jo8k64ali2h6vq7s64.apps.googleusercontent.com",
+        androidClientId: ANDROID_CLIENT_ID,
+        iosClientId: IOS_CLIENT_ID,
         scopes: ["profile", "email"],
       });
       if (result.type === "success") {
@@ -153,6 +146,7 @@ export default function Login(props) {
           .auth()
           .signInWithCredential(credential)
           .catch((error) => {
+            console.log(error);
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
