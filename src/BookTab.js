@@ -131,10 +131,8 @@ export default function BookTab({ navigation, route }) {
           clearState();
           setIsConfirmDisabled(true);
         } else {
-          console.log(route.params);
         }
       } else {
-        console.log("False");
         getCategoryList();
         getServiceInfo();
         getUserInfo();
@@ -521,7 +519,6 @@ export default function BookTab({ navigation, route }) {
       fetch(url, options)
         .then((res) => res.json())
         .then((json) => {
-          console.log(json);
           let url = json["data"]["attributes"]["redirect"]["checkout_url"];
           let id = json["data"]["id"];
           let type = json["data"]["type"];
@@ -570,6 +567,8 @@ export default function BookTab({ navigation, route }) {
             setIsDoneDialogVisible(true);
             clearState();
             setIsConfirmDisabled(true);
+          } else {
+            setErrorMessage("Failed to confirm payment test");
           }
         })
         .catch((err) => {
@@ -1210,7 +1209,6 @@ export default function BookTab({ navigation, route }) {
                 ) {
                   createPayment();
                 } else {
-                  console.log("Credit Carddss");
                   setIsAddBookItNowDisabled(false);
                 }
                 //
