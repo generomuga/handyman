@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import { CheckBox } from "react-native-elements";
-import { PAYMONGO_API_KEY } from "@env";
+import {
+  PAYMONGO_API_KEY,
+  SUCCESS_PAYMENT_URL,
+  FAILED_PAYMENT_URL,
+} from "@env";
 
 import {
   View,
@@ -510,8 +514,8 @@ export default function BookTab({ navigation, route }) {
             attributes: {
               amount: amount,
               redirect: {
-                success: "https://google.com",
-                failed: "https://youtube.com",
+                success: SUCCESS_PAYMENT_URL,
+                failed: FAILED_PAYMENT_URL,
               },
               currency: "PHP",
               type: ptype,
