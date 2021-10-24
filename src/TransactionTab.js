@@ -57,7 +57,6 @@ export default function NotificationTab({ navigation }) {
             total_price = childsnap.val()["total_price"];
             booking_info = childsnap.val()["booking_info"];
             paymentMethod = childsnap.val()["paymentMethod"];
-            console.log(paymentMethod);
 
             let booking_info_items = [];
             let booking_id = "";

@@ -126,25 +126,23 @@ export default function CreditCard({ navigation, route }) {
               .then((response) => response.json())
               .then((response) => {
                 let status = response["data"]["attributes"]["status"];
+                let paymentId =
+                  response["data"]["attributes"]["payments"][0]["id"];
 
                 // navigation.navigate("Home", { status: "test" });
                 navigation.navigate("Home", {
                   screen: "Book",
-                  params: { status: status },
+                  params: { status: status, payment_id: paymentId },
                 });
                 // null;
               })
-              .catch((err) => {
-                null;
-              });
+              .catch((err) => {});
           })
           .catch((err) => {
             setErrorMessage("Please enter a valid card info");
           });
       })
-      .catch((err) => {
-        null;
-      });
+      .catch((err) => {});
   };
 
   const handleProceed = () => {

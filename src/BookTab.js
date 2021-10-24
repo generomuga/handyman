@@ -115,7 +115,7 @@ export default function BookTab({ navigation, route }) {
 
   const [type, setType] = useState("");
 
-  const [paymentId, setPaymentId] = useState("");
+  // const [paymentId, setPaymentId] = useState("");
 
   const [paymentIcon, setPaymentIcon] = useState(
     require("../assets/" + "Default" + ".png")
@@ -124,9 +124,13 @@ export default function BookTab({ navigation, route }) {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       if (route.params !== undefined) {
-        if (route.params.status === "succeeded") {
+        if (
+          route.params.status === "succeeded" &&
+          route.params.payment_id !== ""
+        ) {
+          let paymentId = route.params.payment_id;
           setIsAddBookItNowDisabled(true);
-          updateBookingDetails();
+          updateBookingDetails(paymentId);
           setIsDoneDialogVisible(true);
           clearState();
           setIsConfirmDisabled(true);
@@ -318,7 +322,7 @@ export default function BookTab({ navigation, route }) {
       });
   };
 
-  const updateBookingDetails = () => {
+  const updateBookingDetails = (payment_id) => {
     let user = firebase.auth().currentUser;
     let uid = user["uid"];
 
@@ -391,7 +395,7 @@ export default function BookTab({ navigation, route }) {
             service_currency: serviceCurrency,
             booking_info: items_category,
             paymentMethod: paymentMethodValue,
-            paymentId: paymentId,
+            paymentId: payment_id,
           });
 
           requestRef.set({
@@ -403,7 +407,7 @@ export default function BookTab({ navigation, route }) {
             displayName: displayName,
             photoURL: photoURL,
             paymentMethod: paymentMethodValue,
-            paymentId: paymentId,
+            paymentId: payment_id,
           });
         }
 
@@ -562,13 +566,12 @@ export default function BookTab({ navigation, route }) {
           let pid = json["data"]["id"];
           let type = json["data"]["type"];
           if (type === "payment" && pid !== "") {
-            setPaymentId(pid);
-            updateBookingDetails();
+            updateBookingDetails(pid);
             setIsDoneDialogVisible(true);
             clearState();
             setIsConfirmDisabled(true);
           } else {
-            setErrorMessage("Failed to confirm payment test");
+            setErrorMessage("Failed to confirm payment");
           }
         })
         .catch((err) => {
@@ -798,7 +801,7 @@ export default function BookTab({ navigation, route }) {
     setErrorMessage("");
     if (paymentMethodValue !== "Select an item...  ") {
       if (paymentMethodValue === "Cash") {
-        updateBookingDetails();
+        updateBookingDetails("pay_cash");
         setIsDoneDialogVisible(true);
         clearState();
       } else if (
