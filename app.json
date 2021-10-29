@@ -6,7 +6,7 @@
     "slug": "handyman",
     "version": "1.21101",
     "assetBundlePatterns": ["**/*"],
-    "icon": "./assets/appstore.png",
+    "icon": "./assets/play_store_512.png",
     "ios": {
       "bundleIdentifier": "com.hugefort.handymanplus",
       "supportsTablet": true
@@ -14,7 +14,7 @@
     "android": {
       "package": "com.hugefort.handymanplus",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/playstore.png",
+        "foregroundImage": "./assets/play_store_512.png",
         "backgroundColor": "#000"
       }
     }
