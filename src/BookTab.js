@@ -1133,7 +1133,7 @@ export default function BookTab({ navigation, route }) {
               <View>
                 <Anchor href="https://handyman-plus.web.app/repair-and-maintenance-agreement">
                   <Text style={{ fontSize: 15 }}>
-                    Agree to the R&M Agreement
+                    Agree to the Service Contract
                   </Text>
                 </Anchor>
               </View>
