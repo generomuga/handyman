@@ -113,6 +113,7 @@ export default function Login(props) {
       setIsLoading(true);
       const result = await Google.logInAsync({
         androidClientId: ANDROID_CLIENT_ID,
+        androidStandaloneAppClientId: ANDROID_CLIENT_ID,
         iosClientId: IOS_CLIENT_ID,
         scopes: ["profile", "email"],
       });
@@ -125,6 +126,7 @@ export default function Login(props) {
       }
     } catch (e) {
       setIsLoading(false);
+      alert(e);
       return { error: true };
     }
   };
