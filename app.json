@@ -4,7 +4,7 @@
   "expo": {
     "name": "handyman",
     "slug": "handyman",
-    "version": "1.21101",
+    "version": "1.21102",
     "assetBundlePatterns": ["**/*"],
     "icon": "./assets/play_store_512.png",
     "ios": {
