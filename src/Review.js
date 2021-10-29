@@ -128,8 +128,8 @@ const style = StyleSheet.create({
   },
 
   logo: {
-    width: 400,
-    height: 300,
+    width: 350,
+    height: 250,
     alignSelf: "center",
   },
 
