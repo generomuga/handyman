@@ -990,7 +990,7 @@ export default function BookTab({ navigation, route }) {
             <ToggleSwitch
               isOn={isUseDefaultContactNo}
               onColor="green"
-              label="Use default mobile number"
+              label="Use default mobile no."
               labelStyle={style.toggleLabel}
               offColor="red"
               size="small"
