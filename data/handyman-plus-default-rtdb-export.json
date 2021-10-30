@@ -137,15 +137,15 @@
     }
   },
   "users" : {
-    "NjeHgkJUw9Y6wS1KcxPyXxhmeAE3" : {
-      "address" : "",
-      "contactNo" : "",
-      "displayName" : "Gene Christhopher Romuga",
-      "email" : "generomuga12693@gmail.com",
+    "F0V14JEjpzXbp3uaGPTW2UEeDD32" : {
+      "address" : "Lipa Batangas City",
+      "contactNo" : "0917",
+      "displayName" : "RHR Handyman Plus Asia",
+      "email" : "as",
       "emailVerified" : true,
-      "gender" : "",
-      "isAdmin" : false,
-      "photoURL" : "https://lh3.googleusercontent.com/a/AATXAJykKzFiv2MnWYau4jaoK4klZThB_RxcpJwJHpg9=s96-c",
+      "gender" : "Male",
+      "isAdmin" : true,
+      "photoURL" : "test",
       "signInMethod" : "email"
     }
   }
