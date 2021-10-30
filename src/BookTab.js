@@ -990,7 +990,7 @@ export default function BookTab({ navigation, route }) {
             <ToggleSwitch
               isOn={isUseDefaultContactNo}
               onColor="green"
-              label="Use default mobile number"
+              label="Use default mobile no."
               labelStyle={style.toggleLabel}
               offColor="red"
               size="small"
@@ -1133,7 +1133,7 @@ export default function BookTab({ navigation, route }) {
               <View>
                 <Anchor href="https://handyman-plus.web.app/repair-and-maintenance-agreement">
                   <Text style={{ fontSize: 15 }}>
-                    Agree to the Repair and Maintenance Agreement
+                    Agree to the Service Contract
                   </Text>
                 </Anchor>
               </View>

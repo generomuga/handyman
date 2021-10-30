@@ -113,6 +113,7 @@ export default function Login(props) {
       setIsLoading(true);
       const result = await Google.logInAsync({
         androidClientId: ANDROID_CLIENT_ID,
+        androidStandaloneAppClientId: ANDROID_CLIENT_ID,
         iosClientId: IOS_CLIENT_ID,
         scopes: ["profile", "email"],
       });
@@ -125,6 +126,7 @@ export default function Login(props) {
       }
     } catch (e) {
       setIsLoading(false);
+      alert(e);
       return { error: true };
     }
   };
@@ -301,22 +303,8 @@ export default function Login(props) {
             size={68}
             color="#d34836"
             style={style.google}
-            onPress={() =>
-              // setIsLoading(true);
-              signInWithGoogleAsync()
-            }
+            onPress={() => signInWithGoogleAsync()}
           />
-
-          {/* <FontAwesome5
-                        name="facebook-square" 
-                        size={68} 
-                        style={style.facebook}
-                        color="#4267B2" 
-                        onPress={()=> {
-                            setIsLoading(true)
-                            alert('Temporarily disabled')
-                            setIsLoading(false)
-                            }} /> */}
 
           <FontAwesome5
             name="phone-square"
@@ -365,19 +353,17 @@ const style = StyleSheet.create({
   },
 
   viewLogo: {
-    flex: 3,
-    justifyContent: "flex-start",
-    marginBottom: 18,
+    flex: 1,
   },
 
   logo: {
-    width: 400,
-    height: 300,
+    width: 350,
+    height: 250,
     alignSelf: "center",
   },
 
   viewTextInput: {
-    flex: 3.5,
+    flex: 1,
     ...Background.center_content,
   },
 
@@ -418,7 +404,7 @@ const style = StyleSheet.create({
   },
 
   viewSocialMedia: {
-    flex: 3.5,
+    flex: 1,
     ...Background.center_content,
   },
 

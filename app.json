@@ -1,12 +1,12 @@
 {
-  "name": "handyman",
+  "name": "handyman-plus",
   "displayName": "Handyman Plus",
   "expo": {
-    "name": "handyman",
-    "slug": "handyman",
-    "version": "1.21101",
+    "name": "Handyman Plus",
+    "slug": "handyman-plus",
+    "version": "1.21102",
     "assetBundlePatterns": ["**/*"],
-    "icon": "./assets/appstore.png",
+    "icon": "./assets/play_store_512.png",
     "ios": {
       "bundleIdentifier": "com.hugefort.handymanplus",
       "supportsTablet": true
@@ -14,8 +14,13 @@
     "android": {
       "package": "com.hugefort.handymanplus",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/playstore.png",
+        "foregroundImage": "./assets/play_store_512.png",
         "backgroundColor": "#000"
+      },
+      "config": {
+        "googleSignIn": {
+          "certificateHash": "99:9E:E1:FC:F6:68:26:88:05:26:44:59:4C:22:0F:11:24:A7:4C:72"
+        }
       }
     }
   }

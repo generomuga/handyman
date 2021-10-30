@@ -63,8 +63,7 @@ export default function Review(props) {
         <View>
           <View>
             <Text style={{ fontSize: 14, fontWeight: "bold" }}>
-              I agree to the Terms and Conditions {"\n                 "} and
-              Privacy Policy
+              I agree to the terms and policies
             </Text>
           </View>
         </View>
@@ -128,8 +127,8 @@ const style = StyleSheet.create({
   },
 
   logo: {
-    width: 400,
-    height: 300,
+    width: 350,
+    height: 250,
     alignSelf: "center",
   },
 
