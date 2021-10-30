@@ -2,7 +2,7 @@
   "name": "handyman-plus",
   "displayName": "Handyman Plus",
   "expo": {
-    "name": "handyman-plus",
+    "name": "Handyman Plus",
     "slug": "handyman-plus",
     "version": "1.21102",
     "assetBundlePatterns": ["**/*"],
