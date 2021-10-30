@@ -3,7 +3,7 @@
   "displayName": "Handyman Plus",
   "expo": {
     "name": "Handyman Plus",
-    "slug": "handyman-plus",
+    "slug": "handyman",
     "version": "1.21102",
     "assetBundlePatterns": ["**/*"],
     "icon": "./assets/play_store_512.png",
