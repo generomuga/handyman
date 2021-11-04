@@ -13,6 +13,7 @@
     },
     "android": {
       "package": "com.hugefort.handymanplus",
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/play_store_512.png",
         "backgroundColor": "#000"
