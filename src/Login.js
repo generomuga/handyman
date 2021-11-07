@@ -357,9 +357,11 @@ const style = StyleSheet.create({
   },
 
   logo: {
-    width: 350,
-    height: 250,
-    alignSelf: "center",
+    width: '70%',
+    height: 'auto',
+    aspectRatio: 1,
+    resizeMode: 'contain',
+    alignSelf: 'center',
   },
 
   viewTextInput: {
@@ -451,7 +453,7 @@ const style = StyleSheet.create({
     ...Label.text_alignment,
     fontWeight: "bold",
     color: "#01579B",
-    marginTop: 10,
+    marginTop: '5%',
     fontSize: 17,
   },
 });
