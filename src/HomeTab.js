@@ -54,11 +54,11 @@ export default function HomeTab({ navigation }) {
     >
       <Image
         style={{
-          width: 180,
-          height: 180,
+          width: '100%',
+          height: 'auto',
+          aspectRatio: 1,
           resizeMode: "cover",
           alignSelf: "center",
-          // alignItems:'',
           borderRadius: 5,
         }}
         source={{ uri: data.item.photoURL }}
