@@ -403,6 +403,7 @@ const style = StyleSheet.create({
     ...Label.self_alignment,
     ...Label.text_alignment,
     ...Label.weight,
+    marginBottom: '15%',
   },
 
   viewSocialMedia: {
@@ -454,6 +455,7 @@ const style = StyleSheet.create({
     fontWeight: "bold",
     color: "#01579B",
     marginTop: '5%',
+    marginBottom: 20,
     fontSize: 17,
   },
 });
