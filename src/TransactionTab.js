@@ -118,7 +118,9 @@ export default function NotificationTab({ navigation }) {
           borderColor: "#006064",
           backgroundColor: "white",
           borderRadius: 10,
-          margin: 5,
+          marginLeft: '4%',
+          marginRight: '4%',
+          marginBottom: '2%',
           padding: 5,
         }}
       >
