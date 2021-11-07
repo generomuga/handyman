@@ -65,8 +65,8 @@ export default function About({ navigation }) {
           style={{
             textAlign: "justify",
             alignContent: "center",
-            marginLeft: 15,
-            marginRight: 15,
+            marginLeft: '4%',
+            marginRight: '4%',
             marginTop: 10,
             marginBottom: 25,
             fontSize: 17,
