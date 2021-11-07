@@ -47,9 +47,10 @@ export default function Walkthrough(props) {
         <View>
           <Image
             style={{
-              width: 300,
-              height: 600,
-              resizeMode: "stretch",
+              width: '100%',
+              height: 'auto',
+              aspectRatio: 1,
+              resizeMode: "contain",
               alignSelf: "center",
               borderRadius: 10,
             }}
