@@ -297,6 +297,7 @@ export default function MeTab(props) {
       <View
         style={{
           flexDirection: "row",
+          marginLeft: '4%'
         }}
       >
         <MaterialIcons
@@ -305,14 +306,13 @@ export default function MeTab(props) {
           size={24}
           color="#6A1B9A"
         />
-
         <Text style={style.label}>Full name</Text>
       </View>
 
       <TextInput
         style={[
           style.textInput,
-          { borderColor: isDisplayNameEditable ? "red" : "green" },
+          { borderColor: isDisplayNameEditable ? "red" : "green", marginLeft: '4%', marginRight: '4%' },
         ]}
         placeholder="not set"
         autoCapitalize="none"
@@ -321,7 +321,7 @@ export default function MeTab(props) {
         onChangeText={(displayName) => setDisplayName(displayName)}
       />
 
-      <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: "row", marginLeft: '4%', marginRight: '4%' }}>
         <MaterialIcons
           style={style.icon}
           name="supervised-user-circle"
@@ -332,25 +332,27 @@ export default function MeTab(props) {
         <Text style={style.label}>Gender</Text>
       </View>
 
-      <RNPickerSelect
-        onValueChange={(value) => {
-          setGender(value);
-        }}
-        items={[
-          { label: "Male", value: "Male" },
-          { label: "Female", value: "Female" },
-        ]}
-        disabled={!isGenderEditable}
-      >
-        <Text
-          // style={style.textInput}
-          style={[style.textInput, { borderColor: "green" }]}
+      <View style={{marginLeft: '4%', marginRight: '4%'}}>
+        <RNPickerSelect
+          onValueChange={(value) => {
+            setGender(value);
+          }}
+          items={[
+            { label: "Male", value: "Male" },
+            { label: "Female", value: "Female" },
+          ]}
+          disabled={!isGenderEditable}
         >
-          {gender ? gender : "Select an item..."}
-        </Text>
-      </RNPickerSelect>
+          <Text
+            // style={style.textInput}
+            style={[style.textInput, { borderColor: "green" }]}
+          >
+            {gender ? gender : "Select an item..."}
+          </Text>
+        </RNPickerSelect>
+      </View>
 
-      <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: "row", marginLeft: '4%', marginRight: '4%' }}>
         <MaterialIcons
           style={style.icon}
           name="email"
@@ -364,7 +366,7 @@ export default function MeTab(props) {
       <TextInput
         style={[
           style.textInput,
-          { borderColor: isEmailEditable ? "red" : "green" },
+          { borderColor: isEmailEditable ? "red" : "green", marginLeft: '4%', marginRight: '4%' },
         ]}
         placeholder="not set"
         autoCapitalize="none"
@@ -373,7 +375,7 @@ export default function MeTab(props) {
         onChangeText={(email) => setEmail(email)}
       />
 
-      <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: "row", marginLeft: '4%', marginRight: '4%' }}>
         <MaterialIcons
           style={style.icon}
           name="quick-contacts-dialer"
@@ -387,7 +389,7 @@ export default function MeTab(props) {
       <TextInput
         style={[
           style.textInput,
-          { borderColor: isContactNoEditable ? "red" : "green" },
+          { borderColor: isContactNoEditable ? "red" : "green", marginLeft: '4%', marginRight: '4%' },
         ]}
         placeholder="not set"
         autoCapitalize="none"
@@ -396,7 +398,7 @@ export default function MeTab(props) {
         onChangeText={(contactNo) => setContactNo(contactNo)}
       />
 
-      <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: "row", marginLeft: '4%', marginRight: '4%' }}>
         <MaterialIcons
           style={style.icon}
           name="add-location"
@@ -410,7 +412,7 @@ export default function MeTab(props) {
       <TextInput
         style={[
           style.textInput,
-          { borderColor: isAddressEditable ? "red" : "green" },
+          { borderColor: isAddressEditable ? "red" : "green", marginLeft: '4%', marginRight: '4%' },
         ]}
         placeholder="not set"
         autoCapitalize="none"
@@ -421,7 +423,7 @@ export default function MeTab(props) {
       />
 
       <TouchableOpacity
-        style={[style.button, { marginTop: 30, marginBottom: 20 }]}
+        style={[style.button, { marginTop: 30, marginBottom: 20, marginLeft: '4%', marginRight: '4%' }]}
         onPress={() => onPressButton()}
       >
         <Text
@@ -463,8 +465,6 @@ const style = StyleSheet.create({
 
   textInput: {
     ...Input.standard,
-    marginLeft: 10,
-    marginRight: 10,
   },
 
   textInputAreaCode: {
@@ -494,6 +494,5 @@ const style = StyleSheet.create({
     ...Label.text_alignment,
     ...Label.weight,
     ...Label.red,
-    // marginBottom: 10
   },
 });
