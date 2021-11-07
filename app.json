@@ -4,17 +4,17 @@
   "expo": {
     "name": "Handyman Plus",
     "slug": "handyman-plus",
-    "version": "1.211104",
+    "version": "1.211107",
     "assetBundlePatterns": ["**/*"],
     "icon": "./assets/play_store_512.png",
     "ios": {
       "bundleIdentifier": "com.hugefort.handymanplus",
       "supportsTablet": true,
-      "buildNumber": "2.0.0"
+      "buildNumber": "3.0.0"
     },
     "android": {
       "package": "com.hugefort.handymanplus",
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/play_store_512.png",
         "backgroundColor": "#000"
