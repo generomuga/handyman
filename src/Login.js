@@ -348,8 +348,8 @@ const style = StyleSheet.create({
 
   button: {
     ...Button.standard,
-    marginLeft: 40,
-    marginRight: 40,
+    marginLeft: '10%',
+    marginRight: '10%',
   },
 
   viewLogo: {
@@ -357,9 +357,11 @@ const style = StyleSheet.create({
   },
 
   logo: {
-    width: 350,
-    height: 250,
-    alignSelf: "center",
+    width: '70%',
+    height: 'auto',
+    aspectRatio: 1,
+    resizeMode: 'contain',
+    alignSelf: 'center',
   },
 
   viewTextInput: {
@@ -401,6 +403,7 @@ const style = StyleSheet.create({
     ...Label.self_alignment,
     ...Label.text_alignment,
     ...Label.weight,
+    marginBottom: '15%',
   },
 
   viewSocialMedia: {
@@ -451,7 +454,8 @@ const style = StyleSheet.create({
     ...Label.text_alignment,
     fontWeight: "bold",
     color: "#01579B",
-    marginTop: 10,
+    marginTop: '5%',
+    marginBottom: 20,
     fontSize: 17,
   },
 });

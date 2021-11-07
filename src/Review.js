@@ -127,8 +127,10 @@ const style = StyleSheet.create({
   },
 
   logo: {
-    width: 350,
-    height: 250,
+    width: '70%',
+    height: 'auto',
+    aspectRatio: 1,
+    resizeMode: 'contain',
     alignSelf: "center",
   },
 

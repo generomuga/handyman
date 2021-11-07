@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 
 import * as firebase from "firebase";
 
@@ -34,7 +34,7 @@ export default function About({ navigation }) {
   };
 
   return (
-    <View
+    <ScrollView
       style={{
         backgroundColor: "#E3F2FD",
         flex: 1,
@@ -43,6 +43,7 @@ export default function About({ navigation }) {
       <View
         style={{
           alignItems: "center",
+          flex: 0.2
         }}
       >
         <Image
@@ -58,13 +59,14 @@ export default function About({ navigation }) {
         />
       </View>
 
-      <View>
+      {<View
+        style={{flex: 0.8}}>
         <Text
           style={{
             textAlign: "justify",
             alignContent: "center",
-            marginLeft: 15,
-            marginRight: 15,
+            marginLeft: '4%',
+            marginRight: '4%',
             marginTop: 10,
             marginBottom: 25,
             fontSize: 17,
@@ -76,7 +78,7 @@ export default function About({ navigation }) {
         </Text>
       </View>
 
-      {/* <View
+      /* <View
         style={{
           alignSelf: "center",
           marginBottom: 5,
@@ -107,6 +109,7 @@ export default function About({ navigation }) {
           <Text style={{ fontSize: 15 }}>Repair and Maintenance Agreement</Text>
         </Anchor>
       </View> */}
-    </View>
+
+    </ScrollView>
   );
 }

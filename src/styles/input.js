@@ -17,8 +17,8 @@ export const text_alignment = {
 }
 
 export const side_margin = {
-    marginLeft: 40,
-    marginRight: 40
+    marginLeft: '10%',
+    marginRight: '10%'
 }
 
 export const standard = {

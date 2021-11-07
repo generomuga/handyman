@@ -9,6 +9,7 @@ import MeTab from "./MeTab";
 import About from "./About";
 
 import { Entypo } from "@expo/vector-icons";
+import { padding } from "./styles/input";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +35,7 @@ export default function Home() {
                 justifyContent: "center",
                 alignContent: "center",
                 top: 2,
+                width:50
               }}
             >
               <Entypo
@@ -68,6 +70,7 @@ export default function Home() {
                 justifyContent: "center",
                 alignContent: "center",
                 top: 2,
+                width:50
               }}
             >
               <Entypo
@@ -102,6 +105,7 @@ export default function Home() {
                 justifyContent: "center",
                 alignContent: "center",
                 top: 2,
+                width:80
               }}
             >
               <Entypo
@@ -136,6 +140,7 @@ export default function Home() {
                 justifyContent: "center",
                 alignContent: "center",
                 top: 2,
+                width:50
               }}
             >
               <Entypo
@@ -170,6 +175,7 @@ export default function Home() {
                 justifyContent: "center",
                 alignContent: "center",
                 top: 2,
+                width:70
               }}
             >
               <Entypo
