@@ -859,6 +859,7 @@ export default function BookTab({ navigation, route }) {
           <View
             style={{
               flexDirection: "row",
+              marginLeft: "4%"
             }}
           >
             <MaterialIcons
@@ -889,7 +890,7 @@ export default function BookTab({ navigation, route }) {
         </View>
 
         <View style={style.viewComponent}>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", marginLeft: "4%" }}>
             <MaterialIcons
               style={style.icon}
               name="cleaning-services"
@@ -913,7 +914,7 @@ export default function BookTab({ navigation, route }) {
         </View>
 
         <View style={style.viewComponent}>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", marginLeft: "4%" }}>
             <MaterialIcons
               style={style.icon}
               name="date-range"
@@ -939,7 +940,7 @@ export default function BookTab({ navigation, route }) {
         </View>
 
         <View style={style.viewComponent}>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", marginLeft: "4%" }}>
             <MaterialIcons
               style={style.icon}
               name="add-location"
@@ -979,7 +980,7 @@ export default function BookTab({ navigation, route }) {
         </View>
 
         <View>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", marginLeft: "4%" }}>
             <MaterialIcons
               style={style.icon}
               name="contact-phone"
@@ -1035,7 +1036,7 @@ export default function BookTab({ navigation, route }) {
           </TouchableOpacity>
         </View>
 
-        <View>
+        <View style={{marginLeft: '4%'}}>
           <Text style={style.label}>
             Total Reserved Services ({totalReserveService})
           </Text>
@@ -1051,20 +1052,22 @@ export default function BookTab({ navigation, route }) {
           <Text
             style={{
               marginTop: 10,
-              marginLeft: 10,
               marginBottom: 10,
               fontSize: 17,
               fontWeight: "bold",
+              marginLeft: '5%', 
+              marginRight: '5%'
             }}
           >
-            Total convenience fee: Php{" "}
+            Total Convenience Fee: Php{" "}
             {totalServicePrice ? totalServicePrice : 0}
           </Text>
 
           <Text
             style={{
               marginTop: 3,
-              marginLeft: 10,
+              marginLeft: '5%', 
+              marginRight: '5%',
               marginBottom: 10,
               fontSize: 12,
               fontWeight: "100",
@@ -1075,58 +1078,58 @@ export default function BookTab({ navigation, route }) {
             convenience fee
           </Text>
 
-          <Text style={style.label}>Payment method</Text>
+          <View style={{marginLeft: '5%',
+                    marginRight: '5%'}}>
+            <Text style={([style.label])}>Payment method</Text>
 
-          <RNPickerSelect
-            onValueChange={(value) => {
-              setPaymentMethodValue(value);
-
-              if (value === "Cash") {
-                setPaymentIcon(require("../assets/" + "Cash" + ".png"));
-              } else if (value === "GCash") {
-                setPaymentIcon(require("../assets/" + "GCash" + ".png"));
-              } else if (value === "GrabPay") {
-                setPaymentIcon(require("../assets/" + "GrabPay" + ".png"));
-              } else if (value === "Credit Card") {
-                setPaymentIcon(require("../assets/" + "CreditCard" + ".png"));
-              } else {
-                setPaymentIcon(require("../assets/" + "Default" + ".png"));
-              }
-            }}
-            items={[
-              { label: "Cash", value: "Cash" },
-              { label: "GCash", value: "GCash" },
-              { label: "GrabPay", value: "GrabPay" },
-              { label: "Credit Card", value: "Credit Card" },
-            ]}
-          >
-            <View
-              style={{
-                borderWidth: 1,
-                // borderColor:'#039BE5',
-                borderColor: "green",
-                borderRadius: 10,
-                marginBottom: 5,
-                padding: 8,
-                textAlign: "left",
-                marginLeft: 10,
-                marginRight: 10,
-                flexDirection: "row",
+            <RNPickerSelect
+              onValueChange={(value) => {
+                setPaymentMethodValue(value);
+                if (value === "Cash") {
+                  setPaymentIcon(require("../assets/" + "Cash" + ".png"));
+                } else if (value === "GCash") {
+                  setPaymentIcon(require("../assets/" + "GCash" + ".png"));
+                } else if (value === "GrabPay") {
+                  setPaymentIcon(require("../assets/" + "GrabPay" + ".png"));
+                } else if (value === "Credit Card") {
+                  setPaymentIcon(require("../assets/" + "CreditCard" + ".png"));
+                } else {
+                  setPaymentIcon(require("../assets/" + "Default" + ".png"));
+                }
               }}
+              items={[
+                { label: "Cash", value: "Cash" },
+                { label: "GCash", value: "GCash" },
+                { label: "GrabPay", value: "GrabPay" },
+                { label: "Credit Card", value: "Credit Card" },
+              ]}
             >
-              <Text style={{ color: "#424242" }}>
-                {paymentMethodValue
-                  ? paymentMethodValue + "  "
-                  : "Select an item...  "}
-              </Text>
-              <Image
-                style={{ height: 20, width: 20, resizeMode: "contain" }}
-                // source={require("../assets/gcash.png")}
-                source={paymentIcon}
-                // style={style.logo}
-              />
-            </View>
-          </RNPickerSelect>
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderColor: "green",
+                  borderRadius: 10,
+                  marginBottom: 5,
+                  padding: 8,
+                  textAlign: "left",
+                  flexDirection: "row",
+                }}
+              >
+                <Text style={{ color: "#424242" }}>
+                  {paymentMethodValue
+                    ? paymentMethodValue + "  "
+                    : "Select an item...  "}
+                </Text>
+                <Image
+                  style={{ height: 20, width: 20, resizeMode: "contain" }}
+                  // source={require("../assets/gcash.png")}
+                  source={paymentIcon}
+                  // style={style.logo}
+                />
+              </View>
+            </RNPickerSelect>
+
+          </View>
 
           <View style={style.viewTermsAndCondition}>
             <View>
@@ -1260,8 +1263,8 @@ const style = StyleSheet.create({
 
   button: {
     ...Button.standard,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: '5%',
+    marginRight: '5%',
   },
 
   icon: {
@@ -1270,8 +1273,8 @@ const style = StyleSheet.create({
 
   input: {
     ...Input.standard,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: '5%',
+    marginRight: '5%',
   },
 
   label: {
