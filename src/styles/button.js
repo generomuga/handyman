@@ -26,8 +26,8 @@ export const alignment = {
 }
 
 export const side_margin = {
-    marginLeft: 40,
-    marginRight: 40
+    marginLeft: '10%',
+    marginRight: '10%'
 }
 
 export const standard = {
@@ -41,6 +41,6 @@ export const standard = {
     borderColor: '#039BE5',
     padding:15,
     alignSelf:'stretch',
-    // marginLeft: 40,
-    // marginRight: 40
+    // marginLeft: '10%',
+    // marginRight: '10%'
 }

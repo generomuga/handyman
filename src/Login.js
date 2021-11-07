@@ -348,8 +348,8 @@ const style = StyleSheet.create({
 
   button: {
     ...Button.standard,
-    marginLeft: 40,
-    marginRight: 40,
+    marginLeft: '10%',
+    marginRight: '10%',
   },
 
   viewLogo: {
