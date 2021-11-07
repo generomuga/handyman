@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "876177652588",
+    "firebase_url": "https://handyman-plus-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "handyman-plus",
+    "storage_bucket": "handyman-plus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876177652588:android:5ca05dc9f37f72eb6c5149",
+        "android_client_info": {
+          "package_name": "com.hugefort.handymanplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876177652588-5fiqiq2vna74qg6aklen12vd1hpre723.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hugefort.handymanplus",
+            "certificate_hash": "999ee1fcf6682688052644594c220f1124a74c72"
+          }
+        },
+        {
+          "client_id": "876177652588-3b5cfiebrkdi53qjbk3u22vdiod7org4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlPG0IoGDotSfAoil9kVKV8nRkF3Ie-RY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876177652588-3b5cfiebrkdi53qjbk3u22vdiod7org4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "876177652588-s599pfq4cm2k0lotu9erv319kbn1ibh9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "host.exp.exponent"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
