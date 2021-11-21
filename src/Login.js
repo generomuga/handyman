@@ -276,6 +276,8 @@ export default function Login(props) {
             console.log(credential);
             return firebase.auth().signInWithCredential(credential).then((res)=>{
               setIsLoading(false);
+            }).catch((error)=>{
+              setIsLoading(false);
             });
             // Successful sign in is handled by firebase.auth().onAuthStateChanged
         })
