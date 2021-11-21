@@ -408,14 +408,14 @@ const loginWithApple = async () => {
           Don't have an account? Sign up here
         </Text>
 
-        <Text
+        {/* <Text
           style={style.walkthrough}
           onPress={() => {
             props.navigation.navigate("Walkthrough");
           }}
         >
           See our Walkthrough
-        </Text>
+        </Text> */}
       </View>
     </SafeAreaView>
   );
@@ -524,7 +524,8 @@ const style = StyleSheet.create({
     ...Label.self_alignment,
     ...Label.text_alignment,
     ...Label.weight,
-    marginTop: 10,
+    marginTop: 40,
+    marginBottom: 45
   },
 
   spinnerTextStyle: {
