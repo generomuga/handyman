@@ -281,7 +281,9 @@ export default function Login(props) {
         })
         .catch((error) => {
             // ...
-            console.log(error)
+            Alert(error);
+            console.log(error);
+            setIsLoading(false);
         });
 };
 
