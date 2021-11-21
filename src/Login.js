@@ -253,8 +253,8 @@ export default function Login(props) {
 
   const signInWithApple = () => {
     const nonce = Math.random().toString(36).substring(2, 10);
-    console.log(nonce);
 
+    setIsLoading(true);
     return Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, nonce)
         .then((hashedNonce) =>
             AppleAuthentication.signInAsync({
@@ -274,7 +274,7 @@ export default function Login(props) {
             });
             console.log(credential);
             return firebase.auth().signInWithCredential(credential).then((res)=>{
-              console.log(res)
+              setIsLoading(false);
             });
             // Successful sign in is handled by firebase.auth().onAuthStateChanged
         })
@@ -395,7 +395,10 @@ const loginWithApple = async () => {
                 buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
                 cornerRadius={5}
                 style={{ width: 200, height: 44, alignSelf:'center' }}
-                onPress={signInWithApple}
+                onPress={()=>{
+                  signInWithApple();
+                  }
+                }
                 // onPress={loginWithApple}
               />
         <Text
