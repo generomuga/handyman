@@ -4,17 +4,21 @@
   "expo": {
     "name": "Handyman Plus",
     "slug": "handyman-plus",
-    "version": "1.211107",
+    "version": "1.211121",
     "assetBundlePatterns": ["**/*"],
     "icon": "./assets/play_store_512.png",
     "ios": {
       "bundleIdentifier": "com.hugefort.handymanplus",
       "supportsTablet": true,
-      "buildNumber": "3.0.0"
+      "buildNumber": "4.0.0",
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "The app allows users to upload their profile picture for better identity."
+      }
     },
     "android": {
       "package": "com.hugefort.handymanplus",
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/play_store_512.png",
         "backgroundColor": "#000"

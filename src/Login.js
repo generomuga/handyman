@@ -25,6 +25,10 @@ import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
 
 import * as firebase from "firebase";
 
+import * as AppleAuthentication from 'expo-apple-authentication';
+import * as Crypto from 'expo-crypto';
+import { Alert } from "react-native";
+
 database.init();
 
 export default function Login(props) {
@@ -36,10 +40,13 @@ export default function Login(props) {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [isAppleLoginAvailable, setIsAppleLoginAvailable] = useState(false);
+
   useEffect(() => {
     let isSubscribed = true;
     if (isSubscribed) {
       checkIfLoggedIn();
+      AppleAuthentication.isAvailableAsync().then(setIsAppleLoginAvailable);
     }
     return () => (isSubscribed = false);
   }, []);
@@ -115,6 +122,7 @@ export default function Login(props) {
         androidClientId: ANDROID_CLIENT_ID,
         androidStandaloneAppClientId: ANDROID_CLIENT_ID,
         iosClientId: IOS_CLIENT_ID,
+        iosStandaloneAppClientId: IOS_CLIENT_ID,
         scopes: ["profile", "email"],
       });
       if (result.type === "success") {
@@ -244,6 +252,69 @@ export default function Login(props) {
     setErrorMessage("");
   };
 
+  const signInWithApple = () => {
+    const nonce = Math.random().toString(36).substring(2, 10);
+
+    setIsLoading(true);
+    return Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, nonce)
+        .then((hashedNonce) =>
+            AppleAuthentication.signInAsync({
+                requestedScopes: [
+                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                    AppleAuthentication.AppleAuthenticationScope.EMAIL
+                ],
+                nonce: hashedNonce
+            })
+        )
+        .then((appleCredential) => {
+            const { identityToken } = appleCredential;
+            const provider = new firebase.auth.OAuthProvider('apple.com');
+            const credential = provider.credential({
+                idToken: identityToken,
+                rawNonce: nonce
+            });
+            console.log(credential);
+            return firebase.auth().signInWithCredential(credential).then((res)=>{
+              setIsLoading(false);
+            });
+            // Successful sign in is handled by firebase.auth().onAuthStateChanged
+        })
+        .catch((error) => {
+            // ...
+            console.log(error)
+        });
+};
+
+const loginWithApple = async () => {
+  const csrf = Math.random().toString(36).substring(2, 15);
+  const nonce = Math.random().toString(36).substring(2, 10);
+  const hashedNonce = await Crypto.digestStringAsync(
+    Crypto.CryptoDigestAlgorithm.SHA256, nonce);
+  const appleCredential = await AppleAuthentication.signInAsync({
+    requestedScopes: [
+      AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+      AppleAuthentication.AppleAuthenticationScope.EMAIL
+    ],
+    state: csrf,
+    nonce: hashedNonce
+  });
+  const { identityToken, email, state } = appleCredential;
+
+  if (identityToken) {
+    const provider = new firebase.auth.OAuthProvider("apple.com");
+    const credential = provider.credential({
+      idToken: identityToken,
+      rawNonce: nonce // nonce value from above
+    });
+    console.log("Credential",credential)
+    await firebase.auth().signInWithCredential(credential).then(()=>{
+      console.log("Success")
+    }).catch(()=>{
+      console.log("Error")
+    });
+  }
+}
+
   return (
     <SafeAreaView style={style.background}>
       <Spinner
@@ -319,6 +390,18 @@ export default function Login(props) {
           />
         </View>
 
+
+        <AppleAuthentication.AppleAuthenticationButton
+                buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+                buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+                cornerRadius={5}
+                style={{ width: 200, height: 44, alignSelf:'center' }}
+                onPress={()=>{
+                  signInWithApple();
+                  }
+                }
+                // onPress={loginWithApple}
+              />
         <Text
           style={style.signUp}
           onPress={() => props.navigation.navigate("Signup")}
@@ -326,14 +409,14 @@ export default function Login(props) {
           Don't have an account? Sign up here
         </Text>
 
-        <Text
+        {/* <Text
           style={style.walkthrough}
           onPress={() => {
             props.navigation.navigate("Walkthrough");
           }}
         >
           See our Walkthrough
-        </Text>
+        </Text> */}
       </View>
     </SafeAreaView>
   );
@@ -442,7 +525,8 @@ const style = StyleSheet.create({
     ...Label.self_alignment,
     ...Label.text_alignment,
     ...Label.weight,
-    marginTop: 10,
+    marginTop: 40,
+    marginBottom: 45
   },
 
   spinnerTextStyle: {
