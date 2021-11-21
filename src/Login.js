@@ -122,6 +122,7 @@ export default function Login(props) {
         androidClientId: ANDROID_CLIENT_ID,
         androidStandaloneAppClientId: ANDROID_CLIENT_ID,
         iosClientId: IOS_CLIENT_ID,
+        iosStandaloneAppClientId: IOS_CLIENT_ID,
         scopes: ["profile", "email"],
       });
       if (result.type === "success") {
