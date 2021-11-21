@@ -11,7 +11,10 @@
       "bundleIdentifier": "com.hugefort.handymanplus",
       "supportsTablet": true,
       "buildNumber": "3.0.0",
-      "usesAppleSignIn": true
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "The app allows users to upload their profile picture for better identity."
+      }
     },
     "android": {
       "package": "com.hugefort.handymanplus",
