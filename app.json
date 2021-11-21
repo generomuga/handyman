@@ -10,7 +10,8 @@
     "ios": {
       "bundleIdentifier": "com.hugefort.handymanplus",
       "supportsTablet": true,
-      "buildNumber": "3.0.0"
+      "buildNumber": "3.0.0",
+      "usesAppleSignIn": true
     },
     "android": {
       "package": "com.hugefort.handymanplus",
